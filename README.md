@@ -10,7 +10,5 @@ Liam Saliba	| 882039	|lsaliba@student.unimelb.edu.au | exradr
 Chan Jie Ho	| 961948	| chanjieh@student.unimelb.edu.au | hochanjie
 Yung Cheng Kong	| 1026205	 | yungchengk@student.unimelb.edu.au | yungchengK
 
-**Supervisor**
-Umair Mawani (umawani)
-umair.mawani@unimelb.edu.au 
-umawani@student.unimelb.edu.au
+**Supervisor**  
+Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.edu.au
