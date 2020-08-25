@@ -1,6 +1,8 @@
 # camel_case's ePortfolio IT Project
 Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 
+![](camel_case.png)
+
 ## Requirements
 * [Heroku](https://www.heroku.com/home)
   * [command-line tools (CLI)](https://toolbelt.heroku.com)
