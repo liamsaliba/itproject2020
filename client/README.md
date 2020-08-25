@@ -1,39 +1,4 @@
-# camel_case's ePortfolio IT Project
-Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
-
-![](camel_case.png)
-
-## Requirements
-* [Heroku](https://www.heroku.com/home)
-  * [command-line tools (CLI)](https://toolbelt.heroku.com)
-* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-* [Node.js](https://nodejs.org) (use LTS release)
-
-## Team Members
-Name | Student No | Email | GitHub
--- | -- | -- | --
-Tuan Dung (Josh) Nguyen |	941806	| tuann6@student.unimelb.edu.au | joshnguyen99
-Lawrence Leong	| 996300	|lsleong@student.unimelb.edu.au | Rexrover2
-Liam Saliba	| 882039	|lsaliba@student.unimelb.edu.au | exradr
-Chan Jie Ho	| 961948	| chanjieh@student.unimelb.edu.au | hochanjie
-Yung Cheng Kong	| 1026205	 | yungchengk@student.unimelb.edu.au | yungchengK
-
-**Supervisor**  
-Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.edu.au
-
-
-# Heroku Deployment
-TODO (Liam's working on this.)
-
-For now, find the instructions [here](https://github.com/mars/heroku-cra-node/blob/master/README.md).
-
----
-
-
-# React Development
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-The stuff below is generated from that, and will be useful for development.
 
 ## Available Scripts
 
