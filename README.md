@@ -1,7 +1,9 @@
-# camel_case's ePortfolio IT Project
+# camel_case ePortfolio 
 Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 
-![](camel_case.png)
+![](assets/camel_case.png)
+
+[![Heroku App Status](http://heroku-shields.herokuapp.com/camelcase-itproject)](https://camelcase-itproject.herokuapp.com)
 
 ## Requirements
 * [Heroku](https://www.heroku.com/home)
@@ -23,7 +25,7 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 
 
 # Heroku Deployment
-TODO (Liam's working on this.)
+TODO documentation (Liam's working on this.)
 
 For now, find the instructions [here](https://github.com/mars/heroku-cra-node/blob/master/README.md).
 
