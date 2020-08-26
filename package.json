@@ -1,34 +1,33 @@
 {
-  "name": "itproject2020",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
-  },
+  "name": "camel_case_itproject",
+  "version": "1.0.0",
+  "description": "ePortfolio App for COMP30022 IT Project",
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server/server.js",
+    "build": "cd client/ && npm install && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exradr/itproject2020.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [
+    "react",
+    "node.js",
+    "express"
+  ],
+  "author": "Tuan Dung Nguyen, Lawrence Leong, Liam Saliba, Chan Jie Ho & Yung Cheng Kong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/exradr/itproject2020/issues"
+  },
+  "homepage": "https://github.com/exradr/itproject2020#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "express": "^4.17.1"
   }
 }
