@@ -23,11 +23,89 @@ Yung Cheng Kong	| 1026205	 | yungchengk@student.unimelb.edu.au | yungchengK
 **Supervisor**  
 Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.edu.au
 
+# Creating a local work environment
+## Local Development
 
-# Heroku Deployment
-TODO documentation (Liam's working on this.)
+Because this app is made of two npm projects, there are two places to run `npm` commands:
 
-For now, find the instructions [here](https://github.com/mars/heroku-cra-node/blob/master/README.md).
+1. **Node API server** at the root `./`  (but actually in `server/`)
+1. **React UI** in `client/` directory.
+
+### Run the API (express) server
+
+In a terminal:
+
+```bash
+# Initial setup
+npm install
+
+# Start the server
+npm start
+```
+
+#### Install new npm packages for Node
+Note: server and client are *separate*.  `cd` to the correct directory (`/` or `client/`) before doing this.
+```bash
+npm install package-name --save
+```
+
+
+### Run the Client (React UI)
+
+The React app is configured to proxy backend requests to the local Node server. (See [`"proxy"` config](client/package.json))
+
+In a separate terminal from the API server, start the UI:
+
+```bash
+# Always change directory, first
+cd client/
+
+# Initial setup
+npm install
+
+# Start the server
+npm start
+```
+
+#### Install new npm packages for React UI
+
+```bash
+# Always change directory, first
+cd client/
+
+npm install package-name --save
+```
+
+### Build react for deployment (testing)
+Only needed if you're testing how Heroku will deploy the app.
+
+Within project root `/`
+```
+# Run Heroku deployment from your own computer
+heroku local web
+```
+At this point, http://localhost:5000 is running the server and api.  You can check http://localhost:5000/api and you'll probably see a JSON file.
+
+But will 404 since the site files are not compiled within the `client/build/` directory.  To get react running locally (as Heroku does it), we need to build it.
+```
+# Compile react for deployment (will build to `client/build/` and served with `server/` express)
+# run this in project root
+npm run-script build
+```
+The above script can be found in `package.json`.
+
+Now http://localhost:5000 will have the app.  Sweet.
+
+### Deploying to Heroku
+There's little reason to do this since `master` will automatically be deployed to Heroku upon any update.
+This is here for documentation purposes.
+```
+# Add heroku as remote (will exist as heroku branch)
+heroku git:remote -a camelcase-itproject
+
+# Push branch to heroku
+git push heroku master
+```
 
 ---
 
