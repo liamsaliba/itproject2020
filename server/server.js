@@ -8,6 +8,14 @@ const numCPUs = require('os').cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
+// app.js or server.js
+require('dotenv').config()
+
+// connect Mongoose to your DB
+var mongoose = require(‘mongoose’);
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/your-app-name');
+
+
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
