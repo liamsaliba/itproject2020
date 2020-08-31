@@ -1,68 +1,37 @@
 // Router for user
 // Operators: CRUD (Create, Read, Update, Delete)
-// Author: Josh (joshnguyen99)
 
 // Create a new router
-const router = require('express').Router();
+const router = require("express").Router();
 
-// Get the User schema
-let User = require('../models/user.model')
+const jwt = require("jsonwebtoken");
 
-// Find all users
-router.route('/').get((_req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json(err))
-});
+const userController = require("../controllers/user.controller");
 
+// Create a new user
+router.post("/signup", userController.createUser);
 
-// Create a user and add it to the database
-router.route('/add').post((req, res) => {
-  // Create a new user
-  const username = req.body.username;
-  const firstName = req.body.firstName;
-  const middleName = req.body.middleName;
-  const lastName = req.body.lastName;
-  const newUser = new User({ username, firstName, middleName, lastName });
+// Log in and send the user an access token
+router.post("/login", userController.loginUser);
 
-  // Save the new User to the database
-  newUser.save()
-    .then(() => res.json(`New user added!`))
-    .catch(err => res.status(400).json(err));
-})
+// Send the currently logged in user
+router.get(
+  "/me",
+  userController.authenticateToken,
+  userController.getCurrentUser
+);
 
+// Log the user out of their device
+router.post(
+  "/logout",
+  userController.authenticateToken,
+  userController.logoutUser
+);
 
-// Find a user by ID
-router.route('/:id').get((req, res) => {
-  User.findById(req.params.id)
-    .then(user => res.json(user))
-    .catch(err => res.status(400).json(err));
-});
+// Delete a user
+router.post("/delete", userController.loginUser, userController.deleteUser);
 
-
-// Update user by id
-router.route('/update/:id').post((req, res) => {
-  User.findById(req.params.id)
-    .then(user => {
-      // User found, so update and save it
-      user.username = req.body.username;
-      user.firstName = req.body.firstName;
-      user.middleName = req.body.middleName;
-      user.lastName = req.body.lastName;
-
-      user.save()
-        .then(() => res.json("User updated."))
-        .catch(err => res.status(400).json(err));
-    })
-    .catch(err => req.status(400).json(err));
-})
-
-
-// Delete user by id
-router.route('/:id').delete((req, res) => {
-  User.findByIdAndDelete(req.params.id)
-    .then(user => res.json(user))
-    .catch(err => res.status(400).json(err));
-});
+// Send usernames of all users
+router.get("/", userController.getAllUsers);
 
 module.exports = router;
