@@ -43,7 +43,7 @@ const loginUser = async (req, res, next) => {
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     if (!user) {
-      res.status(401).json("Incorrect username or password.");
+      return res.status(401).json("Incorrect username or password.");
     }
     const token = await user.generateAuthToken();
     res.status(200).send({
@@ -116,11 +116,11 @@ const authenticateToken = (req, res, next) => {
     User.findById(details._id)
       .then((user) => {
         // User not found
-        if (user == null) res.sendStatus(401);
+        if (user == null) return res.sendStatus(401);
 
         // User does not hold the current token anymore
         if (user.tokens.map((token) => token.token).indexOf(token) < 0)
-          res.sendStatus(401);
+          return res.sendStatus(401);
 
         // Send the user to the next request
         req.user = user;
@@ -131,6 +131,22 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+// Authenticate the login credentials and send the user to
+// the next request
+const authenticatePassword = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findByCredentials(username, password);
+    if (!user) {
+      return res.status(401).json("Incorrect username or password.");
+    }
+    req.user = user;
+    next();
+  } catch (err) {
+    res.status(401).json(err);
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -139,4 +155,5 @@ module.exports = {
   deleteUser,
   authenticateToken,
   getAllUsers,
+  authenticatePassword,
 };
