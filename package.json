@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "ePortfolio App for COMP30022 IT Project",
   "cacheDirectories": [
-    "node_modules",
+    "server/node_modules",
     "client/node_modules"
   ],
   "scripts": {
-    "start": "node server/server.js",
+    "start": "cd server/ && npm start",
+    "dev": "concurrently \"cd server/ && npm start\" \"cd client/ && npm start\"",
     "build": "cd client/ && npm install && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "concurrrently \"cd client/ && npm test\" \"cd server/ && npm test\""
   },
   "repository": {
     "type": "git",
@@ -25,14 +26,5 @@
   "bugs": {
     "url": "https://github.com/exradr/itproject2020/issues"
   },
-  "homepage": "https://github.com/exradr/itproject2020#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "concurrently": "^5.3.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.2"
-  }
+  "homepage": "https://github.com/exradr/itproject2020#readme"
 }
