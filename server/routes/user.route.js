@@ -29,7 +29,11 @@ router.post(
 );
 
 // Delete a user
-router.post("/delete", userController.loginUser, userController.deleteUser);
+router.post(
+  "/delete",
+  userController.authenticatePassword,
+  userController.deleteUser
+);
 
 // Send usernames of all users
 router.get("/", userController.getAllUsers);
