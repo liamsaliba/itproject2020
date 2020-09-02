@@ -43,7 +43,8 @@ const loginUser = async (req, res, next) => {
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     if (!user) {
-      return res.status(401).json("Incorrect username or password.");
+      res.status(401).json("Incorrect username or password.");
+      return;
     }
     const token = await user.generateAuthToken();
     res.status(200).send({
@@ -109,18 +110,29 @@ const authenticateToken = (req, res, next) => {
 
   // Find details of the user who has been granted this token
   jwt.verify(token, process.env.SECRET_KEY, (err, details) => {
-    if (err) return res.sendStatus(403);
-    if (details == null) return res.sendStatus(401);
+    if (err) {
+      res.sendStatus(403);
+      return;
+    }
+    if (details == null) {
+      res.sendStatus(401);
+      return;
+    }
 
     // Find the user
     User.findById(details._id)
       .then((user) => {
         // User not found
-        if (user == null) return res.sendStatus(401);
+        if (user == null) {
+          res.sendStatus(401);
+          return;
+        }
 
         // User does not hold the current token anymore
-        if (user.tokens.map((token) => token.token).indexOf(token) < 0)
-          return res.sendStatus(401);
+        if (user.tokens.map((token) => token.token).indexOf(token) < 0) {
+          res.sendStatus(401);
+          return;
+        }
 
         // Send the user to the next request
         req.user = user;
@@ -138,7 +150,8 @@ const authenticatePassword = async (req, res, next) => {
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     if (!user) {
-      return res.status(401).json("Incorrect username or password.");
+      res.status(401).json("Incorrect username or password.");
+      return;
     }
     req.user = user;
     next();
