@@ -1,5 +1,4 @@
 const User = require("../models/user.model");
-const jwt = require("jsonwebtoken");
 
 // Add a new user to the database
 const createUser = async (req, res) => {
@@ -25,10 +24,13 @@ const createUser = async (req, res) => {
 
     res.status(201).send({
       user: newUser.toObject(),
+      token,
     });
   } catch (err) {
     if (err.code == 11000) {
       res.status(400).json("Username already exists.");
+    } else if (err.message) {
+      res.status(400).json(err.message);
     } else {
       res.status(400).json(err);
     }
@@ -36,22 +38,21 @@ const createUser = async (req, res) => {
 };
 
 // Log in to existing user
-const loginUser = async (req, res, next) => {
+const loginUser = async (req, res) => {
   try {
     // Get username and password from the request body
     // and find the user in the database
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     if (!user) {
-      return res.status(401).json("Incorrect username or password.");
+      res.status(401).json("Incorrect username or password.");
+      return;
     }
     const token = await user.generateAuthToken();
     res.status(200).send({
       user: user.toObject(),
       token,
     });
-    req.user = user;
-    next();
   } catch (err) {
     res.status(401).json(err);
   }
@@ -66,9 +67,7 @@ const deleteUser = async (req, res) => {
 
 // Get the currently logged in user
 const getCurrentUser = (req, res) => {
-  res.status(200).send({
-    user: req.user.toObject(),
-  });
+  res.status(200).send(req.user.toObject());
 };
 
 // Log out a user
@@ -98,62 +97,11 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Verify the authentication token the user uses
-// and send the user to the next request (if the user
-// is found and verified).
-const authenticateToken = (req, res, next) => {
-  // Form: Bearer [TOKEN]
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) res.status(401).json({});
-
-  // Find details of the user who has been granted this token
-  jwt.verify(token, process.env.SECRET_KEY, (err, details) => {
-    if (err) return res.sendStatus(403);
-    if (details == null) return res.sendStatus(401);
-
-    // Find the user
-    User.findById(details._id)
-      .then((user) => {
-        // User not found
-        if (user == null) return res.sendStatus(401);
-
-        // User does not hold the current token anymore
-        if (user.tokens.map((token) => token.token).indexOf(token) < 0)
-          return res.sendStatus(401);
-
-        // Send the user to the next request
-        req.user = user;
-        req.token = token;
-        next();
-      })
-      .catch((err) => res.status(400).json(err));
-  });
-};
-
-// Authenticate the login credentials and send the user to
-// the next request
-const authenticatePassword = async (req, res, next) => {
-  try {
-    const { username, password } = req.body;
-    const user = await User.findByCredentials(username, password);
-    if (!user) {
-      return res.status(401).json("Incorrect username or password.");
-    }
-    req.user = user;
-    next();
-  } catch (err) {
-    res.status(401).json(err);
-  }
-};
-
 module.exports = {
   createUser,
   loginUser,
   getCurrentUser,
   logoutUser,
   deleteUser,
-  authenticateToken,
   getAllUsers,
-  authenticatePassword,
 };
