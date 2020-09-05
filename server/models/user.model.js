@@ -69,6 +69,7 @@ const userSchema = new Schema(
       transform(doc, ret) {
         delete ret._id;
         delete ret.password;
+        delete ret.tokens;
       },
     },
   }
