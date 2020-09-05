@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
     } else if (err.message) {
       res.status(400).json(err.message);
     } else {
-      res.status(400), json(err);
+      res.status(400).json(err);
     }
   }
 };
