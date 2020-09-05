@@ -8,7 +8,10 @@ const authenticateToken = (req, res, next) => {
   // Form: Bearer [TOKEN]
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) res.status(401).json({});
+  if (!token) {
+    res.status(401).json({});
+    return;
+  }
 
   // Find details of the user who has been granted this token
   jwt.verify(token, process.env.SECRET_KEY, (err, details) => {
@@ -16,7 +19,7 @@ const authenticateToken = (req, res, next) => {
       res.sendStatus(403);
       return;
     }
-    if (details == null) {
+    if (!details) {
       res.sendStatus(401);
       return;
     }
@@ -25,7 +28,7 @@ const authenticateToken = (req, res, next) => {
     User.findById(details._id)
       .then((user) => {
         // User not found
-        if (user == null) {
+        if (!user) {
           res.sendStatus(401);
           return;
         }
@@ -41,7 +44,10 @@ const authenticateToken = (req, res, next) => {
         req.token = token;
         next();
       })
-      .catch((err) => res.status(400).json(err));
+      .catch((err) => {
+        res.status(400).json(err);
+        return;
+      });
   });
 };
 
@@ -59,6 +65,7 @@ const authenticatePassword = async (req, res, next) => {
     next();
   } catch (err) {
     res.status(401).json(err);
+    return;
   }
 };
 

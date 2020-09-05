@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
 
     res.status(201).send({
       user: newUser.toObject(),
-      token: token,
+      token,
     });
   } catch (err) {
     if (err.code == 11000) {
