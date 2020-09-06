@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "author": "Tuan Dung Nguyen, Lawrence Leong, Liam Saliba, Chan Jie Ho & Yung Cheng Kong",
   "license": "ISC",
@@ -25,6 +25,7 @@
     "mongoose": "^5.10.2"
   },
   "devDependencies": {
+    "eslint-config-prettier": "^6.11.0",
     "jest": "^26.4.2"
   }
 }

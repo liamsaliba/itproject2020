@@ -11,17 +11,17 @@ export default () => {
     fetch(url, {
       method: "GET",
     })
-      .then((res) => {
+      .then(res => {
         if (!res.ok) {
           throw new Error(`status ${res.status}`);
         }
         return res.json();
       })
-      .then((json) => {
+      .then(json => {
         setMessage(json.message);
         setIsFetching(false);
       })
-      .catch((e) => {
+      .catch(e => {
         setMessage(`API call failed: ${e}`);
         setIsFetching(false);
       });
