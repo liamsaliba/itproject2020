@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Router } from "@reach/router";
 
 import MainNavbar from "./MainNavbar";
 import MainFooter from "./MainFooter";
@@ -8,7 +8,7 @@ import About from "./About";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Landing from "./Landing";
-import Demo from "../demo/Demo";
+import ThemeTest from "../demo/ThemeTest";
 import NotFound from "./NotFound";
 
 import { ThemeProvider } from "theme-ui";
@@ -18,14 +18,15 @@ export default () => {
   return (
     <ThemeProvider theme={theme}>
       <MainNavbar />
-      <Switch>
-        <Route exact path="/about" component={About} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/demo" component={Demo} />
-        <Route exact path="/" component={Landing} />
-        <Route component={NotFound} />
-      </Switch>
+      <Router>
+        <About path="/about" />
+        <Login path="/login" />
+        <SignUp path="/signup" />
+        <ThemeTest path="/themes" />
+        <Landing path="/" />
+        <NotFound default />
+      </Router>
+
       <MainFooter />
     </ThemeProvider>
   );

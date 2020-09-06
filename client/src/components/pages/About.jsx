@@ -7,7 +7,6 @@ export default () => {
   return (
     <div>
       <main>This is the about page.</main>
-      <ThemeTest />
     </div>
   );
 };
