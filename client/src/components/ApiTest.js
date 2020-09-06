@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default () => {
   // From https://github.com/mars/heroku-cra-node/blob/master/react-ui/src/App.js

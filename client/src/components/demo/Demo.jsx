@@ -1,7 +1,6 @@
 /** @jsx jsx */
-import { jsx, Styled } from "theme-ui";
+import { jsx, Styled, ThemeProvider } from "theme-ui";
 import { Helmet } from "react-helmet";
-import { ThemeProvider } from "theme-ui";
 import * as presets from "@theme-ui/presets";
 /* eslint-disable import/no-webpack-loader-syntax */
 import Components from "!babel-loader!mdx-loader!./components.mdx";
