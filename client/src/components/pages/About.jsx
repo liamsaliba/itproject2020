@@ -1,7 +1,5 @@
 /** @jsx jsx */
-import { jsx, Link } from "theme-ui";
-import React from "react";
-import ThemeTest from "../demo/ThemeTest";
+import { jsx } from "theme-ui";
 
 export default () => {
   return (

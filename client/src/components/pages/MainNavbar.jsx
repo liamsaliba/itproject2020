@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx, Box, Flex, NavLink } from "theme-ui";
-import React from "react";
 // import { NavLink } from "../Links";
 import { Link as ReachLink } from "@reach/router";
 

@@ -1,6 +1,5 @@
 /** @jsx jsx */
-import { jsx, Link } from "theme-ui";
-import React from "react";
+import { jsx } from "theme-ui";
 
 export default props => {
   let { userId: id } = props;

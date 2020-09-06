@@ -1,6 +1,5 @@
 /** @jsx jsx */
-import React from "react";
-import { jsx, Link } from "theme-ui";
+import { jsx } from "theme-ui";
 import logo from "../../svg/logo.svg";
 import ApiTest from "../ApiTest";
 
