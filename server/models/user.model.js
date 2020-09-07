@@ -14,14 +14,15 @@ const tokenSchema = new Schema({
 });
 
 // Define the schema for each user
-const userSchema = new Schema(
-  {
+const userSchema = new Schema({
     username: {
       type: String, // type of username
       required: true, // username must always be given
       unique: true, // no two usernames can be the same
       trim: true, // trim whitespaces when user enters
       minlength: 1, // usernames must be at least 1 character long
+      maxlength: 30, // usernames must be at most 30 characters long
+      lowercase: true, // lowercase only
     },
 
     password: {
