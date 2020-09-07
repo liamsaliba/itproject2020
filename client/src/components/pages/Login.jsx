@@ -7,7 +7,13 @@ export default () => {
       as="form"
       pb={3}
       onSubmit={e => e.preventDefault()}
-      sx={{ width: "100%", maxWidth: "500px" }}
+      sx={{
+        position:"absolute", 
+        top: "50%", 
+        left:'50%', 
+        transform: 'translate(-50%,-50%)', 
+        textAlign:'center', 
+        justifyContent: 'center'}}
     >
       <Label htmlFor="username">Username / Email</Label>
       <Input name="username" mb={3} />
