@@ -2,9 +2,7 @@
 import { jsx, Styled, ThemeProvider } from "theme-ui";
 import { Helmet } from "react-helmet";
 import * as presets from "@theme-ui/presets";
-/* eslint-disable import/no-webpack-loader-syntax */
-import Components from "!babel-loader!mdx-loader!./components.mdx";
-import { MDXProvider } from "@theme-ui/mdx";
+import Components from "./components.jsx";
 import {
   TypeScale,
   TypeStyle,
@@ -31,9 +29,7 @@ export default ({ theme }) => {
         </Styled.h1>
         <Styled.h1>Colors</Styled.h1>
         <ColorPalette omit={["modes", "header"]} />
-        <MDXProvider>
-          <Components />
-        </MDXProvider>
+        <Components />
         <Styled.h2>Typography</Styled.h2>
         <TypeStyle fontSize={1}>
           Body: <FontFamily name="body" />
