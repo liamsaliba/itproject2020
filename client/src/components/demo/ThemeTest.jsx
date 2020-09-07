@@ -1,13 +1,12 @@
 /** @jsx jsx */
 import { jsx, Select, Container } from "theme-ui";
 import { useState } from "react";
-import * as presets from "@theme-ui/presets";
+import themes from "../themes";
 import DemoPage from "./Demo";
 
 export default () => {
   const [theme, setTheme] = useState("base");
-  // const [theme, setTheme] = useState("base");
-
+  console.log(themes);
   return (
     <div
       style={{ width: "100%", maxWidth: "800px", display: "flex" }}
@@ -31,7 +30,7 @@ export default () => {
             value={theme}
             onChange={e => setTheme(e.target.value)}
           >
-            {Object.keys(presets).map(key => (
+            {Object.keys(themes).map(key => (
               <option key={key} children={key} />
             ))}
           </Select>
