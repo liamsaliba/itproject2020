@@ -23,7 +23,6 @@ export default ({ theme }) => {
         />
       </Helmet>
       <Styled.root sx={{ backgroundColor: "background", color: "text" }}>
-        {console.log(preset.colors)}
         <Styled.h1 sx={{ textAlign: "center", fontSize: "3em" }}>
           {theme} Theme UI Preset
         </Styled.h1>

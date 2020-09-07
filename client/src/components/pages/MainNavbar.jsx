@@ -1,23 +1,12 @@
 /** @jsx jsx */
 import { jsx, Box, Flex, NavLink } from "theme-ui";
-// import { NavLink } from "../Links";
 import { Link as ReachLink } from "@reach/router";
-
-// const Nav = (props) => {
-//   console.log("to", props.to);
-//   console.log("data", props.data);
-//   console.log("props", props);
-//   return (
-//     <Link to={props.to}>
-//       <NL {...props}>{props.data}</NL>
-//     </Link>
-//   );
-// };
 
 export default () => {
   return (
     <Box p={10}>
       <Flex as="nav">
+        <Box mx="auto" />
         <NavLink as={ReachLink} to="/" p={2}>
           Home
         </NavLink>
