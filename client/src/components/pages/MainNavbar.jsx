@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Box, Avatar, Flex, NavLink } from "theme-ui";
+import { jsx, Box, Avatar, Flex } from "theme-ui";
 
 import camel from "../../svg/camel.svg";
 
