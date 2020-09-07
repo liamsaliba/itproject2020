@@ -17,7 +17,9 @@ import {
   Link,
   Badge,
   Alert,
+  Image,
 } from "theme-ui";
+import image from "../../svg/logo.svg";
 
 export default () => (
   <Styled.root>
@@ -26,6 +28,12 @@ export default () => (
     <Styled.h2>Buttons</Styled.h2>
     <Button variant="primary" m={10}>
       Default
+    </Button>
+    <Button variant="secondary" m={10}>
+      Secondary
+    </Button>
+    <Button variant="outline" m={10}>
+      Outline
     </Button>
     <Button variant="danger" m={10}>
       Danger
@@ -39,11 +47,8 @@ export default () => (
     <Button variant="success" m={10}>
       Success
     </Button>
-
     <Divider />
-
     <Styled.h2>Form elements</Styled.h2>
-
     <Box
       as="form"
       pb={3}
@@ -81,48 +86,35 @@ export default () => (
       </Flex>
       <Button>Submit</Button>
     </Box>
-
     <Divider />
-
     <Styled.h2>Links</Styled.h2>
-
     <Box pb={20}>
       <Link href="#!">Hello</Link>
     </Box>
-
     <Divider />
-
     <Styled.h2>Badges</Styled.h2>
-
     <Box pb={20}>
       <Badge variant="accent">New</Badge>
       <Badge variant="outline" ml={2}>
         Cool
       </Badge>
     </Box>
-
     <Divider />
     <Styled.h2>Alerts</Styled.h2>
-
     <Box pb={20}>
-      <Alert variant="danger" m={10}>
-        Danger
-      </Alert>
-      <Alert variant="info" m={10}>
+      <Alert m={10}>Danger</Alert>
+      <Alert variant="secondary" m={10}>
         Info
       </Alert>
-      <Alert variant="warning" m={10}>
+      <Alert variant="accent" m={10}>
         Warning
       </Alert>
-      <Alert variant="success" m={10}>
+      <Alert variant="highlight" m={10}>
         Success
       </Alert>
     </Box>
-
     <Divider />
-
     <Styled.h2>Navigation</Styled.h2>
-
     <Box pb={20}>
       <Flex as="nav">
         <NavLink href="#!" p={2}>
@@ -136,11 +128,8 @@ export default () => (
         </NavLink>
       </Flex>
     </Box>
-
     <Divider />
-
     <Styled.h2>Table</Styled.h2>
-
     <table style={{ paddingBottom: 20 }}>
       <thead>
         <tr>
@@ -154,11 +143,8 @@ export default () => (
         </tr>
       </tbody>
     </table>
-
     <Divider />
-
     <Styled.h2>Card</Styled.h2>
-
     <Card
       mb={5}
       sx={{
@@ -166,6 +152,7 @@ export default () => (
         padding: "30px",
       }}
     >
+      <Image src={image} />
       <Text>
         Cupcake ipsum dolor sit amet chocolate bar. Apple pie macaron muffin
         jelly candy cake soufflé muffin croissant. Gummies jelly beans cotton
@@ -173,7 +160,22 @@ export default () => (
         fruitcake cheesecake danish toffee marzipan biscuit.
       </Text>
     </Card>
-
+    <Card
+      variant="compact"
+      mb={5}
+      sx={{
+        maxWidth: 400,
+        padding: "30px",
+      }}
+    >
+      <Text>
+        <Image src={image} />
+        Cupcake ipsum dolor sit amet chocolate bar. Apple pie macaron muffin
+        jelly candy cake soufflé muffin croissant. Gummies jelly beans cotton
+        candy fruitcake. Wafer lemon drops soufflé cookie. Sesame snaps
+        fruitcake cheesecake danish toffee marzipan biscuit.
+      </Text>
+    </Card>{" "}
     <Divider />
   </Styled.root>
 );

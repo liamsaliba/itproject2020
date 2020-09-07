@@ -95,6 +95,8 @@ export const sizes = {
   md: 720,
   lg: 960,
   xl: 1140,
+  sidebar: 256,
+  avatar: 48,
 };
 
 export const radii = {
@@ -233,6 +235,56 @@ export const bootstrap = {
   radii,
   typeStyles,
   styles,
+  variants: {
+    avatar: {
+      width: "avatar",
+      height: "avatar",
+      borderRadius: "circle",
+    },
+    card: {
+      p: 2,
+      bg: "background",
+      boxShadow: "card",
+    },
+    link: {
+      color: "primary",
+    },
+    nav: {
+      fontSize: 1,
+      fontWeight: "bold",
+      display: "inline-block",
+      p: 2,
+      color: "inherit",
+      textDecoration: "none",
+      ":hover,:focus,.active": {
+        color: "primary",
+      },
+    },
+  },
+  buttons: {
+    primary: {
+      fontSize: 2,
+      fontWeight: "bold",
+      color: "background",
+      bg: "primary",
+      borderRadius: "default",
+    },
+    outline: {
+      variant: "buttons.primary",
+      color: "primary",
+      bg: "transparent",
+      boxShadow: "inset 0 0 2px",
+      ":hover,:focus,.active": {
+        bg: "primary",
+        color: "background",
+      },
+    },
+    secondary: {
+      variant: "buttons.primary",
+      color: "background",
+      bg: "secondary",
+    },
+  },
 };
 
 export default bootstrap;
