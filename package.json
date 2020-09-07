@@ -30,5 +30,8 @@
   "homepage": "https://github.com/exradr/itproject2020#readme",
   "dependencies": {
     "concurrently": "^5.3.0"
+  },
+  "prettier": {
+    "arrowParens": "avoid"
   }
 }

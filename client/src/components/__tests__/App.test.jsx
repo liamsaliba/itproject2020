@@ -7,3 +7,9 @@ describe("App", () => {
     expect(1 + 2).toBe(3);
   });
 });
+
+test("renders learn react link", () => {
+  const { getByText } = render(<App />);
+  const linkElement = getByText(/Home/i);
+  expect(linkElement).toBeInTheDocument();
+});

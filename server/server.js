@@ -53,6 +53,11 @@ if (!isDev && cluster.isMaster) {
   const client_directory = path.join(__dirname, "../client/build/");
   app.use(express.static(client_directory));
 
+  // Ensure routing for /* (except api) is passed to React Router
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(client_directory, "index.html"));
+  });
+
   app.listen(PORT, function () {
     console.error(
       `Node ${

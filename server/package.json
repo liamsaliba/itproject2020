@@ -25,6 +25,7 @@
     "mongoose": "^5.10.2"
   },
   "devDependencies": {
+    "eslint-config-prettier": "^6.11.0",
     "jest": "^26.4.2"
   }
 }
