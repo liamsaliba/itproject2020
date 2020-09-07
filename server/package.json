@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "start": "node server.js",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "author": "Tuan Dung Nguyen, Lawrence Leong, Liam Saliba, Chan Jie Ho & Yung Cheng Kong",
   "license": "ISC",
