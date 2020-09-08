@@ -111,7 +111,7 @@ export const sizes = {
   lg: 960,
   xl: 1140,
   sidebar: 256,
-  avatar: 20,
+  avatar: 48,
 };
 
 export const radii = {
@@ -237,7 +237,7 @@ export const styles = {
   },
 };
 
-export const bootstrap = {
+export const theme = {
   breakpoints,
   colors,
   space,
@@ -250,7 +250,12 @@ export const bootstrap = {
   radii,
   typeStyles,
   styles,
-  layout: {},
+  layout: {
+    container: {},
+    flex: {
+      display: "flex",
+    },
+  },
   variants: {
     avatar: {
       width: "avatar",
@@ -316,4 +321,4 @@ export const bootstrap = {
   },
 };
 
-export default bootstrap;
+export default theme;
