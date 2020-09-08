@@ -7,8 +7,6 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
   // allow logging of api calls to Redux Dev Tools
   if (action.type !== actions.apiStarted.type) return next(action);
 
-  next(action);
-
   const {
     url,
     method,
@@ -20,6 +18,9 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     headers,
   } = action.payload;
 
+  if (onStart) dispatch({ type: onStart });
+  next(action);
+
   console.log(action.payload);
 
   axios.defaults.baseURL =
@@ -30,8 +31,6 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
 
   axios.defaults.headers.common["Content-Type"] = "application/json";
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-  if (onStart) dispatch({ type: onStart });
 
   // make api call
   try {

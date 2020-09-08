@@ -25,10 +25,11 @@ export default () => {
       <header>
         <MainNavbar />
       </header>
-      <main
+      <Flex
+        as="main"
+        variant="layout.centerflex"
         sx={{
           flex: "1 1 auto",
-          display: "flex",
         }}
       >
         <Router>
@@ -40,7 +41,7 @@ export default () => {
           <Landing path="/" />
           <NotFound default />
         </Router>
-      </main>
+      </Flex>
       <footer>
         <MainFooter />
       </footer>

@@ -1,5 +1,6 @@
 /** @jsx jsx */
-import { jsx, Link } from "theme-ui";
+import { jsx } from "theme-ui";
+import { MenuItem } from "../NavItems";
 
 export default () => {
   return (
@@ -12,11 +13,11 @@ export default () => {
         variant: "styles.footer",
       }}
     >
-      <Link to="/" sx={{ variant: "styles.navlink", p: 2 }}>
-        camel_case
-      </Link>
-      <div sx={{ mx: "auto" }} />
-      <div sx={{ p: 2 }}>camel_case is...</div>
+      <MenuItem to="/">camel_case</MenuItem>
+      <div sx={{ p: 2 }}>
+        is Josh Nguyen, Lawrence Leong, Liam Saliba, Chan Jie Ho and Yung Cheng
+        Kong. 2020
+      </div>
     </footer>
   );
 };

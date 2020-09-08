@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/exradr/itproject2020#readme",
   "dependencies": {
+    "@styled-icons/fa-solid": "^10.18.0",
     "concurrently": "^5.3.0"
   },
   "prettier": {

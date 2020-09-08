@@ -112,6 +112,7 @@ export const sizes = {
   xl: 1140,
   sidebar: 256,
   avatar: 48,
+  menu: 48,
 };
 
 export const radii = {
@@ -252,16 +253,16 @@ export const theme = {
   styles,
   layout: {
     container: {},
+    centerflex: {
+      alignItems: "center",
+      justifyContent: "center",
+    },
     flex: {
       display: "flex",
     },
   },
+  flex: {},
   variants: {
-    avatar: {
-      width: "avatar",
-      height: "avatar",
-      borderRadius: "circle",
-    },
     card: {
       p: 2,
       bg: "background",
@@ -294,6 +295,9 @@ export const theme = {
       width: "avatar",
       borderRadius: "100%",
     },
+    menu: {
+      width: "menu",
+    },
   },
   buttons: {
     primary: {
@@ -317,6 +321,10 @@ export const theme = {
       variant: "buttons.primary",
       color: "background",
       bg: "secondary",
+    },
+    menu: {
+      // variant: "buttons.menu",
+      width: "menu",
     },
   },
 };

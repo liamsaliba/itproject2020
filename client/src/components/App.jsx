@@ -13,13 +13,14 @@ import themes from "./themes";
 import configureStore from "../store/configureStore";
 import { login, logout } from "../store/auth";
 
+// const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 const store = configureStore();
 
-store.dispatch(login("exradr", "suckmyballs"));
-const token = store.getState().auth.token;
-console.log(token);
-
-store.dispatch(logout(token));
+// store.dispatch(login("exradr", "suckmyballs"));
+// const token = store.getState().auth.token;
+// console.log("token", token);
+// setTimeout(() => store.dispatch(logout(token)), 4000);
 
 export default () => {
   const theme = themes.custom;

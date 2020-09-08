@@ -6,8 +6,6 @@ import ApiTest from "../ApiTest";
 export default () => (
   <Container
     sx={{
-      width: "100vw",
-      height: "100%",
       textAlign: "center",
       bg: "black",
     }}
