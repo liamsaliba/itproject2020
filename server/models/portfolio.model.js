@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the schema for each portfolio
-const portfolioSchema = new Schema({
+const portfolioSchema = new Schema(
+  {
     // Assumption: a user only has one portfolio
     username: {
       type: String,
@@ -14,7 +15,7 @@ const portfolioSchema = new Schema({
       minlength: 1,
     },
     bio: {
-      type:String,
+      type: String,
       required: false,
     },
   },
@@ -29,17 +30,15 @@ const portfolioSchema = new Schema({
   }
 );
 
-
 // Find a portfolio given its unique ID
-portfolioSchema.statics.findById = async (id) => {
+portfolioSchema.statics.findById = async id => {
   const portfolio = await Portfolio.findOne({ _id: id });
   if (!portfolio) return null;
   return portfolio;
-}
-
+};
 
 // Find a portfolio given its owner's username
-portfolioSchema.statics.findByUsername = async (username) => {
+portfolioSchema.statics.findByUsername = async username => {
   try {
     const portfolio = await Portfolio.findOne({ username });
     if (!portfolio) {
@@ -49,7 +48,6 @@ portfolioSchema.statics.findByUsername = async (username) => {
   } catch (err) {
     return null;
   }
-  
 };
 
 // Create a Portfolio schema on MongoDB

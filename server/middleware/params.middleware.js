@@ -1,3 +1,1 @@
-const passParams = (req, res, next) => {
-  
-}
+const passParams = (req, res, next) => {};

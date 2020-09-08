@@ -14,7 +14,8 @@ const tokenSchema = new Schema({
 });
 
 // Define the schema for each user
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     username: {
       type: String, // type of username
       required: true, // username must always be given

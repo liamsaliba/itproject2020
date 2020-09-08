@@ -62,7 +62,7 @@ const loginUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   User.findByIdAndDelete(req.user._id)
     .then(() => res.sendStatus(200))
-    .catch((err) => res.status(400).json(err));
+    .catch(err => res.status(400).json(err));
 };
 
 // Get the currently logged in user
@@ -73,7 +73,7 @@ const getCurrentUser = (req, res) => {
 // Log out a user
 const logoutUser = async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter((token) => {
+    req.user.tokens = req.user.tokens.filter(token => {
       return token.token != req.token;
     });
     await req.user.save();
@@ -88,7 +88,7 @@ const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).send(
-      users.map((user) => {
+      users.map(user => {
         return user.username;
       })
     );

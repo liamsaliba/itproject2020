@@ -23,7 +23,10 @@ router.get("/:username/props", portfolioController.findPortfolioByUsername);
 
 router.get("/:username", portfolioController.getAllPortfolios);
 
-router.delete("/delete", userMiddleware.authenticatePassword, 
-              portfolioController.deletePortfolio);
+router.delete(
+  "/delete",
+  userMiddleware.authenticatePassword,
+  portfolioController.deletePortfolio
+);
 
 module.exports = router;

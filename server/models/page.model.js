@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the schema for each oage
-const pageSchema = new Schema({
+const pageSchema = new Schema(
+  {
     username: {
       type: String,
       required: true,
@@ -31,17 +32,15 @@ const pageSchema = new Schema({
   }
 );
 
-
 // Find a page given its unique ID
-pageSchema.statics.findById = async (id) => {
+pageSchema.statics.findById = async id => {
   const page = await Page.findOne({ _id: id });
   if (!page) return null;
   return page;
-}
-
+};
 
 // Find a page given its owner's username
-pageSchema.statics.findByUsername = async (username) => {
+pageSchema.statics.findByUsername = async username => {
   try {
     const page = await Page.find({ username });
     if (!page) {
@@ -54,11 +53,11 @@ pageSchema.statics.findByUsername = async (username) => {
 };
 
 // Find a page given its portfolio ID
-pageSchema.statics.findByPortfolioId = async (id) => {
+pageSchema.statics.findByPortfolioId = async id => {
   const page = await Page.find({ portfolioId: id });
   if (!page) return null;
   return page;
-}
+};
 
 // Create a Portfolio schema on MongoDB
 const Page = mongoose.model("Page", pageSchema);

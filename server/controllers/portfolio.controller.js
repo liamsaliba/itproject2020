@@ -9,7 +9,8 @@ const createPortfolio = (req, res) => {
     username,
     bio,
   });
-  newPortfolio.save()
+  newPortfolio
+    .save()
     .then(() => res.status(200).send("New portfolio created!"))
     .catch(err => {
       if (err.code == 11000) {
@@ -20,8 +21,7 @@ const createPortfolio = (req, res) => {
         res.status(400).json(err);
       }
     });
-}
-
+};
 
 // Find a portfolio given its owner's username
 const findPortfolioByUsername = async (req, res) => {
@@ -40,16 +40,14 @@ const findPortfolioByUsername = async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-}
-
+};
 
 // Delete a portfolio (requires password authentication first)
 const deletePortfolio = async (req, res) => {
   Portfolio.findOneAndDelete({ username: req.user.username })
     .then(() => res.sendStatus(200))
-    .catch((err) => res.status(400).json(err));
+    .catch(err => res.status(400).json(err));
 };
-
 
 // Get the portfolio of the user currently logged in
 const getCurrentPortfolio = (req, res) => {
@@ -61,7 +59,6 @@ const getCurrentPortfolio = (req, res) => {
   res.status(200).json(portfolio);
 };
 
-
 // Return an array of all portfolios on the server
 const getAllPortfolios = async (req, res) => {
   try {
@@ -70,7 +67,7 @@ const getAllPortfolios = async (req, res) => {
   } catch (err) {
     req.status(400).json(err);
   }
-}
+};
 
 module.exports = {
   createPortfolio,

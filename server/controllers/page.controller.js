@@ -12,7 +12,8 @@ const createPage = async (req, res) => {
     portfolioId,
     contents,
   });
-  newPage.save()
+  newPage
+    .save()
     .then(() => res.status(200).send("New page created!"))
     .catch(err => {
       if (err.message) {
@@ -21,11 +22,9 @@ const createPage = async (req, res) => {
         res.status(400).json(err);
       }
     });
-}
-
+};
 
 const findPageById = async (req, res) => {
-  console.log("???")
   try {
     if (!req.params.pageId) {
       res.status(400).json("User unidentified.");
@@ -41,8 +40,7 @@ const findPageById = async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-}
-
+};
 
 // Find a page given its owner's username
 const findPagesByUsername = async (req, res) => {
@@ -61,16 +59,14 @@ const findPagesByUsername = async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-}
-
+};
 
 // Delete a page (requires password authentication first)
 const deletePageById = async (req, res) => {
   Page.findByIdAndDelete(req.id)
     .then(() => res.sendStatus(200))
-    .catch((err) => res.status(400).json(err));
+    .catch(err => res.status(400).json(err));
 };
-
 
 // Return an array of all pages on the server
 const findPagesByPortfolioId = async (req, res) => {
@@ -89,7 +85,7 @@ const findPagesByPortfolioId = async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-}
+};
 
 module.exports = {
   createPage,
