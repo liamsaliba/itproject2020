@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Box, Container, Flex, Styled, ThemeProvider } from "theme-ui";
-import Navbar from "./Navbar";
+import Navbar from "./NavBar";
 import { useState, useEffect } from "react";
 import Demo from "../demo/Demo";
 import themes from "../themes";
