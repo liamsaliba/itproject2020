@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx, Styled, ThemeProvider } from "theme-ui";
-import { Helmet } from "react-helmet";
-import * as presets from "@theme-ui/presets";
+import themes from "../themes";
 import Components from "./components.jsx";
 import {
   TypeScale,
@@ -12,16 +11,10 @@ import {
 } from "@theme-ui/style-guide";
 
 export default ({ theme }) => {
-  const preset = presets[theme];
+  const preset = themes[theme];
 
   return (
     <ThemeProvider theme={preset}>
-      <Helmet>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Architects+Daughter|Montserrat:400,700|Poppins:400,700,900|Roboto:400,600"
-        />
-      </Helmet>
       <Styled.root sx={{ backgroundColor: "background", color: "text" }}>
         <Styled.h1 sx={{ textAlign: "center", fontSize: "3em" }}>
           {theme} Theme UI Preset
