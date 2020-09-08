@@ -1,7 +1,9 @@
 /** @jsx jsx */
 import { jsx, Styled, Flex, Container } from "theme-ui";
-import User from "../User/Main";
+import User from "../User";
 import Navbar from "./Navbar";
+import { useSelector } from "react-redux";
+import { Title } from "./../../components/index";
 
 const Lorem = props => {
   // const elements = ['test1', 'test2', 'test3', 'test4']
@@ -10,7 +12,7 @@ const Lorem = props => {
   // for (const [index, value] of elements.entries()) {
   for (let i = 1; i < 42; i++) {
     // items.push(<li key={index}>{value}</li>)
-    items.push(<p>Testing {i}</p>);
+    items.push(<p key={i}>Testing {i}</p>);
   }
 
   return <div>{items}</div>;
@@ -18,6 +20,10 @@ const Lorem = props => {
 
 export default props => {
   let { userId: id } = props;
+
+  const auth = useSelector(state => state.auth);
+  id = auth.user.username;
+
   return (
     <Flex
       sx={{
@@ -26,15 +32,15 @@ export default props => {
         height: "100vh",
       }}
     >
+      <Title>Editor: {id}</Title>
       <aside
         sx={{
-          flexGrow: 1,
-          // flexBasis: "sidebar",
           width: "sidebar",
           borderRight: "1px black solid",
           height: "100%",
         }}
       >
+        {/* <Sidebar/> */}
         <Navbar userId={id} />
         <Container
           sx={{

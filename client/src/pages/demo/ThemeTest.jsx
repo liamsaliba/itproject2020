@@ -2,8 +2,8 @@
 import { jsx, ThemeProvider } from "theme-ui";
 import { useState, useEffect } from "react";
 import DemoPage from "./Demo";
-import ThemeSelector from "../ThemeSelector";
-import themes from "../themes";
+import { ThemeSelector } from "../../components";
+import themes from "../../themes";
 
 export default () => {
   const [theme, setTheme] = useState("base");

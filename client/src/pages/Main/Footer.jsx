@@ -1,10 +1,11 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
-import { MenuItem } from "../NavItems";
+import { jsx, Flex, Box } from "theme-ui";
+import { MenuItem } from "../../components";
 
 export default () => {
   return (
-    <footer
+    <Flex
+      as="footer"
       sx={{
         display: "flex",
         flexWrap: "wrap",
@@ -18,6 +19,12 @@ export default () => {
         is Josh Nguyen, Lawrence Leong, Liam Saliba, Chan Jie Ho and Yung Cheng
         Kong. 2020
       </div>
-    </footer>
+      <Box mx="auto" />
+      <div>
+        <MenuItem href="https://github.com/exradr/itproject2020">
+          GitHub
+        </MenuItem>
+      </div>
+    </Flex>
   );
 };

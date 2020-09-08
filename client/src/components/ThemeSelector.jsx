@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, Box, Select } from "theme-ui";
 
-import themes from "./themes";
+import themes from "../themes";
 
 export default function ThemeSelector({ theme, setTheme, size = 100 }) {
   return (

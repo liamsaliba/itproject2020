@@ -56,6 +56,9 @@ const slice = createSlice({
     logoutRequested: (auth, action) => {
       auth.loading = true;
       auth.user = {};
+      auth.token = null;
+      localStorage.removeItem(userKey);
+      localStorage.removeItem(tokenKey);
     },
   },
 });

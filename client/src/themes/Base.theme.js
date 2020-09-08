@@ -238,21 +238,8 @@ export const styles = {
   },
 };
 
-export const theme = {
-  breakpoints,
-  colors,
-  space,
-  fonts,
-  fontSizes,
-  fontWeights,
-  lineHeights,
-  sizes,
-  shadows,
-  radii,
-  typeStyles,
-  styles,
+export const custom = {
   layout: {
-    container: {},
     centerflex: {
       display: "flex",
       alignItems: "center",
@@ -267,7 +254,6 @@ export const theme = {
       display: "flex",
     },
   },
-  flex: {},
   variants: {
     card: {
       p: 2,
@@ -280,12 +266,11 @@ export const theme = {
     nav: {
       fontSize: 1,
       fontWeight: "bold",
-      display: "inline-block",
       p: 2,
       color: "primary",
       textDecoration: "none",
       ":hover,:focus,.active": {
-        color: "primary",
+        color: "secondary",
       },
     },
   },
@@ -320,7 +305,7 @@ export const theme = {
       boxShadow: "inset 0 0 2px",
       ":hover,:focus,.active": {
         bg: "primary",
-        color: "background",
+        color: "red",
       },
     },
     secondary: {
@@ -328,11 +313,27 @@ export const theme = {
       color: "background",
       bg: "secondary",
     },
-    menu: {
-      // variant: "buttons.menu",
-      width: "menu",
+    nav: {
+      variant: "buttons.outline",
+      // width: "menu",
     },
   },
+};
+
+export const theme = {
+  breakpoints,
+  colors,
+  space,
+  fonts,
+  fontSizes,
+  fontWeights,
+  lineHeights,
+  sizes,
+  shadows,
+  radii,
+  typeStyles,
+  styles,
+  ...custom,
 };
 
 export default theme;

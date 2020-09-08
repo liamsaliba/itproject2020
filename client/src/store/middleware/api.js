@@ -47,6 +47,7 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     // Specific action
     if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
   } catch (error) {
+    console.log(error.toJSON());
     // General error action
     dispatch(actions.apiErrored(error.message));
     // Specific

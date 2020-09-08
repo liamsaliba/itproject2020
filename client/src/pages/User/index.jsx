@@ -1,19 +1,10 @@
 /** @jsx jsx */
-import { jsx, Box, Container, Flex, Styled, ThemeProvider } from "theme-ui";
-import Navbar from "./NavBar";
+import { jsx, Container, Flex, Styled, ThemeProvider } from "theme-ui";
+import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
-import Demo from "../demo/Demo";
-import themes from "../themes";
+import themes from "../../themes";
 // import { Router } from "@reach/router";
-
-const bodyStyling = {
-  position: "absolute",
-  // top: "10%",
-  left: "50%",
-  transform: "translateX(-50%)",
-  textAlign: "center",
-  justifyContent: "center",
-};
+import { Title } from "./../../components/index";
 
 export default props => {
   const { userId: id } = props;
@@ -26,6 +17,8 @@ export default props => {
 
   return (
     <ThemeProvider theme={preset}>
+      <Title>{id}</Title>
+
       <Flex
         sx={{
           flexDirection: "column",

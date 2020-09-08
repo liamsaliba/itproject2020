@@ -1,22 +1,46 @@
 /** @jsx jsx */
 import { jsx, Label, Input, Box, Checkbox, Button, Styled } from "theme-ui";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Spinner, useToast } from "@chakra-ui/core";
 import { signup } from "../../store/auth";
+
+import { Link, Title } from "../../components";
+import { useEffect } from "react";
+import { navigate } from "@reach/router";
 
 export default () => {
   const dispatch = useDispatch();
+  const toast = useToast();
+  const auth = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (auth.error) {
+      toast({
+        title: "Unable to create user account.",
+        description: auth.error,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [auth.error, toast]);
+
+  useEffect(() => {
+    if (auth.token) {
+      navigate("/editor");
+      toast({
+        title: "Account created.",
+        description: "You've been logged into your new account.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [auth.token, toast]);
 
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    console.log(
-      formData.get("firstName"),
-      formData.get("lastName"),
-      formData.get("email"),
-      formData.get("username"),
-      formData.get("password")
-    );
     dispatch(
       signup(
         formData.get("firstName"),
@@ -32,6 +56,8 @@ export default () => {
 
   return (
     <Box as="form" pb={3} onSubmit={handleSubmit}>
+      <Title>Login</Title>
+
       <Styled.h2>Sign up</Styled.h2>
       <br />
       <Label htmlFor="firstName">First Name</Label>
@@ -59,6 +85,10 @@ export default () => {
         </Label>
       </Box>
       <Button>Submit</Button>
+      {auth.loading ? <Spinner /> : null}
+      <Link to="/login" sx={{ ml: 4 }}>
+        {"Have an account? Log in"}
+      </Link>
     </Box>
   );
 };

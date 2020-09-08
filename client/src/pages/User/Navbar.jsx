@@ -2,8 +2,7 @@ import React from "react";
 import { Box, Avatar, Flex } from "theme-ui";
 import camel from "../../svg/camel.svg";
 
-import { MenuItem } from "../NavItems";
-import ThemeSelector from "./../ThemeSelector";
+import { MenuItem, ThemeSelector } from "../../components";
 
 const styling = {
   left: "35%",
@@ -15,7 +14,10 @@ export default props => {
   const { userId: id, theme, setTheme } = props;
   return (
     <Box p={10}>
-      <Flex as="nav" sx={{ alignItems: "center" }}>
+      <Flex
+        as="nav"
+        sx={{ alignItems: "center", bg: "background", color: "secondary" }}
+      >
         <Avatar src={camel} />
         <Box sx={styling}>
           <MenuItem to={`../${id}`}>Home</MenuItem>
