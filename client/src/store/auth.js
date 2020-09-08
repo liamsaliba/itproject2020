@@ -11,6 +11,7 @@ const token = localStorage.getItem(tokenKey);
 const finishLogin = (auth, { payload }) => {
   const { user, token } = payload;
   auth.loading = false;
+  auth.error = null;
   auth.user = user;
   auth.token = token;
   localStorage.setItem(userKey, JSON.stringify(user));
@@ -24,21 +25,25 @@ const slice = createSlice({
     user && token
       ? {
           loading: false,
+          error: null,
           user,
           token,
         }
       : {
           loading: false,
+          error: null,
           user: {},
           token: "",
         },
   reducers: {
     loginRequested: (auth, action) => {
       auth.loading = true;
+      auth.error = null;
     },
     loginSucceeded: (auth, action) => finishLogin(auth, action),
     loginFailed: (auth, action) => {
       auth.loading = false;
+      auth.error = action.payload;
     },
     signUpRequested: (auth, action) => {
       auth.loading = true;
@@ -46,6 +51,7 @@ const slice = createSlice({
     signUpSucceeded: (auth, action) => finishLogin(auth, action),
     signUpFailed: (auth, action) => {
       auth.loading = false;
+      auth.error = action.payload;
     },
     logoutRequested: (auth, action) => {
       auth.loading = true;
@@ -79,7 +85,7 @@ export const signup = (
       data: { firstName, lastName, email, username, password },
       onStart: signUpRequested.type,
       onSuccess: signUpSucceeded.type,
-      onError: signUpFailed.type,
+      onFailure: signUpFailed.type,
     })
   );
 
@@ -91,7 +97,7 @@ export const login = (username, password) => dispatch => {
       data: { username, password },
       onStart: loginRequested.type,
       onSuccess: loginSucceeded.type,
-      onError: loginFailed.type,
+      onFailure: loginFailed.type,
     })
   );
 };
