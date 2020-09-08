@@ -1,4 +1,4 @@
-// MongoDB Schema for a user
+// MongoDB Schema for a Portfolio
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
