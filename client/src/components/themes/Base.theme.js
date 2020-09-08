@@ -44,6 +44,21 @@ export const colors = {
   light: baseColors.gray[1],
   dark: baseColors.gray[8],
   textMuted: baseColors.gray[6],
+  modes: {
+    dark: {
+      text: "#fff",
+      background: "#000",
+      primary: "#0cf",
+      secondary: "#09c",
+      muted: "#111",
+    },
+    papaya: {
+      // this color mode will fallback to the root color object
+      // for values not defined here
+      text: "#433",
+      background: "papayawhip",
+    },
+  },
 };
 
 export const space = [0, 0.25, 0.5, 1, 1.5, 3].map(n => n + "rem");
@@ -235,6 +250,7 @@ export const bootstrap = {
   radii,
   typeStyles,
   styles,
+  layout: {},
   variants: {
     avatar: {
       width: "avatar",
@@ -261,9 +277,16 @@ export const bootstrap = {
       },
     },
   },
+  cards: {
+    primary: {
+      p: 2,
+      borderRadius: "default",
+      boxShadow: "default",
+    },
+  },
   images: {
     avatar: {
-      width: 48,
+      width: "avatar",
       borderRadius: "100%",
     },
   },
