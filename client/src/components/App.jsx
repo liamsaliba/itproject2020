@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { Router } from "@reach/router";
 
 import "./App.css";
@@ -9,17 +10,29 @@ import Editor from "./editor/Editor";
 import { ThemeProvider } from "theme-ui";
 
 import themes from "./themes";
+import configureStore from "../store/configureStore";
+import { login, logout } from "../store/auth";
+
+const store = configureStore();
+
+store.dispatch(login("exradr", "suckmyballs"));
+const token = store.getState().auth.token;
+console.log(token);
+
+store.dispatch(logout(token));
 
 export default () => {
   const theme = themes.custom;
 
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <User path="/u/:userId" />
-        <Editor path="/e/:userId" />
-        <Main path="/*" />
-      </Router>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <User path="/u/:userId" />
+          <Editor path="/e/:userId" />
+          <Main path="/*" />
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 };

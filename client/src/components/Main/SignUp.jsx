@@ -8,12 +8,13 @@ export default () => {
       pb={3}
       onSubmit={e => e.preventDefault()}
       sx={{
-        position:"absolute", 
-        top: "50%", 
-        left:'50%', 
-        transform: 'translate(-50%,-50%)', 
-        textAlign:'center', 
-        justifyContent: 'center'}}
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%,-50%)",
+        textAlign: "center",
+        justifyContent: "center",
+      }}
     >
       <Label htmlFor="First Name">First Name</Label>
       <Input name="firstName" mb={1} />

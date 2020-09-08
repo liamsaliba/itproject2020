@@ -1,64 +1,62 @@
 import axios from "axios";
 import * as actions from "../api";
 
-const apiBaseUrl = "/api/";
+// Inspired by https://github.com/ohansemmanuel/fake-medium/
 
-const authHeader = () => {
-  // From: https://jasonwatmore.com/post/2017/12/07/react-redux-jwt-authentication-tutorial-example
-  // return authorization header with jwt token
-  let user = JSON.parse(localStorage.getItem("user"));
+const apiMiddleware = ({ dispatch }) => next => async action => {
+  // allow logging of api calls to Redux Dev Tools
+  if (action.type !== actions.apiStarted.type) return next(action);
 
-  if (user && user.token) {
-    return { Authorization: `Bearer ${user.token}` };
-  } else {
-    return {};
-  }
-};
-
-const api = ({ dispatch }) => next => async action => {
-  if (action.type !== actions.apiCallBegan.type) return next(action);
+  next(action);
 
   const {
     url,
-    baseURL,
     method,
     data,
-    headers,
+    token,
     onStart,
     onSuccess,
-    onError,
+    onFailure,
+    headers,
   } = action.payload;
 
-  baseURL = baseURL ?? apiBaseUrl;
-  if (baseURL === apiBaseUrl) {
-    headers = authHeader();
-    console.log(headers);
-  }
+  console.log(action.payload);
+
+  axios.defaults.baseURL =
+    process.env.REACT_APP_BASE_URL ||
+    "https://camelcase-itproject.herokuapp.com/api";
+
+  const dataOrParams = ["GET", "DELETE"].includes(method) ? "params" : "data";
+
+  axios.defaults.headers.common["Content-Type"] = "application/json";
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   if (onStart) dispatch({ type: onStart });
-
-  // allow logging of api calls to Redux Dev Tools
-  next(action);
 
   // make api call
   try {
     const response = await axios.request({
-      baseURL,
       url,
       method,
-      data,
+      [dataOrParams]: data,
       headers,
     });
+
     // General success action
-    dispatch(actions.apiCallSuccess(response.data));
+    dispatch(actions.apiEnded(response.data));
+
     // Specific action
     if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
   } catch (error) {
     // General error action
-    dispatch(actions.apiCallFailed(error.message));
+    dispatch(actions.apiErrored(error.message));
     // Specific
-    if (onError) dispatch({ type: onError, payload: error.message });
+    if (onFailure) dispatch({ type: onFailure, payload: error.message });
+
+    if (error.response && error.response.status === 403) {
+      dispatch(actions.accessDenied(window.location.pathname));
+    }
   }
 };
 
-export default api;
+export default apiMiddleware;
