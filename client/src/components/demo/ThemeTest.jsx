@@ -13,18 +13,18 @@ export default () => {
     setPreset(themes[theme]);
   }, [theme]);
   return (
-    <div
-      style={{ width: "100%", maxWidth: "800px", display: "flex" }}
-      sx={{
-        "*": {
-          transition: "all .2s ease-out",
-        },
-      }}
-    >
-      <ThemeSelector theme={theme} setTheme={setTheme} />
-      <ThemeProvider theme={preset}>
+    <ThemeProvider theme={preset}>
+      <div
+        style={{ width: "100%", maxWidth: "800px", display: "flex" }}
+        sx={{
+          "*": {
+            transition: "all .2s ease-out",
+          },
+        }}
+      >
+        <ThemeSelector theme={theme} setTheme={setTheme} size={600} />
         <DemoPage theme={theme} />
-      </ThemeProvider>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 };

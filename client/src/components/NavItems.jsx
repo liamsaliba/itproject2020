@@ -2,14 +2,14 @@
 import { jsx, Button, NavLink } from "theme-ui";
 import { Link as ReachLink } from "@reach/router";
 
-export const MenuItem = ({ to, children }) => (
-  <NavLink as={ReachLink} activeClassName="active" to={to} p={2}>
-    {children}
+export const MenuItem = props => (
+  <NavLink {...props} as={ReachLink} activeClassName="active" p={2}>
+    {props.children}
   </NavLink>
 );
 
-export const MenuButton = ({ to, children }) => (
-  <Button as={ReachLink} variant="outline" to={to} ml={2} p={2}>
-    {children}
+export const MenuButton = props => (
+  <Button {...props} as={ReachLink} variant="outline" ml={2} p={2}>
+    {props.children}
   </Button>
 );

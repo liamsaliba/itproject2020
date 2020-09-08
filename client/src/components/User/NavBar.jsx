@@ -11,7 +11,8 @@ const styling = {
   justifyContent: "center",
 };
 
-export default ({ userId: id, theme, setTheme }) => {
+export default props => {
+  const { userId: id, theme, setTheme } = props;
   return (
     <Box p={10}>
       <Flex as="nav" sx={{ alignItems: "center" }}>
