@@ -21,7 +21,7 @@ export default () => {
       <Label htmlFor="Last Name">Last Name</Label>
       <Input name="lastName" mb={1} />
 
-      <Label htmlFor="email">email</Label>
+      <Label htmlFor="email">Email</Label>
       <Input name="email" mb={1} />
 
       <Label htmlFor="username">Username</Label>

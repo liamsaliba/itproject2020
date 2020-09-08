@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Styled, Flex, Container } from "theme-ui";
-import User from "../portfolio/User";
+import User from "../User/Main";
 import Navbar from "./Navbar";
 
 const Lorem = props => {

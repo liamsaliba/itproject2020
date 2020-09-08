@@ -2,7 +2,7 @@
 
 import { Router } from "@reach/router";
 
-import MainNavbar from "./MainNavbar";
+import MainNavbar from "./Navbar";
 import MainFooter from "./Footer";
 
 import About from "./About";
