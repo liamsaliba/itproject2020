@@ -1,12 +1,17 @@
 /** @jsx jsx */
-import { jsx, Select, Container } from "theme-ui";
-import { useState } from "react";
-import themes from "../themes";
+import { jsx, ThemeProvider } from "theme-ui";
+import { useState, useEffect } from "react";
 import DemoPage from "./Demo";
+import ThemeSelector from "../ThemeSelector";
+import themes from "../themes";
 
 export default () => {
   const [theme, setTheme] = useState("base");
-  console.log(themes);
+  const [preset, setPreset] = useState(themes[theme]);
+
+  useEffect(() => {
+    setPreset(themes[theme]);
+  }, [theme]);
   return (
     <div
       style={{ width: "100%", maxWidth: "800px", display: "flex" }}
@@ -16,27 +21,10 @@ export default () => {
         },
       }}
     >
-      <Container sx={{ p: 30 }}>
-        <label
-          htmlFor="theme"
-          sx={{
-            display: "block",
-            mb: 4,
-          }}
-        >
-          Preset:
-          <Select
-            id="theme"
-            value={theme}
-            onChange={e => setTheme(e.target.value)}
-          >
-            {Object.keys(themes).map(key => (
-              <option key={key} children={key} />
-            ))}
-          </Select>
-        </label>
+      <ThemeSelector theme={theme} setTheme={setTheme} />
+      <ThemeProvider theme={preset}>
         <DemoPage theme={theme} />
-      </Container>
+      </ThemeProvider>
     </div>
   );
 };

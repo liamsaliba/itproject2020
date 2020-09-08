@@ -8,7 +8,7 @@ import { MenuItem, MenuButton } from "../NavItems";
 export default () => {
   return (
     <Box p={10}>
-      <Flex as="nav">
+      <Flex as="nav" sx={{ alignItems: "center" }}>
         <Avatar src={camel} />
         <Box mx="auto" />
         <MenuItem to="/">Home</MenuItem>
