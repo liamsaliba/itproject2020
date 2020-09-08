@@ -3,9 +3,9 @@ import { jsx, Box, Select } from "theme-ui";
 
 import themes from "./themes";
 
-export default function ThemeSelector({ theme, setTheme, sx = {} }) {
+export default function ThemeSelector({ theme, setTheme }) {
   return (
-    <Box sx={sx}>
+    <Box>
       {/* <label
         htmlFor="theme"
         sx={{
