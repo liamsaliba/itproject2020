@@ -7,14 +7,9 @@ import { useState, useEffect } from "react";
 import themes from "../themes";
 // import { Router } from "@reach/router";
 
-/* const bodyStyling = {
-  position: "absolute",
-  // top: "10%",
-  left: "50%",
-  transform: "translateX(-50%)",
+const styling = {
   textAlign: "center",
-  justifyContent: "center",
-}; */
+};
 
 export default props => {
   const { userId: id } = props;
@@ -38,27 +33,38 @@ export default props => {
         </header>
 
         <main>
-          <Container sx ={{display:"flex", justifyContent:"center", alignText:"center"}} margin={3} >
+          <Container sx = {styling} margin={5}>
             <Box>
-              <Image src={profileExample} sx= {{borderRadius:"50%", width:"35%"}}/>
+              <Image src={profileExample} sx= {{borderRadius:"50%", width:"20%"}} margin={5}/>
               <Styled.h1> Bob Dylan </Styled.h1>
             </Box> 
           </Container>
+
+          <Container sx = {styling} margin={5} >
             <Box>
               <Styled.h2> About </Styled.h2>
-              <Styled.p>this is the userpage of user {id}.</Styled.p>
+              <Styled.p> This is the about Container </Styled.p>
             </Box> 
+          </Container>
+
+          <Container sx = {styling} margin={5} >
             <Box>
-              <Styled.h1> Project </Styled.h1>
-              <Styled.p>this is the userpage of user {id}.</Styled.p>
+              <Styled.h2> Projects </Styled.h2>
+              <Styled.p> This is the Projects Container </Styled.p>
             </Box> 
+          </Container>
+
+          <Container sx = {styling} margin={5} >
             <Box>
-              <Styled.h1> Publication </Styled.h1>
-              <Styled.p>this is the userpage of user {id}.</Styled.p>
+              <Styled.h2> Publications </Styled.h2>
+              <Styled.p> This is the Publications Container </Styled.p>
             </Box> 
+          </Container>
+          
+          <Container sx = {styling} margin={5} >
             <Box>
               <Styled.h2> Contacts </Styled.h2>
-              <Styled.p>this is the userpage of user {id}.</Styled.p>
+              <Styled.p> This is the Contacts Container </Styled.p>
             </Box> 
           </Container>
         </main>
