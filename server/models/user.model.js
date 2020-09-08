@@ -22,6 +22,8 @@ const userSchema = new Schema(
       unique: true, // no two usernames can be the same
       trim: true, // trim whitespaces when user enters
       minlength: 1, // usernames must be at least 1 character long
+      maxlength: 30, // usernames must be at most 30 characters long
+      lowercase: true, // lowercase only
     },
 
     password: {

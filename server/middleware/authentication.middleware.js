@@ -26,7 +26,7 @@ const authenticateToken = (req, res, next) => {
 
     // Find the user
     User.findById(details._id)
-      .then((user) => {
+      .then(user => {
         // User not found
         if (!user) {
           res.sendStatus(401);
@@ -34,7 +34,7 @@ const authenticateToken = (req, res, next) => {
         }
 
         // User does not hold the current token anymore
-        if (user.tokens.map((token) => token.token).indexOf(token) < 0) {
+        if (user.tokens.map(token => token.token).indexOf(token) < 0) {
           res.sendStatus(401);
           return;
         }
@@ -44,7 +44,7 @@ const authenticateToken = (req, res, next) => {
         req.token = token;
         next();
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(400).json(err);
         return;
       });
