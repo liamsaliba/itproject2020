@@ -28,19 +28,21 @@ export default props => {
   id = auth.user.username;
 
   return (
-    <ThemeProvider theme={theme}>
-      <Flex
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          height: "100vh",
-        }}
-      >
+    <Flex
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        height: "100vh",
+      }}
+    >
+      <ThemeProvider theme={theme}>
         <Title>Editor: {id}</Title>
         <aside
           sx={{
             width: "sidebar",
             borderRight: "1px black solid",
+            overflowY: "auto",
+            overflowX: "hidden",
             height: "100%",
           }}
         >
@@ -55,18 +57,20 @@ export default props => {
             <Lorem />
           </Container>
         </aside>
-        <main
-          sx={{
-            flexGrow: 99999,
-            flexBasis: 0,
-            minWidth: 320,
-            overflow: "auto",
-            height: "100%",
-          }}
-        >
-          <User userId={id} />
-        </main>
-      </Flex>
-    </ThemeProvider>
+      </ThemeProvider>
+      <main
+        sx={{
+          flexGrow: 99999,
+          flexBasis: 0,
+          minWidth: 320,
+          overflowY: "auto",
+          overflowX: "hidden",
+
+          height: "100%",
+        }}
+      >
+        <User userId={id} />
+      </main>
+    </Flex>
   );
 };
