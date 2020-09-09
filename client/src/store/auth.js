@@ -54,7 +54,6 @@ const slice = createSlice({
       auth.error = action.payload;
     },
     logoutRequested: (auth, action) => {
-      auth.loading = true;
       auth.user = {};
       auth.token = null;
       localStorage.removeItem(userKey);
