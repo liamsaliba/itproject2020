@@ -11,7 +11,7 @@ import {
 
 export default ({ theme }) => {
   return (
-    <Styled.root sx={{ backgroundColor: "background", color: "text" }}>
+    <Styled.root>
       <Styled.h1 sx={{ textAlign: "center", fontSize: "3em" }}>
         {theme} Theme UI Preset
       </Styled.h1>

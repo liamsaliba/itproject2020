@@ -1,32 +1,32 @@
 import React from "react";
-import { Box, Avatar, Flex } from "theme-ui";
-import camel from "../../svg/camel.svg";
+import { Box, Flex } from "theme-ui";
+import camel from "../../svg/Profile_example.png";
 
-import { MenuItem, ThemeSelector } from "../../components";
-
-const styling = {
-  left: "35%",
-  position: "absolute",
-  justifyContent: "center",
-};
+import { MenuItem, MenuImage, ThemeSelector } from "../../components";
 
 export default props => {
-  const { userId: id, theme, setTheme } = props;
+  const { userId: id, theme, setTheme, pages } = props;
+
+  let menuItems = pages.map(name => (
+    <MenuItem to={`#${name}`}>{name}</MenuItem>
+  ));
+
+  menuItems[0] = <MenuItem to={`#`}>{id}</MenuItem>;
+
   return (
     <Box p={10}>
       <Flex
         as="nav"
-        sx={{ alignItems: "center", bg: "background", color: "secondary" }}
+        sx={{
+          alignItems: "center",
+          justifyContent: "center",
+          bg: "muted",
+          color: "secondary",
+        }}
       >
-        <Avatar src={camel} />
-        <Box sx={styling}>
-          <MenuItem to={`../${id}`}>Home</MenuItem>
-          <MenuItem to={`../${id}/about`}>About</MenuItem>
-          <MenuItem to={`../${id}/contacts`}>Contacts</MenuItem>
-          <MenuItem to={`../${id}/projects`}>Projects</MenuItem>
-          <MenuItem to={`../${id}/publications`}>Publications</MenuItem>
-          <ThemeSelector theme={theme} setTheme={setTheme} />
-        </Box>
+        <MenuImage src={camel} to="#" />
+        {menuItems}
+        <ThemeSelector theme={theme} setTheme={setTheme} />
       </Flex>
     </Box>
   );

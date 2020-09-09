@@ -5,9 +5,7 @@ import { Router } from "@reach/router";
 import "./App.css";
 
 import { User, Main, Editor } from "./pages";
-import { ThemeProvider } from "theme-ui";
 
-import themes from "./themes";
 import configureStore from "./store/configureStore";
 
 // const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -20,17 +18,13 @@ const store = configureStore();
 // setTimeout(() => store.dispatch(logout(token)), 4000);
 
 export default () => {
-  const theme = themes.baseChakra;
-
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <User path="/u/:userId" />
-          <Editor path="/editor" />
-          <Main path="/*" />
-        </Router>
-      </ThemeProvider>
+      <Router primary={false}>
+        <User path="/u/:userId" />
+        <Editor path="/editor" />
+        <Main path="/*" />
+      </Router>
     </Provider>
   );
 };

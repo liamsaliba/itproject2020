@@ -112,6 +112,7 @@ export const sizes = {
   xl: 1140,
   sidebar: 256,
   avatar: 48,
+  logo: 60,
   menu: 48,
 };
 
@@ -281,15 +282,6 @@ export const custom = {
       boxShadow: "default",
     },
   },
-  images: {
-    avatar: {
-      width: "avatar",
-      borderRadius: "100%",
-    },
-    menu: {
-      width: "menu",
-    },
-  },
   buttons: {
     primary: {
       fontSize: 2,
@@ -316,6 +308,24 @@ export const custom = {
     nav: {
       variant: "buttons.outline",
       // width: "menu",
+    },
+    logo: {
+      variant: "buttons.icon",
+      borderRadius: "0",
+      width: "logo",
+      padding: "0",
+    },
+  },
+  images: {
+    avatar: {
+      width: "avatar",
+      borderRadius: "100%",
+    },
+    logo: {
+      width: "avatar",
+    },
+    menu: {
+      width: "menu",
     },
   },
 };

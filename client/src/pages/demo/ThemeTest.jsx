@@ -15,8 +15,10 @@ export default () => {
   return (
     <ThemeProvider theme={preset}>
       <div
-        style={{ width: "100%", maxWidth: "800px", display: "flex" }}
+        style={{ width: "100%", maxWidth: "800px" }}
         sx={{
+          backgroundColor: "background",
+          color: "text",
           "*": {
             transition: "all .2s ease-out",
           },

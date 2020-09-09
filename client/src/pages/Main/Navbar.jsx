@@ -14,7 +14,6 @@ export default () => {
         <MenuItem to="/">Home</MenuItem>
         <MenuItem to="themes">Themes</MenuItem>
         {/* <MenuItem to="about">About</MenuItem> */}
-        {}
         <MenuItem to="login">Login</MenuItem>
         <MenuButton to="signup">Sign up</MenuButton>
       </Flex>

@@ -1,8 +1,9 @@
 /** @jsx jsx */
-import { jsx, Container, Flex, Styled, ThemeProvider } from "theme-ui";
+import { jsx, Flex, ThemeProvider } from "theme-ui";
 import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 import themes from "../../themes";
+import Body from "./Body";
 // import { Router } from "@reach/router";
 import { Title } from "./../../components/index";
 
@@ -10,6 +11,8 @@ export default props => {
   const { userId: id } = props;
   const [theme, setTheme] = useState("base");
   const [preset, setPreset] = useState(themes[theme]);
+
+  const pages = [id, "Publications", "Experience", "About"];
 
   useEffect(() => {
     setPreset(themes[theme]);
@@ -23,20 +26,15 @@ export default props => {
         sx={{
           flexDirection: "column",
           minHeight: "100vh",
+          bg: "background",
+          color: "text",
         }}
       >
         <header>
-          <Navbar userId={id} theme={theme} setTheme={setTheme} />
+          <Navbar userId={id} theme={theme} setTheme={setTheme} pages={pages} />
         </header>
 
-        <main>
-          <Container>
-            {/* <Box sx={bodyStyling}> */}
-            <Styled.h1> Hi There </Styled.h1>
-            <Styled.p>this is the userpage of user {id}.</Styled.p>
-            {/* </Box> */}
-          </Container>
-        </main>
+        <Body pages={pages} />
       </Flex>
     </ThemeProvider>
   );

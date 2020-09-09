@@ -1,9 +1,11 @@
 /** @jsx jsx */
-import { jsx, Styled, Flex, Container } from "theme-ui";
+import { jsx, Styled, Flex, Container, ThemeProvider } from "theme-ui";
 import User from "../User";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import { Title } from "./../../components/index";
+
+import themes from "../../themes";
 
 const Lorem = props => {
   // const elements = ['test1', 'test2', 'test3', 'test4']
@@ -19,49 +21,52 @@ const Lorem = props => {
 };
 
 export default props => {
+  const theme = themes.custom;
   let { userId: id } = props;
 
   const auth = useSelector(state => state.auth);
   id = auth.user.username;
 
   return (
-    <Flex
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        height: "100vh",
-      }}
-    >
-      <Title>Editor: {id}</Title>
-      <aside
+    <ThemeProvider theme={theme}>
+      <Flex
         sx={{
-          width: "sidebar",
-          borderRight: "1px black solid",
-          height: "100%",
+          display: "flex",
+          flexWrap: "wrap",
+          height: "100vh",
         }}
       >
-        {/* <Sidebar/> */}
-        <Navbar userId={id} />
-        <Container
+        <Title>Editor: {id}</Title>
+        <aside
           sx={{
-            overflow: "auto",
+            width: "sidebar",
+            borderRight: "1px black solid",
+            height: "100%",
           }}
         >
-          <Styled.p>this is the editor page of user {id}.</Styled.p>
-          <Lorem />
-        </Container>
-      </aside>
-      <main
-        sx={{
-          flexGrow: 99999,
-          flexBasis: 0,
-          minWidth: 320,
-          overflow: "auto",
-          height: "100%",
-        }}
-      >
-        <User userId={id} />
-      </main>
-    </Flex>
+          {/* <Sidebar/> */}
+          <Navbar userId={id} />
+          <Container
+            sx={{
+              overflow: "auto",
+            }}
+          >
+            <Styled.p>this is the editor page of user {id}.</Styled.p>
+            <Lorem />
+          </Container>
+        </aside>
+        <main
+          sx={{
+            flexGrow: 99999,
+            flexBasis: 0,
+            minWidth: 320,
+            overflow: "auto",
+            height: "100%",
+          }}
+        >
+          <User userId={id} />
+        </main>
+      </Flex>
+    </ThemeProvider>
   );
 };

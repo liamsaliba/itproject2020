@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Button, NavLink, Avatar, IconButton } from "theme-ui";
+import { jsx, Button, NavLink, Image, IconButton } from "theme-ui";
 import { Link as ReachLink } from "@reach/router";
 import isAbsoluteURL from "is-absolute-url";
 
@@ -33,7 +33,7 @@ export const MenuButton = props => (
 );
 
 export const MenuImage = props => (
-  <IconButton {...props} m={2} p={2}>
-    <Avatar src={props.src} />
+  <IconButton {...props} as={Link} m={2} variant="logo">
+    <Image src={props.src} variant="logo" />
   </IconButton>
 );
