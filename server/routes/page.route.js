@@ -1,4 +1,4 @@
-// Router for user
+// Router for page
 // Operators: CRUD (Create, Read, Update, Delete)
 
 // Create a new router
