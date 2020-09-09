@@ -7,7 +7,6 @@ import Page from "./Page";
 const styling = {
   textAlign: "center",
   justifyContent:"center",
-  m: 3,
 };
 
 export default props => {
@@ -28,9 +27,7 @@ export default props => {
             />
             <Styled.h1> {id} </Styled.h1>
           </Box>
-          <Box>
-            {pages}
-          </Box>
+          {pages}
         </Box>
       </Container>
     </main>
