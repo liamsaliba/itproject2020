@@ -1,15 +1,41 @@
 /** @jsx jsx */
-import { jsx, Button, NavLink } from "theme-ui";
+import { jsx, Button, NavLink, Image, IconButton } from "theme-ui";
 import { Link as ReachLink } from "@reach/router";
+import isAbsoluteURL from "is-absolute-url";
 
-export const MenuItem = ({ to, children }) => (
-  <NavLink as={ReachLink} activeClassName="active" to={to} p={2}>
-    {children}
+const styles = {
+  variant: "links.nav",
+};
+
+export const Link = ({ href, ...props }) => {
+  const isExternal = isAbsoluteURL(href || "");
+  if (isExternal) {
+    return (
+      <a {...props} href={href} sx={styles}>
+        {props.children}
+      </a>
+    );
+  }
+  const to = props.to || href;
+  return <ReachLink {...props} to={to} sx={styles} />;
+};
+
+export const MenuItem = props => (
+  <NavLink {...props} as={Link} variant="nav" p={2}>
+    {props.children}
   </NavLink>
 );
 
-export const MenuButton = ({ to, children }) => (
-  <Button as={ReachLink} variant="outline" to={to} ml={2} p={2}>
-    {children}
+export const MenuButton = props => (
+  <Button {...props} as={Link} variant="nav" m={2} p={2}>
+    {props.children}
   </Button>
 );
+
+export const MenuImage = props => {
+  return (
+    <IconButton {...props} as={Link} variant="logo">
+      <Image src={props.src} variant="logo" sx={props.sx} />
+    </IconButton>
+  );
+};
