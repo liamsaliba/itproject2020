@@ -13,19 +13,11 @@ export default props => {
 
   menuItems[0] = <MenuItem to={`#`}>{id}</MenuItem>;
 
-  
-  /* sx={{
-    alignItems: "center",
-    justifyContent: "center",
-    bg: "muted",
-    color: "secondary",
-  }} */
-
   return (
     <Box p={10}>
       <Flex as="nav">
       <Box sx={{flex:1}}> 
-        <MenuImage src={camel} to="#" />
+        <MenuImage src={camel} to="#"/>
       </Box> 
 
       <Box sx={{display:"flex",flex:2, justifyContent:"center"}}>

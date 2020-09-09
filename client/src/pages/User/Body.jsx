@@ -22,7 +22,7 @@ export default props => {
           <Image
             src={profileExample}
             sx={{ borderRadius: "50%", width: "40%" }}
-            margin={5}
+            margin={2}
           />
           <Styled.h1> {id} </Styled.h1>
         </Box>

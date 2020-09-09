@@ -34,7 +34,7 @@ export default props => {
           <Navbar userId={id} theme={theme} setTheme={setTheme} pages={pages} />
         </header>
 
-        <Body pages={pages} />
+        <Body userId={id} pages={pages} />
       </Flex>
     </ThemeProvider>
   );
