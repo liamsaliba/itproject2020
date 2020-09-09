@@ -32,8 +32,10 @@ export const MenuButton = props => (
   </Button>
 );
 
-export const MenuImage = props => (
-  <IconButton {...props} as={Link} m={2} variant="logo">
-    <Image src={props.src} variant="logo" sx = {{borderRadius:"50%"}}/>
-  </IconButton>
-);
+export const MenuImage = props => {
+  return (
+    <IconButton {...props} as={Link} variant="logo">
+      <Image src={props.src} variant="logo" sx={props.sx} />
+    </IconButton>
+  );
+};

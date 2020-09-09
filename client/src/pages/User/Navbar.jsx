@@ -16,16 +16,16 @@ export default props => {
   return (
     <Box p={10}>
       <Flex as="nav">
-      <Box sx={{flex:1}}> 
-        <MenuImage src={camel} to="#"/>
-      </Box> 
+        <Box sx={{ flex: 1 }}>
+          <MenuImage src={camel} to="#" sx={{ borderRadius: "50%" }} />
+        </Box>
 
-      <Box sx={{display:"flex",flex:2, justifyContent:"center"}}>
-        {menuItems}
-        <ThemeSelector theme={theme} setTheme={setTheme} />
-      </Box> 
+        <Box sx={{ display: "flex", flex: 2, justifyContent: "center" }}>
+          {menuItems}
+          <ThemeSelector theme={theme} setTheme={setTheme} />
+        </Box>
 
-      <Box sx={{flex:1}} />
+        <Box sx={{ flex: 1 }} />
       </Flex>
     </Box>
   );
