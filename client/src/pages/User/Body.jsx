@@ -6,6 +6,7 @@ import Page from "./Page";
 
 const styling = {
   textAlign: "center",
+  justifyContent:"center",
   m: 3,
 };
 
@@ -17,18 +18,21 @@ export default props => {
 
   return (
     <main>
-      <Container sx={styling}>
+      <Container display="flex" sx={styling}>
         <Box>
-          <Image
-            src={profileExample}
-            sx={{ borderRadius: "50%", width: "40%" }}
-            margin={2}
-          />
-          <Styled.h1> {id} </Styled.h1>
+          <Box>
+            <Image
+              src={ profileExample }
+              sx={{ borderRadius: "50%", width: "30%" }}
+              margin={2}
+            />
+            <Styled.h1> {id} </Styled.h1>
+          </Box>
+          <Box>
+            {pages}
+          </Box>
         </Box>
       </Container>
-
-      {pages}
     </main>
   );
 };
