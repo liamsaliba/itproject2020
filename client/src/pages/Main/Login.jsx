@@ -12,14 +12,6 @@ export default () => {
   const dispatch = useDispatch();
   const toast = useToast();
   const auth = useSelector(state => state.auth);
-  const styling = {
-    position:"absolute", 
-    top: "50%", 
-    left:'50%', 
-    transform: 'translate(-50%,-50%)', 
-    textAlign:'center', 
-    justifyContent: 'center'
-  };
 
   useEffect(() => {
     if (auth.error) {
@@ -52,7 +44,7 @@ export default () => {
     dispatch(login(formData.get("username"), formData.get("password")));
   };
   return (
-    <Box as="form" pb={3} onSubmit={handleSubmit} sx = {styling}>
+    <Box as="form" pb={3} onSubmit={handleSubmit}>
       <Title>Login</Title>
       <Styled.h2>Log in</Styled.h2>
       <br />
