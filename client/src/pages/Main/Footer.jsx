@@ -24,6 +24,9 @@ export default () => {
         <MenuItem href="https://github.com/exradr/itproject2020">
           GitHub
         </MenuItem>
+        <MenuItem href="https://www.youtube.com/watch?v=Vhh_GeBPOhs">
+          Support
+        </MenuItem>
       </div>
     </Flex>
   );
