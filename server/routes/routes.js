@@ -4,6 +4,7 @@ const router = require("express").Router();
 
 const userRouter = require("./user.route");
 const portfolioRouter = require("./portfolio.route");
+const uploadRouter = require("./upload.route");
 
 router.use("/user", userRouter);
 router.use("/users", require("../controllers/user.controller").getAllUsers);
@@ -14,5 +15,7 @@ router.get("/", (req, res) => {
 });
 
 router.use("/portfolios", portfolioRouter);
+
+router.use("/upload", uploadRouter);
 
 module.exports = router;
