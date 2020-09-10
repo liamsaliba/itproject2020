@@ -6,6 +6,12 @@ import { MenuItem, MenuImage, ThemeSelector } from "../../components";
 
 export default props => {
   const { userId: id, theme, setTheme, pages } = props;
+  const navBarStyle = {
+    display:"flex",
+    flex:2, 
+    justifyContent:"center", 
+    alignItems:"center"
+  };
 
   let menuItems = pages.map(name => (
     <MenuItem to={`#${name}`}>{name}</MenuItem>
@@ -17,10 +23,10 @@ export default props => {
     <Box p={10}>
       <Flex as="nav">
       <Box sx={{flex:1}}> 
-        <MenuImage src={camel} to="#"/>
+        <MenuImage src={camel} to="#" round={true}/>
       </Box> 
 
-      <Box sx={{display:"flex",flex:2, justifyContent:"center"}}>
+      <Box sx={navBarStyle}>
         {menuItems}
         <ThemeSelector theme={theme} setTheme={setTheme} />
       </Box> 
