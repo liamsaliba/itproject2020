@@ -41,6 +41,16 @@ export default () => {
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    if (formData.get("confirmPassword") !== formData.get("password")) {
+      toast({
+        title: "Password does not match.",
+        description: auth.error,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
     dispatch(
       signup(
         formData.get("firstName"),
