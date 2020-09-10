@@ -1,7 +1,6 @@
 /** @jsx jsx */
-import { jsx, Button, NavLink, Image, IconButton } from "theme-ui";
+import { jsx, Image, IconButton } from "theme-ui";
 import { Link } from "./index";
-import isAbsoluteURL from "is-absolute-url";
 import profileImg from "../svg/profile.webp";
 
 // from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
@@ -12,8 +11,9 @@ export const Profile = props => {
   const tint = hashCode(props.userId);
   console.log(tint);
   return (
-    <IconButton {...props} as={Link} variant="logo">
+    <IconButton {...props} as={Link} variant="logo" p={2}>
       <Image
+        p={1}
         src={profileImg}
         variant="logo"
         sx={{ ...props.sx, filter: `hue-rotate(${tint}deg)` }}
