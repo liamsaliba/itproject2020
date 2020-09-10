@@ -29,7 +29,16 @@
   },
   "homepage": "https://github.com/exradr/itproject2020#readme",
   "dependencies": {
-    "concurrently": "^5.3.0"
+    "@styled-icons/fa-solid": "^10.18.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.23.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.4",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^4.0.0"
   },
   "prettier": {
     "arrowParens": "avoid"
