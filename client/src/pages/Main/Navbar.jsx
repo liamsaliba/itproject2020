@@ -14,15 +14,16 @@ export default () => {
     <Box p={2}>
       <Flex sx={{ alignItems: "center" }}>
         <MenuImage src={camel} to="/" />
-        <Box mx="auto" />
-        <MenuItem to="/">Home</MenuItem>
+        <MenuItem to="/">Camel Pages</MenuItem>
         <MenuItem to="themes">Themes</MenuItem>
+        <Box mx="auto" />
         {auth.token && (
           <React.Fragment>
-            {/*will be user.profile */}
-            <MenuImage src={camel} to="/profile" />
-            <MenuItem to="profile">{auth.user.username}</MenuItem>
+            <MenuItem to="editor">Editor</MenuItem>
+            <MenuItem to={`u/${auth.user.username}`}>Portfolio</MenuItem>
             <MenuItem to="logout">Logout</MenuItem>
+            <MenuItem to="profile">{auth.user.username}</MenuItem>
+            <MenuImage src={camel} to="/profile" />
           </React.Fragment>
         )}
         {!auth.token && (
