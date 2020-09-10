@@ -1,46 +1,31 @@
 {
-  "name": "camel_case_itproject",
+  "name": "camel_case_itproject_server",
   "version": "1.0.0",
-  "description": "ePortfolio App for COMP30022 IT Project",
+  "description": "Server/backend for ePortfolio COMP30022 IT Project",
   "cacheDirectories": [
-    "server/node_modules",
-    "client/node_modules"
+    "node_modules"
   ],
   "scripts": {
-    "start": "cd server/ && npm start",
-    "start-client": "cd client/ && npm start",
-    "dev": "concurrently \"cd server/ && npm start\" \"cd client/ && npm start\"",
-    "build": "concurrently \"cd client/ && npm install && npm run build\" \"cd server && npm install\"",
-    "test": "concurrently \"cd client/ && npm test\" \"cd server/ && npm test\""
+    "start": "node server.js",
+    "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/exradr/itproject2020.git"
-  },
-  "keywords": [
-    "react",
-    "node.js",
-    "express"
-  ],
   "author": "Tuan Dung Nguyen, Lawrence Leong, Liam Saliba, Chan Jie Ho & Yung Cheng Kong",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/exradr/itproject2020/issues"
   },
-  "homepage": "https://github.com/exradr/itproject2020#readme",
+  "homepage": "https://github.com/exradr/itproject2020/server#readme",
   "dependencies": {
-    "@styled-icons/fa-solid": "^10.18.0",
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.23.0",
     "concurrently": "^5.3.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.4",
-    "multer": "^1.4.2",
-    "multer-storage-cloudinary": "^4.0.0"
+    "mongoose": "^5.10.2"
   },
-  "prettier": {
-    "arrowParens": "avoid"
+  "devDependencies": {
+    "eslint-config-prettier": "^6.11.0",
+    "jest": "^26.4.2"
   }
 }
