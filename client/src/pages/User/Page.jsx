@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx, Image } from "theme-ui";
-import { Box, Styled } from "theme-ui";
+import React from "react";
+import { jsx, Image, Box, Styled, Card } from "theme-ui";
 import documentPreview from "../../svg/DocumentPreview.png";
 
 
@@ -24,41 +24,32 @@ const Publications = props => {
   pubItems.shift();
 
   return( 
-    <Box>
+    <React.Fragment>
       <Styled.h2> {name} </Styled.h2>
       <Styled.p> The {name} container </Styled.p>
       <Box id={name} sx={publicationsStyle} >
         {pubItems}
       </Box> 
-    </Box>
+    </React.Fragment>
   ); 
 }
 
 const PubItem = props => {
   const publicationstyle = {
-    margin:"10px", // Test if we need to put quotes or not.
-    border:"1px solid #000",
-    boxShadow:"2px 2px 6px 6px rgba(0,0,0,0.3)",
-    maxWidth:"23vw"
+    maxWidth:"256",
+    height: "25%",
+    width:"25%"
   };
 
   const { id: itemName } = props;
   return (
-    <Box id={itemName} sx={publicationstyle}>
+    <Card id={itemName} sx={publicationstyle} p={1}>
       <Image
         src={ documentPreview }
-        sx={{ 
-          width:"auto", 
-          height:"auto", 
-          minWidth:"100%", 
-          minHeight:"100%"
-          }}
         margin={2}
       />
-      <Box sx={{fill:"#111"}}>
-          <Styled.p>This describes {itemName}!</Styled.p>
-      </Box>
-    </Box>
+      <Styled.p>This describes {itemName}!</Styled.p>
+    </Card>
   );
 };
 
