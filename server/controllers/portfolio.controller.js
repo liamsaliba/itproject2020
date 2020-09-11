@@ -48,7 +48,6 @@ const findPortfolioByUsername = async (req, res) => {
     if (!portfolio) {
       throw Error("Portfolio not found!");
     }
-    console.log(portfolio);
     res.status(200).json(portfolio.toObject());
   } catch (err) {
     res.status(400).json(err);
