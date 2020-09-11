@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Flex } from "theme-ui";
-import camel from "../../svg/Profile_example.png";
 
-import { MenuItem, MenuImage, ThemeSelector } from "../../components";
+import { MenuItem, Profile, ThemeSelector } from "../../components";
 
 export default props => {
   const { userId: id, theme, setTheme, pages } = props;
@@ -17,7 +16,7 @@ export default props => {
     <Box p={10}>
       <Flex as="nav">
         <Box sx={{ flex: 1 }}>
-          <MenuImage src={camel} to="#" sx={{ borderRadius: "50%" }} />
+          <Profile userId={id} to="#" />
         </Box>
 
         <Box sx={{ display: "flex", flex: 2, justifyContent: "center" }}>
