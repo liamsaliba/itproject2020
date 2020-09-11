@@ -15,8 +15,11 @@ export const Profile = props => {
       <Image
         p={1}
         src={profileImg}
-        variant="logo"
-        sx={{ ...props.sx, filter: `hue-rotate(${tint}deg)` }}
+        variant="avatar"
+        sx={{
+          ...props.sx,
+          filter: `hue-rotate(${tint}deg)`,
+        }}
       />
     </IconButton>
   );
