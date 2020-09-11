@@ -71,6 +71,10 @@ router.post(
   artifactController.createArtifact
 );
 
+router.get("/:username/artifacts", artifactController.findArtifactsByUsername);
+
+router.post("/:username/artifacts/", artifactController.createArtifact);
+
 router.get("/:username/props", portfolioController.findPortfolioByUsername);
 
 router.get("/:username", portfolioController.findPortfolioByUsername);

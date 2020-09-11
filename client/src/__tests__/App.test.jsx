@@ -10,6 +10,6 @@ describe("App", () => {
 
 test("renders learn react link", () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/Home/i);
+  const linkElement = getByText(/Camel Pages/i);
   expect(linkElement).toBeInTheDocument();
 });
