@@ -1,61 +1,73 @@
 const Page = require("../models/page.model");
 const portfolioModel = require("../models/portfolio.model");
 
-// Add a new page to the database
-const createPage = async (req, res) => {
-  const username = req.params.username;
-  const portfolio = await portfolioModel.findByUsername(username);
-  const portfolioId = portfolio._id;
-  const contents = req.body.contents;
-  const newPage = new Page({
-    username,
-    portfolioId,
-    contents,
-  });
-  newPage
-    .save()
-    .then(() => res.status(200).send("New page created!"))
-    .catch(err => {
-      if (err.message) {
-        res.status(400).json(err.message);
-      } else {
-        res.status(400).json(err);
-      }
-    });
+// Get all pages of a user
+const findPagesByUsername = async (req, res) => {
+  try {
+    if (!req.params.username) {
+      throw Error("User unidentified.");
+    }
+    const username = req.params.username;
+    const pages = await Page.findByUsername(username);
+    if (!pages) {
+      throw Error("Pages not found.");
+    }
+    res.status(200).json(pages.map(p => p.toObject()));
+  } catch (err) {
+    res.status(404).json(err);
+  }
 };
 
-const findPageById = async (req, res) => {
+// Add a new page to the database
+const createPage = async (req, res) => {
   try {
-    if (!req.params.pageId) {
-      res.status(400).json("User unidentified.");
-      return;
+    if (!req.user || !req.user.username) {
+      throw Error("User not found.");
     }
-    const id = req.params.pageId;
-    const page = await Page.findById(id);
-    if (!page) {
-      res.status(404).json("Pages not found.");
-      return;
-    }
-    res.status(200).json(page);
+    const username = req.params.username;
+    const portfolio = await portfolioModel.findByUsername(username);
+    const portfolioId = portfolio._id;
+    const contents = req.body.contents;
+    const newPage = new Page({
+      username,
+      portfolioId,
+      contents,
+    });
+    await newPage.save();
+    res.status(200).send(newPage);
   } catch (err) {
     res.status(400).json(err);
   }
 };
 
-// Find a page given its owner's username
-const findPagesByUsername = async (req, res) => {
+// Find a page given its ID
+const findPageById = async (req, res) => {
   try {
-    if (!req.params.username) {
-      res.status(400).json("User unidentified.");
-      return;
+    if (!req.params.pageId) {
+      throw Error();
     }
-    const username = req.params.username;
-    const pages = await Page.findByUsername(username);
-    if (!pages) {
-      res.status(404).json("Pages not found.");
-      return;
+    const id = req.params.pageId;
+    const page = await Page.findById(id);
+    if (!page) {
+      throw Error("Pages not found.");
     }
-    res.status(200).json(pages);
+    res.status(200).json(page.toObject());
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+// Change the contents of a page
+const changePage = async (req, res) => {
+  try {
+    if (!req.user || !req.params.pageId) {
+      throw Error("User or page not found.");
+    }
+    const page = await Page.findById(req.params.pageId);
+    const contents = req.body.contents;
+    page.contents = contents ? contents : page.contents;
+    await page.save();
+    res.status(200).send("Page successfully changed.");
   } catch (err) {
     res.status(400).json(err);
   }
@@ -63,34 +75,21 @@ const findPagesByUsername = async (req, res) => {
 
 // Delete a page (requires password authentication first)
 const deletePageById = async (req, res) => {
-  Page.findByIdAndDelete(req.id)
-    .then(() => res.sendStatus(200))
-    .catch(err => res.status(400).json(err));
-};
-
-// Return an array of all pages on the server
-const findPagesByPortfolioId = async (req, res) => {
   try {
-    if (!req.params.username) {
-      res.status(400).json("User unidentified.");
-      return;
+    if (!req.user || !req.params.pageId) {
+      throw Error("User or page not found.");
     }
-    const portfolioId = req.params.portfolioId;
-    const pages = await Page.findByPortfolioId(portfolioId);
-    if (!pages) {
-      res.status(404).json("Pages not found.");
-      return;
-    }
-    res.status(200).json(pages);
+    await Page.findByIdAndDelete(req.params.pageId);
+    res.sendStatus(200);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(error);
   }
 };
 
 module.exports = {
   createPage,
-  findPagesByPortfolioId,
   findPagesByUsername,
   deletePageById,
   findPageById,
+  changePage,
 };

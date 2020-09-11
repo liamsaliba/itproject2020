@@ -13,6 +13,7 @@ const portfolioSchema = new Schema(
       unique: true,
       trim: true,
       minlength: 1,
+      maxlength: 30,
     },
     bio: {
       type: String,

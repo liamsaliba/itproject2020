@@ -1,5 +1,60 @@
 const User = require("../models/user.model");
 
+// Get all users (as an array of usernames)
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).send(
+      users.map(user => {
+        return user.username;
+      })
+    );
+  } catch (err) {
+    req.status(400).json(err);
+  }
+};
+
+// Get the currently logged in user
+const getCurrentUser = (req, res) => {
+  if (req.user) {
+    res.status(200).send(req.user.toObject());
+  } else {
+    res.status(404).json("Not found");
+  }
+};
+
+// Change the details of an authenticated user
+const changeUserDetails = (req, res) => {
+  if (req.user) {
+    const firstName = req.body.firstName;
+    const middleName = req.body.middleName;
+    const lastName = req.user.lastName;
+    const email = req.user.email;
+    const user = req.user;
+    user.firstName = firstName ? firstName : user.firstName;
+    user.middleName = middleName ? middleName : user.middleName;
+    user.lastName = lastName ? lastName : user.lastName;
+    user.email = email ? email : user.email;
+    user
+      .save()
+      .then(() => res.sendStatus(200))
+      .catch(err => res.status(400).json(err));
+  } else {
+    res.status(400).json("No user detected");
+  }
+};
+
+// Delete a user
+const deleteUser = async (req, res) => {
+  if (req.user && req.user._id) {
+    User.findByIdAndDelete(req.user._id)
+      .then(() => res.sendStatus(200))
+      .catch(err => res.status(400).json(err));
+  } else {
+    res.status(400).json("No user detected");
+  }
+};
+
 // Add a new user to the database
 const createUser = async (req, res) => {
   try {
@@ -20,6 +75,7 @@ const createUser = async (req, res) => {
     });
 
     // Save the new User to the database
+    // Create an authentication token
     const token = await newUser.generateAuthToken();
 
     res.status(201).send({
@@ -44,30 +100,14 @@ const loginUser = async (req, res) => {
     // and find the user in the database
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
-    if (!user) {
-      res.status(401).json("Incorrect username or password.");
-      return;
-    }
     const token = await user.generateAuthToken();
     res.status(200).send({
       user: user.toObject(),
       token,
     });
   } catch (err) {
-    res.status(401).json(err);
+    res.status(401).json("Incorrect username or password.");
   }
-};
-
-// Delete a user
-const deleteUser = async (req, res) => {
-  User.findByIdAndDelete(req.user._id)
-    .then(() => res.sendStatus(200))
-    .catch(err => res.status(400).json(err));
-};
-
-// Get the currently logged in user
-const getCurrentUser = (req, res) => {
-  res.status(200).send(req.user.toObject());
 };
 
 // Log out a user
@@ -83,20 +123,6 @@ const logoutUser = async (req, res) => {
   }
 };
 
-// Get all users
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).send(
-      users.map(user => {
-        return user.username;
-      })
-    );
-  } catch (err) {
-    req.status(400).json(err);
-  }
-};
-
 module.exports = {
   createUser,
   loginUser,
@@ -104,4 +130,5 @@ module.exports = {
   logoutUser,
   deleteUser,
   getAllUsers,
+  changeUserDetails,
 };

@@ -11,10 +11,7 @@ const artifactSchema = new Schema(
       required: true,
       trim: true,
       minlength: 1,
-    },
-    portfolioId: {
-      type: String,
-      required: true,
+      maxlength: 30,
     },
     contents: {
       type: [String],
@@ -24,10 +21,6 @@ const artifactSchema = new Schema(
     toObject: {
       versionKey: false,
       virtual: true,
-      transform(doc, ret) {
-        delete ret.username;
-        delete ret.portfolioId;
-      },
     },
   }
 );

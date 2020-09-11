@@ -3,7 +3,6 @@
 
 // Create a new router
 const router = require("express").Router();
-
 const userController = require("../controllers/user.controller");
 const userMiddleware = require("../middleware/authentication.middleware");
 
@@ -13,6 +12,13 @@ router.post("/signup", userController.createUser);
 // Log in and send the user an access token
 router.post("/login", userController.loginUser);
 
+// Log the user out of their device
+router.post(
+  "/logout",
+  userMiddleware.authenticateToken,
+  userController.logoutUser
+);
+
 // Send the currently logged in user
 router.get(
   "/",
@@ -20,11 +26,11 @@ router.get(
   userController.getCurrentUser
 );
 
-// Log the user out of their device
-router.post(
-  "/logout",
+// Change the details of the authenticated user
+router.patch(
+  "/",
   userMiddleware.authenticateToken,
-  userController.logoutUser
+  userController.changeUserDetails
 );
 
 // Delete a user
