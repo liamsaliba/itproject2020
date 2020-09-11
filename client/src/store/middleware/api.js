@@ -21,8 +21,6 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
   if (onStart) dispatch({ type: onStart });
   next(action);
 
-  console.log(action.payload);
-
   axios.defaults.baseURL =
     process.env.REACT_APP_BASE_URL ||
     "https://camelcase-itproject.herokuapp.com/api";
@@ -47,7 +45,7 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     // Specific action
     if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
   } catch (error) {
-    console.log(error.toJSON());
+    console.error(error.toJSON());
     // General error action
     dispatch(actions.apiErrored(error.message));
     // Specific

@@ -22,7 +22,7 @@ export default props => {
         }
     />
   );
-  pages.shift(); // Removes the first page in the array and returns the removed page.
+  pages.shift();
 
   return (
     <main>

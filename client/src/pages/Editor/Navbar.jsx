@@ -7,7 +7,7 @@ import { Link as ReachLink } from "@reach/router";
 
 export default ({ userId: id }) => {
   return (
-    <Flex bg="muted">
+    <Flex bg="muted" p={2}>
       <MenuImage src={camel} to="/" />
       <Box mx="auto" />
       <MenuItem to="/logout">Logout</MenuItem>

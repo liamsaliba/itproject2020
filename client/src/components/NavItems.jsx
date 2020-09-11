@@ -33,10 +33,17 @@ export const MenuButton = props => (
 );
 
 export const MenuImage = props => {
+  return (
+    <IconButton {...props} as={Link} variant="logo">
+      <Image src={props.src} variant="logo" sx={props.sx} />
+    </IconButton>
+  );
+};
   // Add default value for props.round!
-  const imageCircle = (props.round) ? {borderRadius:"50%"} : {};
+  /* const imageCircle = (props.round) ? {borderRadius:"50%"} : {};
 
   return (<IconButton {...props} as={Link} m={2} variant="logo">
     <Image src={props.src} variant="logo" sx = {imageCircle}/>
   </IconButton>);
-}
+} */
+

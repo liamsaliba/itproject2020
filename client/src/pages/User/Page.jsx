@@ -60,12 +60,7 @@ const Experience = (props) => {
 };
 
 /* ------------------------------------------------------------------- */
-
 export default props => {
-  const styling = {
-    m: 3,
-    p: 2
-  };
   if(props.name === "Publications") {
     return <Publications id={props.name} publications={props.publications}/>
   } 

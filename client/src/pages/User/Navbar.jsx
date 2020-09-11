@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Flex } from "theme-ui";
-import camel from "../../svg/Profile_example.png";
 
-import { MenuItem, MenuImage, ThemeSelector } from "../../components";
 
+import { MenuItem, Profile, ThemeSelector } from "../../components";
 export default props => {
   const { userId: id, theme, setTheme, pages } = props;
+    
   const navBarStyle = {
     display:"flex",
     flex:2, 
@@ -22,16 +22,15 @@ export default props => {
   return (
     <Box p={10}>
       <Flex as="nav">
-      <Box sx={{flex:1}}> 
-        <MenuImage src={camel} to="#" round={true}/>
-      </Box> 
 
-      <Box sx={navBarStyle}>
-        {menuItems}
-        <ThemeSelector theme={theme} setTheme={setTheme} />
-      </Box> 
-
-      <Box sx={{flex:1}} />
+        <Box sx={{ flex: 1 }}>
+          <Profile userId={id} to="#" />
+        </Box>
+        <Box sx={navBarStyle}>
+          {menuItems}
+          <ThemeSelector theme={theme} setTheme={setTheme} />
+        </Box> 
+        <Box sx={{ flex: 1 }} />
       </Flex>
     </Box>
   );

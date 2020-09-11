@@ -1,7 +1,17 @@
 /** @jsx jsx */
-import { jsx, Label, Input, Box, Checkbox, Button, Styled } from "theme-ui";
+import {
+  jsx,
+  Label,
+  Input,
+  Box,
+  Checkbox,
+  Button,
+  Styled,
+  Spinner,
+} from "theme-ui";
+import { toast } from "react-toastify";
+
 import { useDispatch, useSelector } from "react-redux";
-import { Spinner, useToast } from "@chakra-ui/core";
 import { signup } from "../../store/auth";
 
 import { Link, Title } from "../../components";
@@ -10,37 +20,28 @@ import { navigate } from "@reach/router";
 
 export default () => {
   const dispatch = useDispatch();
-  const toast = useToast();
   const auth = useSelector(state => state.auth);
 
   useEffect(() => {
     if (auth.error) {
-      toast({
-        title: "Unable to create user account.",
-        description: auth.error,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
+      toast.error("Unable to create user account. " + auth.error);
     }
-  }, [auth.error, toast]);
+  }, [auth.error]);
 
   useEffect(() => {
     if (auth.token) {
       navigate("/editor");
-      toast({
-        title: "Account created.",
-        description: "You've been logged into your new account.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
+      toast("Created new account!");
     }
-  }, [auth.token, toast]);
+  }, [auth.token]);
 
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    if (formData.get("confirmPassword") !== formData.get("password")) {
+      toast.error("Password does not match.");
+      return;
+    }
     dispatch(
       signup(
         formData.get("firstName"),

@@ -7,6 +7,8 @@ import "./App.css";
 import { User, Main, Editor } from "./pages";
 
 import configureStore from "./store/configureStore";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -25,6 +27,7 @@ export default () => {
         <Editor path="/editor" />
         <Main path="/*" />
       </Router>
+      <ToastContainer position="bottom-center" />
     </Provider>
   );
 };
