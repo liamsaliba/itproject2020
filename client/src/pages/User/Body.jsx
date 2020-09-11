@@ -12,17 +12,26 @@ const styling = {
 export default props => {
   const { userId: id, pages: names } = props;
 
-  let pages = names.map(name => <Page key={name} name={name} />);
-  pages.shift();
+  let pages = names.map(name => (
+    <Page
+      name={name}
+      publications={
+        name === "Publications"
+          ? ["publication1", "publication2", "publication3", "publication4"]
+          : undefined
+      }
+    />
+  ));
+  pages.shift(); // Removes the first page in the array and returns the removed page.
 
   return (
     <main>
       <Container display="flex" sx={styling}>
         <Box>
-          <Box>
+          <Box mb={5}>
             <Image
               src={profileExample}
-              sx={{ borderRadius: "50%", width: "30%" }}
+              sx={{ borderRadius: "50%", width: "20%" }}
               margin={2}
             />
             <Styled.h1> {id} </Styled.h1>
