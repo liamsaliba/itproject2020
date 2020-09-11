@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 
 export default () => {
   const auth = useSelector(state => state.auth);
-
   return (
     <Box p={2}>
       <Flex sx={{ alignItems: "center" }}>
