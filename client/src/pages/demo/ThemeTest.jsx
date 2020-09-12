@@ -24,7 +24,8 @@ export default () => {
           },
         }}
       >
-        <ThemeSelector theme={theme} setTheme={setTheme} size={600} />
+        Choose a theme:
+        <ThemeSelector theme={theme} setTheme={setTheme} size={200} />
         <DemoPage theme={theme} />
       </div>
     </ThemeProvider>
