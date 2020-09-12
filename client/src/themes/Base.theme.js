@@ -34,7 +34,7 @@ export const colors = {
   grayDark: baseColors.gray[8],
   text: baseColors.gray[9],
   background: baseColors.white,
-  primary: baseColors.blue,
+  primary: baseColors.purple,
   secondary: baseColors.gray[6],
   muted: baseColors.gray[3],
   success: baseColors.green,
@@ -112,7 +112,7 @@ export const sizes = {
   xl: 1140,
   sidebar: 256,
   avatar: 48,
-  logo: 60,
+  logo: 48,
   menu: 48,
 };
 
@@ -255,22 +255,17 @@ export const custom = {
       display: "flex",
     },
   },
-  variants: {
-    card: {
-      p: 2,
-      bg: "background",
-      boxShadow: "card",
-    },
-    link: {
-      color: "primary",
+  links: {
+    bold: {
+      fontWeight: "bold",
     },
     nav: {
-      fontSize: 1,
       fontWeight: "bold",
       p: 2,
-      color: "primary",
+      color: "inherit",
       textDecoration: "none",
-      ":hover,:focus,.active": {
+      // ":hover,.active": {
+      ":hover,.active": {
         color: "secondary",
       },
     },
@@ -297,7 +292,7 @@ export const custom = {
       boxShadow: "inset 0 0 2px",
       ":hover,:focus,.active": {
         bg: "primary",
-        color: "red",
+        color: "white",
       },
     },
     secondary: {
