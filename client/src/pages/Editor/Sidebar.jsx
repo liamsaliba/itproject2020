@@ -44,10 +44,10 @@ const Items = props => {
       </Flex>
     ));
     return items;
-  } else if (props.name === "Create Artefacts") {
+  } else if (props.name === "Create Artifacts") {
     return (
       <Flex sx={{ justifyContent: "center" }}>
-        <Button>Add Artefacts</Button>
+        <Button>Add Artifacts</Button>
       </Flex>
     );
   } else {
@@ -60,15 +60,15 @@ const Items = props => {
 };
 
 const Sections = () => {
-  const [activeAccordian, setActive] = useState(-1);
+  const [activeAccordion, setActive] = useState(-1);
 
   // Hard Coded Section Names Here
-  const names = ["Settings", "Pages", "Create Artefacts"];
+  const names = ["Settings", "Pages", "Create Artifacts"];
   const pages = ["Home", "Publications", "Projects", "Experience", "About"];
 
   const handleClick = (e, titleProps) => {
     const { index } = titleProps;
-    setActive(activeAccordian === index ? -1 : index);
+    setActive(activeAccordion === index ? -1 : index);
   };
 
   // Styling
@@ -80,7 +80,7 @@ const Sections = () => {
   let sections = names.map((name, index) => (
     <Accordion styled name={name} exclusive={false} fluid>
       <Accordion.Title
-        active={activeAccordian === index}
+        active={activeAccordion === index}
         index={index}
         onClick={handleClick}
       >
@@ -88,7 +88,7 @@ const Sections = () => {
         {name}
       </Accordion.Title>
 
-      <Accordion.Content sx={styling} active={activeAccordian === index}>
+      <Accordion.Content sx={styling} active={activeAccordion === index}>
         <Items name={name} pages={name === "Pages" ? pages : null} />
       </Accordion.Content>
     </Accordion>
