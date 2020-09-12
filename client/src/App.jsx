@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { Router } from "@reach/router";
+import { Switch, Route } from "react-router-dom";
 
 import "./App.css";
 
@@ -22,11 +22,11 @@ const store = configureStore();
 export default () => {
   return (
     <Provider store={store}>
-      <Router primary={false}>
-        <User path="/u/:userId" />
-        <Editor path="/editor" />
-        <Main path="/*" />
-      </Router>
+      <Switch>
+        <Route component={User} path="/u/:userId" />
+        <Route component={Editor} path="/editor" />
+        <Route component={Main} path="*" />
+      </Switch>
       <ToastContainer position="bottom-center" />
     </Provider>
   );

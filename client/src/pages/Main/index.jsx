@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { Router } from "@reach/router";
+import { Switch, Route } from "react-router-dom";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -29,18 +29,17 @@ export default () => {
         }}
       >
         <Navbar as="header" />
-        <Router component={Flex} variant="layout.centerflex" primary={false}>
-          <About path="/about" />
-          <Login path="/login" />
-          {/* an alias */}
-          <Login path="/signin" />
-          <Logout path="/logout" />
-          <Logout path="/signout" />
-          <SignUp path="/signup" />
-          <ThemeTest path="/themes" />
-          <Landing path="/" />
-          <NotFound default />
-        </Router>
+        <Flex variant="layout.centerflex">
+          <Switch>
+            <Route component={Landing} exact path="/" />
+            <Route component={About} exact path="/about" />
+            <Route component={Login} exact path={["/login", "/signin"]} />
+            <Route component={Logout} exact path={["/logout", "/signout"]} />
+            <Route component={SignUp} exact path="/signup" />
+            <Route component={ThemeTest} exact path="/themes" />
+            <Route component={NotFound} path="*" />
+          </Switch>
+        </Flex>
         <Footer as="footer" />
       </Flex>
     </ThemeProvider>
