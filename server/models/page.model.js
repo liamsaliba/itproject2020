@@ -11,6 +11,7 @@ const pageSchema = new Schema(
       required: true,
       trim: true,
       minlength: 1,
+      maxlength: 30,
     },
     portfolioId: {
       type: String,
@@ -25,8 +26,8 @@ const pageSchema = new Schema(
       versionKey: false,
       virtual: true,
       transform(doc, ret) {
-        delete ret.username;
         delete ret.portfolioId;
+        delete ret.__v;
       },
     },
   }

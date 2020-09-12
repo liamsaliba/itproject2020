@@ -1,6 +1,12 @@
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const {
+  CloudinaryStorage
+} = require("multer-storage-cloudinary");
+const path = require("path");
+require("dotenv").config({
+  path: path.resolve(__dirname, "../../.env")
+});
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -10,10 +16,18 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: 'uploads',
-  allowedFormats: ['jpg', 'jpeg', 'png'],
-  transformations: [{ width: 500, height: 500, crop: 'limit' }],
+  params: {
+    folder: "uploads",
+  },
+  allowedFormats: ["jpg", "jpeg", "png"],
+  transformations: [{
+    width: 500,
+    height: 500,
+    crop: "limit"
+  }],
 });
 
-const uploadFile = multer({ storage: storage });
+const uploadFile = multer({
+  storage: storage
+});
 module.exports = uploadFile;

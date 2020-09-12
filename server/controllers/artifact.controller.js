@@ -1,57 +1,66 @@
 const Artifact = require("../models/artifact.model");
-const portfolioModel = require("../models/portfolio.model");
-
-// Add a new page to the database
-const createArtifact = async (req, res) => {
-  const username = req.params.username;
-  const portfolio = await portfolioModel.findByUsername(username);
-  const portfolioId = portfolio._id;
-  const contents = req.body.contents;
-  const newArtifact = new Artifact({
-    username,
-    portfolioId,
-    contents,
-  });
-  newArtifact
-    .save()
-    .then(() => res.status(200).send("New page created!"))
-    .catch(err => {
-      if (err.message) {
-        res.status(400).json(err.message);
-      } else {
-        res.status(400).json(err);
-      }
-    });
-};
-
-const findArtifactById = async (req, res) => {
-  try {
-    if (!req.params.artifactId) {
-      res.status(400).json("User unidentified.");
-      return;
-    }
-    const id = req.params.artifactId;
-    const artifact = await Artifact.findById(id);
-    res.status(200).json(artifact);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-};
 
 // Find an artifact given its owner's username
 const findArtifactsByUsername = async (req, res) => {
   try {
     if (!req.params.username) {
-      res.status(400).json("User unidentified.");
-      return;
+      throw Error("User unidentified.");
     }
     const username = req.params.username;
     const artifacts = await Artifact.findByUsername(username);
     if (!artifacts) {
-      res.status(404).json("Pages not found.");
-      return;
+      throw Error("Pages not found.");
     }
-    res.status(200).json(artifacts);
+    res.status(200).json(artifacts.map(p => p.toObject()));
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+// Add a new page to the database
+const createArtifact = async (req, res) => {
+  try {
+    if (!req.user || !req.user.username) {
+      throw Error("User not found.");
+    }
+    const username = req.params.username;
+    const contents = req.body.contents;
+    const newArtifact = new Artifact({
+      username,
+      contents,
+    });
+    await newArtifact.save();
+    res.status(200).json(newArtifact.toObject());
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
+// Get an artifact given its ID
+const findArtifactById = async (req, res) => {
+  try {
+    if (!req.params.artifactId) {
+      throw Error("Artifact ID not given.");
+    }
+    const id = req.params.artifactId;
+    const artifact = await Artifact.findById(id);
+    res.status(200).json(artifact.toObject());
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+const changeArtifact = async (req, res) => {
+  try {
+    if (!req.user || !req.user.username) {
+      throw Error("User not found.");
+    }
+    const artifactId = req.params.artifactId;
+    const artifact = await Artifact.findById(artifactId);
+    const contents = req.body.contents;
+    artifact.contents = contents ? contents : artifact.contents;
+    await artifact.save();
+    res.status(200).json("Artifact successfully changed!");
   } catch (err) {
     res.status(400).json(err);
   }
@@ -59,25 +68,13 @@ const findArtifactsByUsername = async (req, res) => {
 
 // Delete an artifact (requires password authentication first)
 const deleteArtifactById = async (req, res) => {
-  Artifact.findByIdAndDelete(req.id)
-    .then(() => res.sendStatus(200))
-    .catch(err => res.status(400).json(err));
-};
-
-// Return an array of all artifacts on the server
-const findArtifactsByPortfolioId = async (req, res) => {
   try {
-    if (!req.params.username) {
-      res.status(400).json("User unidentified.");
-      return;
+    if (!req.user || !req.user.username) {
+      throw Error("User not found.");
     }
-    const portfolioId = req.params.portfolioId;
-    const artifacts = await Artifact.findByPortfolioId(portfolioId);
-    if (!artifacts) {
-      res.status(404).json("Pages not found.");
-      return;
-    }
-    res.status(200).json(artifacts);
+    const artifactId = req.params.artifactId;
+    await Artifact.findByIdAndDelete(req.id);
+    res.status(200).json("Artifact successfully deleted!");
   } catch (err) {
     res.status(400).json(err);
   }
@@ -85,8 +82,8 @@ const findArtifactsByPortfolioId = async (req, res) => {
 
 module.exports = {
   createArtifact,
-  findArtifactsByPortfolioId,
   findArtifactsByUsername,
   deleteArtifactById,
   findArtifactById,
+  changeArtifact,
 };
