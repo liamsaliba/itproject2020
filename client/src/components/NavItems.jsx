@@ -32,7 +32,7 @@ export const Link = props => GenericLink(HashLink, props);
 export const MenuItem = props => (
   <StyledNavLink
     {...props}
-    as={NavLink}
+    as={Link}
     activeClassName="nactive"
     sx={{
       ...props.sx,
