@@ -8,6 +8,7 @@ export default ({ userId: id }) => {
   return (
     <Flex bg="muted" p={2} sx={{ alignItems: "center" }}>
       <MenuImage src={camel} to="/" />
+      <MenuItem to="#">Editor</MenuItem>
       <Box mx="auto" />
       <MenuItem to="/logout">Logout</MenuItem>
       <MenuButton to={`../../u/${id}`} />
