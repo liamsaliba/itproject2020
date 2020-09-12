@@ -7,7 +7,7 @@ const getAllPortfolios = async (req, res) => {
     const portfolios = await Portfolio.find();
     res.status(200).send(portfolios.map(p => p.toObject()));
   } catch (err) {
-    req.status(404).json(err);
+    res.status(404).json(err);
   }
 };
 
@@ -59,6 +59,7 @@ const findPortfolioByUsername = async (req, res) => {
   }
 };
 
+// Change a portfolio's details
 const changePortfolio = async (req, res) => {
   try {
     if (!req.user) {

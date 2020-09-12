@@ -74,6 +74,7 @@ const findArtifactById = async (req, res) => {
   }
 };
 
+// Change an artifact's details
 const changeArtifact = async (req, res) => {
   try {
     if (!req.user || !req.user.username) {
