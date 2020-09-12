@@ -4,28 +4,42 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the schema for each oage
-const artifactSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    maxlength: 30,
+const artifactSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1,
+      maxlength: 30,
+    },
+    portfolioId: {
+      type: String,
+      required: true,
+    },
+    pageId: {
+      type: String,
+      required: true,
+    },
+    contents: {
+      type: [String],
+    },
+    type: {
+      type: String,
+    },
   },
-  contents: {
-    type: [String],
-  },
-}, {
-  toObject: {
-    versionKey: false,
-    virtual: true,
-  },
-});
+  {
+    toObject: {
+      versionKey: false,
+      virtual: true,
+    },
+  }
+);
 
 // Find a artifact given its unique ID
 artifactSchema.statics.findById = async id => {
   const artifact = await Artifact.findOne({
-    _id: id
+    _id: id,
   });
   if (!artifact) return null;
   return artifact;
@@ -35,7 +49,7 @@ artifactSchema.statics.findById = async id => {
 artifactSchema.statics.findByUsername = async username => {
   try {
     const artifact = await Artifact.find({
-      username
+      username,
     });
     return artifact;
   } catch (err) {
@@ -47,7 +61,7 @@ artifactSchema.statics.findByUsername = async username => {
 artifactSchema.statics.findByPortfolioId = async id => {
   try {
     const artifact = await Artifact.find({
-      portfolioId: id
+      portfolioId: id,
     });
     return artifact;
   } catch (err) {

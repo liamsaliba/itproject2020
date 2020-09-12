@@ -48,10 +48,13 @@ const findPageById = async (req, res) => {
     }
     const id = req.params.pageId;
     const page = await Page.findById(id);
+    const contents = await Page.findAllArtifacts(page._id);
+    const p = page.toObject();
+    p.contents = contents;
     if (!page) {
-      throw Error("Pages not found.");
+      throw Error("Page not found.");
     }
-    res.status(200).json(page.toObject());
+    res.status(200).json(p);
   } catch (err) {
     res.status(404).json(err);
   }
@@ -65,9 +68,13 @@ const changePage = async (req, res) => {
     }
     const page = await Page.findById(req.params.pageId);
     const contents = req.body.contents;
+    const type = req.body.type;
+    const name = req.body.name;
     page.contents = contents ? contents : page.contents;
+    page.type = type ? type : page.type;
+    page.name = name ? name : page.name;
     await page.save();
-    res.status(200).send("Page successfully changed.");
+    res.status(200).json(page.toObject());
   } catch (err) {
     res.status(400).json(err);
   }

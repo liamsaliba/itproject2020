@@ -1,6 +1,7 @@
 // MongoDB Schema for a Portfolio
 
 const mongoose = require("mongoose");
+const Page = require("../models/page.model");
 const Schema = mongoose.Schema;
 
 // Define the schema for each portfolio
@@ -17,6 +18,11 @@ const portfolioSchema = new Schema(
     },
     bio: {
       type: String,
+      required: false,
+    },
+    theme: {
+      type: String,
+      default: "default",
       required: false,
     },
   },
@@ -46,6 +52,23 @@ portfolioSchema.statics.findByUsername = async username => {
       return null;
     }
     return portfolio;
+  } catch (err) {
+    return null;
+  }
+};
+
+portfolioSchema.statics.findAllPages = async username => {
+  try {
+    const pages = await Page.find({ username });
+    if (!pages) {
+      throw Error();
+    }
+    return pages.map(p => {
+      return {
+        pageId: p._id,
+        name: p.name,
+      };
+    });
   } catch (err) {
     return null;
   }
