@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiStarted } from "./api";
+import * as endpoints from "./endpoints";
 
 const userKey = "user";
 const tokenKey = "token";
@@ -82,7 +83,7 @@ export const signup = (
 ) => dispatch =>
   dispatch(
     apiStarted({
-      url: "/user/signup",
+      url: endpoints.signup,
       method: "post",
       data: { firstName, lastName, email, username, password },
       onStart: signUpRequested.type,
@@ -94,7 +95,7 @@ export const signup = (
 export const login = (username, password) => dispatch => {
   return dispatch(
     apiStarted({
-      url: "/user/login",
+      url: endpoints.login,
       method: "post",
       data: { username, password },
       onStart: loginRequested.type,
@@ -107,7 +108,7 @@ export const login = (username, password) => dispatch => {
 export const logout = token => dispatch => {
   return dispatch(
     apiStarted({
-      url: "/user/logout",
+      url: endpoints.logout,
       method: "post",
       token: token,
       onStart: logoutRequested.type,
