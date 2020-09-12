@@ -4,21 +4,9 @@ import User from "../User";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import { Title } from "./../../components/index";
+import * as Sidebar from "./Sidebar";
 
 import themes from "../../themes";
-
-const Lorem = props => {
-  // const elements = ['test1', 'test2', 'test3', 'test4']
-  const items = [];
-
-  // for (const [index, value] of elements.entries()) {
-  for (let i = 1; i < 42; i++) {
-    // items.push(<li key={index}>{value}</li>)
-    items.push(<p key={i}>Testing {i}</p>);
-  }
-
-  return <div>{items}</div>;
-};
 
 export default props => {
   const theme = themes.custom;
@@ -53,8 +41,8 @@ export default props => {
               overflow: "auto",
             }}
           >
-            <Styled.p>this is the editor page of user {id}.</Styled.p>
-            <Lorem />
+            <Styled.p>This is the editor page of user {id}.</Styled.p>
+            <Sidebar.Sections />
           </Container>
         </aside>
       </ThemeProvider>
