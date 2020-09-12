@@ -12,8 +12,6 @@ export default props => {
   const [theme, setTheme] = useState("base");
   const [preset, setPreset] = useState(themes[theme]);
 
-  console.log("id", id);
-
   const pages = [id, "Publications", "Experience", "About"];
 
   useEffect(() => {
