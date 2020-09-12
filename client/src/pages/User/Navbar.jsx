@@ -5,12 +5,6 @@ import { MenuItem, Profile, ThemeSelector } from "../../components";
 
 export default props => {
   const { userId: id, theme, setTheme, pages } = props;
-  const navBarStyle = {
-    display: "flex",
-    flex: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  };
 
   let menuItems = pages.map(name => (
     <MenuItem key={name} to={`#${name}`}>
