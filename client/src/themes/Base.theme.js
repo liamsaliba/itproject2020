@@ -318,7 +318,6 @@ export const custom = {
   },
   images: {
     avatar: {
-      width: "avatar",
       borderRadius: "100%",
     },
     logo: {

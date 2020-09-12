@@ -10,9 +10,8 @@ const hashCode = s =>
 export const Profile = props => {
   const tint = props.userId ? hashCode(props.userId) : 0;
   return (
-    <IconButton {...props} as={Link} variant="logo" p={2}>
+    <IconButton {...props} as={Link} variant="logo">
       <Image
-        p={1}
         src={profileImg}
         variant="avatar"
         sx={{
