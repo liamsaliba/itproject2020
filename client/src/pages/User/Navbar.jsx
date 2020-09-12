@@ -7,10 +7,16 @@ export default props => {
   const { userId: id, theme, setTheme, pages } = props;
 
   let menuItems = pages.map(name => (
-    <MenuItem to={`#${name}`}>{name}</MenuItem>
+    <MenuItem key={name} to={`#${name}`}>
+      {name}
+    </MenuItem>
   ));
 
-  menuItems[0] = <MenuItem to={`#`}>{id}</MenuItem>;
+  menuItems[0] = (
+    <MenuItem key={id} to={`#`}>
+      {id}
+    </MenuItem>
+  );
 
   return (
     <Box p={10}>

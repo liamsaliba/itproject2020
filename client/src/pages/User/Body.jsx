@@ -6,13 +6,13 @@ import Page from "./Page";
 
 const styling = {
   textAlign: "center",
-  justifyContent:"center",
+  justifyContent: "center",
 };
 
 export default props => {
   const { userId: id, pages: names } = props;
 
-  let pages = names.map(name => <Page name={name} />);
+  let pages = names.map(name => <Page key={name} name={name} />);
   pages.shift();
 
   return (
@@ -21,7 +21,7 @@ export default props => {
         <Box>
           <Box>
             <Image
-              src={ profileExample }
+              src={profileExample}
               sx={{ borderRadius: "50%", width: "30%" }}
               margin={2}
             />
