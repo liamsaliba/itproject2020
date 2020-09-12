@@ -16,10 +16,11 @@ import { signup } from "../../store/auth";
 
 import { Link, Title } from "../../components";
 import { useEffect } from "react";
-import { navigate } from "@reach/router";
+import { useHistory } from "react-router-dom";
 
 export default () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const auth = useSelector(state => state.auth);
 
   useEffect(() => {
@@ -30,10 +31,10 @@ export default () => {
 
   useEffect(() => {
     if (auth.token) {
-      navigate("/editor");
+      history.push("/editor");
       toast("Created new account!");
     }
-  }, [auth.token]);
+  }, [auth.token, history]);
 
   const handleSubmit = e => {
     e.preventDefault();

@@ -16,10 +16,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/auth";
 import { useEffect } from "react";
 import { Link, Title } from "../../components";
-import { navigate } from "@reach/router";
+import { useHistory } from "react-router-dom";
 
 export default () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const auth = useSelector(state => state.auth);
 
   useEffect(() => {
@@ -30,9 +31,9 @@ export default () => {
 
   useEffect(() => {
     if (auth.token) {
-      navigate("/editor");
+      history.push("/editor");
     }
-  }, [auth.token]);
+  }, [auth.token, history]);
 
   const handleSubmit = e => {
     e.preventDefault();

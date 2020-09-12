@@ -4,7 +4,6 @@ import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 import themes from "../../themes";
 import Body from "./Body";
-// import { Router } from "@reach/router";
 import { Title } from "./../../components/index";
 
 export default props => {

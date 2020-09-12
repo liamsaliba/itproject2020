@@ -1,13 +1,19 @@
 /** @jsx jsx */
-import { jsx, Button, NavLink, Image, IconButton } from "theme-ui";
-import { Link as ReachLink } from "@reach/router";
+import {
+  jsx,
+  Button,
+  Image,
+  IconButton,
+  NavLink as StyledNavLink,
+} from "theme-ui";
+import { NavHashLink, HashLink } from "react-router-hash-link";
 import isAbsoluteURL from "is-absolute-url";
 
 const styles = {
   variant: "links.nav",
 };
 
-export const Link = ({ href, ...props }) => {
+const GenericLink = (LinkComponent, { href, ...props }) => {
   const isExternal = isAbsoluteURL(href || "");
   if (isExternal) {
     return (
@@ -17,13 +23,26 @@ export const Link = ({ href, ...props }) => {
     );
   }
   const to = props.to || href;
-  return <ReachLink {...props} to={to} sx={styles} />;
+  return <LinkComponent {...props} to={to} sx={styles} smooth />;
 };
 
+export const NavLink = props => GenericLink(NavHashLink, props);
+export const Link = props => GenericLink(HashLink, props);
+
 export const MenuItem = props => (
-  <NavLink {...props} as={Link} variant="nav" p={2}>
+  <StyledNavLink
+    {...props}
+    as={Link}
+    activeClassName="nactive"
+    sx={{
+      ...props.sx,
+      variant: "links.nav",
+    }}
+    smooth // smooth scroll to element
+    p={2}
+  >
     {props.children}
-  </NavLink>
+  </StyledNavLink>
 );
 
 export const MenuButton = props => (
