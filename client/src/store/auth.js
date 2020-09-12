@@ -115,3 +115,14 @@ export const logout = token => dispatch => {
     })
   );
 };
+
+export const logoutAll = token => dispatch => {
+  return dispatch(
+    apiStarted({
+      url: endpoints.logoutAll,
+      method: "post",
+      token: token,
+      onStart: logoutRequested.type,
+    })
+  );
+};
