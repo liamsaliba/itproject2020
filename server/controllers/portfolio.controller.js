@@ -7,7 +7,7 @@ const getAllPortfolios = async (req, res) => {
     const portfolios = await Portfolio.find();
     res.status(200).send(portfolios.map(p => p.toObject()));
   } catch (err) {
-    req.status(404).json(err);
+    res.status(404).json(err);
   }
 };
 
@@ -16,9 +16,11 @@ const createPortfolio = (req, res) => {
   if (req.user && req.user.username) {
     const username = req.user.username;
     const bio = req.body.bio;
+    const theme = req.body.theme;
     const newPortfolio = new Portfolio({
       username,
       bio,
+      theme,
     });
     newPortfolio
       .save()
@@ -45,15 +47,19 @@ const findPortfolioByUsername = async (req, res) => {
     }
     const username = req.params.username;
     const portfolio = await Portfolio.findByUsername(username);
+    const p = portfolio.toObject();
+    const contents = await Portfolio.findAllPages(username);
+    p.contents = contents;
     if (!portfolio) {
       throw Error("Portfolio not found!");
     }
-    res.status(200).json(portfolio.toObject());
+    res.status(200).json(p);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(404).json(err);
   }
 };
 
+// Change a portfolio's details
 const changePortfolio = async (req, res) => {
   try {
     if (!req.user) {
@@ -61,13 +67,14 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const bio = req.body.bio;
+    const { bio, theme } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
+    portfolio.theme = theme ? theme : portfolio.theme;
     await portfolio.save();
     if (!portfolio) {
       throw Error("Portfolio not found!");
     }
-    res.sendStatus(200);
+    res.status(200).json(portfolio.toObject());
   } catch (err) {
     res.status(400).json(err);
   }

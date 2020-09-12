@@ -3,13 +3,22 @@
 
 // Create a new router
 const router = require("express").Router();
+const userMiddleware = require("../middleware/authentication.middleware");
 
 const artifactController = require("../controllers/artifact.controller");
 
-router.get("/", artifactController.findArtifactsByUsername);
+router.get("/:artifactId", artifactController.findArtifactById);
 
-router.post("/", artifactController.createArtifact);
+router.patch(
+  "/:artifactId",
+  userMiddleware.authenticateToken,
+  artifactController.changeArtifact
+);
 
-router.get("/:pageId", artifactController.createArtifact);
+router.delete(
+  "/:artifactId",
+  userMiddleware.authenticateToken,
+  artifactController.deleteArtifactById
+);
 
 module.exports = router;

@@ -40,4 +40,11 @@ router.delete(
   userController.deleteUser
 );
 
+// Log out from all devices
+router.post(
+  "/logout/all",
+  userMiddleware.authenticateToken,
+  userController.logoutUserAllDevices
+);
+
 module.exports = router;

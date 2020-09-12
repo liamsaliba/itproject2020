@@ -1,6 +1,7 @@
 // MongoDB Schema for a Page
 
 const mongoose = require("mongoose");
+const Artifact = require("./artifact.model");
 const Schema = mongoose.Schema;
 
 // Define the schema for each oage
@@ -20,6 +21,16 @@ const pageSchema = new Schema(
     contents: {
       type: [String],
     },
+    type: {
+      type: String,
+    },
+    name: {
+      type: String,
+      default: "New Page",
+    },
+    // url: {
+    //   type: String,
+    // }
   },
   {
     toObject: {
@@ -58,6 +69,22 @@ pageSchema.statics.findByPortfolioId = async id => {
   const page = await Page.find({ portfolioId: id });
   if (!page) return null;
   return page;
+};
+
+pageSchema.statics.findAllArtifacts = async pageId => {
+  try {
+    const artifacts = await Artifact.find({ pageId });
+    if (!artifacts) {
+      throw Error();
+    }
+    return artifacts.map(a => {
+      return {
+        artifactId: a._id,
+      };
+    });
+  } catch (err) {
+    return null;
+  }
 };
 
 // Create a Portfolio schema on MongoDB

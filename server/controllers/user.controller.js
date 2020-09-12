@@ -123,6 +123,17 @@ const logoutUser = async (req, res) => {
   }
 };
 
+// Log out user on all devices
+const logoutUserAllDevices = async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.status(200).send();
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -131,4 +142,5 @@ module.exports = {
   deleteUser,
   getAllUsers,
   changeUserDetails,
+  logoutUserAllDevices,
 };
