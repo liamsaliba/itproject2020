@@ -20,12 +20,12 @@ export default props => {
 
   return (
     <Box p={10}>
-      <Flex as="nav">
+      <Flex as="nav" sx={{ alignItems: "center" }}>
         <Box sx={{ flex: 1 }}>
           <Profile userId={id} to="#" />
         </Box>
 
-        <Box sx={{ display: "flex", flex: 2, justifyContent: "center" }}>
+        <Box>
           {menuItems}
           <ThemeSelector theme={theme} setTheme={setTheme} />
         </Box>
