@@ -9,7 +9,8 @@ const artifactsEndpointByUser = username =>
 const slice = createSlice({
   name: "artifacts",
   initialState: {
-    list: [], // array of artifacts
+    ids: [], // array of artifacts
+    entities: {}, // artifacts by id
     loading: false, // loading indicator for UI
     lastFetch: null, // timestamp of last time fetched from the server (cache)
   },
@@ -26,6 +27,8 @@ const slice = createSlice({
       artifacts.lastFetch = Date.now();
     },
     artifactAdded: (artifacts, action) => {
+      const { pageId, username, _id: artifactId, ...props } = action.payload;
+
       artifacts.list.push(action.payload);
       // TODO: Reorder artifacts
     },

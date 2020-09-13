@@ -1,14 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiStarted } from "./api";
 import { cacheProps, cacheNotExpired } from "../helpers";
 import * as endpoints from "../endpoints";
 
 const portfolioInitialState = {
-  ...cacheProps,
   pages: [], //
   bio: "",
   profile: "",
 };
+
+// export const portfoliosAdapter = createEntityAdapter({...cacheProps});
+
+// const getPortfolios =
 
 const receivePortfolio = (portfolios, action) => {
   const { theme, username, bio, contents: pages } = action.payload;
@@ -26,7 +29,6 @@ const slice = createSlice({
   name: "portfolios",
   initialState: {
     ...cacheProps,
-    allIds: [], // array of portfolio ids
     byId: {},
   },
   reducers: {
@@ -63,10 +65,6 @@ const slice = createSlice({
       const { username, bio } = action.payload;
       portfolios.byId[username].bio = bio;
     },
-    portfolioPageAdded: (portfolios, action) => {
-      const { username, bio } = action.payload;
-      portfolios.byId[username].bio = bio;
-    },
   },
 });
 
@@ -89,7 +87,7 @@ const {
 
 // load a list-level representation of all portfolios
 export const loadPortfolios = () => (dispatch, getState) => {
-  const { lastFetch } = getState().entities.bugs;
+  const { lastFetch } = getState().byId.bugs;
 
   if (cacheNotExpired(lastFetch)) return;
 
@@ -105,7 +103,7 @@ export const loadPortfolios = () => (dispatch, getState) => {
 
 // load a portfolio by username, with _all_ properties
 export const loadPortfolio = username => (dispatch, getState) => {
-  const { lastFetch } = getState().entities.bugs;
+  const { lastFetch } = getState().byId.bugs;
 
   if (cacheNotExpired(lastFetch)) return;
 

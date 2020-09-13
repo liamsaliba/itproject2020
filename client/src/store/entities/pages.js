@@ -1,7 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiStarted } from "./api";
 import { cacheProps, cacheNotExpired, getId } from "../helpers";
 import * as endpoints from "../endpoints";
+
+const pagesAdapter = createEntityAdapter({ selectId: entity => entity._id });
 
 const pageInitialState = {
   ...cacheProps,
@@ -12,48 +14,42 @@ const pageInitialState = {
 };
 
 const receivePage = (pages, action) => {
-  const { _id: pageId, name, type, artifactIds } = action.payload;
-  pages.list[pageId] = {
-    name,
-    type,
-    artifactIds,
+  const { _id: id, username, ...page } = action.payload;
+  pages.allIds.push(id);
+  pages.list[id] = {
+    ...page,
   };
 };
 
 // Slices   (Actions and Reducers)
 const slice = createSlice({
   name: "pages",
-  initialState: {
-    byId: {}, // array of pages
-    allIds: [], // array of page ids
+  initialState: pagesAdapter.getInitialState({
     ...cacheProps,
     currentPage: null, // id of the current page
-  },
+  }),
   reducers: {
-    pageRequested: (pages, action) => {
-      pages.list[getId(action)] = { ...pageInitialState };
+    pagesRequested: (pages, action) => {
+      pages.loading = true;
     },
-    pageRequestFailed: (pages, action) => {
-      pages.list[getId(action)].loading = false;
+    pagesRequestFailed: (pages, action) => {
+      pages.loading = false;
     },
-    pageReceived: (pages, action) => receivePage(pages, action),
-    pageAdded: (pages, action) => {
-      pages.ids.push(getId(action));
-      // TODO: Reorder pages
+    pagesReceived: (pages, action) => {
+      if (pages.loading) {
+        pagesAdapter.setAll(pages, action.payload);
+      }
     },
-    // artifactAddedToPage: (pages, action) => {
-    //   const pageId = getId(action);
-
-    //   const index = pages.list.findIndex(
-    //     artifact => artifact.id === action.payload.id
-    //   );
-    //   pages.list[index] = action.payload.newArtifact;
-    // },
+    pageAdded: (pages, action) => receivePage(pages, action),
+    artifactAdded: (pages, action) => {
+      const { pageId, username, _id: artifactId, ...props } = action.payload;
+      pages.byId[pageId].artifactIds.push(artifactId);
+    },
     pageRemoved: (pages, action) => {
       const id = getId(action);
-      const index = pages.ids.findIndex(page => page.id === id);
-      pages.ids.remove(index);
-      delete pages.list[id];
+      const index = pages.allIds.findIndex(page => page.id === id);
+      pages.allIds.remove(index);
+      delete pages.byId[id];
     },
   },
 });
@@ -73,7 +69,7 @@ const {
 // Action Creators
 
 export const loadPages = username => (dispatch, getState) => {
-  const { lastFetch } = getState().entities.bugs;
+  const { lastFetch } = getState().byId.bugs;
 
   if (cacheNotExpired(lastFetch)) return;
 
@@ -87,30 +83,39 @@ export const loadPages = username => (dispatch, getState) => {
   );
 };
 
-export const addPage = (token, page) =>
+export const addPage = (token, username, page) =>
   apiStarted({
-    url: endpoints.pagesById(username),
+    url: endpoints.portfolioPage(username),
     method: "post",
-    data: artifact,
+    data: page,
     token: token,
-    onSuccess: artifactAdded.type,
+    onSuccess: pageAdded.type,
   });
 
-export const removeArtifact = (token, id) =>
+export const removePage = (token, id) =>
   apiStarted({
     url: endpoints.pagesById(id),
     method: "delete",
     token: token,
-    onSuccess: artifactRemoved.type,
+    onSuccess: pageRemoved.type,
   });
 
-export const editArtifact = (token, id, body) =>
+export const editPage = (token, id, body) =>
   apiStarted({
     url: endpoints.pagesById(id),
     method: "patch",
-    data: { body },
+    data: { ...body },
     token: token,
-    onSuccess: artifactEdited.type,
+    onSuccess: pageEdited.type,
+  });
+
+export const editPageName = (token, id, name) =>
+  apiStarted({
+    url: endpoints.pagesById(id),
+    method: "patch",
+    data: { name },
+    token: token,
+    onSuccess: pageEdited.type,
   });
 
 // Selectors
