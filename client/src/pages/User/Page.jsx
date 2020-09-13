@@ -7,15 +7,17 @@ import documentPreview from "../../svg/DocumentPreview.png";
 
 // writing it here before making a separate file for it!
 const Publications = props => {
-  const { id: name, publications } = props;
+  const { id: name, children: publications } = props;
 
   const publicationsStyle = {
+    margin: "0 auto",
+    mb: 10,
     display: "flex",
     flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    maxHeight: "100vh",
+    transition: "all 0.3s",
   };
 
   let pubItems = publications.map(card => <PubItem id={card} />); // Do we need to give func components ids?
@@ -23,7 +25,6 @@ const Publications = props => {
   return (
     <React.Fragment>
       <Styled.h2> {name} </Styled.h2>
-      <Styled.p> The {name} container </Styled.p>
       <Box id={name} sx={publicationsStyle} mr={5} ml={5}>
         {pubItems}
       </Box>
@@ -33,16 +34,16 @@ const Publications = props => {
 
 const PubItem = props => {
   const publicationstyle = {
-    maxWidth: "256",
-    height: "30%",
-    width: "30%",
+    boxShadow: "0 0 8px rgba(0, 0, 0, 0.125)",
+    padding: 2,
+    m: 2,
   };
 
   const { id: itemName } = props;
   return (
     // When you click it, may open a modal to view the publication?
-    <Card id={itemName} sx={publicationstyle} p={1}>
-      <Image src={documentPreview} margin={2} />
+    <Card id={itemName} sx={publicationstyle}>
+      <Image src={documentPreview} margin={2} sx={{ maxWidth: "256px" }} />
       <Styled.p>This describes {itemName}!</Styled.p>
     </Card>
   );
@@ -50,29 +51,29 @@ const PubItem = props => {
 
 /* ------------------------------------------------------------------- */
 
-const Experience = props => {
-  return <React.Fragment></React.Fragment>;
-};
+// const Experience = props => {
+// return <React.Fragment></React.Fragment>;
+// };
 
 /* ------------------------------------------------------------------- */
 
 export default props => {
-  const styling = {
-    m: 3,
-    p: 2,
-  };
-  if (props.name === "Publications") {
-    return <Publications id={props.name} publications={props.publications} />;
-  } else if (props.name === "Experience") {
-    return <Experience id={props.name} experiences={props.experiences} />;
-  } else {
-    return (
-      <Box id={props.name} sx={styling}>
-        <Styled.h2 id={props.name}> {props.name} </Styled.h2>
-        <Styled.p> The {props.name} container </Styled.p>
-        {props.children}
-        {/* what does props.children give? */}
-      </Box>
-    );
-  }
+  // const styling = {
+  //   m: 3,
+  //   p: 2,
+  // };
+  // if (props.name === "Publications") {
+  return <Publications id={props.name}>{props.children}</Publications>;
+  // } else if (props.name === "Experience") {
+  // return <Experience id={props.name} />;
+  // } else {
+  //   return (
+  //     <Box id={props.name} sx={styling}>
+  //       <Styled.h2 id={props.name}> {props.name} </Styled.h2>
+  //       <Styled.p> The {props.name} container </Styled.p>
+  //       {props.children}
+  //       {/* what does props.children give? */}
+  //     </Box>
+  //   );
+  // }
 };

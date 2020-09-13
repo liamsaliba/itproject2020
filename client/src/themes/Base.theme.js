@@ -111,9 +111,6 @@ export const sizes = {
   lg: 960,
   xl: 1140,
   sidebar: 256,
-  avatar: 48,
-  logo: 48,
-  menu: 48,
 };
 
 export const radii = {
@@ -256,9 +253,6 @@ export const custom = {
     },
   },
   links: {
-    bold: {
-      fontWeight: "bold",
-    },
     nav: {
       fontWeight: "bold",
       p: 2,
@@ -305,7 +299,6 @@ export const custom = {
       // width: "menu",
     },
     logo: {
-      variant: "buttons.icon",
       borderRadius: "0",
       width: "logo",
       padding: "0",
@@ -314,12 +307,8 @@ export const custom = {
   images: {
     avatar: {
       borderRadius: "100%",
-    },
-    logo: {
-      width: "avatar",
-    },
-    menu: {
-      width: "menu",
+      width: 48,
+      height: 48,
     },
   },
 };

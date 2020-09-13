@@ -7,12 +7,17 @@ import Body from "./Body";
 import { Title } from "./../../components/index";
 import { useParams } from "react-router-dom";
 
-export default props => {
-  const { userId: id } = useParams();
+export const RouteUser = () => {
+  const { userId } = useParams();
+  return <User userId={userId} />;
+};
+
+const User = props => {
+  const id = props.userId;
   const [theme, setTheme] = useState("base");
   const [preset, setPreset] = useState(themes[theme]);
 
-  const pages = [id, "Publications", "Experience", "About"];
+  const pages = ["Publications", "Experience", "Articles", "About"];
 
   useEffect(() => {
     setPreset(themes[theme]);
@@ -39,3 +44,5 @@ export default props => {
     </ThemeProvider>
   );
 };
+
+export default User;

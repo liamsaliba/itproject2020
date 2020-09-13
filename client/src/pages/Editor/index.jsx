@@ -10,10 +10,7 @@ import themes from "../../themes";
 
 export default props => {
   const theme = themes.custom;
-  let { userId: id } = props;
-
-  const auth = useSelector(state => state.auth);
-  id = auth.user.username;
+  const id = useSelector(state => state.auth.user.username);
 
   return (
     <Flex

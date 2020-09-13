@@ -33,6 +33,7 @@ const Items = props => {
           alignItems: "center",
           borderRadius: "5px",
           border: "1px solid #ccc!important",
+          boxShadow: "default",
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "center", flex: 3 }}>
