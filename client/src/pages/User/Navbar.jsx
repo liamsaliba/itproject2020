@@ -2,7 +2,7 @@ import React from "react";
 
 import camel from "../../svg/camel.svg";
 
-import { Profile, ThemeSelector, Navbar, MenuImage } from "../../components";
+import { Profile, ThemeSelector, Navbar } from "../../components";
 
 export default props => {
   const { userId: id, theme, setTheme, pages } = props;

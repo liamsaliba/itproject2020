@@ -58,10 +58,10 @@ const PubItem = props => {
 /* ------------------------------------------------------------------- */
 
 export default props => {
-  const styling = {
-    m: 3,
-    p: 2,
-  };
+  // const styling = {
+  //   m: 3,
+  //   p: 2,
+  // };
   // if (props.name === "Publications") {
   return <Publications id={props.name}>{props.children}</Publications>;
   // } else if (props.name === "Experience") {
