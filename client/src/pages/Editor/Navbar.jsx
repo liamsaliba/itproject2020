@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default ({ userId: id }) => {
   return (
     <Flex bg="muted" p={2} sx={{ alignItems: "center" }}>
-      <MenuImage src={camel} to="/" />
+      <MenuImage src={camel} to="../" />
       <MenuItem to="#">Editor</MenuItem>
       <Box mx="auto" />
       <MenuItem to="/logout">Logout</MenuItem>

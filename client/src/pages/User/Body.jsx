@@ -12,15 +12,10 @@ const styling = {
 export default props => {
   const { userId: id, pages: names } = props;
 
-  let pages = names.map(name => (
-    <Page
-      name={name}
-      publications={
-        name === "Publications"
-          ? ["publication1", "publication2", "publication3", "publication4"]
-          : undefined
-      }
-    />
+  const pages = names.map(name => (
+    <Page id={"Page" + name} name={name}>
+      {[1, 2, 3, 4, 5].map(item => name + item)}
+    </Page>
   ));
 
   return (

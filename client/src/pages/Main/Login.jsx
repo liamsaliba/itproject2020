@@ -41,12 +41,7 @@ export default () => {
     dispatch(login(formData.get("username"), formData.get("password")));
   };
   return (
-    <Box
-      as="form"
-      p={5}
-      onSubmit={handleSubmit}
-      sx={{ backgroundColor: "rgba(255, 255, 255, 0.85)" }}
-    >
+    <Box as="form" onSubmit={handleSubmit}>
       <Title>Login</Title>
       <Styled.h2>Log in</Styled.h2>
       <br />
