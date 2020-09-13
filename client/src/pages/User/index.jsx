@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 import themes from "../../themes";
 import Body from "./Body";
 import { Title } from "./../../components/index";
+import { useParams } from "react-router-dom";
 
 export default props => {
-  const { userId: id } = props;
+  const { userId: id } = useParams();
   const [theme, setTheme] = useState("base");
   const [preset, setPreset] = useState(themes[theme]);
 
