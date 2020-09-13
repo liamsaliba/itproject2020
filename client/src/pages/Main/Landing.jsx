@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, Container } from "theme-ui";
-import logo from "../../svg/logo.svg";
+import Login from "./Login";
+// import logo from "../../svg/logo.svg";
 
 export default () => (
   <Container
@@ -10,6 +11,7 @@ export default () => (
     }}
     className="App"
   >
-    <img src={logo} className="App-logo" alt="logo" />
+    {/* <img src={logo} className="App-logo" alt="logo" /> */}
+    <Login />
   </Container>
 );
