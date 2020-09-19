@@ -6,7 +6,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).send(
       users.map(user => {
-        return user.username;
+        return user;
       })
     );
   } catch (err) {
@@ -31,10 +31,10 @@ const changeUserDetails = (req, res) => {
     const lastName = req.user.lastName;
     const email = req.user.email;
     const user = req.user;
-    user.firstName = firstName ? firstName : user.firstName;
-    user.middleName = middleName ? middleName : user.middleName;
-    user.lastName = lastName ? lastName : user.lastName;
-    user.email = email ? email : user.email;
+    user.local.firstName = firstName ? firstName : user.loacl.firstName;
+    user.local.middleName = middleName ? middleName : user.loacl.middleName;
+    user.loacl.lastName = lastName ? lastName : user.loacl.lastName;
+    user.loacl.email = email ? email : user.loacl.email;
     user
       .save()
       .then(() => res.sendStatus(200))
@@ -65,15 +65,27 @@ const createUser = async (req, res) => {
     const middleName = req.body.middleName;
     const lastName = req.body.lastName;
     const email = req.body.email;
-    const newUser = new User({
-      username,
-      firstName,
-      middleName,
-      lastName,
-      password,
-      email,
-    });
 
+    //Check if there is a user with the same username
+    let foundUser = await User.findOne({ "local.username": username });
+    if (foundUser) { 
+      return res.status(403).json({ error: 'username is already in use'});
+    }
+
+
+    const newUser = new User({ 
+      method: ['local'],
+      local: {
+        username: username,
+        password: password,
+        firstName: firstName,
+        middleName: middleName,
+        lastName: lastName ,
+        email: email
+      }
+      
+    });
+    
     // Save the new User to the database
     // Create an authentication token
     const token = await newUser.generateAuthToken();
@@ -85,7 +97,8 @@ const createUser = async (req, res) => {
   } catch (err) {
     if (err.code == 11000) {
       res.status(400).json("Username already exists.");
-    } else if (err.message) {
+    } 
+    else if (err.message) {
       res.status(400).json(err.message);
     } else {
       res.status(400).json(err);
@@ -101,6 +114,7 @@ const loginUser = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
+    
     res.status(200).send({
       user: user.toObject(),
       token,
@@ -134,6 +148,29 @@ const logoutUserAllDevices = async (req, res) => {
   }
 };
 
+const googleOAuth = async (req, res, next) => {
+  // Generate token
+  console.log('req.user', req.user);
+
+  const token = await req.user.generateAuthToken();
+  res.status(201).send({
+    user: req.user.toObject(),
+    token,
+  });
+  
+};
+
+const facebookOAuth = async (req, res, next) => {
+  // Generate token
+  console.log('req.user', req.user);
+
+  const token = await req.user.generateAuthToken();
+  res.status(201).send({
+    user: req.user.toObject(),
+    token,
+  });
+}
+
 module.exports = {
   createUser,
   loginUser,
@@ -143,4 +180,9 @@ module.exports = {
   getAllUsers,
   changeUserDetails,
   logoutUserAllDevices,
+  googleOAuth,
+  facebookOAuth
 };
+
+
+
