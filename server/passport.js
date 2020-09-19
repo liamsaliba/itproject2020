@@ -24,7 +24,7 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
     if (req.user) {
       // We're already logged in, time for linking account!
       // Add Google's data to an existing account
-      req.user.methods.push('google')
+      req.user.method.push('google')
       req.user.google = {
         id: profile.id,
         email: profile.emails[0].value
@@ -42,7 +42,7 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
       existingUser = await User.findOne({ "local.email": profile.emails[0].value })
       if (existingUser) {
         // We want to merge google's data with local auth
-        existingUser.methods.push('google')
+        existingUser.method.push('google')
         existingUser.google = {
           id: profile.id,
           email: profile.emails[0].value
@@ -83,7 +83,7 @@ passport.use('facebookToken', new FacebookTokenStrategy({
     if (req.user) {
       // We're already logged in, time for linking account!
       // Add Facebook's data to an existing account
-      req.user.methods.push('facebook')
+      req.user.method.push('facebook')
       req.user.facebook = {
         id: profile.id,
         email: profile.emails[0].value
@@ -101,7 +101,7 @@ passport.use('facebookToken', new FacebookTokenStrategy({
       existingUser = await User.findOne({ "local.email": profile.emails[0].value })
       if (existingUser) {
         // We want to merge facebook's data with local auth
-        existingUser.methods.push('facebook')
+        existingUser.method.push('facebook')
         existingUser.facebook = {
           id: profile.id,
           email: profile.emails[0].value
