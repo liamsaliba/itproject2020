@@ -6,7 +6,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).send(
       users.map(user => {
-        return user;
+        return user.toObject();
       })
     );
   } catch (err) {
@@ -74,8 +74,8 @@ const createUser = async (req, res) => {
 
     const newUser = new User({
       method: ["local"],
+      username,
       local: {
-        username: username,
         password: password,
         firstName: firstName,
         middleName: middleName,
@@ -147,7 +147,7 @@ const logoutUserAllDevices = async (req, res) => {
 
 const googleOAuth = async (req, res, next) => {
   // Generate token
-  console.log("req.user", req.user);
+  // console.log("req.user", req.user);
 
   const token = await req.user.generateAuthToken();
   res.status(201).send({
@@ -158,7 +158,7 @@ const googleOAuth = async (req, res, next) => {
 
 const facebookOAuth = async (req, res, next) => {
   // Generate token
-  console.log("req.user", req.user);
+  // console.log("req.user", req.user);
 
   const token = await req.user.generateAuthToken();
   res.status(201).send({

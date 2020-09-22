@@ -38,7 +38,6 @@ const createArtifact = async (req, res) => {
     await newArtifact.save();
     res.status(200).json(newArtifact.toObject());
   } catch (err) {
-    console.log(err);
     res.status(400).json(err);
   }
 };
@@ -66,7 +65,6 @@ const findArtifactById = async (req, res) => {
       throw Error("Artifact ID not given.");
     }
     const id = req.params.artifactId;
-    console.log(id);
     const artifact = await Artifact.findById(id);
     res.status(200).json(artifact.toObject());
   } catch (err) {

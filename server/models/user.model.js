@@ -21,18 +21,16 @@ const userSchema = new Schema(
       enum: ["local", "google", "facebook"],
       required: true,
     },
-
+    username: {
+      type: String, // type of username
+      required: true, // username must always be given
+      //unique: true, // no two usernames can be the same
+      trim: true, // trim whitespaces when user enters
+      minlength: 1, // usernames must be at least 1 character long
+      maxlength: 30, // usernames must be at most 30 characters long
+      lowercase: true, // lowercase only
+    },
     local: {
-      username: {
-        type: String, // type of username
-        //required: true, // username must always be given
-        //unique: true, // no two usernames can be the same
-        trim: true, // trim whitespaces when user enters
-        minlength: 1, // usernames must be at least 1 character long
-        maxlength: 30, // usernames must be at most 30 characters long
-        lowercase: true, // lowercase only
-      },
-
       password: {
         type: String,
         //required: true,
@@ -82,8 +80,6 @@ const userSchema = new Schema(
         minlength: 1,
         lowercase: true,
       },
-
-      tokens: [tokenSchema],
     },
     facebook: {
       id: {
@@ -106,7 +102,7 @@ const userSchema = new Schema(
       virtual: true,
       transform(doc, ret) {
         delete ret._id;
-        delete ret.password;
+        delete ret.local.password;
         delete ret.tokens;
       },
     },
@@ -145,7 +141,7 @@ userSchema.methods.generateAuthToken = async function () {
 };
 
 userSchema.statics.findByCredentials = async (username, password) => {
-  const user = await User.findOne({ "local.username": username });
+  const user = await User.findOne({ username });
   if (!user) {
     return null;
   }
