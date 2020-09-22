@@ -19,7 +19,7 @@ router.delete(
 );
 
 router.post(
-  "/:pageId/artifact",
+  "/:pageId/artifacts",
   userMiddleware.authenticateToken,
   artifactController.createArtifact
 );

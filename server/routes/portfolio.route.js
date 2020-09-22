@@ -26,7 +26,7 @@ router.patch(
 );
 
 router.post(
-  "/:username/page",
+  "/:username/pages",
   userMiddleware.authenticateToken,
   pageController.createPage
 );
