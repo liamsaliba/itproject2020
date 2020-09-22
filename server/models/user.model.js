@@ -18,8 +18,8 @@ const userSchema = new Schema(
   {
     method: {
       type: [String],
-      enum: ['local', 'google', 'facebook'],
-      required: true
+      enum: ["local", "google", "facebook"],
+      required: true,
     },
 
     local: {
@@ -32,7 +32,7 @@ const userSchema = new Schema(
         maxlength: 30, // usernames must be at most 30 characters long
         lowercase: true, // lowercase only
       },
-      
+
       password: {
         type: String,
         //required: true,
@@ -69,13 +69,10 @@ const userSchema = new Schema(
         minlength: 1,
         lowercase: true,
       },
-
-      tokens: [tokenSchema],
-
     },
     google: {
       id: {
-        type: String
+        type: String,
       },
 
       email: {
@@ -87,12 +84,10 @@ const userSchema = new Schema(
       },
 
       tokens: [tokenSchema],
-
-      
     },
     facebook: {
       id: {
-        type: String
+        type: String,
       },
 
       email: {
@@ -102,9 +97,8 @@ const userSchema = new Schema(
         minlength: 1,
         lowercase: true,
       },
-
-      tokens: [tokenSchema],
     },
+    tokens: [tokenSchema],
   },
   {
     toObject: {
@@ -121,38 +115,30 @@ const userSchema = new Schema(
 
 // Save a new user
 userSchema.pre("save", async function (next) {
-  try{
-    
-    if (!this.method.includes('local')) {
+  try {
+    if (!this.method.includes("local")) {
       next();
     }
     const user = this;
-    
-    if (!user.isModified('local.password')) {
+
+    if (!user.isModified("local.password")) {
       next();
     }
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(this.local.password, salt);
     this.local.password = passwordHash;
-    
+
     next();
-  }catch(error) {
+  } catch (error) {
     next(error);
   }
 });
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
-    
+
   const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
-  if (this.method.includes('local')){
-    user.local.tokens = user.local.tokens.concat({ token });
-  }else if (this.method.includes('google')){
-    user.google.tokens = user.google.tokens.concat({ token });
-  }else if (this.method.includes('facebook')){
-    console.log("facebook");
-    user.facebook.tokens = user.facebook.tokens.concat({ token });
-  }
+  user.tokens = user.tokens.concat({ token });
 
   await user.save();
   return token;

@@ -31,10 +31,10 @@ const changeUserDetails = (req, res) => {
     const lastName = req.user.lastName;
     const email = req.user.email;
     const user = req.user;
-    user.local.firstName = firstName ? firstName : user.loacl.firstName;
-    user.local.middleName = middleName ? middleName : user.loacl.middleName;
-    user.loacl.lastName = lastName ? lastName : user.loacl.lastName;
-    user.loacl.email = email ? email : user.loacl.email;
+    user.local.firstName = firstName ? firstName : user.local.firstName;
+    user.local.middleName = middleName ? middleName : user.local.middleName;
+    user.local.lastName = lastName ? lastName : user.local.lastName;
+    user.local.email = email ? email : user.local.email;
     user
       .save()
       .then(() => res.sendStatus(200))
@@ -68,24 +68,22 @@ const createUser = async (req, res) => {
 
     //Check if there is a user with the same username
     let foundUser = await User.findOne({ "local.username": username });
-    if (foundUser) { 
-      return res.status(403).json({ error: 'username is already in use'});
+    if (foundUser) {
+      return res.status(403).json({ error: "username is already in use" });
     }
 
-
-    const newUser = new User({ 
-      method: ['local'],
+    const newUser = new User({
+      method: ["local"],
       local: {
         username: username,
         password: password,
         firstName: firstName,
         middleName: middleName,
-        lastName: lastName ,
-        email: email
-      }
-      
+        lastName: lastName,
+        email: email,
+      },
     });
-    
+
     // Save the new User to the database
     // Create an authentication token
     const token = await newUser.generateAuthToken();
@@ -97,8 +95,7 @@ const createUser = async (req, res) => {
   } catch (err) {
     if (err.code == 11000) {
       res.status(400).json("Username already exists.");
-    } 
-    else if (err.message) {
+    } else if (err.message) {
       res.status(400).json(err.message);
     } else {
       res.status(400).json(err);
@@ -114,7 +111,7 @@ const loginUser = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
-    
+
     res.status(200).send({
       user: user.toObject(),
       token,
@@ -150,26 +147,25 @@ const logoutUserAllDevices = async (req, res) => {
 
 const googleOAuth = async (req, res, next) => {
   // Generate token
-  console.log('req.user', req.user);
+  console.log("req.user", req.user);
 
   const token = await req.user.generateAuthToken();
   res.status(201).send({
     user: req.user.toObject(),
     token,
   });
-  
 };
 
 const facebookOAuth = async (req, res, next) => {
   // Generate token
-  console.log('req.user', req.user);
+  console.log("req.user", req.user);
 
   const token = await req.user.generateAuthToken();
   res.status(201).send({
     user: req.user.toObject(),
     token,
   });
-}
+};
 
 module.exports = {
   createUser,
@@ -181,8 +177,5 @@ module.exports = {
   changeUserDetails,
   logoutUserAllDevices,
   googleOAuth,
-  facebookOAuth
+  facebookOAuth,
 };
-
-
-
