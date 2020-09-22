@@ -102,7 +102,9 @@ const userSchema = new Schema(
       virtual: true,
       transform(doc, ret) {
         delete ret._id;
-        delete ret.local.password;
+        if (ret.local) {
+          delete ret.local.password;
+        }
         delete ret.tokens;
       },
     },
