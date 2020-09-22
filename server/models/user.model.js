@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("mongoose-type-email");
 
 // JWT Authentication token
 const tokenSchema = new Schema({
@@ -24,7 +25,7 @@ const userSchema = new Schema(
     username: {
       type: String, // type of username
       required: true, // username must always be given
-      //unique: true, // no two usernames can be the same
+      unique: true, // no two usernames can be the same
       trim: true, // trim whitespaces when user enters
       minlength: 1, // usernames must be at least 1 character long
       maxlength: 30, // usernames must be at most 30 characters long
@@ -61,11 +62,7 @@ const userSchema = new Schema(
       },
 
       email: {
-        type: String,
-        //required: true,
-        trim: true,
-        minlength: 1,
-        lowercase: true,
+        type: mongoose.SchemaTypes.Email,
       },
     },
     google: {

@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const emailBot = require("../emailbot/email");
 
 // Get all users (as an array of usernames)
 const getAllUsers = async (req, res) => {
@@ -28,13 +29,19 @@ const changeUserDetails = (req, res) => {
   if (req.user) {
     const firstName = req.body.firstName;
     const middleName = req.body.middleName;
-    const lastName = req.user.lastName;
-    const email = req.user.email;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
     const user = req.user;
     user.local.firstName = firstName ? firstName : user.local.firstName;
     user.local.middleName = middleName ? middleName : user.local.middleName;
     user.local.lastName = lastName ? lastName : user.local.lastName;
     user.local.email = email ? email : user.local.email;
+    let changeItems = [];
+    if (firstName) changeItems = changeItems.concat("First Name");
+    if (middleName) changeItems = changeItems.concat("Middle Name");
+    if (lastName) changeItems = changeItems.concat("Last Name");
+    if (email) changeItems = changeItems.concat("Email");
+    emailBot.sendChangeNotification(user.local.email, user, changeItems);
     user
       .save()
       .then(() => res.sendStatus(200))
@@ -66,27 +73,24 @@ const createUser = async (req, res) => {
     const lastName = req.body.lastName;
     const email = req.body.email;
 
-    //Check if there is a user with the same username
-    let foundUser = await User.findOne({ "local.username": username });
-    if (foundUser) {
-      return res.status(403).json({ error: "username is already in use" });
-    }
-
     const newUser = new User({
       method: ["local"],
       username,
       local: {
-        password: password,
-        firstName: firstName,
-        middleName: middleName,
-        lastName: lastName,
-        email: email,
+        password,
+        firstName,
+        middleName,
+        lastName,
+        email,
       },
     });
 
     // Save the new User to the database
     // Create an authentication token
     const token = await newUser.generateAuthToken();
+
+    // Notify the user by email
+    emailBot.sendGreeting(email, newUser);
 
     res.status(201).send({
       user: newUser.toObject(),
