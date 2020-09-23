@@ -24,17 +24,3 @@ DefaultList.args = {
     { ...PageStories.PageDefault.args.page, id: "6", title: "Page 6" },
   ],
 };
-
-export const Loading = Template.bind({});
-Loading.args = {
-  page: [],
-  loading: true,
-};
-
-export const Empty = Template.bind({});
-Empty.args = {
-  // Shaping the stories through args composition.
-  // Inherited data coming from the Loading story.
-  ...Loading.args,
-  loading: false,
-};

@@ -10,31 +10,37 @@ export function PageList({ loading, pages }, onEditPage, onDeletePage) {
   };
 
   const LoadingRow = (
-    <div className="loading-item">
-      <span className="glow-checkbox" />
-      <span className="glow-text">
-        <span>Loading</span> <span>cool</span> <span>state</span>
-      </span>
+    <div class="item">
+      <div class="ui medium active inline loader"></div>
     </div>
   );
-  if (loading) {
-    return (
-      <div className="list-items">
-        {LoadingRow}
-        {LoadingRow}
-        {LoadingRow}
-        {LoadingRow}
-        {LoadingRow}
-        {LoadingRow}
-      </div>
-    );
-  }
+
+  const loadingRows = (
+    <div>
+      {LoadingRow}
+      {LoadingRow}
+      {LoadingRow}
+      {LoadingRow}
+      {LoadingRow}
+      {LoadingRow}
+    </div>
+  );
 
   return (
-    <div className="list-items">
-      {pages.map(page => (
-        <PageTab page={page} {...events} />
-      ))}
+    <div class="ui vertical stripe segment">
+      <div class="ui stackable middle aligned grid container">
+        <div class="ui two wide column">
+          <div class="ui middle aligned selection list">
+            {loading && loadingRows}
+            {!loading &&
+              pages.map(page => (
+                <div class="item">
+                  <PageTab page={page} {...events} />
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
