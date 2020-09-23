@@ -4,7 +4,7 @@
 // Create a new router
 const router = require("express").Router();
 const passport = require("passport");
-const passportConf = require('../passport');
+const passportConf = require("../passport");
 const userController = require("../controllers/user.controller");
 const userMiddleware = require("../middleware/authentication.middleware");
 
@@ -50,9 +50,19 @@ router.post(
 );
 
 // sign up with  google
-router.route('/oauth/google').post(passport.authenticate('googleToken', {session: false}), userController.googleOAuth);
+router
+  .route("/oauth/google")
+  .post(
+    passport.authenticate("googleToken", { session: false }),
+    userController.googleOAuth
+  );
 
 //sign up with facebook
-router.route('/oauth/facebook').post(passport.authenticate('facebookToken', {session: false}), userController.facebookOAuth);
+router
+  .route("/oauth/facebook")
+  .post(
+    passport.authenticate("facebookToken", { session: false }),
+    userController.facebookOAuth
+  );
 
 module.exports = router;

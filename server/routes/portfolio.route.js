@@ -31,4 +31,10 @@ router.post(
   pageController.createPage
 );
 
+router.delete(
+  "/:username",
+  userMiddleware.authenticatePassword,
+  portfolioController.deletePortfolio
+);
+
 module.exports = router;

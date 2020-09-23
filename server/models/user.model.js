@@ -38,7 +38,6 @@ const userSchema = new Schema(
         minlength: 6,
       },
 
-      // TODO: Determine whether any of first, middle, last names is required
       firstName: {
         type: String,
         //required: false,
