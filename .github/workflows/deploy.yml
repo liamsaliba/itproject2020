@@ -5,7 +5,14 @@ on:
     branches: [master]
 
 jobs:
-
+  
+  build:
+    name: Build react app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build React Client
+        run: npm run build --if-present
+  
   deploy:
     name: Deploy to Heroku
     runs-on: ubuntu-latest
