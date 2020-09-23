@@ -1,9 +1,0 @@
-Hi ${username},
-
-Congratulations! You have successfully created a new portfolio for your account.
-
-You can now create pages and add artifacts to your personal portfolio.
-
-Regards,
-
-Camel Pages
