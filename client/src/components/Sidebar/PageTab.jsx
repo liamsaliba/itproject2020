@@ -3,12 +3,6 @@ import PropTypes from "prop-types";
 
 export default function PageTab({ page: { title }, onEditPage, onDeletePage }) {
   return (
-    // fonts: {
-    //   body: "Poppins, sans-serif",
-    //   heading: "Poppins, sans-serif",
-    //   monospace: "Menlo, monospace",
-    // },
-
     <div class="ui dropdown">
       <div class="text">{title}</div>
       <i class="dropdown icon"></i>
@@ -21,30 +15,6 @@ export default function PageTab({ page: { title }, onEditPage, onDeletePage }) {
         </div>
       </div>
     </div>
-
-    // <div className={`list-item ${state}`}>
-    //   <label className="checkbox">
-    //     <input
-    //       type="checkbox"
-    //       defaultChecked={state === 'TASK_ARCHIVED'}
-    //       disabled={true}
-    //       name="checked"
-    //     />
-    //     <span className="checkbox-custom" onClick={() => onArchiveTask(id)} />
-    //   </label>
-    //   <div className="title">
-    //     <input type="text" value={title} readOnly={true} placeholder="Input title" />
-    //   </div>
-
-    //   <div className="actions" onClick={event => event.stopPropagation()}>
-    //     {state !== 'TASK_ARCHIVED' && (
-    //       // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    //       <a onClick={() => onPinTask(id)}>
-    //         <span className={`icon-star`} />
-    //       </a>
-    //     )}
-    //   </div>
-    // </div>
   );
 }
 
