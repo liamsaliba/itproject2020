@@ -1,0 +1,7 @@
+Hi ${username},
+
+You have succesfully changed your portfolio's ${changeItem}.
+
+Regards,
+
+Camel Pages
