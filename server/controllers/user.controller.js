@@ -37,14 +37,18 @@ const changeUserDetails = (req, res) => {
     user.local.lastName = lastName ? lastName : user.local.lastName;
     user.local.email = email ? email : user.local.email;
     let changeItems = [];
-    if (firstName) changeItems = changeItems.concat("First Name");
-    if (middleName) changeItems = changeItems.concat("Middle Name");
-    if (lastName) changeItems = changeItems.concat("Last Name");
-    if (email) changeItems = changeItems.concat("Email");
-    emailBot.sendChangeNotification(user.local.email, user, changeItems);
+    if (user.isModified("local.firstName"))
+      changeItems = changeItems.concat("First Name");
+    if (user.isModified("local.middleName"))
+      changeItems = changeItems.concat("Middle Name");
+    if (user.isModified("local.lastName"))
+      changeItems = changeItems.concat("Last Name");
+    if (user.isModified("local.email"))
+      changeItems = changeItems.concat("Email");
+    emailBot.sendAccountChangeNotification(user.local.email, user, changeItems);
     user
       .save()
-      .then(() => res.sendStatus(200))
+      .then(() => res.status(200).send(user.toObject()))
       .catch(err => res.status(400).json(err));
   } else {
     res.status(400).json("No user detected");
@@ -151,7 +155,6 @@ const logoutUserAllDevices = async (req, res) => {
 
 const googleOAuth = async (req, res, next) => {
   // Generate token
-  // console.log("req.user", req.user);
 
   const token = await req.user.generateAuthToken();
   res.status(201).send({
@@ -162,7 +165,6 @@ const googleOAuth = async (req, res, next) => {
 
 const facebookOAuth = async (req, res, next) => {
   // Generate token
-  // console.log("req.user", req.user);
 
   const token = await req.user.generateAuthToken();
   res.status(201).send({
