@@ -84,7 +84,8 @@
     "@types/axios": "^0.14.0",
     "babel-loader": "^8.1.0",
     "eslint-config-prettier": "^6.11.0",
-    "react-is": "^16.13.1"
+    "react-is": "^16.13.1",
+    "storybook-react-router": "^1.0.8"
   },
   "prettier": {
     "arrowParens": "avoid"
