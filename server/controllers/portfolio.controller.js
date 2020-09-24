@@ -1,8 +1,8 @@
 const Portfolio = require("../models/portfolio.model");
-const authMiddleware = require("../middleware/authentication.middleware");
+const emailBot = require("../emailbot/email");
 
 // Return an array of all portfolios on the server
-const getAllPortfolios = async (req, res) => {
+const getAllPortfolios = async (_req, res) => {
   try {
     const portfolios = await Portfolio.find();
     res.status(200).send(portfolios.map(p => p.toObject()));
@@ -24,7 +24,7 @@ const createPortfolio = (req, res) => {
     });
     newPortfolio
       .save()
-      .then(() => res.status(200).send("New portfolio created!"))
+      .then(() => res.status(200).json("New portfolio created!"))
       .catch(err => {
         if (err.code == 11000) {
           res.status(400).json("Portfolio of this user already exists!");
@@ -34,6 +34,9 @@ const createPortfolio = (req, res) => {
           res.status(400).json(err);
         }
       });
+    if (req.user.local && req.user.local.email) {
+      emailBot.sendPortfolioAddNotification(req.user.local.email, req.user);
+    }
   } else {
     res.sendStatus(400);
   }
@@ -50,12 +53,11 @@ const findPortfolioByUsername = async (req, res) => {
     const p = portfolio.toObject();
     const contents = await Portfolio.findAllPages(username);
     p.contents = contents;
-    if (!portfolio) {
-      throw Error("Portfolio not found!");
-    }
     res.status(200).json(p);
   } catch (err) {
-    res.status(404).json(err);
+    res
+      .status(404)
+      .json(`Portfolio for the username ${req.params.username} not found.`);
   }
 };
 
@@ -70,6 +72,15 @@ const changePortfolio = async (req, res) => {
     const { bio, theme } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
+    let changeItems = [];
+    if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
+    if (portfolio.isModified("theme"))
+      changeItems = changeItems.concat("Theme");
+    emailBot.sendPortfolioChangeNotification(
+      req.user.local.email,
+      req.user,
+      changeItems
+    );
     await portfolio.save();
     if (!portfolio) {
       throw Error("Portfolio not found!");
@@ -81,7 +92,7 @@ const changePortfolio = async (req, res) => {
 };
 
 // Delete a portfolio (requires password authentication first)
-const deletePortfolio = async (req, res) => {
+const deletePortfolio = (req, res) => {
   Portfolio.findOneAndDelete({ username: req.user.username })
     .then(() => res.sendStatus(200))
     .catch(err => res.status(400).json(err));

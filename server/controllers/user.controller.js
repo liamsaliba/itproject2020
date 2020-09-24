@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const emailBot = require("../emailbot/email");
 
 // Get all users (as an array of usernames)
 const getAllUsers = async (req, res) => {
@@ -6,7 +7,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).send(
       users.map(user => {
-        return user.username;
+        return user.toObject();
       })
     );
   } catch (err) {
@@ -28,16 +29,26 @@ const changeUserDetails = (req, res) => {
   if (req.user) {
     const firstName = req.body.firstName;
     const middleName = req.body.middleName;
-    const lastName = req.user.lastName;
-    const email = req.user.email;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
     const user = req.user;
-    user.firstName = firstName ? firstName : user.firstName;
-    user.middleName = middleName ? middleName : user.middleName;
-    user.lastName = lastName ? lastName : user.lastName;
-    user.email = email ? email : user.email;
+    user.local.firstName = firstName ? firstName : user.local.firstName;
+    user.local.middleName = middleName ? middleName : user.local.middleName;
+    user.local.lastName = lastName ? lastName : user.local.lastName;
+    user.local.email = email ? email : user.local.email;
+    let changeItems = [];
+    if (user.isModified("local.firstName"))
+      changeItems = changeItems.concat("First Name");
+    if (user.isModified("local.middleName"))
+      changeItems = changeItems.concat("Middle Name");
+    if (user.isModified("local.lastName"))
+      changeItems = changeItems.concat("Last Name");
+    if (user.isModified("local.email"))
+      changeItems = changeItems.concat("Email");
+    emailBot.sendAccountChangeNotification(user.local.email, user, changeItems);
     user
       .save()
-      .then(() => res.sendStatus(200))
+      .then(() => res.status(200).send(user.toObject()))
       .catch(err => res.status(400).json(err));
   } else {
     res.status(400).json("No user detected");
@@ -65,18 +76,25 @@ const createUser = async (req, res) => {
     const middleName = req.body.middleName;
     const lastName = req.body.lastName;
     const email = req.body.email;
+
     const newUser = new User({
+      method: ["local"],
       username,
-      firstName,
-      middleName,
-      lastName,
-      password,
-      email,
+      local: {
+        password,
+        firstName,
+        middleName,
+        lastName,
+        email,
+      },
     });
 
     // Save the new User to the database
     // Create an authentication token
     const token = await newUser.generateAuthToken();
+
+    // Notify the user by email
+    emailBot.sendGreeting(email, newUser);
 
     res.status(201).send({
       user: newUser.toObject(),
@@ -101,6 +119,7 @@ const loginUser = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
+
     res.status(200).send({
       user: user.toObject(),
       token,
@@ -134,6 +153,26 @@ const logoutUserAllDevices = async (req, res) => {
   }
 };
 
+const googleOAuth = async (req, res, next) => {
+  // Generate token
+
+  const token = await req.user.generateAuthToken();
+  res.status(201).send({
+    user: req.user.toObject(),
+    token,
+  });
+};
+
+const facebookOAuth = async (req, res, next) => {
+  // Generate token
+
+  const token = await req.user.generateAuthToken();
+  res.status(201).send({
+    user: req.user.toObject(),
+    token,
+  });
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -143,4 +182,6 @@ module.exports = {
   getAllUsers,
   changeUserDetails,
   logoutUserAllDevices,
+  googleOAuth,
+  facebookOAuth,
 };

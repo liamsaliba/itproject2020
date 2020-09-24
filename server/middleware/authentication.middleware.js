@@ -9,18 +9,18 @@ const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
-    res.status(401).json({});
+    res.status(401).json("Invalid token.");
     return;
   }
 
   // Find details of the user who has been granted this token
   jwt.verify(token, process.env.SECRET_KEY, (err, details) => {
     if (err) {
-      res.sendStatus(403);
+      res.status(401).json("Invalid token.");
       return;
     }
     if (!details) {
-      res.sendStatus(401);
+      res.status(401).json("Invalid token.");
       return;
     }
 
@@ -29,13 +29,13 @@ const authenticateToken = (req, res, next) => {
       .then(user => {
         // User not found
         if (!user) {
-          res.sendStatus(401);
+          res.status(401).json("User not found.");
           return;
         }
 
         // User does not hold the current token anymore
         if (user.tokens.map(token => token.token).indexOf(token) < 0) {
-          res.sendStatus(401);
+          res.status(401).json("Invalid token.");
           return;
         }
 

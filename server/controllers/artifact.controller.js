@@ -1,4 +1,5 @@
 const Artifact = require("../models/artifact.model");
+const Page = require("../models/page.model");
 const Portfolio = require("../models/portfolio.model");
 
 // Find an artifact given its owner's username
@@ -27,6 +28,7 @@ const createArtifact = async (req, res) => {
     const username = req.user.username;
     const contents = req.body.contents;
     const pageId = req.params.pageId;
+    const page = await Page.findById(pageId);
     const portfolio = await Portfolio.findByUsername(username);
     const portfolioId = portfolio._id;
     const newArtifact = new Artifact({
@@ -38,8 +40,7 @@ const createArtifact = async (req, res) => {
     await newArtifact.save();
     res.status(200).json(newArtifact.toObject());
   } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
+    res.status(400).json(`Page ${req.params.pageId} not found.`);
   }
 };
 
@@ -66,11 +67,10 @@ const findArtifactById = async (req, res) => {
       throw Error("Artifact ID not given.");
     }
     const id = req.params.artifactId;
-    console.log(id);
     const artifact = await Artifact.findById(id);
     res.status(200).json(artifact.toObject());
   } catch (err) {
-    res.status(404).json(err);
+    res.status(404).json(`Artifact ${req.params.artifactId} not found.`);
   }
 };
 
@@ -88,9 +88,9 @@ const changeArtifact = async (req, res) => {
     artifact.contents = contents ? contents : artifact.contents;
     artifact.type = type ? type : artifact.type;
     await artifact.save();
-    res.status(200).json("Artifact successfully changed!");
+    res.status(200).send(artifact.toObject());
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(`Artifact ${req.params.artifactId} not found.`);
   }
 };
 
@@ -101,10 +101,14 @@ const deleteArtifactById = async (req, res) => {
       throw Error("User not found.");
     }
     const artifactId = req.params.artifactId;
-    await Artifact.findByIdAndDelete(req.id);
-    res.status(200).json("Artifact successfully deleted!");
+    const artifact = await Artifact.findById(artifactId);
+    if (!artifact) {
+      throw new Error(`Artifact ${artifactId} not found.`);
+    }
+    await Artifact.findByIdAndDelete(artifactId);
+    res.status(200).json(`Artifact ${artifactId} successfully deleted.`);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message);
   }
 };
 

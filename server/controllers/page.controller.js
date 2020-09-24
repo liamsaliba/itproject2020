@@ -28,10 +28,14 @@ const createPage = async (req, res) => {
     const portfolio = await portfolioModel.findByUsername(username);
     const portfolioId = portfolio._id;
     const contents = req.body.contents;
+    const name = req.body.name;
+    const type = req.body.type;
     const newPage = new Page({
       username,
       portfolioId,
       contents,
+      name,
+      type,
     });
     await newPage.save();
     res.status(200).send(newPage);
@@ -51,12 +55,9 @@ const findPageById = async (req, res) => {
     const contents = await Page.findAllArtifacts(page._id);
     const p = page.toObject();
     p.contents = contents;
-    if (!page) {
-      throw Error("Page not found.");
-    }
     res.status(200).json(p);
   } catch (err) {
-    res.status(404).json(err);
+    res.status(404).json(`Page ${req.params.pageId} not found.`);
   }
 };
 
@@ -76,7 +77,7 @@ const changePage = async (req, res) => {
     await page.save();
     res.status(200).json(page.toObject());
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(`Page ${req.params.pageId} cannot be changed.`);
   }
 };
 
@@ -89,7 +90,7 @@ const deletePageById = async (req, res) => {
     await Page.findByIdAndDelete(req.params.pageId);
     res.sendStatus(200);
   } catch (err) {
-    res.status(400).json(error);
+    res.status(400).json(`Page ${req.params.pageId} cannot be deleted.`);
   }
 };
 

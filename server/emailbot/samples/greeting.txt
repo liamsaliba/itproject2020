@@ -1,0 +1,9 @@
+Hello ${username},
+
+Welcome and thank you for signing up with Camel Pages!
+
+You can now create a new portfolio, add pages and artifacts, and change your details by logging in with your account.
+
+Regards,
+
+Camel Pages

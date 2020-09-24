@@ -26,9 +26,15 @@ router.patch(
 );
 
 router.post(
-  "/:username/page",
+  "/:username/pages",
   userMiddleware.authenticateToken,
   pageController.createPage
+);
+
+router.delete(
+  "/:username",
+  userMiddleware.authenticatePassword,
+  portfolioController.deletePortfolio
 );
 
 module.exports = router;

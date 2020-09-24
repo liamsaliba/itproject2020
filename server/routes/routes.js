@@ -1,7 +1,5 @@
 const router = require("express").Router();
 
-// TODO: add more routes
-
 const userRouter = require("./user.route");
 const portfolioRouter = require("./portfolio.route");
 const uploadRouter = require("./upload.route");

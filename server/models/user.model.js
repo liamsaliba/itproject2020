@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("mongoose-type-email");
 
 // JWT Authentication token
 const tokenSchema = new Schema({
@@ -16,6 +17,11 @@ const tokenSchema = new Schema({
 // Define the schema for each user
 const userSchema = new Schema(
   {
+    method: {
+      type: [String],
+      enum: ["local", "google", "facebook"],
+      required: true,
+    },
     username: {
       type: String, // type of username
       required: true, // username must always be given
@@ -25,43 +31,65 @@ const userSchema = new Schema(
       maxlength: 30, // usernames must be at most 30 characters long
       lowercase: true, // lowercase only
     },
+    local: {
+      password: {
+        type: String,
+        //required: true,
+        minlength: 6,
+      },
 
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
-    },
+      firstName: {
+        type: String,
+        //required: false,
+        //unique: false,
+        trim: true,
+        minlength: 1,
+      },
+      middleName: {
+        type: String,
+        //required: false,
+        //unique: false,
+        trim: true,
+        minlength: 1,
+      },
+      lastName: {
+        type: String,
+        //required: false,
+        //unique: false,
+        trim: true,
+        minlength: 1,
+      },
 
-    // TODO: Determine whether any of first, middle, last names is required
-    firstName: {
-      type: String,
-      required: false,
-      unique: false,
-      trim: true,
-      minlength: 1,
+      email: {
+        type: mongoose.SchemaTypes.Email,
+      },
     },
-    middleName: {
-      type: String,
-      required: false,
-      unique: false,
-      trim: true,
-      minlength: 1,
-    },
-    lastName: {
-      type: String,
-      required: false,
-      unique: false,
-      trim: true,
-      minlength: 1,
-    },
+    google: {
+      id: {
+        type: String,
+      },
 
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 1,
+      email: {
+        type: String,
+        //required: true,
+        trim: true,
+        minlength: 1,
+        lowercase: true,
+      },
     },
+    facebook: {
+      id: {
+        type: String,
+      },
 
+      email: {
+        type: String,
+        //required: true,
+        trim: true,
+        minlength: 1,
+        lowercase: true,
+      },
+    },
     tokens: [tokenSchema],
   },
   {
@@ -70,7 +98,9 @@ const userSchema = new Schema(
       virtual: true,
       transform(doc, ret) {
         delete ret._id;
-        delete ret.password;
+        if (ret.local) {
+          delete ret.local.password;
+        }
         delete ret.tokens;
       },
     },
@@ -79,17 +109,31 @@ const userSchema = new Schema(
 
 // Save a new user
 userSchema.pre("save", async function (next) {
-  const user = this;
-  if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
+  try {
+    if (!this.method.includes("local")) {
+      next();
+    }
+    const user = this;
+
+    if (!user.isModified("local.password")) {
+      next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(this.local.password, salt);
+    this.local.password = passwordHash;
+
+    next();
+  } catch (error) {
+    next(error);
   }
-  next();
 });
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
+
   const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
   user.tokens = user.tokens.concat({ token });
+
   await user.save();
   return token;
 };
@@ -99,7 +143,7 @@ userSchema.statics.findByCredentials = async (username, password) => {
   if (!user) {
     return null;
   }
-  const match = await bcrypt.compare(password, user.password);
+  const match = await bcrypt.compare(password, user.local.password);
   if (!match) {
     return null;
   }
