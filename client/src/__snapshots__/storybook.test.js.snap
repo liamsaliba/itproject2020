@@ -1,0 +1,451 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Components/NavItems/MenuButton Default 1`] = `
+<a
+  className="css-wybq5-GenericLink"
+  href=""
+  onClick={[Function]}
+>
+  Theme
+</a>
+`;
+
+exports[`Storyshots Components/NavItems/MenuImage Default 1`] = `
+<a
+  className="css-hcjfo2-MenuImage"
+  href=""
+  onClick={[Function]}
+  src="camel.svg"
+>
+  <img
+    className="css-3opznh-MenuImage"
+    src="camel.svg"
+  />
+</a>
+`;
+
+exports[`Storyshots Components/NavItems/MenuItem Default 1`] = `
+<a
+  className="css-1ozzmei-MenuItem"
+  href=""
+  onClick={[Function]}
+>
+  About
+</a>
+`;
+
+exports[`Storyshots Features Left Feature 1`] = `
+<div
+  class="ui vertical stripe segment"
+>
+  <div
+    class="ui stackable middle aligned grid container"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="eight wide center aligned column"
+      >
+        <div>
+          <div
+            class="ui icon header"
+          >
+            <i
+              class="pdf file outline icon"
+            />
+            Add an image/video.
+          </div>
+          <div
+            class="center aligned column"
+          >
+            <div
+              class="ui primary button"
+              onClick={[Function]}
+            >
+              Add Document
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="eight wide center aligned column"
+      >
+        <div>
+          <h2
+            class="ui header"
+          >
+            Header
+          </h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          </p>
+          <div
+            class="center aligned column"
+          >
+            <a
+              class="ui button"
+            >
+              Optional Action
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Features Right Feature 1`] = `
+<div
+  class="ui vertical stripe segment"
+>
+  <div
+    class="ui stackable middle aligned grid container"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="eight wide center aligned column"
+      >
+        <div>
+          <h2
+            class="ui header"
+          >
+            Header
+          </h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          </p>
+          <div
+            class="center aligned column"
+          >
+            <a
+              class="ui button"
+            >
+              Optional Action
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="eight wide center aligned column"
+      >
+        <div>
+          <div
+            class="ui icon header"
+          >
+            <i
+              class="pdf file outline icon"
+            />
+            Add an image/video.
+          </div>
+          <div
+            class="center aligned column"
+          >
+            <div
+              class="ui primary button"
+              onClick={[Function]}
+            >
+              Add Document
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots PageList Default List 1`] = `
+<div
+  style={
+    Object {
+      "padding": "3rem",
+    }
+  }
+>
+  <div
+    class="ui vertical stripe segment"
+  >
+    <div
+      class="ui stackable middle aligned grid container"
+    >
+      <div
+        class="ui two wide column"
+      >
+        <div
+          class="ui middle aligned selection list"
+        >
+          <div
+            class="item"
+          >
+            <div
+              class="ui dropdown"
+            >
+              <div
+                class="text"
+              >
+                Page 1
+              </div>
+              <i
+                class="dropdown icon"
+              />
+              <div
+                class="menu"
+              >
+                <div
+                  class="item"
+                >
+                  <i
+                    class="edit icon"
+                    onClick={[Function]}
+                  />
+                   Edit Page
+                </div>
+                <div
+                  class="item"
+                >
+                  <i
+                    class="delete icon"
+                    onClick={[Function]}
+                  />
+                  Remove Page
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="ui dropdown"
+            >
+              <div
+                class="text"
+              >
+                Page 2
+              </div>
+              <i
+                class="dropdown icon"
+              />
+              <div
+                class="menu"
+              >
+                <div
+                  class="item"
+                >
+                  <i
+                    class="edit icon"
+                    onClick={[Function]}
+                  />
+                   Edit Page
+                </div>
+                <div
+                  class="item"
+                >
+                  <i
+                    class="delete icon"
+                    onClick={[Function]}
+                  />
+                  Remove Page
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="ui dropdown"
+            >
+              <div
+                class="text"
+              >
+                Page 3
+              </div>
+              <i
+                class="dropdown icon"
+              />
+              <div
+                class="menu"
+              >
+                <div
+                  class="item"
+                >
+                  <i
+                    class="edit icon"
+                    onClick={[Function]}
+                  />
+                   Edit Page
+                </div>
+                <div
+                  class="item"
+                >
+                  <i
+                    class="delete icon"
+                    onClick={[Function]}
+                  />
+                  Remove Page
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="ui dropdown"
+            >
+              <div
+                class="text"
+              >
+                Page 4
+              </div>
+              <i
+                class="dropdown icon"
+              />
+              <div
+                class="menu"
+              >
+                <div
+                  class="item"
+                >
+                  <i
+                    class="edit icon"
+                    onClick={[Function]}
+                  />
+                   Edit Page
+                </div>
+                <div
+                  class="item"
+                >
+                  <i
+                    class="delete icon"
+                    onClick={[Function]}
+                  />
+                  Remove Page
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="ui dropdown"
+            >
+              <div
+                class="text"
+              >
+                Page 5
+              </div>
+              <i
+                class="dropdown icon"
+              />
+              <div
+                class="menu"
+              >
+                <div
+                  class="item"
+                >
+                  <i
+                    class="edit icon"
+                    onClick={[Function]}
+                  />
+                   Edit Page
+                </div>
+                <div
+                  class="item"
+                >
+                  <i
+                    class="delete icon"
+                    onClick={[Function]}
+                  />
+                  Remove Page
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="ui dropdown"
+            >
+              <div
+                class="text"
+              >
+                Page 6
+              </div>
+              <i
+                class="dropdown icon"
+              />
+              <div
+                class="menu"
+              >
+                <div
+                  class="item"
+                >
+                  <i
+                    class="edit icon"
+                    onClick={[Function]}
+                  />
+                   Edit Page
+                </div>
+                <div
+                  class="item"
+                >
+                  <i
+                    class="delete icon"
+                    onClick={[Function]}
+                  />
+                  Remove Page
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots PageTab Page Default 1`] = `
+<div
+  class="ui dropdown"
+>
+  <div
+    class="text"
+  >
+    Test Page
+  </div>
+  <i
+    class="dropdown icon"
+  />
+  <div
+    class="menu"
+  >
+    <div
+      class="item"
+    >
+      <i
+        class="edit icon"
+        onClick={[Function]}
+      />
+       Edit Page
+    </div>
+    <div
+      class="item"
+    >
+      <i
+        class="delete icon"
+        onClick={[Function]}
+      />
+      Remove Page
+    </div>
+  </div>
+</div>
+`;

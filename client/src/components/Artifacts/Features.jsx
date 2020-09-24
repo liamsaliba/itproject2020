@@ -14,7 +14,7 @@ export default function Features({ feature: { type, action }, onAddDocument }) {
 
       {action && (
         <div class="center aligned column">
-          <a class="ui button">Optional Action</a>
+          <div class="ui button">Optional Action</div>
         </div>
       )}
     </div>
