@@ -3,6 +3,8 @@ import React from "react";
 import { jsx, Image, Box, Styled, Card } from "theme-ui";
 import documentPreview from "../../svg/DocumentPreview.png";
 
+import Experience from "./Experiences.jsx";
+
 /* ------------------------------------------------------------------- */
 
 // writing it here before making a separate file for it!
@@ -58,22 +60,25 @@ const PubItem = props => {
 /* ------------------------------------------------------------------- */
 
 export default props => {
-  // const styling = {
-  //   m: 3,
-  //   p: 2,
-  // };
-  // if (props.name === "Publications") {
+  /* const styling = {
+    m: 3,
+    p: 2,
+  }; */
+  /* if (props.name === "Publications") {
+    return <Publications id={props.name}>{props.children}</Publications>;
+  } else if (props.name === "Experience") {
+    return <Experience id={props.name} />;
+  } else {
+    return (
+      <Box id={props.name} sx={styling}>
+        <Styled.h2 id={props.name}> {props.name} </Styled.h2>
+        <Styled.p> The {props.name} container </Styled.p>
+        {props.children}
+      </Box>
+    );
+  } */
+  if (props.name === "Experience"){
+    return <Experience type={"Experience"} />;
+  }
   return <Publications id={props.name}>{props.children}</Publications>;
-  // } else if (props.name === "Experience") {
-  // return <Experience id={props.name} />;
-  // } else {
-  //   return (
-  //     <Box id={props.name} sx={styling}>
-  //       <Styled.h2 id={props.name}> {props.name} </Styled.h2>
-  //       <Styled.p> The {props.name} container </Styled.p>
-  //       {props.children}
-  //       {/* what does props.children give? */}
-  //     </Box>
-  //   );
-  // }
 };
