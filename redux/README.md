@@ -1,0 +1,1 @@
+A small environment to develop the redux store on without the complexity of integrating it into React.
