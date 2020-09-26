@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function Features({ feature: { type, action }, onAddDocument }) {
+// import Body from './Body';
+
+export default function Artefacts({
+  feature: { type, action },
+  onAddDocument,
+}) {
   const text = (
     <div>
       <h2 class="ui header">Header</h2>
@@ -52,7 +57,7 @@ export default function Features({ feature: { type, action }, onAddDocument }) {
   );
 }
 
-Features.propTypes = {
+Artefacts.propTypes = {
   /** Composition of the page */
   feature: PropTypes.shape({
     type: PropTypes.string,
