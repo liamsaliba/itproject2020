@@ -8,6 +8,7 @@ const portfolioController = require("../controllers/portfolio.controller");
 
 const userMiddleware = require("../middleware/authentication.middleware");
 const pageController = require("../controllers/page.controller");
+const artifactController = require("../controllers/artifact.controller");
 
 router.post(
   "/",
@@ -16,6 +17,12 @@ router.post(
 );
 
 router.get("/", portfolioController.getAllPortfolios);
+
+router.get("/:username/all", portfolioController.findAllDetails);
+
+router.get("/:username/pages", pageController.findPagesByUsername);
+
+router.get("/:username/artifacts", artifactController.findArtifactsByUsername);
 
 router.get("/:username", portfolioController.findPortfolioByUsername);
 

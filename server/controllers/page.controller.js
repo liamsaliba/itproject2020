@@ -1,3 +1,4 @@
+const Artifact = require("../models/artifact.model");
 const Page = require("../models/page.model");
 const portfolioModel = require("../models/portfolio.model");
 
@@ -9,10 +10,19 @@ const findPagesByUsername = async (req, res) => {
     }
     const username = req.params.username;
     const pages = await Page.findByUsername(username);
+    let pageObjects = []
+    for (i = 0; i < pages.length; i++) {
+      const page = pages[i].toObject();
+      console.log(page);
+      const contents = await Page.findAllArtifacts(page.id);
+      page.artifacts = contents;
+      pageObjects.push(page);
+    }
+    console.log(pages);
     if (!pages) {
       throw Error("Pages not found.");
     }
-    res.status(200).json(pages.map(p => p.toObject()));
+    res.status(200).json(pageObjects);
   } catch (err) {
     res.status(404).json(err);
   }
@@ -54,7 +64,7 @@ const findPageById = async (req, res) => {
     const page = await Page.findById(id);
     const contents = await Page.findAllArtifacts(page._id);
     const p = page.toObject();
-    p.contents = contents;
+    p.artifacts = contents;
     res.status(200).json(p);
   } catch (err) {
     res.status(404).json(`Page ${req.params.pageId} not found.`);
@@ -94,10 +104,33 @@ const deletePageById = async (req, res) => {
   }
 };
 
+// Find a page given its ID
+const findAllDetails = async (req, res) => {
+  try {
+    if (!req.params.pageId) {
+      throw Error();
+    }
+    const id = req.params.pageId;
+    const page = await Page.findById(id);
+    const artifacts = await Artifact.findByPageId(page.id);
+    const p = page.toObject();
+    res.status(200).json({
+      page: p,
+      artifacts: artifacts.map(a => {
+        const aObject = a.toObject();
+        return aObject;
+      })
+    });
+  } catch (err) {
+    res.status(404).json(`Page ${req.params.pageId} not found.`);
+  }
+};
+
 module.exports = {
   createPage,
   findPagesByUsername,
   deletePageById,
   findPageById,
   changePage,
+  findAllDetails,
 };

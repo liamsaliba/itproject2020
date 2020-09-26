@@ -44,23 +44,47 @@ const createArtifact = async (req, res) => {
   }
 };
 
+// Find all (detailed) Artifacts
 const findArtifactsByPageId = async (req, res) => {
   try {
     if (!req.params.pageId) {
       throw Error("Page unidentified.");
     }
     const pageId = req.params.pageId;
-    const artifacts = await Artifact.findArtifactsByPageId(pageId);
+    const artifacts = await Artifact.findByPageId(pageId);
     if (!artifacts) {
       throw Error("Artifacts not found.");
     }
-    res.status(200).json(artifacts.map(p => p.toObject()));
+    res.status(200).json(artifacts.map(a => {
+      const aObject = a.toObject();
+      return aObject;
+    }));
   } catch (err) {
     res.status(404).json(err);
   }
 };
 
-// Get an artifact given its ID
+// Find all (detailed) Artifacts
+const findArtifactsIdsByPageId = async (req, res) => {
+  try {
+    if (!req.params.pageId) {
+      throw Error("Page unidentified.");
+    }
+    const pageId = req.params.pageId;
+    const artifacts = await Artifact.findByPageId(pageId);
+    if (!artifacts) {
+      throw Error("Artifacts not found.");
+    }
+    res.status(200).json(artifacts.map(a => {
+      const aObject = a.toObject();
+      return aObject.id;
+    }));
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+// Get an artifact given its ID (detailed artifacts)
 const findArtifactById = async (req, res) => {
   try {
     if (!req.params.artifactId) {
@@ -119,4 +143,5 @@ module.exports = {
   findArtifactById,
   changeArtifact,
   findArtifactsByPageId,
+  findArtifactsIdsByPageId
 };
