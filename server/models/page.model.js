@@ -5,48 +5,49 @@ const Artifact = require("./artifact.model");
 const Schema = mongoose.Schema;
 
 // Define the schema for each oage
-const pageSchema = new Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 1,
-      maxlength: 30,
-    },
-    portfolioId: {
-      type: String,
-      required: true,
-    },
-    contents: {
-      type: [String],
-    },
-    type: {
-      type: String,
-    },
-    name: {
-      type: String,
-      default: "New Page",
-    },
-    // url: {
-    //   type: String,
-    // }
+const pageSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 1,
+    maxlength: 30,
   },
-  {
-    toObject: {
-      versionKey: false,
-      virtual: true,
-      transform(doc, ret) {
-        delete ret.portfolioId;
-        delete ret.__v;
-      },
+  portfolioId: {
+    type: String,
+    required: true,
+  },
+  contents: {
+    type: [String],
+  },
+  type: {
+    type: String,
+  },
+  name: {
+    type: String,
+    default: "New Page",
+  },
+  // url: {
+  //   type: String,
+  // }
+}, {
+  toObject: {
+    versionKey: false,
+    virtual: true,
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.portfolioId;
+      delete ret.__v;
     },
-  }
-);
+  },
+});
 
 // Find a page given its unique ID
 pageSchema.statics.findById = async id => {
-  const page = await Page.findOne({ _id: id });
+  const page = await Page.findOne({
+    _id: id
+  });
   if (!page) return null;
   return page;
 };
@@ -54,7 +55,9 @@ pageSchema.statics.findById = async id => {
 // Find a page given its owner's username
 pageSchema.statics.findByUsername = async username => {
   try {
-    const page = await Page.find({ username });
+    const page = await Page.find({
+      username
+    });
     if (!page) {
       return null;
     }
@@ -66,14 +69,18 @@ pageSchema.statics.findByUsername = async username => {
 
 // Find a page given its portfolio ID
 pageSchema.statics.findByPortfolioId = async id => {
-  const page = await Page.find({ portfolioId: id });
+  const page = await Page.find({
+    portfolioId: id
+  });
   if (!page) return null;
   return page;
 };
 
 pageSchema.statics.findAllArtifacts = async pageId => {
   try {
-    const artifacts = await Artifact.find({ pageId });
+    const artifacts = await Artifact.find({
+      pageId
+    });
     if (!artifacts) {
       throw Error();
     }

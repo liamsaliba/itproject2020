@@ -7,7 +7,12 @@ const getAllUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).send(
       users.map(user => {
-        return user.toObject();
+        const uObject = user.toObject();
+        delete uObject.local;
+        delete uObject.facebook;
+        delete uObject.google;
+        delete uObject.method;
+        return uObject;
       })
     );
   } catch (err) {
@@ -116,7 +121,10 @@ const loginUser = async (req, res) => {
   try {
     // Get username and password from the request body
     // and find the user in the database
-    const { username, password } = req.body;
+    const {
+      username,
+      password
+    } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
 
