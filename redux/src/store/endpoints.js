@@ -7,7 +7,7 @@ export const logoutAll = logout + "/all";
 export const portfolios = "/portfolios";
 export const portfoliosByUsername = username => portfolios + "/" + username;
 export const portfolioPage = username =>
-  portfoliosByUsername(username) + "/page";
+  portfoliosByUsername(username) + "/pages";
 
 export const pages = "/pages";
 export const pagesById = pageId => pages + "/" + pageId;

@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import reducer from "./reducer";
+import toast from "./middleware/toast";
 import api from "./middleware/api";
 import { createLogger } from "redux-logger";
 
@@ -19,6 +20,7 @@ export default function (testing) {
     reducer,
     middleware: [
       ...getDefaultMiddleware(), // Redux Thunk
+      toast,
       api,
       logger,
     ],

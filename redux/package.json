@@ -8,6 +8,7 @@
     "@types/redux-logger": "^3.0.8",
     "axios": "^0.20.0",
     "moment": "^2.27.0",
+    "normalizr": "^3.6.0",
     "prettier": "^2.1.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6"

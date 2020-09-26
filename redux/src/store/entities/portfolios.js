@@ -11,8 +11,6 @@ const portfolioInitialState = {
 
 // export const portfoliosAdapter = createEntityAdapter({...cacheProps});
 
-// const getPortfolios =
-
 const receivePortfolio = (portfolios, action) => {
   const { theme, username, bio, contents: pages } = action.payload;
   portfolios.byId[username] = {

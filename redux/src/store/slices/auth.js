@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { apiStarted } from "./api";
-import * as endpoints from "./endpoints";
+import { apiStarted } from "../api";
+import * as endpoints from "../endpoints";
 
 const userKey = "user";
 const tokenKey = "token";
@@ -8,7 +8,6 @@ const tokenKey = "token";
 // Attempt to get user information and token from cookies
 const user = JSON.parse(localStorage.getItem(userKey));
 const token = localStorage.getItem(tokenKey);
-
 const finishLogin = (auth, { payload }) => {
   const { user, token } = payload;
   auth.loading = false;
@@ -60,7 +59,7 @@ const slice = createSlice({
     },
     logoutRequested: (auth, action) => {
       auth.user = {};
-      auth.token = null;
+      auth.token = "";
       localStorage.removeItem(userKey);
       localStorage.removeItem(tokenKey);
     },
@@ -93,6 +92,7 @@ export const signup = (
       onStart: signUpRequested.type,
       onSuccess: signUpSucceeded.type,
       onFailure: signUpFailed.type,
+      hideErrorToast: true,
     })
   );
 
@@ -105,11 +105,14 @@ export const login = (username, password) => dispatch => {
       onStart: loginRequested.type,
       onSuccess: loginSucceeded.type,
       onFailure: loginFailed.type,
+      hideErrorToast: true,
     })
   );
 };
 
-export const logout = token => dispatch => {
+export const logout = () => (dispatch, getState) => {
+  const token = getState().auth.token;
+
   return dispatch(
     apiStarted({
       url: endpoints.logout,
@@ -120,7 +123,9 @@ export const logout = token => dispatch => {
   );
 };
 
-export const logoutAll = token => dispatch => {
+export const logoutAll = () => (dispatch, getState) => {
+  const token = getState().auth.token;
+
   return dispatch(
     apiStarted({
       url: endpoints.logoutAll,
