@@ -23,6 +23,17 @@ const slice = createSlice({
     // updateMany: adapter.updateMany,
     // upsertOne: adapter.upsertOne,
     // upsertMany: adapter.upsertMany,
+    pageRequestedMany: (pages, action) => {
+      pages.loading = true;
+    },
+    pageReceivedMany: (pages, action) => {
+      adapter.upsertMany(pages, addLastFetch(action.payload));
+      pages.loading = false;
+    },
+    pageRequestManyFailed: (pages, action) => {
+      pages.loading = false;
+      pages.error = action.payload;
+    },
     pageRequestedOne: (pages, action) => {
       pages.loading = true;
     },

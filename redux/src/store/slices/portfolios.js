@@ -117,9 +117,9 @@ export const fetchPortfolio = (username, cache = true) => (
 };
 
 // create portfolio with theme, bio
-export const createPortfolio = portfolio => (dispatch, getState) => {
+export const createPortfolio = (portfolio = {}) => (dispatch, getState) => {
   const token = getState().auth.token;
-  portfolio = portfolio === undefined ? {} : portfolio;
+
   return dispatch(
     apiStarted({
       url: endpoints.portfolios,
