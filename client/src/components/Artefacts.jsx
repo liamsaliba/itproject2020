@@ -1,29 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// import Body from './Body';
+import Body from './Body';
 
-export default function Artefacts({
-  feature: { type, action },
-  onAddDocument,
-}) {
-  const text = (
-    <div>
-      <h2 class="ui header">Header</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias
-        officiis quam et iste ratione earum illo aliquid neque, quis quas
-        accusamus voluptatum provident dolorum aspernatur nostrum quo similique
-        odit!
-      </p>
-
-      {action && (
-        <div class="center aligned column">
-          <div class="ui button">Optional Action</div>
-        </div>
-      )}
-    </div>
-  );
+export default function Artefacts({ feature: { type }, onAddDocument}) {
 
   const artifact = (
     <div>
@@ -44,12 +24,12 @@ export default function Artefacts({
       <div class="ui stackable middle aligned grid container">
         <div class="row">
           <div class="eight wide center aligned column">
-            {type === "right" && text}
+            {type === "right" && <Body />}
             {type === "left" && artifact}
           </div>
           <div class="eight wide center aligned column">
             {type === "right" && artifact}
-            {type === "left" && text}
+            {type === "left" && <Body />}
           </div>
         </div>
       </div>

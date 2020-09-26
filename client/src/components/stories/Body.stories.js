@@ -14,6 +14,8 @@ Centered.args = {
   body: {
     hAlign: "center",
     vAlign: "middle",
+    hasHeading: true, 
+    hasBody: true,
     hasAction: true,
   },
 };
@@ -23,6 +25,8 @@ TopRight.args = {
   body: {
     hAlign: "right",
     vAlign: "top",
+    hasHeading: true, 
+    hasBody: true,
     hasAction: true,
   },
 };
@@ -32,6 +36,8 @@ TopLeft.args = {
   body: {
     hAlign: "left",
     vAlign: "top",
+    hasHeading: true, 
+    hasBody: true,
     hasAction: true,
   },
 };
@@ -41,6 +47,8 @@ BottomRight.args = {
   body: {
     hAlign: "right",
     vAlign: "bottom",
+    hasHeading: true, 
+    hasBody: true,
     hasAction: true,
   },
 };
@@ -50,6 +58,8 @@ BottomLeft.args = {
   body: {
     hAlign: "left",
     vAlign: "bottom",
+    hasHeading: true, 
+    hasBody: true,
     hasAction: true,
   },
 };
