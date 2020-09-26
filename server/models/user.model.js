@@ -155,6 +155,22 @@ userSchema.statics.findByCredentials = async (username, password) => {
   return user;
 };
 
+userSchema.statics.findByUsername  = async (username)  => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return null;
+  }
+  const method = user.method;
+  if (method == 'local'){
+    return user.local.email;
+  }else if (method == 'google'){
+    return user.google.email;
+  }else if (method == 'facebook'){
+    return user.facebook.email;
+  }
+}
+
+
 // Create a User schema on MongoDB
 const User = mongoose.model("User", userSchema);
 
