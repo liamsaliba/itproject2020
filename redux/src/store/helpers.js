@@ -11,9 +11,14 @@ export const cacheProps = {
   lastFetch: null, // timestamp of last time fetched from the server (cache)
 };
 
+export const portfolioCacheProps = {
+  pagesLastFetch: null, // timestamp of last time fetched from the server (cache)
+  artifactsLastFetch: null, // timestamp of last time fetched from the server (cache)
+};
+
 export const addCacheProps = object => ({
-  ...cacheProps,
   ...object,
+  ...cacheProps,
 });
 
 export const addLastFetch = object => ({
@@ -25,3 +30,13 @@ export const getId = action => action.payload._id;
 
 export const idObjectify = id => ({ _id: id });
 export const arrIdObjectify = arr => arr.map(idObjectify);
+
+const upsertManyFetch = (adapter, selector = payload => payload) => (
+  items,
+  { payload }
+) => {
+  adapter.upsertMany(
+    items,
+    selector(payload).map(item => addLastFetch(item))
+  );
+};

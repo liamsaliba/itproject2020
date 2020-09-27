@@ -9,6 +9,7 @@ import {
   deletePortfolio,
   createPage,
   login,
+  selectPortfolioByUsername,
 } from "../";
 
 import axios from "axios";
@@ -24,7 +25,8 @@ describe("portfoliosSlice", () => {
   });
 
   const portfoliosSlice = () => store.getState().portfolios;
-  const portfolioSlice = username => portfoliosSlice().entities[username];
+  const selectPortfolioByUsername = username =>
+    portfoliosSlice().entities[username];
 
   describe("loading portfolios", () => {
     describe("if portfolios exist in the cache", () => {
@@ -106,7 +108,7 @@ describe("portfoliosSlice", () => {
       //   it("should be true while fetching the portfolio", () => {
       //     fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(() => {
       //       // while waiting for response
-      //       expect(portfolioSlice("a").loading).toBe(true);
+      //       expect(selectPortfolioByUsername("a").loading).toBe(true);
       //       return [200, { username: "a", pages: [] }];
       //     });
 
@@ -119,14 +121,14 @@ describe("portfoliosSlice", () => {
 
       //     await store.dispatch(fetchPortfolio("a"));
 
-      //     expect(portfolioSlice("a").loading).toBe(false);
+      //     expect(selectPortfolioByUsername("a").loading).toBe(false);
       //   });
       //   it("should be false if the server returns an error", async () => {
       //     fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(500);
 
       //     await store.dispatch(fetchPortfolio("a"));
 
-      //     expect(portfolioSlice("a").loading).toBe(false);
+      //     expect(selectPortfolioByUsername("a").loading).toBe(false);
       //   });
       // });
     });
@@ -154,8 +156,8 @@ describe("portfoliosSlice", () => {
 
         await store.dispatch(createPortfolio());
 
-        expect(portfolioSlice("a")).toBeDefined();
-        expect(portfolioSlice("a").bio).toBe("b");
+        expect(selectPortfolioByUsername("a")).toBeDefined();
+        expect(selectPortfolioByUsername("a").bio).toBe("b");
       });
 
       it("should not happen if it's not saved to the server, and save error message", async () => {
@@ -163,7 +165,7 @@ describe("portfoliosSlice", () => {
 
         await store.dispatch(createPortfolio());
 
-        expect(portfolioSlice("a")).not.toBeDefined();
+        expect(selectPortfolioByUsername("a")).not.toBeDefined();
       });
     });
 
@@ -184,7 +186,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(changePortfolioTheme("new"));
 
-          expect(portfolioSlice("a").theme).toBe("newTheme");
+          expect(selectPortfolioByUsername("a").theme).toBe("newTheme");
         });
 
         it("should not happen if it's not saved to the server, and save error message", async () => {
@@ -192,7 +194,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(changePortfolioTheme("new"));
 
-          expect(portfolioSlice("a").theme).toBe("oldTheme");
+          expect(selectPortfolioByUsername("a").theme).toBe("oldTheme");
         });
       });
 
@@ -202,7 +204,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(deletePortfolio("a", "a"));
 
-          expect(portfolioSlice("a")).not.toBeDefined();
+          expect(selectPortfolioByUsername("a")).not.toBeDefined();
         });
 
         it("should not happen if it's not saved to the server, and save error message", async () => {
@@ -210,8 +212,8 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(deletePortfolio("a", "a"));
 
-          expect(portfolioSlice("a")).toBeDefined();
-          expect(portfolioSlice("a").bio).toBe("b");
+          expect(selectPortfolioByUsername("a")).toBeDefined();
+          expect(selectPortfolioByUsername("a").bio).toBe("b");
         });
       });
 
@@ -223,7 +225,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(createPage());
 
-          expect(portfolioSlice("a").pages.length).toBe(1);
+          expect(selectPortfolioByUsername("a").pages.length).toBe(1);
         });
 
         it("should add not add page to portfolio's list of pages; if it's not saved to server", async () => {
@@ -231,7 +233,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(createPage());
 
-          expect(portfolioSlice("a").pages.length).toBe(0);
+          expect(selectPortfolioByUsername("a").pages.length).toBe(0);
         });
       });
     });

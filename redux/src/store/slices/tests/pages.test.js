@@ -9,7 +9,7 @@ import {
   fetchPortfolio,
   createArtifact,
   login,
-} from "..";
+} from "../";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
@@ -26,11 +26,17 @@ describe("pagesSlice", () => {
   const pagesSlice = () => store.getState().pages;
   const pageSlice = id => pagesSlice().entities[id];
 
+  const newPage = {
+    name: "name",
+    type: "type",
+    username: "a",
+    id: "a",
+    artifacts: [],
+  };
+
   describe("loading detailed page", () => {
     beforeEach(() => {
-      fakeAxios
-        .onGet(endpoints.pagesById("a"))
-        .reply(200, { username: "u", id: "a", artifacts: [] });
+      fakeAxios.onGet(endpoints.pagesById("a")).reply(200, newPage);
     });
 
     describe("if it exists in the cache", () => {
@@ -50,6 +56,38 @@ describe("pagesSlice", () => {
       });
     });
   });
+  const fullPage = {
+    page: newPage,
+    artifacts: [
+      { username: "a", pageId: "a", id: "a", body: "a" },
+      { username: "a", pageId: "a", id: "b", body: "a" },
+      { username: "a", pageId: "a", id: "c", body: "a" },
+    ],
+  };
+  // describe("loading full page", () => {
+  //   beforeEach(() => {
+  //     fakeAxios
+  //       .onGet(endpoints.fullPageById("a"))
+  //       .reply(200, { username: "u", id: "a", artifacts: [] });
+  //   });
+
+  //   describe("if it exists in the cache", () => {
+  //     it("should not be fetched from the server again", async () => {
+  //       await store.dispatch(fetchPage("a"));
+  //       await store.dispatch(fetchPage("a"));
+
+  //       expect(fakeAxios.history.get.length).toBe(1);
+  //     });
+  //   });
+
+  //   describe("if it does not exist in the cache", () => {
+  //     it("should be fetched from the server and put in the store", async () => {
+  //       await store.dispatch(fetchPage("a"));
+  //       expect(pagesSlice().ids.length).toBe(1);
+  //       expect(pagesSlice().entities).toHaveProperty("a");
+  //     });
+  //   });
+  // });
 
   describe("authenticated", () => {
     beforeEach(async () => {
@@ -66,14 +104,6 @@ describe("pagesSlice", () => {
 
       await store.dispatch(fetchPortfolio("a"));
     });
-
-    const newPage = {
-      name: "name",
-      type: "type",
-      username: "a",
-      id: "a",
-      artifacts: [],
-    };
 
     describe("create page", () => {
       it("should happen if it's saved to the server", async () => {

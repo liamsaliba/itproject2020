@@ -4,6 +4,12 @@ export {
   signup,
   logout,
   logoutAll,
+  // selectors
+  selectToken,
+  selectUser,
+  selectUsername,
+  // reducer
+  default as authReducer,
 } from "./auth";
 
 export {
@@ -22,6 +28,8 @@ export {
   selectTotalPortfolios,
   selectPagesByUsername,
   selectTotalPagesByUsername,
+  // reducer
+  default as portfoliosReducer,
 } from "./portfolios";
 
 export {
@@ -39,6 +47,8 @@ export {
   selectTotalPages,
   selectArtifactsByPageId,
   selectTotalArtifactsByPageId,
+  // reducer
+  default as pagesReducer,
 } from "./pages";
 
 export {
@@ -54,4 +64,6 @@ export {
   selectArtifactEntities,
   selectAllArtifacts,
   selectTotalArtifacts,
+  // reducer
+  default as artifactsReducer,
 } from "./artifacts";

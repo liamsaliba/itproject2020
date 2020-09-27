@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
 
@@ -66,7 +66,9 @@ const slice = createSlice({
   },
 });
 
+// Reducer
 export default slice.reducer;
+// Actions
 const {
   loginRequested,
   loginSucceeded,
@@ -76,6 +78,15 @@ const {
   signUpSucceeded,
   logoutRequested,
 } = slice.actions;
+
+// Selectors
+const selectAuth = state => state.auth;
+
+export const selectToken = createSelector(selectAuth, auth => auth.token);
+export const selectUser = createSelector(selectAuth, auth => auth.user);
+export const selectUsername = createSelector(selectUser, user => user.username);
+
+// Action Creators
 
 export const signup = (
   firstName,
@@ -111,7 +122,7 @@ export const login = (username, password) => dispatch => {
 };
 
 export const logout = () => (dispatch, getState) => {
-  const token = getState().auth.token;
+  const token = selectToken(getState());
 
   return dispatch(
     apiStarted({
@@ -124,7 +135,7 @@ export const logout = () => (dispatch, getState) => {
 };
 
 export const logoutAll = () => (dispatch, getState) => {
-  const token = getState().auth.token;
+  const token = selectToken(getState());
 
   return dispatch(
     apiStarted({

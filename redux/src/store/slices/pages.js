@@ -5,23 +5,29 @@ import {
 } from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
-import { cacheProps, addLastFetch, cacheNotExpired } from "../helpers";
+import {
+  cacheProps,
+  addLastFetch,
+  cacheNotExpired,
+  upsertManyFetch,
+} from "../helpers";
 import { actions as artifactActions } from "./artifacts";
+import {
+  portfolioFetchedAll,
+  portfolioFetchedPages,
+  pageFetchedArtifacts,
+  pageFetchedAll,
+} from "./actions";
+import { selectToken, selectUsername } from "./auth";
 
 export const adapter = createEntityAdapter();
+
+const receiveMany = (adapter, selector) => upsertManyFetch(adapter, selector);
 
 const slice = createSlice({
   name: "page",
   initialState: adapter.getInitialState(cacheProps),
   reducers: {
-    // addOne: adapter.addOne,
-    // addMany: adapter.addMany,
-    // removeOne: adapter.removeOne,
-    // removeMany: adapter.removeMany,
-    // updateOne: adapter.updateOne,
-    // updateMany: adapter.updateMany,
-    // upsertOne: adapter.upsertOne,
-    // upsertMany: adapter.upsertMany,
     pageRequestedMany: (pages, action) => {
       pages.loading = true;
     },
@@ -48,13 +54,20 @@ const slice = createSlice({
       pages.error = action.payload;
     },
     pageCreated: (pages, action) => {
-      adapter.upsertOne(pages, addLastFetch(action.payload));
+      const page = addLastFetch(action.payload);
+      adapter.upsertOne(pages, page);
     },
     pageUpdated: (pages, action) => {
-      adapter.upsertOne(pages, addLastFetch(action.payload));
+      const page = addLastFetch(action.payload);
+      adapter.upsertOne(pages, page);
     },
     pageDeleted: (pages, action) => {
-      adapter.removeOne(pages, action.request.data.id);
+      const pageId = action.request.data.id;
+      adapter.removeOne(pages, pageId);
+    },
+    pageReceivedOneAll: (pages, action) => {
+      const { page } = addLastFetch(action.payload);
+      adapter.upsertOne(pages, page);
     },
   },
   extraReducers: {
@@ -62,9 +75,41 @@ const slice = createSlice({
       const { pageId, id } = action.payload;
       pages.entities[pageId].artifacts.push({ id });
     },
+    [portfolioFetchedAll]: (pages, action) => {
+      const { pages: receivedPages } = action.payload;
+      adapter.upsertMany(
+        pages,
+        receivedPages.map(page => {
+          page.lastFetch = Date.now();
+          page.artifactsLastFetch = Date.now();
+          return page;
+        })
+      );
+    },
+    [portfolioFetchedPages]: (pages, action) => {
+      const receivedPages = action.payload;
+      adapter.upsertMany(
+        pages,
+        receivedPages.map(page => addLastFetch(page))
+      );
+    },
+    [pageFetchedAll]: (pages, action) => {
+      const { page } = action.payload;
+      page.lastFetch = Date.now();
+      page.artifactsLastFetch = Date.now();
+      adapter.upsertOne(pages, page);
+      pages.loading = false;
+    },
+    [pageFetchedArtifacts]: (pages, action) => {
+      page.artifactsLastFetch = Date.now();
+    },
   },
 });
 
+// Reducer
+export default slice.reducer;
+
+// Actions
 const {
   pageRequestedMany,
   pageReceivedMany,
@@ -76,71 +121,7 @@ const {
   pageUpdated,
   pageDeleted,
 } = slice.actions;
-
-export default slice.reducer;
 export const actions = slice.actions;
-
-// Action Creators
-// load a page by id, with _all_ properties
-export const fetchPage = (id, cache = true) => (dispatch, getState) => {
-  const page = getState().pages.entities[id];
-  if (cache && page && cacheNotExpired(page.lastFetch)) return;
-
-  return dispatch(
-    apiStarted({
-      url: endpoints.pagesById(id),
-      method: "get",
-      onStart: pageRequestedOne.type,
-      onSuccess: pageReceivedOne.type,
-      onFailure: pageRequestOneFailed.type,
-    })
-  );
-};
-
-// create a new page
-export const createPage = (page = {}) => (dispatch, getState) => {
-  const token = getState().auth.token;
-  const username = getState().auth.user.username;
-  return dispatch(
-    apiStarted({
-      url: endpoints.pagesByUsername(username),
-      method: "post",
-      data: page,
-      token,
-      onSuccess: pageCreated.type,
-    })
-  );
-};
-
-export const changePageOptions = (id, data) => (dispatch, getState) => {
-  const token = getState().auth.token;
-  return dispatch(
-    apiStarted({
-      url: endpoints.pagesById(id),
-      method: "patch",
-      data,
-      token,
-      onSuccess: pageUpdated.type,
-    })
-  );
-};
-
-export const renamePage = (id, name) => changePageOptions(id, { name });
-
-// delete a page by id
-export const deletePage = id => (dispatch, getState) => {
-  const token = getState().auth.token;
-
-  return dispatch(
-    apiStarted({
-      url: endpoints.pagesById(id),
-      method: "delete",
-      data: { id },
-      token,
-      onSuccess: pageDeleted.type,
-    })
-  );
-};
 
 // Selectors
 export const {
@@ -178,3 +159,66 @@ export const selectTotalArtifactsByPageId = pageId =>
         .filter(artifact => page.contents.includes(artifact.id)).length;
     }
   );
+
+// Action Creators
+// load a page by id, with _all_ properties
+export const fetchPage = (id, cache = true) => (dispatch, getState) => {
+  const page = selectPageById(getState(), id);
+  if (cache && page && cacheNotExpired(page.lastFetch)) return;
+
+  return dispatch(
+    apiStarted({
+      url: endpoints.pagesById(id),
+      method: "get",
+      onStart: pageRequestedOne.type,
+      onSuccess: pageReceivedOne.type,
+      onFailure: pageRequestOneFailed.type,
+    })
+  );
+};
+
+// create a new page
+export const createPage = (page = {}) => (dispatch, getState) => {
+  const token = selectToken(getState());
+  const username = selectUsername(getState());
+  return dispatch(
+    apiStarted({
+      url: endpoints.pagesByUsername(username),
+      method: "post",
+      data: page,
+      token,
+      onSuccess: pageCreated.type,
+    })
+  );
+};
+
+export const changePageOptions = (id, data) => (dispatch, getState) => {
+  const token = selectToken(getState());
+
+  return dispatch(
+    apiStarted({
+      url: endpoints.pagesById(id),
+      method: "patch",
+      data,
+      token,
+      onSuccess: pageUpdated.type,
+    })
+  );
+};
+
+export const renamePage = (id, name) => changePageOptions(id, { name });
+
+// delete a page by id
+export const deletePage = id => (dispatch, getState) => {
+  const token = selectToken(getState());
+
+  return dispatch(
+    apiStarted({
+      url: endpoints.pagesById(id),
+      method: "delete",
+      data: { id },
+      token,
+      onSuccess: pageDeleted.type,
+    })
+  );
+};

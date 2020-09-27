@@ -5,9 +5,23 @@ import {
 } from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
-import { cacheProps, addLastFetch, cacheNotExpired } from "../helpers";
+import {
+  cacheProps,
+  addLastFetch,
+  cacheNotExpired,
+  upsertManyFetch,
+} from "../helpers";
+import {
+  portfolioFetchedAll,
+  portfolioFetchedArtifacts,
+  pageFetchedArtifacts,
+  pageFetchedAll,
+} from "./actions";
+import { selectToken, selectUsername } from "./auth";
 
 export const adapter = createEntityAdapter();
+
+const receiveMany = (adapter, selector) => upsertManyFetch(adapter, selector);
 
 const slice = createSlice({
   name: "artifact",
@@ -55,8 +69,15 @@ const slice = createSlice({
       adapter.removeOne(artifacts, action.request.data.id);
     },
   },
+  extraReducers: {
+    [portfolioFetchedAll]: (artifacts, action) => receiveMany(p => p.artifacts),
+    [portfolioFetchedArtifacts]: (artifacts, action) => receiveMany(),
+    [pageFetchedAll]: (artifacts, action) => receiveMany(p => p.artifacts),
+    [pageFetchedArtifacts]: (artifacts, action) => receiveMany(),
+  },
 });
 
+// Actions
 const {
   artifactRequestedMany,
   artifactReceivedMany,
@@ -68,15 +89,25 @@ const {
   artifactUpdated,
   artifactDeleted,
 } = slice.actions;
-
 export const actions = slice.actions;
+
+// Reducer
 export default slice.reducer;
+
+// Selectors
+export const {
+  selectById: selectArtifactById,
+  selectIds: selectArtifactIds,
+  selectEntities: selectArtifactEntities,
+  selectAll: selectAllArtifacts,
+  selectTotal: selectTotalArtifacts,
+} = adapter.getSelectors(state => state.artifacts);
 
 // Action Creators
 
 // load a artifact by id, with _all_ properties
 export const fetchArtifact = (id, cache = true) => (dispatch, getState) => {
-  const artifact = getState().artifacts.entities[id];
+  const artifact = selectArtifactById(getState(), id);
   if (cache && artifact && cacheNotExpired(artifact.lastFetch)) return;
 
   return dispatch(
@@ -95,7 +126,8 @@ export const createArtifact = (pageId, artifact = {}) => (
   dispatch,
   getState
 ) => {
-  const token = getState().auth.token;
+  const token = selectToken(getState());
+
   return dispatch(
     apiStarted({
       url: endpoints.artifactsByPageId(pageId),
@@ -108,7 +140,8 @@ export const createArtifact = (pageId, artifact = {}) => (
 };
 
 export const editArtifact = (id, data) => (dispatch, getState) => {
-  const token = getState().auth.token;
+  const token = selectToken(getState());
+
   return dispatch(
     apiStarted({
       url: endpoints.artifactsById(id),
@@ -122,7 +155,7 @@ export const editArtifact = (id, data) => (dispatch, getState) => {
 
 // delete a artifact by id
 export const deleteArtifact = id => (dispatch, getState) => {
-  const token = getState().auth.token;
+  const token = selectToken(getState());
 
   return dispatch(
     apiStarted({
@@ -134,12 +167,3 @@ export const deleteArtifact = id => (dispatch, getState) => {
     })
   );
 };
-
-// Selectors
-export const {
-  selectById: selectArtifactById,
-  selectIds: selectArtifactIds,
-  selectEntities: selectArtifactEntities,
-  selectAll: selectAllArtifacts,
-  selectTotal: selectTotalArtifacts,
-} = adapter.getSelectors(state => state.artifacts);
