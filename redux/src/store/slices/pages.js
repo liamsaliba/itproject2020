@@ -5,12 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
-import {
-  cacheProps,
-  addLastFetch,
-  cacheNotExpired,
-  upsertManyFetch,
-} from "../helpers";
+import { cacheProps, addLastFetch, cacheNotExpired } from "../helpers";
 import { actions as artifactActions } from "./artifacts";
 import {
   portfolioFetchedAll,
@@ -21,8 +16,6 @@ import {
 import { selectToken, selectUsername } from "./auth";
 
 export const adapter = createEntityAdapter();
-
-const receiveMany = (adapter, selector) => upsertManyFetch(adapter, selector);
 
 const slice = createSlice({
   name: "page",
@@ -101,7 +94,12 @@ const slice = createSlice({
       pages.loading = false;
     },
     [pageFetchedArtifacts]: (pages, action) => {
-      page.artifactsLastFetch = Date.now();
+      const { id } = action.request.data;
+      const page = {
+        id,
+        artifactsLastFetch: Date.now(),
+      };
+      adapter.upsertOne(pages, page);
     },
   },
 });
@@ -172,6 +170,48 @@ export const fetchPage = (id, cache = true) => (dispatch, getState) => {
       method: "get",
       onStart: pageRequestedOne.type,
       onSuccess: pageReceivedOne.type,
+      onFailure: pageRequestOneFailed.type,
+    })
+  );
+};
+
+// fetch entire page by page id, including artifacts
+export const fetchEntirePage = (pageId, cache = true) => (
+  dispatch,
+  getState
+) => {
+  const page = selectPageById(getState(), pageId);
+  if (
+    cache &&
+    page &&
+    cacheNotExpired(page.lastFetch) &&
+    cacheNotExpired(page.artifactsLastFetch)
+  )
+    return;
+  return dispatch(
+    apiStarted({
+      url: endpoints.fullPageById(pageId),
+      onStart: pageRequestedOne.type,
+      onSuccess: pageFetchedAll.type,
+      onFailure: pageRequestOneFailed.type,
+    })
+  );
+};
+
+// fetch all artifacts in page by page id
+export const fetchPageArtifacts = (pageId, cache = true) => (
+  dispatch,
+  getState
+) => {
+  const page = selectPageById(getState(), pageId);
+  if (cache && page && cacheNotExpired(page.artifactsLastFetch)) return;
+
+  return dispatch(
+    apiStarted({
+      url: endpoints.artifactsByPageId(pageId),
+      data: { id: pageId },
+      onStart: pageRequestedOne.type,
+      onSuccess: pageFetchedArtifacts.type,
       onFailure: pageRequestOneFailed.type,
     })
   );

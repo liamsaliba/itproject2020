@@ -63,7 +63,14 @@ const slice = createSlice({
   extraReducers: {
     [pageActions.pageCreated]: (portfolios, action) => {
       const { username, id, name } = action.payload;
-      portfolios.entities[username].pages.push({ id, name });
+      const newPage = { id, name };
+      if (!portfolios.entities[username]) {
+        adapter.upsertOne({
+          username,
+          pages: [newPage],
+        });
+      }
+      portfolios.entities[username].pages.push(newPage);
     },
     [portfolioFetchedAll]: (portfolios, action) => {
       const { portfolio } = action.payload;
@@ -74,10 +81,20 @@ const slice = createSlice({
       portfolios.loading = false;
     },
     [portfolioFetchedArtifacts]: (portfolios, action) => {
-      portfolio.artifactsLastFetch = Date.now();
+      const { username } = action.request.data;
+      const portfolio = {
+        username,
+        artifactsLastFetch: Date.now(),
+      };
+      adapter.upsertOne(portfolios, portfolio);
     },
     [portfolioFetchedPages]: (portfolios, action) => {
-      portfolio.pagesLastFetch = Date.now();
+      const { username } = action.request.data;
+      const portfolio = {
+        username,
+        pagesLastFetch: Date.now(),
+      };
+      adapter.upsertOne(portfolios, portfolio);
     },
   },
 });
@@ -154,15 +171,6 @@ export const fetchPortfolios = () => (dispatch, getState) => {
   );
 };
 
-const getOnePortfolio = (username, onSuccess) =>
-  apiStarted({
-    url: endpoints.portfoliosByUsername(username),
-    method: "get",
-    onStart: portfolioRequestedOne.type,
-    onSuccess: onSuccess.type,
-    onFailure: portfolioRequestOneFailed.type,
-  });
-
 // load a portfolio by username, with _all_ properties
 export const fetchPortfolio = (username, cache = true) => (
   dispatch,
@@ -170,7 +178,14 @@ export const fetchPortfolio = (username, cache = true) => (
 ) => {
   const portfolio = selectPortfolioByUsername(getState(), username);
   if (cache && portfolio && cacheNotExpired(portfolio.lastFetch)) return;
-  return dispatch(getOnePortfolio(username, portfolioReceivedOne));
+  return dispatch(
+    apiStarted({
+      url: endpoints.portfoliosByUsername(username),
+      onStart: portfolioRequestedOne.type,
+      onSuccess: portfolioReceivedOne.type,
+      onFailure: portfolioRequestOneFailed.type,
+    })
+  );
 };
 
 // fetch entire portfolio by username, including pages and artifacts
@@ -188,7 +203,14 @@ export const fetchEntirePortfolio = (username, cache = true) => (
   )
     return;
 
-  return dispatch(getOnePortfolio(username, portfolioFetchedAll));
+  return dispatch(
+    apiStarted({
+      url: endpoints.fullPortfolioByUsername(username),
+      onStart: portfolioRequestedOne.type,
+      onSuccess: portfolioFetchedAll.type,
+      onFailure: portfolioRequestOneFailed.type,
+    })
+  );
 };
 
 // fetch all pages in portfolio by username
@@ -199,7 +221,15 @@ export const fetchPortfolioPages = (username, cache = true) => (
   const portfolio = selectPortfolioByUsername(getState(), username);
   if (cache && portfolio && cacheNotExpired(portfolio.pagesLastFetch)) return;
 
-  return dispatch(getOnePortfolio(username, portfolioFetchedPages));
+  return dispatch(
+    apiStarted({
+      url: endpoints.pagesByUsername(username),
+      data: { username },
+      onStart: portfolioRequestedOne.type,
+      onSuccess: portfolioFetchedPages.type,
+      onFailure: portfolioRequestOneFailed.type,
+    })
+  );
 };
 
 // fetch all artifacts in portfolio by username
@@ -211,7 +241,15 @@ export const fetchPortfolioArtifacts = (username, cache = true) => (
   if (cache && portfolio && cacheNotExpired(portfolio.artifactsLastFetch))
     return;
 
-  return dispatch(getOnePortfolio(username, portfolioFetchedArtifacts));
+  return dispatch(
+    apiStarted({
+      url: endpoints.artifactsByUsername(username),
+      data: { username },
+      onStart: portfolioRequestedOne.type,
+      onSuccess: portfolioFetchedArtifacts.type,
+      onFailure: portfolioRequestOneFailed.type,
+    })
+  );
 };
 
 // create portfolio with theme, bio

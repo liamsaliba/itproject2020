@@ -9,20 +9,22 @@ import {
   createPage,
 } from "./store";
 
+import * as actions from "./store/slices/actions";
+
 const store = configureStore();
 
-store.dispatch(login("user2", "12345678"));
+// store.dispatch(login("user2", "12345678"));
+// store.dispatch(fetchPortfolios());
+// store.dispatch(fetchPortfolio("user1"));
+// setTimeout(() => store.dispatch(deletePortfolio("user2", "12345678")), 1000);
+// setTimeout(() => store.dispatch(createPortfolio()), 2000);
+// setTimeout(() => store.dispatch(createPage(newPage)), 3000);
 
-store.dispatch(fetchPortfolios());
+import * as templates from "./store/slices/tests/templates";
 
-store.dispatch(fetchPortfolio("user1"));
-setTimeout(() => store.dispatch(deletePortfolio("user2", "12345678")), 1000);
+store.dispatch(actions.portfolioFetchedArtifacts(templates.artifacts));
 
-setTimeout(() => store.dispatch(createPortfolio()), 2000);
-
-const newPage = { name: "Aboot", type: "display" };
-
-setTimeout(() => store.dispatch(createPage(newPage)), 3000);
+// store.dispatch(actions.pageFetchedAll(templates.fullPage));
 
 // setTimeout(() => store.dispatch(logout()), 6000);
 

@@ -31,7 +31,7 @@ export const getId = action => action.payload._id;
 export const idObjectify = id => ({ _id: id });
 export const arrIdObjectify = arr => arr.map(idObjectify);
 
-const upsertManyFetch = (adapter, selector = payload => payload) => (
+export const upsertManyFetch = (adapter, selector = payload => payload) => (
   items,
   { payload }
 ) => {

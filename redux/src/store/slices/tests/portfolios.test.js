@@ -9,11 +9,12 @@ import {
   deletePortfolio,
   createPage,
   login,
-  selectPortfolioByUsername,
 } from "../";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+
+import { savedPortfolio } from "./templates";
 
 describe("portfoliosSlice", () => {
   let store;
@@ -25,8 +26,7 @@ describe("portfoliosSlice", () => {
   });
 
   const portfoliosSlice = () => store.getState().portfolios;
-  const selectPortfolioByUsername = username =>
-    portfoliosSlice().entities[username];
+  const portfolioByUsername = username => portfoliosSlice().entities[username];
 
   describe("loading portfolios", () => {
     describe("if portfolios exist in the cache", () => {
@@ -104,33 +104,33 @@ describe("portfoliosSlice", () => {
       });
 
       // Not Yet Implemented
-      // describe("loading indicator", () => {
-      //   it("should be true while fetching the portfolio", () => {
-      //     fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(() => {
-      //       // while waiting for response
-      //       expect(selectPortfolioByUsername("a").loading).toBe(true);
-      //       return [200, { username: "a", pages: [] }];
-      //     });
+      describe("loading indicator", () => {
+        it("should be true while fetching the portfolio", () => {
+          fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(() => {
+            // while waiting for response
+            expect(portfoliosSlice().loading).toBe(true);
+            return [200, { username: "a", pages: [] }];
+          });
 
-      //     store.dispatch(fetchPortfolio("a"));
-      //   });
-      //   it("should be false after portfolios are fetched", async () => {
-      //     fakeAxios
-      //       .onGet(endpoints.portfoliosByUsername("a"))
-      //       .reply(200, { username: "a", pages: [] });
+          store.dispatch(fetchPortfolio("a"));
+        });
+        it("should be false after portfolios are fetched", async () => {
+          fakeAxios
+            .onGet(endpoints.portfoliosByUsername("a"))
+            .reply(200, { username: "a", pages: [] });
 
-      //     await store.dispatch(fetchPortfolio("a"));
+          await store.dispatch(fetchPortfolio("a"));
 
-      //     expect(selectPortfolioByUsername("a").loading).toBe(false);
-      //   });
-      //   it("should be false if the server returns an error", async () => {
-      //     fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(500);
+          expect(portfoliosSlice().loading).toBe(false);
+        });
+        it("should be false if the server returns an error", async () => {
+          fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(500);
 
-      //     await store.dispatch(fetchPortfolio("a"));
+          await store.dispatch(fetchPortfolio("a"));
 
-      //     expect(selectPortfolioByUsername("a").loading).toBe(false);
-      //   });
-      // });
+          expect(portfoliosSlice().loading).toBe(false);
+        });
+      });
     });
   });
 
@@ -143,21 +143,14 @@ describe("portfoliosSlice", () => {
       await store.dispatch(login("a", "b"));
     });
 
-    const savedPortfolio = {
-      theme: "oldTheme",
-      bio: "b",
-      username: "a",
-      pages: [],
-    };
-
     describe("create portfolio", () => {
       it("should happen if it's saved to the server", async () => {
         fakeAxios.onPost(endpoints.portfolios).reply(200, savedPortfolio);
 
         await store.dispatch(createPortfolio());
 
-        expect(selectPortfolioByUsername("a")).toBeDefined();
-        expect(selectPortfolioByUsername("a").bio).toBe("b");
+        expect(portfolioByUsername("a")).toBeDefined();
+        expect(portfolioByUsername("a").bio).toBe("b");
       });
 
       it("should not happen if it's not saved to the server, and save error message", async () => {
@@ -165,7 +158,7 @@ describe("portfoliosSlice", () => {
 
         await store.dispatch(createPortfolio());
 
-        expect(selectPortfolioByUsername("a")).not.toBeDefined();
+        expect(portfolioByUsername("a")).not.toBeDefined();
       });
     });
 
@@ -186,7 +179,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(changePortfolioTheme("new"));
 
-          expect(selectPortfolioByUsername("a").theme).toBe("newTheme");
+          expect(portfolioByUsername("a").theme).toBe("newTheme");
         });
 
         it("should not happen if it's not saved to the server, and save error message", async () => {
@@ -194,7 +187,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(changePortfolioTheme("new"));
 
-          expect(selectPortfolioByUsername("a").theme).toBe("oldTheme");
+          expect(portfolioByUsername("a").theme).toBe("oldTheme");
         });
       });
 
@@ -204,7 +197,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(deletePortfolio("a", "a"));
 
-          expect(selectPortfolioByUsername("a")).not.toBeDefined();
+          expect(portfolioByUsername("a")).not.toBeDefined();
         });
 
         it("should not happen if it's not saved to the server, and save error message", async () => {
@@ -212,8 +205,8 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(deletePortfolio("a", "a"));
 
-          expect(selectPortfolioByUsername("a")).toBeDefined();
-          expect(selectPortfolioByUsername("a").bio).toBe("b");
+          expect(portfolioByUsername("a")).toBeDefined();
+          expect(portfolioByUsername("a").bio).toBe("b");
         });
       });
 
@@ -225,7 +218,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(createPage());
 
-          expect(selectPortfolioByUsername("a").pages.length).toBe(1);
+          expect(portfolioByUsername("a").pages.length).toBe(1);
         });
 
         it("should add not add page to portfolio's list of pages; if it's not saved to server", async () => {
@@ -233,7 +226,7 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(createPage());
 
-          expect(selectPortfolioByUsername("a").pages.length).toBe(0);
+          expect(portfolioByUsername("a").pages.length).toBe(0);
         });
       });
     });

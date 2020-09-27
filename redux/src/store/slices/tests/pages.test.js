@@ -3,6 +3,7 @@ import configureStore from "../../configureStore";
 
 import {
   fetchPage,
+  fetchEntirePage,
   renamePage,
   createPage,
   deletePage,
@@ -10,6 +11,8 @@ import {
   createArtifact,
   login,
 } from "../";
+
+import * as templates from "./templates";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
@@ -26,17 +29,9 @@ describe("pagesSlice", () => {
   const pagesSlice = () => store.getState().pages;
   const pageSlice = id => pagesSlice().entities[id];
 
-  const newPage = {
-    name: "name",
-    type: "type",
-    username: "a",
-    id: "a",
-    artifacts: [],
-  };
-
   describe("loading detailed page", () => {
     beforeEach(() => {
-      fakeAxios.onGet(endpoints.pagesById("a")).reply(200, newPage);
+      fakeAxios.onGet(endpoints.pagesById("a")).reply(200, templates.newPage);
     });
 
     describe("if it exists in the cache", () => {
@@ -53,47 +48,14 @@ describe("pagesSlice", () => {
         await store.dispatch(fetchPage("a"));
         expect(pagesSlice().ids.length).toBe(1);
         expect(pagesSlice().entities).toHaveProperty("a");
+        expect(pagesSlice().entities["a"].name).toBe(templates.newPage.name);
       });
     });
   });
-  const fullPage = {
-    page: newPage,
-    artifacts: [
-      { username: "a", pageId: "a", id: "a", body: "a" },
-      { username: "a", pageId: "a", id: "b", body: "a" },
-      { username: "a", pageId: "a", id: "c", body: "a" },
-    ],
-  };
-  // describe("loading full page", () => {
-  //   beforeEach(() => {
-  //     fakeAxios
-  //       .onGet(endpoints.fullPageById("a"))
-  //       .reply(200, { username: "u", id: "a", artifacts: [] });
-  //   });
-
-  //   describe("if it exists in the cache", () => {
-  //     it("should not be fetched from the server again", async () => {
-  //       await store.dispatch(fetchPage("a"));
-  //       await store.dispatch(fetchPage("a"));
-
-  //       expect(fakeAxios.history.get.length).toBe(1);
-  //     });
-  //   });
-
-  //   describe("if it does not exist in the cache", () => {
-  //     it("should be fetched from the server and put in the store", async () => {
-  //       await store.dispatch(fetchPage("a"));
-  //       expect(pagesSlice().ids.length).toBe(1);
-  //       expect(pagesSlice().entities).toHaveProperty("a");
-  //     });
-  //   });
-  // });
 
   describe("authenticated", () => {
     beforeEach(async () => {
-      fakeAxios
-        .onPost(endpoints.login)
-        .reply(200, { user: { username: "a" }, token: "t" });
+      fakeAxios.onPost(endpoints.login).reply(200, templates.user);
 
       await store.dispatch(login("a", "b"));
 
@@ -107,12 +69,14 @@ describe("pagesSlice", () => {
 
     describe("create page", () => {
       it("should happen if it's saved to the server", async () => {
-        fakeAxios.onPost(endpoints.pagesByUsername("a")).reply(200, newPage);
+        fakeAxios
+          .onPost(endpoints.pagesByUsername("a"))
+          .reply(200, templates.newPage);
 
         await store.dispatch(createPage());
 
         expect(pageSlice("a")).toBeDefined();
-        expect(pageSlice("a").name).toBe(newPage.name);
+        expect(pageSlice("a").name).toBe(templates.newPage.name);
       });
 
       it("should not happen if it's not saved to the server, and save error message", async () => {
@@ -126,7 +90,7 @@ describe("pagesSlice", () => {
 
     describe("modifying page", () => {
       beforeEach(async () => {
-        fakeAxios.onGet(endpoints.pagesById("a")).reply(200, newPage);
+        fakeAxios.onGet(endpoints.pagesById("a")).reply(200, templates.newPage);
 
         await store.dispatch(fetchPage("a"));
       });
@@ -135,7 +99,7 @@ describe("pagesSlice", () => {
         it("should happen if it's saved to the server", async () => {
           fakeAxios
             .onPatch(endpoints.pagesById("a"))
-            .reply(200, { ...newPage, name: "newName" });
+            .reply(200, { ...templates.newPage, name: "newName" });
 
           await store.dispatch(renamePage("a", "newName"));
           expect(pageSlice("a").name).toBe("newName");

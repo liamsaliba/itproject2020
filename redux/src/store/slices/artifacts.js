@@ -21,7 +21,7 @@ import { selectToken, selectUsername } from "./auth";
 
 export const adapter = createEntityAdapter();
 
-const receiveMany = (adapter, selector) => upsertManyFetch(adapter, selector);
+const receiveMany = selector => upsertManyFetch(adapter, selector);
 
 const slice = createSlice({
   name: "artifact",
@@ -70,10 +70,10 @@ const slice = createSlice({
     },
   },
   extraReducers: {
-    [portfolioFetchedAll]: (artifacts, action) => receiveMany(p => p.artifacts),
-    [portfolioFetchedArtifacts]: (artifacts, action) => receiveMany(),
-    [pageFetchedAll]: (artifacts, action) => receiveMany(p => p.artifacts),
-    [pageFetchedArtifacts]: (artifacts, action) => receiveMany(),
+    [portfolioFetchedAll]: receiveMany(p => p.artifacts),
+    [portfolioFetchedArtifacts]: receiveMany(),
+    [pageFetchedAll]: receiveMany(p => p.artifacts),
+    [pageFetchedArtifacts]: receiveMany(),
   },
 });
 

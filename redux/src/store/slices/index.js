@@ -16,6 +16,9 @@ export {
   // action creators
   fetchPortfolios,
   fetchPortfolio,
+  fetchEntirePortfolio,
+  fetchPortfolioPages,
+  fetchPortfolioArtifacts,
   createPortfolio,
   changePortfolioBio,
   changePortfolioTheme,
@@ -35,6 +38,8 @@ export {
 export {
   // action creators
   fetchPage,
+  fetchEntirePage,
+  fetchPageArtifacts,
   createPage,
   changePageOptions,
   deletePage,
