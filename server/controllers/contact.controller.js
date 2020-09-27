@@ -5,13 +5,13 @@ const nodemailer = require("nodemailer");
 const contact = async (req, res) => {
 
   // Create a new user
-  const portfolio_username = req.body.portfolio_username;
+  const username = req.body.username;
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message;
   
   const newContact = new Contact({
-    portfolio_username,
+    username,
     name,
     email,
     message
@@ -31,7 +31,6 @@ const contact = async (req, res) => {
   var textBody = `FROM: ${name}; EMAIL: ${email} MESSAGE: ${message}`;
   var htmlBody = `<h2>Mail From camel_case Contact Form</h2><p>from: ${name} <a href="mailto:${email}">${email}</a></p><p>${message}</p>`;
 
-  const username = portfolio_username;
   var useremail = await User.findByUsername(username);
 
   var mail = {
