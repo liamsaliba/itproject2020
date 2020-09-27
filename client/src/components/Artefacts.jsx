@@ -1,47 +1,72 @@
 import React from "react";
 import PropTypes from "prop-types";
+import documentPreview from "../svg/DocumentPreview.png";
+import { Flex, Box, Image } from "theme-ui";
+import { Icon } from 'semantic-ui-react';
 
 import Body from './Body';
 
-export default function Artefacts({ feature: { type }, onAddDocument}) {
+export default function Artefact({ artefact: { media, hPos, vPos, style }, body, onAddDocument}) {
 
-  const artifact = (
-    <div>
-      <div class="ui icon header">
-        <i class="pdf file outline icon"></i>
-        Add an image/video.
-      </div>
-      <div class="center aligned column">
-        <div class="ui primary button" onClick={() => onAddDocument}>
-          Add Document
-        </div>
-      </div>
-    </div>
+  const styling = {
+    ...style,
+    padding: "5px",
+    display:"flex",
+    justifyContent:"center"
+  };
+
+  const Media = () => {
+    const mediaStyle = {
+      boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
+      maxWidth: "100%",
+    }
+
+    if (media==="image") {
+      return (<Image sx={mediaStyle} src={documentPreview} padding={2} />);
+    } else if (media==="pdf") {
+      return (<Icon sx={mediaStyle} size='massive' name='file pdf' />);
+    } 
+    return;
+  };
+
+  const MediaCollection = () => (
+    <Box sx={styling}>
+      <Media />
+      {/* <Button onClick={() => onAddDocument}>Add Artefact</Button> */}
+    </Box>
   );
 
+  const Out = () => {
+    if (hPos==="left") {
+      return (
+        <Flex>
+          <MediaCollection />
+          <Body body={body}/>
+        </Flex> 
+      );
+    } else if (hPos==="right") {
+      return (
+        <Flex>
+          <Body body={body}/>
+          <MediaCollection />
+        </Flex> 
+      );
+    }
+  }
+
   return (
-    <div class="ui vertical stripe segment">
-      <div class="ui stackable middle aligned grid container">
-        <div class="row">
-          <div class="eight wide center aligned column">
-            {type === "right" && <Body />}
-            {type === "left" && artifact}
-          </div>
-          <div class="eight wide center aligned column">
-            {type === "right" && artifact}
-            {type === "left" && <Body />}
-          </div>
-        </div>
-      </div>
-    </div>
+    <Out />
   );
 }
 
-Artefacts.propTypes = {
+Artefact.propTypes = {
   /** Composition of the page */
-  feature: PropTypes.shape({
-    type: PropTypes.string,
-    action: PropTypes.bool,
+  artefact: PropTypes.shape({
+    media: PropTypes.string,
+    hPos: PropTypes.string,
+    vPos: PropTypes.string,
+    sx: PropTypes.object, 
   }),
-  /** Event to change the page to active */
+  body: PropTypes.object, 
+  onAddDocument: PropTypes.func, 
 };

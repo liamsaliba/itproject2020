@@ -1,26 +1,50 @@
 import React from "react";
 
-import Artefacts from "../Artefacts";
+import Artefact from "../Artefacts";
+
+import * as BodyStories from "./Body.stories";
 
 export default {
-  component: Artefacts,
-  title: "Artefacts",
+  component: Artefact,
+  title: "Artefact",
 };
 
-const Template = args => <Artefacts {...args} />;
+const style = {
+  style: {
+    flex: 1
+  }
+}
 
-export const RightArtefact = Template.bind({});
-RightArtefact.args = {
-  feature: {
-    type: "right",
-    action: true,
+
+const Template = args => <Artefact {...args} />;
+
+export const RightFeature = Template.bind({});
+RightFeature.args = {
+  artefact: { 
+    media: "pdf", 
+    hPos: "right", 
+    // vPos
+    ...style
   },
+  body: {
+    ...BodyStories.TopLeft.args.body,
+    ...style
+  }
+  // onAddDocument:
 };
 
-export const LeftArtefact = Template.bind({});
-LeftArtefact.args = {
-  feature: {
-    type: "left",
-    action: true,
+export const LeftFeature = Template.bind({});
+LeftFeature.args = {
+  artefact: { 
+    media: "image", 
+    hPos: "left", 
+    // vPos
+    ...style
   },
+  body: {
+    ...BodyStories.TopRight.args.body,
+    ...style
+  }
+  // onAddDocument:
 };
+
