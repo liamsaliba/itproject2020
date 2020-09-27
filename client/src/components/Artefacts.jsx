@@ -19,6 +19,7 @@ export default function Artefact({ artefact: { media, hPos, vPos, style }, body,
     const mediaStyle = {
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
       maxWidth: "100%",
+      maxHeight: "100%",
     }
 
     if (media==="image") {
@@ -39,14 +40,14 @@ export default function Artefact({ artefact: { media, hPos, vPos, style }, body,
   const Out = () => {
     if (hPos==="left") {
       return (
-        <Flex>
+        <Flex sx={{maxHeight:"300px"}}>
           <MediaCollection />
           <Body body={body}/>
         </Flex> 
       );
     } else if (hPos==="right") {
       return (
-        <Flex>
+        <Flex sx={{maxHeight:"300px"}}>
           <Body body={body}/>
           <MediaCollection />
         </Flex> 
