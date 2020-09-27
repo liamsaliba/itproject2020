@@ -4,8 +4,7 @@ import { Container, Styled } from "theme-ui";
 
 export default function PageSection({title, field_1, field_2, field_3, grade, isVoluntary, isOngoing, startDate, endDate, description}) {
   const styling = {
-    marginBlockStart: "0em",
-    marginBlockEnd: "0em",
+    m:"0em",
   };
 
   const IsVolunteering = () => (
@@ -21,14 +20,14 @@ export default function PageSection({title, field_1, field_2, field_3, grade, is
   const Out = () => {
     return (
       <Container sx={{textAlign:"left", padding:"5px"}}>
-        <Styled.h3 {...styling} >{title}</Styled.h3>
-        <Styled.h4 {...styling} >{field_1}</Styled.h4>
-        <Styled.h4 {...styling} >{field_2}</Styled.h4>
-        <Styled.p {...styling} >{field_3}</Styled.p>
-        <Styled.p {...styling} >{grade}</Styled.p>
-        <Styled.p {...styling} >{(IsVolunteering) ? "" : "Is Volunteering"}</Styled.p>
-        <Styled.p {...styling} >{IsOngoing}</Styled.p>
-        <Styled.p {...styling} >{description}</Styled.p>
+        <Styled.h3 m={0} >{title}</Styled.h3>
+        <Styled.h4 m={0} >{field_1}</Styled.h4>
+        <Styled.h4 m={0} >{field_2}</Styled.h4>
+        <Styled.p m={0} >{field_3}</Styled.p>
+        <Styled.p m={0} >{grade}</Styled.p>
+        <Styled.p m={0} >{(IsVolunteering) ? "" : "Is Volunteering"}</Styled.p>
+        <Styled.p m={0} >{IsOngoing}</Styled.p>
+        <Styled.p m={0} >{description}</Styled.p>
       </Container> 
     );
   }
