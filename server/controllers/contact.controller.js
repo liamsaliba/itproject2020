@@ -21,8 +21,7 @@ const contact = async (req, res) => {
 
   var mail = {
     from: process.env.EMAILACCOUNT, // sender address
-    //to: useremail, // list of receivers (THIS COULD BE A DIFFERENT ADDRESS or ADDRESSES SEPARATED BY COMMAS)
-    to: useremail,
+    to: useremail, // list of receivers (THIS COULD BE A DIFFERENT ADDRESS or ADDRESSES SEPARATED BY COMMAS)
     subject: "Mail From camel_case Contact Form", // Subject line
     text: textBody,
     html: htmlBody
