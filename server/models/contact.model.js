@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const contactSchema = new Schema({
-    portfolio_username: {
+    username: {
         type: String,
         required: true,
         trim: true,
