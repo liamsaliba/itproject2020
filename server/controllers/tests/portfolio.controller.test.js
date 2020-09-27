@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const httpMocks = require("node-mocks-http");
 const path = require("path");
-const userController = require("../user.controller");
+const portfolioController = require("../portfolio.controller");
 
 require("dotenv").config({
   path: path.resolve(__dirname, "../../../.env"),
@@ -27,172 +27,111 @@ afterAll(async () => {
   await mongoose.disconnect();
 });
 
-describe("User Controller - Create User", () => {
-  it("Fail - Password too short", async () => {
+describe("Portfolio Controller - Create a Portfolio", () => {
+  it("Successfully create a new portfolio", async () => {
     const req = httpMocks.createRequest({
       method: "POST",
-      body: {
-        firstName: "James",
-        middleName: "Kimberly",
-        lastName: "Corden",
-        username: "jamescorden",
-        email: "jamescorden@latelateshow.com",
-        password: "james",
-      },
-    });
-    const res = httpMocks.createResponse(req);
-    await userController.createUser(req, res).then(async () => {
-      expect(res.statusCode).toBe(400);
-    });
-  });
-
-  it("Fail - Invalid email", async () => {
-    const req = httpMocks.createRequest({
-      method: "POST",
-      body: {
-        firstName: "James",
-        middleName: "Kimberly",
-        lastName: "Corden",
-        username: "jamescorden",
-        email: "jamessemail",
-        password: "jamescorden",
-      },
-    });
-    const res = httpMocks.createResponse(req);
-    await userController.createUser(req, res).then(async () => {
-      expect(res.statusCode).toBe(400);
-    });
-  });
-
-  it("Successfully create a new user", async () => {
-    const req = httpMocks.createRequest({
-      method: "POST",
-      body: {
-        firstName: "James",
-        middleName: "Kimberly",
-        lastName: "Corden",
-        username: "jamescorden",
-        email: "jamescorden@latelateshow.com",
-        password: "jamescorden",
-      },
-    });
-    const res = httpMocks.createResponse(req);
-    await userController.createUser(req, res).then(async () => {
-      const body = await res._getData();
-      expect(res.statusCode).toBe(201);
-      expect(body).toHaveProperty("user");
-      expect(body).toHaveProperty("token");
-
-      expect(body.user).toHaveProperty("method");
-      expect(body.user).toHaveProperty("username");
-      expect(body.user).toHaveProperty("firstName");
-      expect(body.user).toHaveProperty("middleName");
-      expect(body.user).toHaveProperty("lastName");
-
-      expect(body.user.firstName).toBe("James");
-      expect(body.user.middleName).toBe("Kimberly");
-      expect(body.user.lastName).toBe("Corden");
-      expect(body.user.email).toBe("jamescorden@latelateshow.com");
-
-      expect(body.user.local).toHaveProperty("firstName");
-      expect(body.user.local).toHaveProperty("middleName");
-      expect(body.user.local).toHaveProperty("lastName");
-
-      expect(body.user).not.toHaveProperty("password");
-      expect(body.user.local).not.toHaveProperty("password");
-      expect(body.user).not.toHaveProperty("__v");
-      expect(body.user).not.toHaveProperty("_id");
-    });
-  });
-
-  it("Fail to create a new user with an existing username", async () => {
-    const req = httpMocks.createRequest({
-      method: "POST",
-      body: {
-        firstName: "James",
-        middleName: "Kimberly",
-        lastName: "Corden",
-        username: "jamescorden",
-        email: "jamescorden@latelateshow.com",
-        password: "jamescorden",
-      },
-    });
-    const res = httpMocks.createResponse(req);
-    await userController.createUser(req, res).then(async () => {
-      const body = await res._getData();
-      expect(res.statusCode).toBe(400);
-      expect(body).toBe('"Username already exists."');
-    });
-  });
-});
-
-describe("User Controller - Log in User", () => {
-  it("Successfully create a new user", async () => {
-    const req = httpMocks.createRequest({
-      method: "POST",
-      body: {
+      user: {
         username: "jamescorden",
         password: "jamescorden",
       },
+      body: {
+        bio: "Sample bio of James Corden",
+        theme: "Sample theme for James Corden",
+      },
     });
     const res = httpMocks.createResponse(req);
-    await userController.loginUser(req, res).then(async () => {
+    await portfolioController.createPortfolio(req, res).then(async () => {
       const body = await res._getData();
       expect(res.statusCode).toBe(200);
-      expect(body).toHaveProperty("user");
-      expect(body).toHaveProperty("token");
+      expect(body).toHaveProperty("username");
+      expect(body).toHaveProperty("theme");
+      expect(body).toHaveProperty("bio");
+      expect(body).toHaveProperty("pages");
 
-      expect(body.user).toHaveProperty("method");
-      expect(body.user).toHaveProperty("username");
-      expect(body.user).toHaveProperty("firstName");
-      expect(body.user).toHaveProperty("middleName");
-      expect(body.user).toHaveProperty("lastName");
+      expect(body.theme).toBe("Sample theme for James Corden");
+      expect(body.username).toBe("jamescorden");
+      expect(body.bio).toBe("Sample bio of James Corden");
+      expect(body.pages.length).toBe(0);
 
-      expect(body.user.firstName).toBe("James");
-      expect(body.user.middleName).toBe("Kimberly");
-      expect(body.user.lastName).toBe("Corden");
-      expect(body.user.email).toBe("jamescorden@latelateshow.com");
-
-      expect(body.user.local).toHaveProperty("firstName");
-      expect(body.user.local).toHaveProperty("middleName");
-      expect(body.user.local).toHaveProperty("lastName");
-
-      expect(body.user).not.toHaveProperty("password");
-      expect(body.user.local).not.toHaveProperty("password");
-      expect(body.user).not.toHaveProperty("__v");
-      expect(body.user).not.toHaveProperty("_id");
+      expect(body).not.toHaveProperty("__v");
+      expect(body).not.toHaveProperty("_id");
     });
   });
-  it("Fail to log in - password is incorrect", async () => {
+
+  it("Fail to create a new portfolio - portfolio already exists for user", async () => {
     const req = httpMocks.createRequest({
       method: "POST",
-      body: {
+      user: {
         username: "jamescorden",
-        password: "wrongpassword",
+        password: "jamescorden",
+      },
+      body: {
+        bio: "Sample bio of James Corden",
+        theme: "Sample theme for James Corden",
       },
     });
     const res = httpMocks.createResponse(req);
-    await userController.loginUser(req, res).then(async () => {
+    await portfolioController.createPortfolio(req, res).then(async () => {
       const body = await res._getData();
-      expect(res.statusCode).toBe(401);
-      expect(body).toBe('"Incorrect username or password."');
+      expect(res.statusCode).toBe(400);
+      expect(body).toBe('"Portfolio of this user already exists!"');
     });
   });
 });
 
-describe("User Controller - Delete User", () => {
-  it("Fail to delete a user", async () => {
+describe("Portfolio Controller - Get all details of a portfolio", () => {
+  it("Successfully create a new portfolio", async () => {
     const req = httpMocks.createRequest({
-      method: "DELETE",
+      method: "GET",
+      params: {
+        username: "jamescorden",
+      },
     });
     const res = httpMocks.createResponse(req);
-    await userController.deleteUser(req, res).then(async () => {
+    await portfolioController.findAllDetails(req, res).then(async () => {
       const body = await res._getData();
-      expect(res.statusCode).toBe(400);
+      expect(res.statusCode).toBe(200);
+      expect(body).toHaveProperty("portfolio");
+      expect(body).toHaveProperty("pages");
+      expect(body).toHaveProperty("artifacts");
     });
   });
+});
 
-  it("Successfully delete a user", async () => {
+describe("Portfolio Controller - Change the details of a portfolio", () => {
+  it("Successfully create a new portfolio", async () => {
+    const req = httpMocks.createRequest({
+      method: "PATCH",
+      params: {
+        username: "jamescorden",
+      },
+      user: {
+        username: "jamescorden",
+        password: "jamescorden",
+      },
+      body: {
+        bio: "new bio",
+        theme: "new theme",
+      },
+    });
+    const res = httpMocks.createResponse(req);
+    await portfolioController.changePortfolio(req, res).then(async () => {
+      const body = await res._getData();
+      // console.log(body);
+      expect(res.statusCode).toBe(200);
+      expect(body).toHaveProperty("theme");
+      expect(body).toHaveProperty("username");
+      expect(body).toHaveProperty("bio");
+
+      expect(body.theme).toBe("new theme");
+      expect(body.bio).toBe("new bio");
+    });
+  });
+});
+
+describe("Portfolio Controller - Delete a Portfolio", () => {
+  it("Successfully delete a portfolio", async () => {
     const req = httpMocks.createRequest({
       method: "DELETE",
       user: {
@@ -201,10 +140,12 @@ describe("User Controller - Delete User", () => {
       },
     });
     const res = httpMocks.createResponse(req);
-    await userController.deleteUser(req, res).then(async () => {
+    await portfolioController.deletePortfolio(req, res).then(async () => {
       const body = await res._getData();
       expect(res.statusCode).toBe(200);
-      expect(body).toBe('"User jamescorden successfully deleted."');
+      expect(body).toBe(
+        '"Portfolio of user jamescorden successfully deleted."'
+      );
     });
   });
 });
