@@ -11,7 +11,7 @@ export {
   fetchPortfolios,
   fetchPortfolio,
   createPortfolio,
-  changePortfolioOptions,
+  changePortfolioBio,
   changePortfolioTheme,
   deletePortfolio,
   // selectors
@@ -30,6 +30,7 @@ export {
   createPage,
   changePageOptions,
   deletePage,
+  renamePage,
   // selectors
   selectPageById,
   selectPageIds,
@@ -39,3 +40,18 @@ export {
   selectArtifactsByPageId,
   selectTotalArtifactsByPageId,
 } from "./pages";
+
+export {
+  // action creators
+  fetchArtifact,
+  createArtifact,
+  editArtifact,
+  deleteArtifact,
+  renameArtifact,
+  // selectors
+  selectArtifactById,
+  selectArtifactIds,
+  selectArtifactEntities,
+  selectAllArtifacts,
+  selectTotalArtifacts,
+} from "./artifacts";

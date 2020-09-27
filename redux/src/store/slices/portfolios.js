@@ -16,10 +16,10 @@ const slice = createSlice({
   name: "portfolios",
   initialState: adapter.getInitialState(cacheProps),
   reducers: {
-    portfolioRequestedAll: (portfolios, action) => {
+    portfolioRequestedMany: (portfolios, action) => {
       portfolios.loading = true;
     },
-    portfolioReceivedAll: (portfolios, action) => {
+    portfolioReceivedMany: (portfolios, action) => {
       if (action.payload.length != 0) {
         adapter.upsertMany(portfolios, action.payload);
         // adapter.upsertMany(portfolios, action.payload.map(addCacheProps));
@@ -27,11 +27,10 @@ const slice = createSlice({
       portfolios.loading = false;
       portfolios.lastFetch = Date.now();
     },
-    portfolioRequestAllFailed: (portfolios, action) => {
+    portfolioRequestManyFailed: (portfolios, action) => {
       portfolios.loading = false;
       portfolios.error = action.payload;
     },
-
     portfolioRequestedOne: (portfolios, action) => {
       portfolios.loading = true;
     },
@@ -56,16 +55,16 @@ const slice = createSlice({
   },
   extraReducers: {
     [pageActions.pageCreated]: (portfolios, action) => {
-      const { username, _id: pageId, name } = action.payload;
-      portfolios.entities[username].contents.push({ pageId, name });
+      const { username, id, name } = action.payload;
+      portfolios.entities[username].pages.push({ id, name });
     },
   },
 });
 
 const {
-  portfolioRequestedAll,
-  portfolioReceivedAll,
-  portfolioRequestAllFailed,
+  portfolioRequestedMany,
+  portfolioReceivedMany,
+  portfolioRequestManyFailed,
   portfolioRequestedOne,
   portfolioReceivedOne,
   portfolioRequestOneFailed,
@@ -89,9 +88,9 @@ export const fetchPortfolios = () => (dispatch, getState) => {
     apiStarted({
       url: endpoints.portfolios,
       method: "get",
-      onStart: portfolioRequestedAll.type,
-      onSuccess: portfolioReceivedAll.type,
-      onFailure: portfolioRequestAllFailed.type,
+      onStart: portfolioRequestedMany.type,
+      onSuccess: portfolioReceivedMany.type,
+      onFailure: portfolioRequestManyFailed.type,
       hideErrorToast: true,
     })
   );
@@ -131,7 +130,7 @@ export const createPortfolio = (portfolio = {}) => (dispatch, getState) => {
   );
 };
 
-export const changePortfolioOptions = data => (dispatch, getState) => {
+const changePortfolioOptions = data => (dispatch, getState) => {
   const token = getState().auth.token;
   const username = getState().auth.user.username;
   return dispatch(
@@ -145,21 +144,8 @@ export const changePortfolioOptions = data => (dispatch, getState) => {
   );
 };
 
-export const changePortfolioTheme = theme => (dispatch, getState) => {
-  const token = getState().auth.token;
-  const username = getState().auth.user.username;
-  return dispatch(
-    apiStarted({
-      url: endpoints.portfoliosByUsername(username),
-      method: "patch",
-      data: {
-        theme,
-      },
-      token,
-      onSuccess: portfolioUpdated.type,
-    })
-  );
-};
+export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
+export const changePortfolioBio = bio => changePortfolioOptions({ bio });
 
 // create portfolio with theme, bio
 export const deletePortfolio = (username, password) =>

@@ -1,4 +1,5 @@
 import * as endpoints from "../../endpoints";
+import configureStore from "../../configureStore";
 
 import {
   fetchPortfolios,
@@ -6,14 +7,12 @@ import {
   changePortfolioTheme,
   createPortfolio,
   deletePortfolio,
-} from "../portfolios";
-
-import { login } from "../auth";
+  createPage,
+  login,
+} from "../";
 
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-
-import configureStore from "../../configureStore";
 
 describe("portfoliosSlice", () => {
   let store;
@@ -81,7 +80,7 @@ describe("portfoliosSlice", () => {
       it("should not be fetched from the server again", async () => {
         fakeAxios
           .onGet(endpoints.portfoliosByUsername("a"))
-          .reply(200, { username: "a", contents: [] });
+          .reply(200, { username: "a", pages: [] });
 
         await store.dispatch(fetchPortfolio("a"));
         await store.dispatch(fetchPortfolio("a"));
@@ -94,7 +93,7 @@ describe("portfoliosSlice", () => {
       it("should be fetched from the server and put in the store", async () => {
         fakeAxios
           .onGet(endpoints.portfoliosByUsername("a"))
-          .reply(200, { username: "a", contents: [] });
+          .reply(200, { username: "a", pages: [] });
 
         await store.dispatch(fetchPortfolio("a"));
 
@@ -108,7 +107,7 @@ describe("portfoliosSlice", () => {
       //     fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(() => {
       //       // while waiting for response
       //       expect(portfolioSlice("a").loading).toBe(true);
-      //       return [200, { username: "a", contents: [] }];
+      //       return [200, { username: "a", pages: [] }];
       //     });
 
       //     store.dispatch(fetchPortfolio("a"));
@@ -116,7 +115,7 @@ describe("portfoliosSlice", () => {
       //   it("should be false after portfolios are fetched", async () => {
       //     fakeAxios
       //       .onGet(endpoints.portfoliosByUsername("a"))
-      //       .reply(200, { username: "a", contents: [] });
+      //       .reply(200, { username: "a", pages: [] });
 
       //     await store.dispatch(fetchPortfolio("a"));
 
@@ -142,11 +141,11 @@ describe("portfoliosSlice", () => {
       await store.dispatch(login("a", "b"));
     });
 
-    const portfolio = { bio: "b" };
     const savedPortfolio = {
-      ...portfolio,
+      theme: "oldTheme",
+      bio: "b",
       username: "a",
-      contents: [],
+      pages: [],
     };
 
     describe("create portfolio", () => {
@@ -161,6 +160,7 @@ describe("portfoliosSlice", () => {
 
       it("should not happen if it's not saved to the server, and save error message", async () => {
         fakeAxios.onPost(endpoints.portfolios).reply(500);
+
         await store.dispatch(createPortfolio());
 
         expect(portfolioSlice("a")).not.toBeDefined();
@@ -169,12 +169,9 @@ describe("portfoliosSlice", () => {
 
     describe("modifying portfolio", () => {
       beforeEach(async () => {
-        fakeAxios.onGet(endpoints.portfoliosByUsername("a")).reply(200, {
-          username: "a",
-          contents: [],
-          theme: "oldTheme",
-          bio: "b",
-        });
+        fakeAxios
+          .onGet(endpoints.portfoliosByUsername("a"))
+          .reply(200, savedPortfolio);
 
         await store.dispatch(fetchPortfolio("a"));
       });
@@ -183,10 +180,10 @@ describe("portfoliosSlice", () => {
         it("should happen if it's saved to the server", async () => {
           fakeAxios
             .onPatch(endpoints.portfoliosByUsername("a"))
-            .reply(200, { username: "a", theme: "newTheme", contents: [] });
+            .reply(200, { username: "a", theme: "newTheme", pages: [] });
 
-          expect(portfolioSlice("a").theme).toBe("oldTheme");
           await store.dispatch(changePortfolioTheme("new"));
+
           expect(portfolioSlice("a").theme).toBe("newTheme");
         });
 
@@ -203,7 +200,6 @@ describe("portfoliosSlice", () => {
         it("should happen if it's saved to the server", async () => {
           fakeAxios.onDelete(endpoints.portfoliosByUsername("a")).reply(200);
 
-          expect(portfolioSlice("a").bio).toBe("b");
           await store.dispatch(deletePortfolio("a", "a"));
 
           expect(portfolioSlice("a")).not.toBeDefined();
@@ -214,7 +210,28 @@ describe("portfoliosSlice", () => {
 
           await store.dispatch(deletePortfolio("a", "a"));
 
+          expect(portfolioSlice("a")).toBeDefined();
           expect(portfolioSlice("a").bio).toBe("b");
+        });
+      });
+
+      describe("create page", () => {
+        it("should add page to portfolio's list of pages; if saved to server", async () => {
+          fakeAxios
+            .onPost(endpoints.pagesByUsername("a"))
+            .reply(200, { id: 1, username: "a" });
+
+          await store.dispatch(createPage());
+
+          expect(portfolioSlice("a").pages.length).toBe(1);
+        });
+
+        it("should add not add page to portfolio's list of pages; if it's not saved to server", async () => {
+          fakeAxios.onPost(endpoints.pagesByUsername("a")).reply(500);
+
+          await store.dispatch(createPage());
+
+          expect(portfolioSlice("a").pages.length).toBe(0);
         });
       });
     });

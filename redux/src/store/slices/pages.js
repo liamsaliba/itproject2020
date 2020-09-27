@@ -5,11 +5,10 @@ import {
 } from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
-import { cacheProps, addLastFetch } from "../helpers";
+import { cacheProps, addLastFetch, cacheNotExpired } from "../helpers";
+import { actions as artifactActions } from "./artifacts";
 
-export const adapter = createEntityAdapter({
-  selectId: page => page._id,
-});
+export const adapter = createEntityAdapter();
 
 const slice = createSlice({
   name: "page",
@@ -27,7 +26,10 @@ const slice = createSlice({
       pages.loading = true;
     },
     pageReceivedMany: (pages, action) => {
-      adapter.upsertMany(pages, addLastFetch(action.payload));
+      adapter.upsertMany(
+        pages,
+        action.payload.map(page => addLastFetch(page))
+      );
       pages.loading = false;
     },
     pageRequestManyFailed: (pages, action) => {
@@ -52,12 +54,21 @@ const slice = createSlice({
       adapter.upsertOne(pages, addLastFetch(action.payload));
     },
     pageDeleted: (pages, action) => {
-      adapter.removeOne(pages, action.request.username);
+      adapter.removeOne(pages, action.request.data.id);
+    },
+  },
+  extraReducers: {
+    [artifactActions.artifactCreated]: (pages, action) => {
+      const { pageId, id } = action.payload;
+      pages.entities[pageId].artifacts.push({ id });
     },
   },
 });
 
 const {
+  pageRequestedMany,
+  pageReceivedMany,
+  pageRequestManyFailed,
   pageRequestedOne,
   pageReceivedOne,
   pageRequestOneFailed,
@@ -73,8 +84,7 @@ export const actions = slice.actions;
 // load a page by id, with _all_ properties
 export const fetchPage = (id, cache = true) => (dispatch, getState) => {
   const page = getState().pages.entities[id];
-  if (cache && page && cacheNotExpired(page.lastFetch))
-    if (cacheNotExpired(lastFetch)) return;
+  if (cache && page && cacheNotExpired(page.lastFetch)) return;
 
   return dispatch(
     apiStarted({
@@ -88,13 +98,12 @@ export const fetchPage = (id, cache = true) => (dispatch, getState) => {
 };
 
 // create a new page
-export const createPage = page => (dispatch, getState) => {
+export const createPage = (page = {}) => (dispatch, getState) => {
   const token = getState().auth.token;
   const username = getState().auth.user.username;
-  page = page === undefined ? {} : page;
   return dispatch(
     apiStarted({
-      url: endpoints.portfolioPage(username),
+      url: endpoints.pagesByUsername(username),
       method: "post",
       data: page,
       token,
@@ -116,18 +125,7 @@ export const changePageOptions = (id, data) => (dispatch, getState) => {
   );
 };
 
-export const renamePage = (id, name) => (dispatch, getState) => {
-  const token = getState().auth.token;
-  return dispatch(
-    apiStarted({
-      url: endpoints.pagesById(id),
-      method: "patch",
-      data: { name },
-      token,
-      onSuccess: pageUpdated.type,
-    })
-  );
-};
+export const renamePage = (id, name) => changePageOptions(id, { name });
 
 // delete a page by id
 export const deletePage = id => (dispatch, getState) => {
@@ -137,6 +135,7 @@ export const deletePage = id => (dispatch, getState) => {
     apiStarted({
       url: endpoints.pagesById(id),
       method: "delete",
+      data: { id },
       token,
       onSuccess: pageDeleted.type,
     })
@@ -156,13 +155,13 @@ export const selectArtifactsByPageId = pageId =>
   createSelector(
     [
       state => selectPageById(state, pageId), // select the current page
-      state => state.artifacts.ids.map(id => state.artifacts.entities[_id]), // this is the same as selectAllArtifacts
+      state => state.artifacts.ids.map(id => state.artifacts.entities[id]), // this is the same as selectAllArtifacts
     ],
     (page, artifacts) => {
       // return the artifacts for the given page only
       return Object.keys(artifacts)
         .map(c => artifacts[c])
-        .filter(artifact => page.contents.includes(artifact._id));
+        .filter(artifact => page.contents.includes(artifact.id));
     }
   );
 
@@ -170,12 +169,12 @@ export const selectTotalArtifactsByPageId = pageId =>
   createSelector(
     [
       state => selectPageById(state, pageId), // select the current page
-      state => state.artifacts.ids.map(id => state.artifacts.entities[_id]), // this is the same as selectAllArtifacts
+      state => state.artifacts.ids.map(id => state.artifacts.entities[id]), // this is the same as selectAllArtifacts
     ],
     (page, artifacts) => {
       // return the artifacts for the given page only
       return Object.keys(artifacts)
         .map(c => artifacts[c])
-        .filter(artifact => page.contents.includes(artifact._id)).length;
+        .filter(artifact => page.contents.includes(artifact.id)).length;
     }
   );

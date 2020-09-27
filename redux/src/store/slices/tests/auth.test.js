@@ -1,4 +1,4 @@
-import { login, logout, signup, logoutAll } from "../auth";
+import { login, logout, signup, logoutAll } from "../";
 import * as endpoints from "../../endpoints";
 
 import axios from "axios";
