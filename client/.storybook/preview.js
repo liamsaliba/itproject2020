@@ -4,6 +4,7 @@ import { addDecorator, addParameters } from '@storybook/react';
 import themes from "../src/themes";
 
 import { withThemeProvider } from 'storybook-addon-theme-ui'
+import 'semantic-ui-css/semantic.min.css'
 
 addDecorator(withThemeProvider)
 
