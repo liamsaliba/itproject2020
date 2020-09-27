@@ -66,23 +66,23 @@ const changeUserDetails = (req, res) => {
 // Delete a user
 const deleteUser = async (req, res) => {
   try {
-    if (req.user && req.user._id) {
-      const user = await User.findByIdAndRemove(req.user._id)
+    if (req.user && req.user.username) {
+      const user = await User.findOneAndRemove({ username: req.user.username });
 
       // Delete all dependencies of this user
       await Artifact.deleteMany({
-        username: req.user.username
+        username: req.user.username,
       });
       await Page.deleteMany({
-        username: req.user.username
+        username: req.user.username,
       });
       await Portfolio.deleteOne({
-        username: req.user.username
+        username: req.user.username,
       });
 
       res.status(200).json(`User ${user.username} successfully deleted.`);
     } else {
-      throw Error("User unidentified.")
+      throw Error("User unidentified.");
     }
   } catch (err) {
     res.status(400).json(err.message ? err.message : err);
@@ -139,10 +139,7 @@ const loginUser = async (req, res) => {
   try {
     // Get username and password from the request body
     // and find the user in the database
-    const {
-      username,
-      password
-    } = req.body;
+    const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
 
