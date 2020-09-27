@@ -36,6 +36,9 @@ const createPage = async (req, res) => {
     }
     const username = req.params.username;
     const portfolio = await portfolioModel.findByUsername(username);
+    if (!portfolio) {
+      throw Error(`Portfolio for user ${username} not found.`)
+    }
     const portfolioId = portfolio._id;
     const contents = req.body.contents;
     const name = req.body.name;
@@ -48,9 +51,9 @@ const createPage = async (req, res) => {
       type,
     });
     await newPage.save();
-    res.status(200).send(newPage);
+    res.status(200).send(newPage.toObject());
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message ? err.message : err);
   }
 };
 
@@ -97,8 +100,11 @@ const deletePageById = async (req, res) => {
     if (!req.user || !req.params.pageId) {
       throw Error("User or page not found.");
     }
+    await Artifact.deleteMany({
+      pageId: req.params.pageId,
+    });
     await Page.findByIdAndDelete(req.params.pageId);
-    res.sendStatus(200);
+    res.status(200).json(`Page ${req.params.pageId} successfully deleted.`);
   } catch (err) {
     res.status(400).json(`Page ${req.params.pageId} cannot be deleted.`);
   }
@@ -112,7 +118,11 @@ const findAllDetails = async (req, res) => {
     }
     const id = req.params.pageId;
     const page = await Page.findById(id);
-    const artifacts = await Artifact.findByPageId(page.id);
+    if (!page) {
+      throw Error(`Page ${req.params.pageId} not found.`)
+    }
+    let artifacts = await Artifact.findByPageId(page.id);
+    artifacts = artifacts ? artifacts : [];
     const p = page.toObject();
     res.status(200).json({
       page: p,
@@ -122,7 +132,7 @@ const findAllDetails = async (req, res) => {
       })
     });
   } catch (err) {
-    res.status(404).json(`Page ${req.params.pageId} not found.`);
+    res.status(404).json(err.message);
   }
 };
 

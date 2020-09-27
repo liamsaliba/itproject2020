@@ -99,12 +99,22 @@ const changePortfolio = async (req, res) => {
 };
 
 // Delete a portfolio (requires password authentication first)
-const deletePortfolio = (req, res) => {
-  Portfolio.findOneAndDelete({
+const deletePortfolio = async (req, res) => {
+  try {
+    await Artifact.deleteMany({
       username: req.user.username
-    })
-    .then(() => res.sendStatus(200))
-    .catch(err => res.status(400).json(err));
+    });
+    await Page.deleteMany({
+      username: req.user.username
+    });
+    await Portfolio.deleteOne({
+      username: req.user.username
+    });
+    res.status(200).json(`Portfolio of user ${req.user.username} successfully deleted.`)
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
+  }
+
 };
 
 const findAllDetails = async (req, res) => {
@@ -113,11 +123,14 @@ const findAllDetails = async (req, res) => {
       throw Error("User not found!");
     }
     const username = req.params.username;
-    const portfolio = await Portfolio.findByUsername(username);
-    const pages = await Page.findByUsername(username);
-    const artifacts = await Artifact.findByUsername(username);
+    let portfolio = await Portfolio.findByUsername(username);
+    portfolio = portfolio ? portfolio.toObject() : {};
+    let pages = await Page.findByUsername(username);
+    pages = pages ? pages : [];
+    let artifacts = await Artifact.findByUsername(username);
+    artifacts = artifacts ? artifacts : [];
     res.status(200).json({
-      portfolio: portfolio.toObject(),
+      portfolio,
       pages: pages.map(p => {
         const pObject = p.toObject();
         return pObject;
@@ -128,7 +141,7 @@ const findAllDetails = async (req, res) => {
       })
     })
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message ? err.message : err);
   }
 }
 

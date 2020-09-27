@@ -1,5 +1,8 @@
 const User = require("../models/user.model");
 const emailBot = require("../emailbot/email");
+const Artifact = require("../models/artifact.model");
+const Page = require("../models/page.model");
+const Portfolio = require("../models/portfolio.model");
 
 // Get all users (as an array of usernames)
 const getAllUsers = async (req, res) => {
@@ -62,12 +65,27 @@ const changeUserDetails = (req, res) => {
 
 // Delete a user
 const deleteUser = async (req, res) => {
-  if (req.user && req.user._id) {
-    User.findByIdAndDelete(req.user._id)
-      .then(() => res.sendStatus(200))
-      .catch(err => res.status(400).json(err));
-  } else {
-    res.status(400).json("No user detected");
+  try {
+    if (req.user && req.user._id) {
+      const user = await User.findByIdAndRemove(req.user._id)
+
+      // Delete all dependencies of this user
+      await Artifact.deleteMany({
+        username: req.user.username
+      });
+      await Page.deleteMany({
+        username: req.user.username
+      });
+      await Portfolio.deleteOne({
+        username: req.user.username
+      });
+
+      res.status(200).json(`User ${user.username} successfully deleted.`);
+    } else {
+      throw Error("User unidentified.")
+    }
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
   }
 };
 
