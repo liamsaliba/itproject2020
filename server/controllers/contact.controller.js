@@ -1,7 +1,22 @@
 const User = require("../models/user.model");
+const Contact = require("../models/contact.model");
 const nodemailer = require("nodemailer");
 
 const contact = async (req, res) => {
+
+  // Create a new user
+  const portfolio_username = req.body.portfolio_username;
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message;
+  
+  const newContact = new Contact({
+    portfolio_username,
+    name,
+    email,
+    message
+  });  
+
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465, // secure port
@@ -13,10 +28,10 @@ const contact = async (req, res) => {
 
     }
   });
-  var textBody = `FROM: ${req.body.name}; EMAIL: ${req.body.email} MESSAGE: ${req.body.message}`;
-  var htmlBody = `<h2>Mail From camel_case Contact Form</h2><p>from: ${req.body.name} <a href="mailto:${req.body.email}">${req.body.email}</a></p><p>${req.body.message}</p>`;
+  var textBody = `FROM: ${name}; EMAIL: ${email} MESSAGE: ${message}`;
+  var htmlBody = `<h2>Mail From camel_case Contact Form</h2><p>from: ${name} <a href="mailto:${email}">${email}</a></p><p>${message}</p>`;
 
-  const username = req.body.portfolio_username;
+  const username = portfolio_username;
   var useremail = await User.findByUsername(username);
 
   var mail = {
@@ -37,10 +52,14 @@ const contact = async (req, res) => {
     }
   });
 
+  await newContact.save();
+  res.status(200).json(newContact.toObject());
+
 };
 
 module.exports = {
   contact,
 };
+
 
 
