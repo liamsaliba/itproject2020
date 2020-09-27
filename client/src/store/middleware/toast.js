@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 const toastMiddleware = ({ dispatch }) => next => async action => {
   // allow logging of api calls to Redux Dev Tools
   const actionType = action.type.toLowerCase();
@@ -6,11 +8,13 @@ const toastMiddleware = ({ dispatch }) => next => async action => {
 
   const { message, data, hideErrorToast } = action.payload;
 
-  if (hideErrorToast === true) return next(action);
   if (data === null || data === {}) {
-    console.log("TOAST: ", message);
+    console.warn("TOAST: ", action);
+    if (hideErrorToast === false) toast.warn(message);
   } else {
-    console.log("TOAST: ", data, `(${message}`);
+    console.warn("TOAST: ", action);
+    if (hideErrorToast === false)
+      toast.warn(`${JSON.stringify(data)} (${message})`);
   }
 
   next(action);

@@ -1,8 +1,4 @@
-import {
-  createSlice,
-  createEntityAdapter,
-  createSelector,
-} from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
 import {
@@ -17,7 +13,7 @@ import {
   pageFetchedArtifacts,
   pageFetchedAll,
 } from "./actions";
-import { selectToken, selectUsername } from "./auth";
+import { selectToken } from "./auth";
 
 export const adapter = createEntityAdapter();
 
@@ -40,13 +36,6 @@ const slice = createSlice({
     artifactRequestManyFailed: (artifacts, action) => {
       artifacts.loading = false;
       artifacts.error = action.payload;
-    },
-    artifactRequestedMany: (artifacts, action) => {
-      artifacts.loading = true;
-    },
-    artifactReceivedMany: (artifacts, action) => {
-      adapter.upsertMany(artifacts, addLastFetch(action.payload));
-      artifacts.loading = false;
     },
     artifactRequestedOne: (artifacts, action) => {
       artifacts.loading = true;
@@ -79,9 +68,6 @@ const slice = createSlice({
 
 // Actions
 const {
-  artifactRequestedMany,
-  artifactReceivedMany,
-  artifactRequestManyFailed,
   artifactRequestedOne,
   artifactReceivedOne,
   artifactRequestOneFailed,

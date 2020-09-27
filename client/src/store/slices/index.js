@@ -62,7 +62,6 @@ export {
   createArtifact,
   editArtifact,
   deleteArtifact,
-  renameArtifact,
   // selectors
   selectArtifactById,
   selectArtifactIds,

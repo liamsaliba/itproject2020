@@ -13,9 +13,9 @@ import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { login } from "../../store/auth";
+import { login } from "../../store";
 import { useEffect } from "react";
-import { Link, Title } from "../../components";
+import { Link, Title, Toast } from "../../components";
 import { useHistory } from "react-router-dom";
 
 export default () => {
@@ -25,7 +25,13 @@ export default () => {
 
   useEffect(() => {
     if (auth.error) {
-      toast.error("Couldn't login. " + auth.error);
+      toast.error(
+        <Toast
+          title="Couldn't login."
+          message={auth.error.data}
+          technical={auth.error.message}
+        />
+      );
     }
   }, [auth.error]);
 
@@ -38,7 +44,10 @@ export default () => {
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    dispatch(login(formData.get("username"), formData.get("password")));
+    const username = formData.get("username");
+    const password = formData.get("password");
+    const useCookie = formData.get("remember") === "on";
+    dispatch(login(username, password, useCookie));
   };
   return (
     <Box as="form" onSubmit={handleSubmit}>
@@ -51,7 +60,7 @@ export default () => {
       <Input type="password" name="password" mb={3} />
       <Box>
         <Label mb={3}>
-          <Checkbox />
+          <Checkbox name="remember" defaultChecked={true} />
           Remember me
         </Label>
       </Box>

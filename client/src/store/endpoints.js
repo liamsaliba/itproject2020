@@ -6,12 +6,17 @@ export const logoutAll = logout + "/all";
 
 export const portfolios = "/portfolios";
 export const portfoliosByUsername = username => portfolios + "/" + username;
-export const portfolioPage = username =>
-  portfoliosByUsername(username) + "/page";
+export const fullPortfolioByUsername = username =>
+  portfoliosByUsername(username) + "/all";
+export const artifactsByUsername = username =>
+  portfoliosByUsername(username) + "/artifacts";
+export const pagesByUsername = username =>
+  portfoliosByUsername(username) + "/pages";
 
 export const pages = "/pages";
 export const pagesById = pageId => pages + "/" + pageId;
-export const pageArtifacts = pageId => pagesById(pageId) + "/artifacts";
+export const artifactsByPageId = pageId => pagesById(pageId) + "/artifacts";
+export const fullPageById = pageId => pagesById(pageId) + "/all";
 
 export const artifacts = "/artifacts";
 export const artifactsById = artifactId => artifacts + "/" + artifactId;

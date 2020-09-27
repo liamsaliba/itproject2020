@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { apiStarted } from "./api";
-import * as endpoints from "./endpoints";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { apiStarted } from "../api";
+import * as endpoints from "../endpoints";
 
 const userKey = "user";
 const tokenKey = "token";
@@ -8,15 +8,17 @@ const tokenKey = "token";
 // Attempt to get user information and token from cookies
 const user = JSON.parse(localStorage.getItem(userKey));
 const token = localStorage.getItem(tokenKey);
-
-const finishLogin = (auth, { payload }) => {
+const finishLogin = (auth, { payload, request }) => {
   const { user, token } = payload;
+  const { useCookie } = request;
   auth.loading = false;
   auth.error = null;
   auth.user = user;
   auth.token = token;
-  localStorage.setItem(userKey, JSON.stringify(user));
-  localStorage.setItem(tokenKey, token);
+  if (useCookie) {
+    localStorage.setItem(userKey, JSON.stringify(user));
+    localStorage.setItem(tokenKey, token);
+  }
 };
 
 // Slices   (Actions and Reducers)
@@ -45,6 +47,8 @@ const slice = createSlice({
     loginFailed: (auth, action) => {
       auth.loading = false;
       auth.error = action.payload;
+      auth.user = {};
+      auth.token = "";
     },
     signUpRequested: (auth, action) => {
       auth.loading = true;
@@ -53,17 +57,21 @@ const slice = createSlice({
     signUpFailed: (auth, action) => {
       auth.loading = false;
       auth.error = action.payload;
+      auth.user = {};
+      auth.token = "";
     },
     logoutRequested: (auth, action) => {
       auth.user = {};
-      auth.token = null;
+      auth.token = "";
       localStorage.removeItem(userKey);
       localStorage.removeItem(tokenKey);
     },
   },
 });
 
+// Reducer
 export default slice.reducer;
+// Actions
 const {
   loginRequested,
   loginSucceeded,
@@ -74,12 +82,22 @@ const {
   logoutRequested,
 } = slice.actions;
 
+// Selectors
+const selectAuth = state => state.auth;
+
+export const selectToken = createSelector(selectAuth, auth => auth.token);
+export const selectUser = createSelector(selectAuth, auth => auth.user);
+export const selectUsername = createSelector(selectUser, user => user.username);
+
+// Action Creators
+
 export const signup = (
   firstName,
   lastName,
   email,
   username,
-  password
+  password,
+  useCookie = true
 ) => dispatch =>
   dispatch(
     apiStarted({
@@ -89,10 +107,12 @@ export const signup = (
       onStart: signUpRequested.type,
       onSuccess: signUpSucceeded.type,
       onFailure: signUpFailed.type,
+      hideErrorToast: true,
+      req: { useCookie },
     })
   );
 
-export const login = (username, password) => dispatch => {
+export const login = (username, password, useCookie = true) => dispatch => {
   return dispatch(
     apiStarted({
       url: endpoints.login,
@@ -101,11 +121,15 @@ export const login = (username, password) => dispatch => {
       onStart: loginRequested.type,
       onSuccess: loginSucceeded.type,
       onFailure: loginFailed.type,
+      hideErrorToast: true,
+      req: { useCookie },
     })
   );
 };
 
-export const logout = token => dispatch => {
+export const logout = () => (dispatch, getState) => {
+  const token = selectToken(getState());
+
   return dispatch(
     apiStarted({
       url: endpoints.logout,
@@ -116,7 +140,9 @@ export const logout = token => dispatch => {
   );
 };
 
-export const logoutAll = token => dispatch => {
+export const logoutAll = () => (dispatch, getState) => {
+  const token = selectToken(getState());
+
   return dispatch(
     apiStarted({
       url: endpoints.logoutAll,

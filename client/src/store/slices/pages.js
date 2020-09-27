@@ -109,9 +109,6 @@ export default slice.reducer;
 
 // Actions
 const {
-  pageRequestedMany,
-  pageReceivedMany,
-  pageRequestManyFailed,
   pageRequestedOne,
   pageReceivedOne,
   pageRequestOneFailed,

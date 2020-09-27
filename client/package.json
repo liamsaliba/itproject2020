@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@rebass/preset-material": "^4.0.5",
@@ -84,8 +83,10 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.21",
     "@types/axios": "^0.14.0",
+    "axios-mock-adapter": "^1.18.2",
     "babel-loader": "^8.1.0",
     "eslint-config-prettier": "^6.11.0",
+    "jest-localstorage-mock": "^2.4.3",
     "react-is": "^16.13.1",
     "react-test-renderer": "^16.13.1",
     "storybook-addon-theme-ui": "^0.1.5",

@@ -26,7 +26,7 @@ const slice = createSlice({
       portfolios.loading = true;
     },
     portfolioReceivedMany: (portfolios, action) => {
-      if (action.payload.length != 0) {
+      if (action.payload.length !== 0) {
         adapter.upsertMany(portfolios, action.payload);
         // adapter.upsertMany(portfolios, action.payload.map(addCacheProps));
       }
@@ -123,31 +123,31 @@ export const {
   selectTotal: selectTotalPortfolios,
 } = adapter.getSelectors(state => state.portfolios);
 
-export const selectPagesByUsername = portfolioId =>
+export const selectPagesByUsername = username =>
   createSelector(
     [
-      state => selectPortfolioById(state, portfolioId), // select the current portfolio
-      state => state.pages.ids.map(id => state.pages.entities[_id]), // this is the same as selectAllPages
+      state => selectPortfolioByUsername(state, username), // select the current portfolio
+      state => state.pages.ids.map(id => state.pages.entities[id]), // this is the same as selectAllPages
     ],
     (portfolio, pages) => {
       // return the pages for the given portfolio only
       return Object.keys(pages)
         .map(c => pages[c])
-        .filter(page => portfolio.pages.includes(page._id));
+        .filter(page => portfolio.pages.includes(page.id));
     }
   );
 
-export const selectTotalPagesByUsername = portfolioId =>
+export const selectTotalPagesByUsername = username =>
   createSelector(
     [
-      state => selectPortfolioById(state, portfolioId), // select the current portfolio
-      state => state.pages.ids.map(id => state.pages.entities[_id]), // this is the same as selectAllPages
+      state => selectPortfolioByUsername(state, username), // select the current portfolio
+      state => state.pages.ids.map(id => state.pages.entities[id]), // this is the same as selectAllPages
     ],
     (portfolio, pages) => {
       // return the pages for the given portfolio only
       return Object.keys(pages)
         .map(c => pages[c])
-        .filter(page => portfolio.pages.includes(page._id)).length;
+        .filter(page => portfolio.pages.includes(page.id)).length;
     }
   );
 
