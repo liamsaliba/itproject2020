@@ -38,7 +38,7 @@ const createArtifact = async (req, res) => {
       pageId,
     });
     await newArtifact.save();
-    res.status(200).json(newArtifact.toObject());
+    res.status(200).send(newArtifact.toObject());
   } catch (err) {
     res.status(400).json(`Page ${req.params.pageId} not found.`);
   }
@@ -55,10 +55,12 @@ const findArtifactsByPageId = async (req, res) => {
     if (!artifacts) {
       throw Error("Artifacts not found.");
     }
-    res.status(200).json(artifacts.map(a => {
-      const aObject = a.toObject();
-      return aObject;
-    }));
+    res.status(200).json(
+      artifacts.map(a => {
+        const aObject = a.toObject();
+        return aObject;
+      })
+    );
   } catch (err) {
     res.status(404).json(err);
   }
@@ -75,10 +77,12 @@ const findArtifactsIdsByPageId = async (req, res) => {
     if (!artifacts) {
       throw Error("Artifacts not found.");
     }
-    res.status(200).json(artifacts.map(a => {
-      const aObject = a.toObject();
-      return aObject.id;
-    }));
+    res.status(200).json(
+      artifacts.map(a => {
+        const aObject = a.toObject();
+        return aObject.id;
+      })
+    );
   } catch (err) {
     res.status(404).json(err);
   }
@@ -92,7 +96,7 @@ const findArtifactById = async (req, res) => {
     }
     const id = req.params.artifactId;
     const artifact = await Artifact.findById(id);
-    res.status(200).json(artifact.toObject());
+    res.status(200).send(artifact.toObject());
   } catch (err) {
     res.status(404).json(`Artifact ${req.params.artifactId} not found.`);
   }
@@ -143,5 +147,5 @@ module.exports = {
   findArtifactById,
   changeArtifact,
   findArtifactsByPageId,
-  findArtifactsIdsByPageId
+  findArtifactsIdsByPageId,
 };
