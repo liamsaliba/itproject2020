@@ -18,12 +18,13 @@ export default function Artefact({ artefact: { media, hPos, vPos, style }, body,
   const Media = () => {
     const mediaStyle = {
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
-      maxWidth: "100%",
-      maxHeight: "100%",
+      maxHeight:"300px",
+      maxWidth:"300px",
+      padding:"2px"
     }
 
     if (media==="image") {
-      return (<Image sx={mediaStyle} src={documentPreview} padding={2} />);
+      return (<Image sx={mediaStyle} src={documentPreview} />);
     } else if (media==="pdf") {
       return (<Icon sx={mediaStyle} size='massive' name='file pdf' />);
     } 
@@ -40,14 +41,14 @@ export default function Artefact({ artefact: { media, hPos, vPos, style }, body,
   const Out = () => {
     if (hPos==="left") {
       return (
-        <Flex sx={{maxHeight:"300px"}}>
+        <Flex>
           <MediaCollection />
           <Body body={body}/>
         </Flex> 
       );
     } else if (hPos==="right") {
       return (
-        <Flex sx={{maxHeight:"300px"}}>
+        <Flex>
           <Body body={body}/>
           <MediaCollection />
         </Flex> 
