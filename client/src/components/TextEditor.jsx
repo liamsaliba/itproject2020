@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 // import CKEditor from "@ckeditor/ckeditor5-react";
 // import ReactHTMLParser from "react-html-parser";
-import { Modal } from "semantic-ui-react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 import { Editor } from "@tinymce/tinymce-react";
 
 export default function TextEditor() {
@@ -13,6 +13,7 @@ export default function TextEditor() {
 
   return (
     <Modal
+      closeOnDimmerClick={false}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
@@ -33,17 +34,25 @@ export default function TextEditor() {
           height: 600,
           menubar: false,
           plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table paste code help wordcount spellchecker",
+            "advlist autolink lists link image charmap preview",
+            "code fullscreen",
+            "media table paste codesample",
           ],
           toolbar:
-            "undo redo | formatselect | bold italic underline | link code | \
+            "undo redo | formatselect | bold italic underline | link codesample code | \
              alignleft aligncenter alignright alignjustify | \
              bullist numlist ",
         }}
         onEditorChange={handleChange}
       />
+      <Modal.Actions>
+        <Button basic color="red" onClick={() => setOpen(false)}>
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="green" onClick={() => setOpen(false)}>
+          <Icon name="checkmark" /> Save
+        </Button>
+      </Modal.Actions>
     </Modal>
   );
 }
