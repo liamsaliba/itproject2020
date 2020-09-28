@@ -57,6 +57,7 @@ passport.use(
 
           const newUser = new User({
             method: ["google"],
+            username: req.body.username,
             google: {
               id: profile.id,
               email: profile.emails[0].value,
@@ -120,6 +121,7 @@ passport.use(
 
           const newUser = new User({
             method: ["facebook"],
+            username: req.body.username,
             facebook: {
               id: profile.id,
               email: profile.emails[0].value,
