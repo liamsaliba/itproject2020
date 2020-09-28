@@ -1,7 +1,7 @@
-import React from "react";
+/** @jsx jsx */
+import { jsx, Flex, Box, Image } from "theme-ui";
 import PropTypes from "prop-types";
 import documentPreview from "../svg/DocumentPreview.png";
-import { Flex, Box, Image } from "theme-ui";
 import { Icon } from 'semantic-ui-react';
 
 import Body from './Body';
@@ -26,7 +26,7 @@ export default function Artefact({ artefact: { media, hPos, vPos, style }, body,
     if (media==="image") {
       return (<Image sx={mediaStyle} src={documentPreview} />);
     } else if (media==="pdf") {
-      return (<Icon sx={mediaStyle} size='massive' name='file pdf' />);
+      return (<Icon size='massive' name='file pdf' />);
     } 
     return;
   };
