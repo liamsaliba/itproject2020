@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import CKEditor from "@ckeditor/ckeditor5-react";
 // import ReactHTMLParser from "react-html-parser";
-import { Button, Modal } from "semantic-ui-react";
+import { Modal } from "semantic-ui-react";
 import { Editor } from "@tinymce/tinymce-react";
 
 export default function TextEditor() {
@@ -17,23 +17,30 @@ export default function TextEditor() {
       onOpen={() => setOpen(true)}
       open={open}
       size="FullScreen"
-      trigger={<Button>Show Modal</Button>}
+      trigger={
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate
+          nisi quibusdam saepe. Commodi temporibus, atque rem unde vel,
+          voluptatem tempore quisquam fugit exercitationem voluptates sint.
+          Porro temporibus quisquam eveniet molestiae.
+        </p>
+      }
     >
       <Editor
-        initialValue="<p>This is the initial content of the editor</p>"
+        initialValue="<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate nisi quibusdam saepe. Commodi temporibus, atque rem unde vel, voluptatem tempore quisquam fugit exercitationem voluptates sint. Porro temporibus quisquam eveniet molestiae.</p>"
         apiKey="n5ht6rb15nn13oiatqpzcgq6s67wressz3ux6hme9kp6dbht"
         init={{
-          height: 500,
+          height: 600,
           menubar: false,
           plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table paste code help wordcount",
+            "insertdatetime media table paste code help wordcount spellchecker",
           ],
           toolbar:
-            "undo redo | formatselect | bold italic backcolor | \
+            "undo redo | formatselect | bold italic underline | link code | \
              alignleft aligncenter alignright alignjustify | \
-             bullist numlist outdent indent | removeformat | help",
+             bullist numlist ",
         }}
         onEditorChange={handleChange}
       />

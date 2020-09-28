@@ -3,7 +3,7 @@ import { jsx, Flex, Box, Styled } from "theme-ui";
 import { Accordion, Icon, Button } from "semantic-ui-react";
 import React, { useState } from "react";
 import { ThemeSelector } from "../../components";
-import Editor from "../../components/Editor";
+import TextEditor from "../../components/TextEditor";
 
 // import themes from "../../themes";
 
@@ -55,7 +55,7 @@ const Items = props => {
   } else if (props.name === "Text Editor") {
     return (
       <Flex sx={{ justifyContent: "center" }}>
-        <Editor />
+        <TextEditor />
       </Flex>
     );
   } else {
