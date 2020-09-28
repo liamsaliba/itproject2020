@@ -4,14 +4,14 @@ import React from 'react'
 import PropTypes from "prop-types";
 
 
-export default function SubSection({subSection: {type, title, field_1, field_2, location, grade, isVoluntary, isOngoing, startDate, endDate, description}}) {
+export default function SubSection({ subSection: { type, title, field_1, field_2, location, grade, isVoluntary, isOngoing, startDate, endDate, description}}) {
   const styling = {
     mt:0, 
     mb:0
   }
 
   const greyedOut = {
-    color:"rgb(112, 112, 112)"
+    color:"rgb(104, 104, 104)"
   }
 
   const IsVolunteering = () => (
@@ -49,16 +49,16 @@ export default function SubSection({subSection: {type, title, field_1, field_2, 
 
   const Out = () => {
     return (
-      <Container sx={{textAlign:"left", padding:"5px"}}>
+      <Container sx={{textAlign:"left"}}>
         <Styled.h3 sx={styling} >{title}</Styled.h3>
         <SubHeader/>
         
-        <Styled.p sx={{...styling, ...greyedOut, mt:"1"}} ><IsOngoing /></Styled.p>
+        <Styled.p sx={{...styling, ...greyedOut, mt:"1em"}} ><IsOngoing /></Styled.p>
         <Styled.p sx={{...styling, ...greyedOut}} ><IsVolunteering /></Styled.p>
         <Styled.p sx={{...styling, ...greyedOut}} >{getGrade()}</Styled.p>
-        <Styled.p sx={{...styling, ...greyedOut, mb:"1"}} >{location}</Styled.p>
+        <Styled.p sx={{...styling, ...greyedOut, mb:"1em"}} >{location}</Styled.p>
       
-        <Styled.p sx={styling} >{description}</Styled.p>
+        <Styled.p sx={{...styling, mb:"1em"}} >{description}</Styled.p>
       </Container> 
     );
   }
@@ -69,15 +69,16 @@ export default function SubSection({subSection: {type, title, field_1, field_2, 
 }
 
 SubSection.propTypes = {
-  /** Composition of the page */
-  title: PropTypes.string,          // Job Title or School
-  field_1: PropTypes.string,        // Organisation Type or Degree
-  field_2: PropTypes.string,        // EmploymentType or FieldOfStudy
-  location: PropTypes.string,        // Location or Location
-  grade: PropTypes.bool,            // For Education ONLY
-  isVoluntary: PropTypes.bool,      // For Experience ONLY
-  isOngoing: PropTypes.bool,        // Both Experience and Education
-  startDate: PropTypes.string,      // Both Experience and Education
-  endDate: PropTypes.string,        // Both Experience and Education
-  description: PropTypes.string     // Both Experience and Education
+  subSection: PropTypes.shape({
+    title: PropTypes.string,          // Job Title or School
+    field_1: PropTypes.string,        // Organisation Type or Degree
+    field_2: PropTypes.string,        // EmploymentType or FieldOfStudy
+    location: PropTypes.string,        // Location or Location
+    grade: PropTypes.bool,            // For Education ONLY
+    isVoluntary: PropTypes.bool,      // For Experience ONLY
+    isOngoing: PropTypes.bool,        // Both Experience and Education
+    startDate: PropTypes.string,      // Both Experience and Education
+    endDate: PropTypes.string,        // Both Experience and Education
+    description: PropTypes.string     // Both Experience and Education
+  })
 };
