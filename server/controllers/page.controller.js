@@ -10,21 +10,19 @@ const findPagesByUsername = async (req, res) => {
     }
     const username = req.params.username;
     const pages = await Page.findByUsername(username);
-    let pageObjects = []
+    let pageObjects = [];
     for (i = 0; i < pages.length; i++) {
       const page = pages[i].toObject();
-      console.log(page);
       const contents = await Page.findAllArtifacts(page.id);
       page.artifacts = contents;
       pageObjects.push(page);
     }
-    console.log(pages);
     if (!pages) {
       throw Error("Pages not found.");
     }
     res.status(200).json(pageObjects);
   } catch (err) {
-    res.status(404).json(err);
+    res.status(404).json(err.message ? err.message : err);
   }
 };
 
@@ -37,7 +35,7 @@ const createPage = async (req, res) => {
     const username = req.params.username;
     const portfolio = await portfolioModel.findByUsername(username);
     if (!portfolio) {
-      throw Error(`Portfolio for user ${username} not found.`)
+      throw Error(`Portfolio for user ${username} not found.`);
     }
     const portfolioId = portfolio._id;
     const contents = req.body.contents;
@@ -68,7 +66,7 @@ const findPageById = async (req, res) => {
     const contents = await Page.findAllArtifacts(page._id);
     const p = page.toObject();
     p.artifacts = contents;
-    res.status(200).json(p);
+    res.status(200).send(p);
   } catch (err) {
     res.status(404).json(`Page ${req.params.pageId} not found.`);
   }
@@ -119,20 +117,20 @@ const findAllDetails = async (req, res) => {
     const id = req.params.pageId;
     const page = await Page.findById(id);
     if (!page) {
-      throw Error(`Page ${req.params.pageId} not found.`)
+      throw Error(`Page ${req.params.pageId} not found.`);
     }
     let artifacts = await Artifact.findByPageId(page.id);
     artifacts = artifacts ? artifacts : [];
     const p = page.toObject();
-    res.status(200).json({
+    res.status(200).send({
       page: p,
       artifacts: artifacts.map(a => {
         const aObject = a.toObject();
         return aObject;
-      })
+      }),
     });
   } catch (err) {
-    res.status(404).json(err.message);
+    res.status(404).json(err.message ? err.message : err);
   }
 };
 

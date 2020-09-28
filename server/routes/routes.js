@@ -5,6 +5,7 @@ const portfolioRouter = require("./portfolio.route");
 const uploadRouter = require("./upload.route");
 const pageRouter = require("./page.route");
 const artifactRouter = require("./artifact.route");
+const mediaRouter = require("./media.route");
 
 router.use("/user", userRouter);
 router.use("/users", require("../controllers/user.controller").getAllUsers);
@@ -21,5 +22,7 @@ router.use("/upload", uploadRouter);
 router.use("/pages", pageRouter);
 
 router.use("/artifacts", artifactRouter);
+
+router.use("/media", mediaRouter);
 
 module.exports = router;
