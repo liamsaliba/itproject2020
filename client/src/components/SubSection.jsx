@@ -35,7 +35,7 @@ export default function SubSection({ subSection: { type, title, field_1, field_2
   const SubHeader = () => {
     if (type==="education") {
       return (
-        <Styled.h4 sx={{...styling, fontWeight: "normal"}}>{field_1.concat(" \u00B7 ", field_2)}</Styled.h4>
+        <Styled.h4 sx={{...styling, fontWeight: "normal"}}>{field_1.concat(" \u00B7 ", field_2, " \u00B7 ",  getGrade())}</Styled.h4>
       );
     } else if (type==="experience") {
       return (
@@ -55,7 +55,6 @@ export default function SubSection({ subSection: { type, title, field_1, field_2
         
         <Styled.p sx={{...styling, ...greyedOut, mt:"1em"}} ><IsOngoing /></Styled.p>
         <Styled.p sx={{...styling, ...greyedOut}} ><IsVolunteering /></Styled.p>
-        <Styled.p sx={{...styling, ...greyedOut}} >{getGrade()}</Styled.p>
         <Styled.p sx={{...styling, ...greyedOut, mb:"1em"}} >{location}</Styled.p>
       
         <Styled.p sx={{...styling, mb:"1em"}} >{description}</Styled.p>
