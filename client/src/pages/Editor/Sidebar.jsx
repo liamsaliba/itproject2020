@@ -50,7 +50,7 @@ const Items = props => {
             <Grid.Column floated="left" width={5}>
               {page}
             </Grid.Column>
-            <Grid.Column floated="right" width={5}>
+            <Grid.Column floated="right" width={3}>
               <Dropdown right aligned floating inline direction="left">
                 <Dropdown.Menu>
                   <Dropdown.Item>Rename Page</Dropdown.Item>
@@ -63,9 +63,11 @@ const Items = props => {
       </Menu.Item>
     ));
     return (
-      <Menu secondary vertical>
-        {items}
-      </Menu>
+      <Flex sx={{ justifyContent: "center" }}>
+        <Menu secondary vertical>
+          {items}
+        </Menu>
+      </Flex>
     );
   } else if (props.name === "Create Artifacts") {
     return (
