@@ -3,6 +3,7 @@ import { jsx, Flex, Box, Styled } from "theme-ui";
 import { Accordion, Icon, Button } from "semantic-ui-react";
 import React, { useState } from "react";
 import { ThemeSelector } from "../../components";
+import Editor from "../../components/Editor";
 
 // import themes from "../../themes";
 
@@ -51,6 +52,12 @@ const Items = props => {
         <Button>Add Artifacts</Button>
       </Flex>
     );
+  } else if (props.name === "Text Editor") {
+    return (
+      <Flex sx={{ justifyContent: "center" }}>
+        <Editor />
+      </Flex>
+    );
   } else {
     return (
       <div>
@@ -64,7 +71,7 @@ const Sections = () => {
   const [activeAccordion, setActive] = useState(-1);
 
   // Hard Coded Section Names Here
-  const names = ["Settings", "Pages", "Create Artifacts"];
+  const names = ["Settings", "Pages", "Create Artifacts", "Text Editor"];
   const pages = ["Home", "Publications", "Projects", "Experience", "About"];
 
   const handleClick = (e, titleProps) => {
