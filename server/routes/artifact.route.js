@@ -1,4 +1,4 @@
-// Router for user
+// Router for artifact
 // Operators: CRUD (Create, Read, Update, Delete)
 
 // Create a new router
@@ -19,6 +19,18 @@ router.delete(
   "/:artifactId",
   userMiddleware.authenticateToken,
   artifactController.deleteArtifactById
+);
+
+router.post(
+  "/:artifactId/media",
+  userMiddleware.authenticateToken,
+  artifactController.addMediaToArtifact
+);
+
+router.delete(
+  "/:artifactId/media",
+  userMiddleware.authenticateToken,
+  artifactController.removeMediaFromArtifact
 );
 
 module.exports = router;

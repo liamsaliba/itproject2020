@@ -9,7 +9,12 @@ const numCPUs = require("os").cpus().length;
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 5000;
 const cors = require("cors");
-require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+require("dotenv").config({
+  path: path.resolve(__dirname, "../.env")
+});
+
+const multer = require('multer');
+const upload = multer();
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -39,6 +44,7 @@ if (!isDev && cluster.isMaster) {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   });
 
   // Establish connection to database
@@ -52,6 +58,8 @@ if (!isDev && cluster.isMaster) {
 
   const client_directory = path.join(__dirname, "../client/build/");
   app.use(express.static(client_directory));
+
+  app.use(upload.array());
 
   // Ensure routing for /* (except api) is passed to React Router
   app.get("*", (req, res) => {

@@ -2,6 +2,7 @@ const Portfolio = require("../models/portfolio.model");
 const emailBot = require("../emailbot/email");
 const Page = require("../models/page.model");
 const Artifact = require("../models/artifact.model");
+const Media = require("../models/media.model");
 
 // Return an array of all portfolios on the server
 const getAllPortfolios = async (_req, res) => {
@@ -14,35 +15,35 @@ const getAllPortfolios = async (_req, res) => {
 };
 
 // Add a new portfolio to the database
-const createPortfolio = (req, res) => {
-  if (req.user && req.user.username) {
-    const username = req.user.username;
-    const bio = req.body.bio;
-    const theme = req.body.theme;
-    const newPortfolio = new Portfolio({
-      username,
-      bio,
-      theme,
-    });
-    const returnedPortfolio = newPortfolio.toObject();
-    returnedPortfolio.pages = [];
-    newPortfolio
-      .save()
-      .then(() => res.status(200).json(returnedPortfolio))
-      .catch(err => {
-        if (err.code == 11000) {
-          res.status(400).json("Portfolio of this user already exists!");
-        } else if (err.message) {
-          res.status(400).json(err.message);
-        } else {
-          res.status(400).json(err);
-        }
+const createPortfolio = async (req, res) => {
+  try {
+    if (req.user && req.user.username) {
+      const username = req.user.username;
+      const bio = req.body.bio;
+      const theme = req.body.theme;
+      const newPortfolio = new Portfolio({
+        username,
+        bio,
+        theme,
       });
-    if (req.user.local && req.user.local.email) {
-      emailBot.sendPortfolioAddNotification(req.user.local.email, req.user);
+      const returnedPortfolio = newPortfolio.toObject();
+      returnedPortfolio.pages = [];
+      await newPortfolio.save();
+      if (req.user.local && req.user.local.email) {
+        emailBot.sendPortfolioAddNotification(req.user.local.email, req.user);
+      }
+      res.status(200).send(returnedPortfolio);
+    } else {
+      throw Error("User unidentified.");
     }
-  } else {
-    res.sendStatus(400);
+  } catch (err) {
+    if (err.code == 11000) {
+      res.status(400).json("Portfolio of this user already exists!");
+    } else if (err.message) {
+      res.status(400).json(err.message);
+    } else {
+      res.status(400).json(err);
+    }
   }
 };
 
@@ -83,28 +84,41 @@ const changePortfolio = async (req, res) => {
     if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
     if (portfolio.isModified("theme"))
       changeItems = changeItems.concat("Theme");
-    emailBot.sendPortfolioChangeNotification(
-      req.user.local.email,
-      req.user,
-      changeItems
-    );
+    if (req.user.local && req.user.local.email) {
+      emailBot.sendPortfolioChangeNotification(
+        req.user.local.email,
+        req.user,
+        changeItems
+      );
+    }
     await portfolio.save();
     if (!portfolio) {
       throw Error("Portfolio not found!");
     }
-    res.status(200).json(portfolio.toObject());
+    res.status(200).send(portfolio.toObject());
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message);
   }
 };
 
 // Delete a portfolio (requires password authentication first)
-const deletePortfolio = (req, res) => {
-  Portfolio.findOneAndDelete({
-      username: req.user.username
-    })
-    .then(() => res.sendStatus(200))
-    .catch(err => res.status(400).json(err));
+const deletePortfolio = async (req, res) => {
+  try {
+    await Artifact.deleteMany({
+      username: req.user.username,
+    });
+    await Page.deleteMany({
+      username: req.user.username,
+    });
+    await Portfolio.deleteOne({
+      username: req.user.username,
+    });
+    res
+      .status(200)
+      .json(`Portfolio of user ${req.user.username} successfully deleted.`);
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
+  }
 };
 
 const findAllDetails = async (req, res) => {
@@ -113,25 +127,40 @@ const findAllDetails = async (req, res) => {
       throw Error("User not found!");
     }
     const username = req.params.username;
-    const portfolio = await Portfolio.findByUsername(username);
-    const pages = await Page.findByUsername(username);
-    const artifacts = await Artifact.findByUsername(username);
-    res.status(200).json({
-      portfolio: portfolio.toObject(),
+    let portfolio = await Portfolio.findByUsername(username);
+    portfolio = portfolio ? portfolio.toObject() : {};
+    let pages = await Page.findByUsername(username);
+    pages = pages ? pages : [];
+    let artifacts = await Artifact.findByUsername(username);
+    artifacts = artifacts ? artifacts : [];
+    let aObjects = [];
+    for (let i = 0; i < artifacts.length; i++) {
+      artifact = artifacts[i];
+      const aObject = artifact.toObject();
+      let media = []
+      for (let i = 0; i < aObject.media.length; i++) {
+        const detailedMedia = await Media.findById(aObject.media[i]);
+        if (!detailedMedia) {
+          continue;
+        }
+        media.push(detailedMedia.toObject())
+      }
+      aObject.media = media;
+      aObjects.push(aObject);
+    }
+
+    res.status(200).send({
+      portfolio,
       pages: pages.map(p => {
         const pObject = p.toObject();
         return pObject;
       }),
-      artifacts: artifacts.map(a => {
-        const aObject = a.toObject();
-        return aObject;
-      })
-    })
+      artifacts: aObjects,
+    });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message ? err.message : err);
   }
-}
-
+};
 
 module.exports = {
   createPortfolio,
@@ -139,5 +168,5 @@ module.exports = {
   deletePortfolio,
   getAllPortfolios,
   changePortfolio,
-  findAllDetails
+  findAllDetails,
 };

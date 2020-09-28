@@ -1,4 +1,5 @@
 const Artifact = require("../models/artifact.model");
+const Media = require("../models/media.model");
 const Page = require("../models/page.model");
 const Portfolio = require("../models/portfolio.model");
 
@@ -38,7 +39,7 @@ const createArtifact = async (req, res) => {
       pageId,
     });
     await newArtifact.save();
-    res.status(200).json(newArtifact.toObject());
+    res.status(200).send(newArtifact.toObject());
   } catch (err) {
     res.status(400).json(`Page ${req.params.pageId} not found.`);
   }
@@ -55,10 +56,9 @@ const findArtifactsByPageId = async (req, res) => {
     if (!artifacts) {
       throw Error("Artifacts not found.");
     }
-    res.status(200).json(artifacts.map(a => {
-      const aObject = a.toObject();
-      return aObject;
-    }));
+    res.status(200).send(
+      artifacts.map(a => a.toObject())
+    );
   } catch (err) {
     res.status(404).json(err);
   }
@@ -75,10 +75,12 @@ const findArtifactsIdsByPageId = async (req, res) => {
     if (!artifacts) {
       throw Error("Artifacts not found.");
     }
-    res.status(200).json(artifacts.map(a => {
-      const aObject = a.toObject();
-      return aObject.id;
-    }));
+    res.status(200).json(
+      artifacts.map(a => {
+        const aObject = a.toObject();
+        return aObject.id;
+      })
+    );
   } catch (err) {
     res.status(404).json(err);
   }
@@ -92,7 +94,17 @@ const findArtifactById = async (req, res) => {
     }
     const id = req.params.artifactId;
     const artifact = await Artifact.findById(id);
-    res.status(200).json(artifact.toObject());
+    const aObject = artifact.toObject();
+    let media = []
+    for (let i = 0; i < aObject.media.length; i++) {
+      const detailedMedia = await Media.findById(aObject.media[i]);
+      if (!detailedMedia) {
+        continue;
+      }
+      media.push(detailedMedia.toObject())
+    }
+    aObject.media = media;
+    res.status(200).send(aObject);
   } catch (err) {
     res.status(404).json(`Artifact ${req.params.artifactId} not found.`);
   }
@@ -136,6 +148,39 @@ const deleteArtifactById = async (req, res) => {
   }
 };
 
+const addMediaToArtifact = async (req, res) => {
+  try {
+    const mediaId = req.body.mediaId;
+    const artifactId = req.params.artifactId;
+    const artifact = await Artifact.findById(artifactId);
+    if (!artifact.media.includes(mediaId)) {
+      artifact.media.push(mediaId);
+    }
+    await artifact.save();
+    res.status(200).json(`Media ${mediaId} successfully added to artifact ${artifactId}.`);
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
+  }
+}
+
+const removeMediaFromArtifact = async (req, res) => {
+  try {
+    const mediaId = req.body.mediaId;
+    const artifactId = req.params.artifactId;
+    const artifact = await Artifact.findById(artifactId);
+    if (artifact.media.includes(mediaId)) {
+      const index = artifact.media.indexOf(mediaId);
+      if (index > -1) {
+        artifact.media.splice(index, 1);
+      }
+    }
+    await artifact.save();
+    res.status(200).json(`Media ${mediaId} successfully removed from artifact ${artifactId}.`);
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
+  }
+}
+
 module.exports = {
   createArtifact,
   findArtifactsByUsername,
@@ -143,5 +188,7 @@ module.exports = {
   findArtifactById,
   changeArtifact,
   findArtifactsByPageId,
-  findArtifactsIdsByPageId
+  findArtifactsIdsByPageId,
+  addMediaToArtifact,
+  removeMediaFromArtifact,
 };

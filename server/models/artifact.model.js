@@ -26,6 +26,9 @@ const artifactSchema = new Schema({
   type: {
     type: String,
   },
+  media: {
+    type: [String],
+  }
 }, {
   toObject: {
     versionKey: false,

@@ -45,6 +45,9 @@ jobs:
         
       - name: Test application
         run: npm test
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         
       - name: Run Chromatic
         run: cd client && npx chromatic --project-token ${{ secrets.CHROMATIC_TOKEN }} --exit-once-uploaded

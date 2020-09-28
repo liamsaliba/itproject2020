@@ -1,5 +1,9 @@
 const User = require("../models/user.model");
 const emailBot = require("../emailbot/email");
+const Artifact = require("../models/artifact.model");
+const Page = require("../models/page.model");
+const Portfolio = require("../models/portfolio.model");
+const Media = require("../models/media.model");
 
 // Get all users (as an array of usernames)
 const getAllUsers = async (req, res) => {
@@ -30,44 +34,69 @@ const getCurrentUser = (req, res) => {
 };
 
 // Change the details of an authenticated user
-const changeUserDetails = (req, res) => {
-  if (req.user) {
-    const firstName = req.body.firstName;
-    const middleName = req.body.middleName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
-    const user = req.user;
-    user.local.firstName = firstName ? firstName : user.local.firstName;
-    user.local.middleName = middleName ? middleName : user.local.middleName;
-    user.local.lastName = lastName ? lastName : user.local.lastName;
-    user.local.email = email ? email : user.local.email;
-    let changeItems = [];
-    if (user.isModified("local.firstName"))
-      changeItems = changeItems.concat("First Name");
-    if (user.isModified("local.middleName"))
-      changeItems = changeItems.concat("Middle Name");
-    if (user.isModified("local.lastName"))
-      changeItems = changeItems.concat("Last Name");
-    if (user.isModified("local.email"))
-      changeItems = changeItems.concat("Email");
-    emailBot.sendAccountChangeNotification(user.local.email, user, changeItems);
-    user
-      .save()
-      .then(() => res.status(200).send(user.toObject()))
-      .catch(err => res.status(400).json(err));
-  } else {
-    res.status(400).json("No user detected");
+const changeUserDetails = async (req, res) => {
+  try {
+    if (req.user) {
+      const firstName = req.body.firstName;
+      const middleName = req.body.middleName;
+      const lastName = req.body.lastName;
+      const email = req.body.email;
+      const user = req.user;
+      user.local.firstName = firstName ? firstName : user.local.firstName;
+      user.local.middleName = middleName ? middleName : user.local.middleName;
+      user.local.lastName = lastName ? lastName : user.local.lastName;
+      user.local.email = email ? email : user.local.email;
+      let changeItems = [];
+      if (user.isModified("local.firstName"))
+        changeItems = changeItems.concat("First Name");
+      if (user.isModified("local.middleName"))
+        changeItems = changeItems.concat("Middle Name");
+      if (user.isModified("local.lastName"))
+        changeItems = changeItems.concat("Last Name");
+      if (user.isModified("local.email"))
+        changeItems = changeItems.concat("Email");
+      if (user.local && user.local.email) {
+        emailBot.sendAccountChangeNotification(
+          user.local.email,
+          user,
+          changeItems
+        );
+      }
+      await user.save();
+      res.status(200).send(user.toObject());
+    }
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
   }
 };
 
 // Delete a user
 const deleteUser = async (req, res) => {
-  if (req.user && req.user._id) {
-    User.findByIdAndDelete(req.user._id)
-      .then(() => res.sendStatus(200))
-      .catch(err => res.status(400).json(err));
-  } else {
-    res.status(400).json("No user detected");
+  try {
+    if (req.user && req.user.username) {
+      const user = await User.findOneAndRemove({
+        username: req.user.username
+      });
+
+      // Delete all dependencies of this user
+      await Artifact.deleteMany({
+        username: req.user.username,
+      });
+      await Page.deleteMany({
+        username: req.user.username,
+      });
+      await Portfolio.deleteOne({
+        username: req.user.username,
+      });
+      await Media.deleteMany({
+        username: req.user.username,
+      });
+      res.status(200).json(`User ${user.username} successfully deleted.`);
+    } else {
+      throw Error("User unidentified.");
+    }
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
   }
 };
 
