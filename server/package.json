@@ -26,6 +26,7 @@
     "mongodb-memory-server": "^6.8.0",
     "mongoose": "^5.10.4",
     "mongoose-type-email": "^1.0.12",
+    "mongoose-type-url": "^2.0.0",
     "multer": "^1.4.2",
     "multer-storage-cloudinary": "^4.0.0",
     "node-mocks-http": "^1.9.0",

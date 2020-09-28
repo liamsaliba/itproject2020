@@ -3,6 +3,7 @@ const emailBot = require("../emailbot/email");
 const Artifact = require("../models/artifact.model");
 const Page = require("../models/page.model");
 const Portfolio = require("../models/portfolio.model");
+const Media = require("../models/media.model");
 
 // Get all users (as an array of usernames)
 const getAllUsers = async (req, res) => {
@@ -73,7 +74,9 @@ const changeUserDetails = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     if (req.user && req.user.username) {
-      const user = await User.findOneAndRemove({ username: req.user.username });
+      const user = await User.findOneAndRemove({
+        username: req.user.username
+      });
 
       // Delete all dependencies of this user
       await Artifact.deleteMany({
@@ -85,7 +88,9 @@ const deleteUser = async (req, res) => {
       await Portfolio.deleteOne({
         username: req.user.username,
       });
-
+      await Media.deleteMany({
+        username: req.user.username,
+      });
       res.status(200).json(`User ${user.username} successfully deleted.`);
     } else {
       throw Error("User unidentified.");
@@ -145,7 +150,10 @@ const loginUser = async (req, res) => {
   try {
     // Get username and password from the request body
     // and find the user in the database
-    const { username, password } = req.body;
+    const {
+      username,
+      password
+    } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
 

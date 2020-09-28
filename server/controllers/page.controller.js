@@ -13,12 +13,10 @@ const findPagesByUsername = async (req, res) => {
     let pageObjects = [];
     for (i = 0; i < pages.length; i++) {
       const page = pages[i].toObject();
-      console.log(page);
       const contents = await Page.findAllArtifacts(page.id);
       page.artifacts = contents;
       pageObjects.push(page);
     }
-    console.log(pages);
     if (!pages) {
       throw Error("Pages not found.");
     }

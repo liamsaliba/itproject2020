@@ -6,8 +6,15 @@ const uploadMiddleware = require("../middleware/upload.middleware");
 
 router.post(
   "/upload",
-  uploadMiddleware.single("image"),
+  uploadMiddleware.uploadFile.single("image"),
+  uploadMiddleware.getPublicId,
   uploadController.uploadImage
+);
+
+router.delete(
+  "/upload",
+  uploadMiddleware.deleteFile,
+  uploadController.deleteImage
 );
 
 module.exports = router;
