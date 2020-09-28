@@ -2,6 +2,7 @@ const Portfolio = require("../models/portfolio.model");
 const emailBot = require("../emailbot/email");
 const Page = require("../models/page.model");
 const Artifact = require("../models/artifact.model");
+const Media = require("../models/media.model");
 
 // Return an array of all portfolios on the server
 const getAllPortfolios = async (_req, res) => {
@@ -73,7 +74,10 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const { bio, theme } = req.body;
+    const {
+      bio,
+      theme
+    } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
     let changeItems = [];
@@ -129,16 +133,29 @@ const findAllDetails = async (req, res) => {
     pages = pages ? pages : [];
     let artifacts = await Artifact.findByUsername(username);
     artifacts = artifacts ? artifacts : [];
+    let aObjects = [];
+    for (let i = 0; i < artifacts.length; i++) {
+      artifact = artifacts[i];
+      const aObject = artifact.toObject();
+      let media = []
+      for (let i = 0; i < aObject.media.length; i++) {
+        const detailedMedia = await Media.findById(aObject.media[i]);
+        if (!detailedMedia) {
+          continue;
+        }
+        media.push(detailedMedia.toObject())
+      }
+      aObject.media = media;
+      aObjects.push(aObject);
+    }
+
     res.status(200).send({
       portfolio,
       pages: pages.map(p => {
         const pObject = p.toObject();
         return pObject;
       }),
-      artifacts: artifacts.map(a => {
-        const aObject = a.toObject();
-        return aObject;
-      }),
+      artifacts: aObjects,
     });
   } catch (err) {
     res.status(400).json(err.message ? err.message : err);
