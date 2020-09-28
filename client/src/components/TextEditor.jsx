@@ -13,6 +13,7 @@ export default function TextEditor() {
 
   return (
     <Modal
+      basic
       closeOnDimmerClick={false}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
@@ -31,6 +32,9 @@ export default function TextEditor() {
         initialValue="<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate nisi quibusdam saepe. Commodi temporibus, atque rem unde vel, voluptatem tempore quisquam fugit exercitationem voluptates sint. Porro temporibus quisquam eveniet molestiae.</p>"
         apiKey="n5ht6rb15nn13oiatqpzcgq6s67wressz3ux6hme9kp6dbht"
         init={{
+          skin: "oxide-dark",
+          branding: false,
+          statusbar: false,
           height: 600,
           menubar: false,
           plugins: [
