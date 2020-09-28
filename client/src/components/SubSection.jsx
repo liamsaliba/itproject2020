@@ -73,7 +73,7 @@ SubSection.propTypes = {
     field_1: PropTypes.string,        // Organisation Type or Degree
     field_2: PropTypes.string,        // EmploymentType or FieldOfStudy
     location: PropTypes.string,        // Location or Location
-    grade: PropTypes.bool,            // For Education ONLY
+    grade: PropTypes.string,            // For Education ONLY
     isVoluntary: PropTypes.bool,      // For Experience ONLY
     isOngoing: PropTypes.bool,        // Both Experience and Education
     startDate: PropTypes.string,      // Both Experience and Education
