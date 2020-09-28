@@ -26,9 +26,9 @@ const deleteImage = async (req, res) => {
       error: "Unable to delete image.",
     });
   }
-}
+};
 
 module.exports = {
   uploadImage,
-  deleteImage
+  deleteImage,
 };

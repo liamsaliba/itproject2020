@@ -3,38 +3,38 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const contactSchema = new Schema({
+const contactSchema = new Schema(
+  {
     username: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 1,
-        maxlength: 30,
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1,
+      maxlength: 30,
     },
 
     name: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 1,
-        maxlength: 30,
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1,
+      maxlength: 30,
     },
 
     email: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 1,
-        lowercase: true,
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1,
+      lowercase: true,
     },
 
     message: {
-        type: String,
-        required: true,
-    }
-
-    
-},{
+      type: String,
+      required: true,
+    },
+  },
+  {
     toObject: {
       versionKey: false,
       virtual: true,
@@ -43,7 +43,8 @@ const contactSchema = new Schema({
         delete ret._id;
       },
     },
-})
+  }
+);
 
 // Create a Portfolio schema on MongoDB
 const Contact = mongoose.model("Contact", contactSchema);

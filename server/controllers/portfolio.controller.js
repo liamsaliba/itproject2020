@@ -74,10 +74,7 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const {
-      bio,
-      theme
-    } = req.body;
+    const { bio, theme } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
     let changeItems = [];
@@ -137,13 +134,13 @@ const findAllDetails = async (req, res) => {
     for (let i = 0; i < artifacts.length; i++) {
       artifact = artifacts[i];
       const aObject = artifact.toObject();
-      let media = []
+      let media = [];
       for (let i = 0; i < aObject.media.length; i++) {
         const detailedMedia = await Media.findById(aObject.media[i]);
         if (!detailedMedia) {
           continue;
         }
-        media.push(detailedMedia.toObject())
+        media.push(detailedMedia.toObject());
       }
       aObject.media = media;
       aObjects.push(aObject);

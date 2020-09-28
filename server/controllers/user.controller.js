@@ -75,7 +75,7 @@ const deleteUser = async (req, res) => {
   try {
     if (req.user && req.user.username) {
       const user = await User.findOneAndRemove({
-        username: req.user.username
+        username: req.user.username,
       });
 
       // Delete all dependencies of this user
@@ -150,10 +150,7 @@ const loginUser = async (req, res) => {
   try {
     // Get username and password from the request body
     // and find the user in the database
-    const {
-      username,
-      password
-    } = req.body;
+    const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
 

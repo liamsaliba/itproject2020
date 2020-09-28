@@ -1,11 +1,9 @@
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
-const {
-  CloudinaryStorage
-} = require("multer-storage-cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const path = require("path");
 require("dotenv").config({
-  path: path.resolve(__dirname, "../../.env")
+  path: path.resolve(__dirname, "../../.env"),
 });
 
 cloudinary.config({
@@ -20,15 +18,17 @@ const storage = new CloudinaryStorage({
     folder: "uploads",
   },
   allowedFormats: ["jpg", "jpeg", "png"],
-  transformations: [{
-    width: 500,
-    height: 500,
-    crop: "limit"
-  }],
+  transformations: [
+    {
+      width: 500,
+      height: 500,
+      crop: "limit",
+    },
+  ],
 });
 
 const uploadFile = multer({
-  storage: storage
+  storage: storage,
 });
 
 const deleteFile = async (req, res, next) => {
@@ -41,8 +41,7 @@ const deleteFile = async (req, res, next) => {
   } catch (err) {
     res.status(400).send(err.message);
   }
-}
-
+};
 
 const getPublicId = async (req, res, next) => {
   try {
@@ -52,7 +51,7 @@ const getPublicId = async (req, res, next) => {
   } catch (err) {
     res.status(400).send(err.message);
   }
-}
+};
 
 const getPublicIdHelper = async url => {
   try {
@@ -61,7 +60,7 @@ const getPublicIdHelper = async url => {
   } catch (err) {
     return null;
   }
-}
+};
 
 const deleteFileHelper = async public_id => {
   try {
@@ -71,12 +70,12 @@ const deleteFileHelper = async public_id => {
       });
     }
   } catch (err) {}
-}
+};
 
 module.exports = {
   uploadFile,
   getPublicId,
   deleteFile,
   getPublicIdHelper,
-  deleteFileHelper
+  deleteFileHelper,
 };

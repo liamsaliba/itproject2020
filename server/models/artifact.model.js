@@ -4,43 +4,46 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the schema for each oage
-const artifactSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    maxlength: 30,
+const artifactSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1,
+      maxlength: 30,
+    },
+    portfolioId: {
+      type: String,
+      required: true,
+    },
+    pageId: {
+      type: String,
+      required: true,
+    },
+    contents: {
+      type: Object,
+    },
+    type: {
+      type: String,
+    },
+    media: {
+      type: [String],
+    },
   },
-  portfolioId: {
-    type: String,
-    required: true,
-  },
-  pageId: {
-    type: String,
-    required: true,
-  },
-  contents: {
-    type: Object,
-  },
-  type: {
-    type: String,
-  },
-  media: {
-    type: [String],
+  {
+    toObject: {
+      versionKey: false,
+      virtual: true,
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.portfolioId;
+        delete ret.__v;
+      },
+    },
   }
-}, {
-  toObject: {
-    versionKey: false,
-    virtual: true,
-    transform(doc, ret) {
-      ret.id = ret._id;
-      delete ret._id;
-      delete ret.portfolioId;
-      delete ret.__v;
-    }
-  },
-});
+);
 
 // Find an artifact given its unique ID
 artifactSchema.statics.findById = async id => {
