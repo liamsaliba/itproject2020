@@ -2,7 +2,9 @@
 import { jsx } from "theme-ui";
 import { Container, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
-import Page from "./Page";
+import documentPreview from "../../svg/DocumentPreview.png";
+
+import CardCollection from "../../components/CardCollection";
 
 const styling = {
   textAlign: "center",
@@ -12,10 +14,18 @@ const styling = {
 export default props => {
   const { userId: id, pages: names } = props;
 
+  const exampleCard = {card: {
+    title: "Title", 
+    body: "Hi my name is 1!", 
+    featureType: "image", // Describes the feature tupe {image|video|...}
+    feature: documentPreview, // or something else!
+    featureOrientation:"top"
+  }};
+
+  const exampleCards = [exampleCard, exampleCard, exampleCard, exampleCard, exampleCard];
+
   const pages = names.map(name => (
-    <Page id={"Page" + name} name={name}>
-      {[1, 2, 3, 4, 5].map(item => name + item)}
-    </Page>
+    <CardCollection name={name} cards={exampleCards}/>
   ));
 
   return (
