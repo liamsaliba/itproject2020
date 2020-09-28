@@ -56,9 +56,7 @@ const findArtifactsByPageId = async (req, res) => {
     if (!artifacts) {
       throw Error("Artifacts not found.");
     }
-    res.status(200).send(
-      artifacts.map(a => a.toObject())
-    );
+    res.status(200).send(artifacts.map(a => a.toObject()));
   } catch (err) {
     res.status(404).json(err);
   }
@@ -95,13 +93,13 @@ const findArtifactById = async (req, res) => {
     const id = req.params.artifactId;
     const artifact = await Artifact.findById(id);
     const aObject = artifact.toObject();
-    let media = []
+    let media = [];
     for (let i = 0; i < aObject.media.length; i++) {
       const detailedMedia = await Media.findById(aObject.media[i]);
       if (!detailedMedia) {
         continue;
       }
-      media.push(detailedMedia.toObject())
+      media.push(detailedMedia.toObject());
     }
     aObject.media = media;
     res.status(200).send(aObject);
@@ -157,11 +155,13 @@ const addMediaToArtifact = async (req, res) => {
       artifact.media.push(mediaId);
     }
     await artifact.save();
-    res.status(200).json(`Media ${mediaId} successfully added to artifact ${artifactId}.`);
+    res
+      .status(200)
+      .json(`Media ${mediaId} successfully added to artifact ${artifactId}.`);
   } catch (err) {
     res.status(400).json(err.message ? err.message : err);
   }
-}
+};
 
 const removeMediaFromArtifact = async (req, res) => {
   try {
@@ -175,11 +175,15 @@ const removeMediaFromArtifact = async (req, res) => {
       }
     }
     await artifact.save();
-    res.status(200).json(`Media ${mediaId} successfully removed from artifact ${artifactId}.`);
+    res
+      .status(200)
+      .json(
+        `Media ${mediaId} successfully removed from artifact ${artifactId}.`
+      );
   } catch (err) {
     res.status(400).json(err.message ? err.message : err);
   }
-}
+};
 
 module.exports = {
   createArtifact,

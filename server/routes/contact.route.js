@@ -5,4 +5,3 @@ const contactController = require("../controllers/contact.controller");
 router.post("/contact", contactController.contact);
 
 module.exports = router;
-

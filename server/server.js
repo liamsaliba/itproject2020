@@ -10,10 +10,10 @@ const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 5000;
 const cors = require("cors");
 require("dotenv").config({
-  path: path.resolve(__dirname, "../.env")
+  path: path.resolve(__dirname, "../.env"),
 });
 
-const multer = require('multer');
+const multer = require("multer");
 const upload = multer();
 
 // Multi-process to utilize all CPU cores.

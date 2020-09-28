@@ -12,7 +12,7 @@ const createMedia = async (req, res) => {
     if (!req.file || !req.file.path) {
       throw Error("File not uploaded.");
     }
-    body = JSON.parse(req.body.json)
+    body = JSON.parse(req.body.json);
     const username = req.user.username;
     const url = req.file.path;
     const type = body.type;
@@ -43,7 +43,7 @@ const findMediaByUsername = async (req, res) => {
     }
     const username = req.user.username;
     const media = await Media.find({
-      username
+      username,
     });
     if (!media) {
       throw Error("Media not found.");
@@ -94,5 +94,5 @@ module.exports = {
   createMedia,
   findMediaByUsername,
   findMediaById,
-  deleteMediaById
+  deleteMediaById,
 };

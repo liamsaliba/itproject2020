@@ -55,10 +55,7 @@ const authenticateToken = (req, res, next) => {
 // the next request
 const authenticatePassword = async (req, res, next) => {
   try {
-    const {
-      username,
-      password
-    } = req.body;
+    const { username, password } = req.body;
     const user = await User.findByCredentials(username, password);
     if (!user) {
       res.status(401).json("Incorrect username or password.");

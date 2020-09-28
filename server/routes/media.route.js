@@ -7,22 +7,25 @@ const userMiddleware = require("../middleware/authentication.middleware");
 const mediaController = require("../controllers/media.controller");
 const uploadMiddleware = require("../middleware/upload.middleware");
 
-router.get("/:mediaId",
+router.get(
+  "/:mediaId",
   userMiddleware.authenticateToken,
   mediaController.findMediaById
 );
 
-router.get("/",
+router.get(
+  "/",
   userMiddleware.authenticateToken,
   mediaController.findMediaByUsername
 );
 
-router.post("/",
+router.post(
+  "/",
   userMiddleware.authenticateToken,
   uploadMiddleware.uploadFile.single("image"),
   uploadMiddleware.getPublicId,
   mediaController.createMedia
-)
+);
 
 router.delete(
   "/:mediaId",

@@ -24,10 +24,7 @@ router.post(
   artifactController.createArtifact
 );
 
-router.get(
-  "/:pageId/all",
-  pageController.findAllDetails
-);
+router.get("/:pageId/all", pageController.findAllDetails);
 
 router.get("/:pageId/artifacts", artifactController.findArtifactsByPageId);
 
