@@ -87,7 +87,9 @@ const selectAuth = state => state.auth;
 
 export const selectToken = createSelector(selectAuth, auth => auth.token);
 export const selectUser = createSelector(selectAuth, auth => auth.user);
-export const selectUsername = createSelector(selectUser, user => user.username);
+export const selectUsername = createSelector(selectUser, user =>
+  user === undefined ? undefined : user.username
+);
 
 // Action Creators
 
