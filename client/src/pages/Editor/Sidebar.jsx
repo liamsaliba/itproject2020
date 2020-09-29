@@ -1,27 +1,16 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
-import {
-  Accordion,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  Grid,
-} from "semantic-ui-react";
+import { Accordion, Icon, Button } from "semantic-ui-react";
 import React, { useState } from "react";
 import { ThemeSelector } from "../../components";
 import TextEditor from "../../components/TextEditor";
+import PageList from "../../components/PageList";
 
 // import themes from "../../themes";
 
 const Items = props => {
   //Themes
   const [theme, setTheme] = useState("base");
-  const [activeItem, setActive] = useState("Home");
-
-  const handlePageClick = (e, page) => {
-    setActive(activeItem === { page });
-  };
 
   // const [preset, setPreset] = useState(themes[theme]);
   // preset should be used within ThemeProvider to wrap the section => User. (Store functionality)
@@ -39,46 +28,7 @@ const Items = props => {
       </React.Fragment>
     );
   } else if (props.name === "Pages") {
-    const items = props.pages.map(page => (
-      <Menu.Item
-        name={page}
-        active={activeItem === { page }}
-        onClick={handlePageClick}
-        key={"page" + page}
-      >
-        <span>
-          <Grid>
-            <Grid.Column floated="left" width={5}>
-              {page}
-            </Grid.Column>
-            <Grid.Column floated="right" width={3}>
-              <Dropdown floating inline direction="left">
-                <Dropdown.Menu>
-                  <Dropdown.Item>Rename Page</Dropdown.Item>
-                  <Dropdown.Item>Delete Page</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Grid.Column>
-          </Grid>
-        </span>
-      </Menu.Item>
-    ));
-    return (
-      <Flex sx={{ justifyContent: "center" }}>
-        <Menu secondary vertical fluid>
-          {items}
-          <Menu.Item>
-            <Button primary>
-              <Icon.Group fitted sx={{ mr: "0.5em" }}>
-                <Icon name="file text" />
-                <Icon corner name="add" />
-              </Icon.Group>
-              Create Page
-            </Button>
-          </Menu.Item>
-        </Menu>
-      </Flex>
-    );
+    return <PageList pages={props.pages} />;
   } else if (props.name === "Create Artifacts") {
     return (
       <Flex sx={{ justifyContent: "center" }}>
