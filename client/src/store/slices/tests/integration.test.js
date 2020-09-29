@@ -24,7 +24,7 @@ describe("combined slice", () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios);
-    store = configureStore(true);
+    store = configureStore();
   });
 
   describe("loading full page", () => {

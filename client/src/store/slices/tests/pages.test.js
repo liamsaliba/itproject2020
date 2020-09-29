@@ -23,7 +23,7 @@ describe("pagesSlice", () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios);
-    store = configureStore(true);
+    store = configureStore();
   });
 
   const pagesSlice = () => store.getState().pages;

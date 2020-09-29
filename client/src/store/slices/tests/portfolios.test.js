@@ -24,7 +24,7 @@ describe("portfoliosSlice", () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios);
-    store = configureStore(true);
+    store = configureStore();
   });
 
   const portfoliosSlice = () => store.getState().portfolios;

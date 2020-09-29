@@ -22,7 +22,7 @@ describe("artifactsSlice", () => {
 
   beforeEach(() => {
     fakeAxios = new MockAdapter(axios);
-    store = configureStore(true);
+    store = configureStore();
   });
 
   const artifactsSlice = () => store.getState().artifacts;

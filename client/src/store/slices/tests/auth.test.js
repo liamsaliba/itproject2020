@@ -35,7 +35,7 @@ describe("cookies (cached auth)", () => {
     it("store starts without user and token set", async () => {
       localStorage.__STORE__["token"] = "token";
       // overwrite the store to ensure the cookie is there when initialState is set
-      store = configureStore(true);
+      store = configureStore();
 
       expect(authSlice(store).token).toEqual(initialToken);
       expect(authSlice(store).user).toEqual(initialUser);
@@ -46,7 +46,7 @@ describe("cookies (cached auth)", () => {
     it("store starts without user and token set", async () => {
       localStorage.__STORE__["user"] = JSON.stringify(exampleUser.user);
       // overwrite the store to ensure the cookie is there when initialState is set
-      store = configureStore(true);
+      store = configureStore();
 
       expect(authSlice(store).token).toEqual(initialToken);
       expect(authSlice(store).user).toEqual(initialUser);
@@ -57,7 +57,7 @@ describe("cookies (cached auth)", () => {
       localStorage.__STORE__["token"] = "token";
       localStorage.__STORE__["user"] = JSON.stringify(exampleUser.user);
       // overwrite the store to ensure the cookie is there when initialState is set
-      store = configureStore(true);
+      store = configureStore();
 
       expect(authSlice(store).token).toEqual(localStorage.__STORE__.token);
       expect(authSlice(store).user).toEqual(localStorage.__STORE__.user);
@@ -73,7 +73,7 @@ describe("authSlice", () => {
   beforeEach(() => {
     localStorage.clear();
     fakeAxios = new MockAdapter(axios);
-    store = configureStore(true);
+    store = configureStore();
   });
 
   const authSlice = () => store.getState().auth;
