@@ -140,6 +140,8 @@ export const selectCurrentUserPortfolio = createSelector(
   }
 );
 
+export const selectPortfoliosSlice = state => state.portfolios;
+
 export const selectPagesByUsername = username =>
   createSelector(
     [
