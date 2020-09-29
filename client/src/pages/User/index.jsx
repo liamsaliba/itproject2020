@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import NotExist from "./NotExist";
+import { NotExist } from "./NotExist";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -47,7 +47,8 @@ const User = props => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (portfolios.loading && loading) {
+    console.log(portfolios.loading, loading);
+    if (!loading && portfolios.loading) {
       setLoading(true);
     }
     if (loading && !portfolios.loading) {
@@ -69,7 +70,9 @@ const User = props => {
     portfolio ? (
       <UserPage userId={userId} />
     ) : (
-      <NotExist userId={userId} />
+      <Segment placeholder size="massive" sx={{ height: "100%" }}>
+        <NotExist userId={userId} />
+      </Segment>
     )
   ) : (
     <LoadingPortfolio userId={userId} />
