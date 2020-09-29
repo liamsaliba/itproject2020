@@ -11,8 +11,19 @@ const styling = {
   justifyContent: "center",
 };
 
+const Header = ({ username }) => (
+  <Box mb={5}>
+    <Image
+      src={profileExample}
+      sx={{ borderRadius: "50%", width: "20%" }}
+      margin={2}
+    />
+    <Styled.h1> {username} </Styled.h1>
+  </Box>
+);
+
 export default props => {
-  const { userId: id, pages: names } = props;
+  const { username, pages: names } = props;
 
   const exampleCard = {card: {
     title: "Title", 
@@ -29,20 +40,11 @@ export default props => {
   ));
 
   return (
-    <main>
-      <Container display="flex" sx={styling}>
-        <Box>
-          <Box mb={5}>
-            <Image
-              src={profileExample}
-              sx={{ borderRadius: "50%", width: "20%" }}
-              margin={2}
-            />
-            <Styled.h1> {id} </Styled.h1>
-          </Box>
-          {pages}
-        </Box>
-      </Container>
-    </main>
+    <Container as="main" display="flex" sx={styling}>
+      <Box>
+        <Header username={username} />
+        {pages}
+      </Box>
+    </Container>
   );
 };

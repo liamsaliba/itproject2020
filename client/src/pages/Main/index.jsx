@@ -41,6 +41,11 @@ export default () => {
               <Route component={About} exact path="/about" />
               <Route component={Login} exact path={["/login", "/signin"]} />
               <Route component={Logout} exact path={["/logout", "/signout"]} />
+              <Route
+                component={Logout}
+                exact
+                path={["/logout/all", "/signout/all"]}
+              />
               <Route component={SignUp} exact path="/signup" />
               <Route component={ThemeTest} exact path="/themes" />
               <Route component={NotFound} path="*" />

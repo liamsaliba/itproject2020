@@ -16,8 +16,8 @@ export default () => {
     setTimeout(() => history.push("/"), 200);
     if (!auth.token) return () => {};
 
-    dispatch(logout(auth.token));
-    return () => toast.success("Logged out.");
+    dispatch(logoutAll(auth.token));
+    return () => toast.success("You've been logged out everywhere.");
   }, [auth.token, dispatch, history]);
 
   return <Spinner />;

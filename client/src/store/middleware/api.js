@@ -15,22 +15,31 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     onStart,
     onSuccess,
     onFailure,
+    hideErrorToast,
     headers,
+    req,
   } = action.payload;
 
   if (onStart) dispatch({ type: onStart });
   next(action);
 
-  console.log(action.payload);
-
   axios.defaults.baseURL =
     process.env.REACT_APP_BASE_URL ||
+    // || "http://localhost:5000/api";
     "https://camelcase-itproject.herokuapp.com/api";
 
-  const dataOrParams = ["GET", "DELETE"].includes(method) ? "params" : "data";
+  const dataOrParams = ["get"].includes(method) ? "params" : "data";
 
   axios.defaults.headers.common["Content-Type"] = "application/json";
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  if (token) axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  const request = {
+    url,
+    method,
+    data,
+    token,
+    ...req,
+  };
 
   // make api call
   try {
@@ -45,13 +54,20 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     dispatch(actions.apiEnded(response.data));
 
     // Specific action
-    if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
+    if (onSuccess)
+      dispatch({ type: onSuccess, payload: response.data, request });
   } catch (error) {
-    console.log(error.toJSON());
     // General error action
-    dispatch(actions.apiErrored(error.message));
+    const returnedError = {
+      message: error.message,
+      data: error.response ? error.response.data : null,
+      hideErrorToast,
+      request,
+    };
+
+    dispatch(actions.apiErrored(returnedError));
     // Specific
-    if (onFailure) dispatch({ type: onFailure, payload: error.message });
+    if (onFailure) dispatch({ type: onFailure, payload: returnedError });
 
     if (error.response && error.response.status === 403) {
       dispatch(actions.accessDenied(window.location.pathname));

@@ -12,7 +12,7 @@ import {
 import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../../store/auth";
+import { signup } from "../../store";
 
 import { Link, Title } from "../../components";
 import { useEffect } from "react";
