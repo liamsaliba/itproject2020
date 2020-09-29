@@ -17,8 +17,10 @@ import { signup } from "../../store";
 import { Link, Title } from "../../components";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default () => {
+  const userId = useParams().userId || "";
   const dispatch = useDispatch();
   const history = useHistory();
   const auth = useSelector(state => state.auth);
@@ -72,7 +74,7 @@ export default () => {
       <Input name="email" mb={1} />
 
       <Label htmlFor="username">Username</Label>
-      <Input name="username" mb={1} />
+      <Input name="username" mb={1} defaultValue={userId} />
 
       <Label htmlFor="password">Password</Label>
       <Input type="password" name="password" mb={1} />
