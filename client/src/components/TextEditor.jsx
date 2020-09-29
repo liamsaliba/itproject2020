@@ -1,6 +1,4 @@
-import React, { useState, useReducer } from "react";
-// import CKEditor from "@ckeditor/ckeditor5-react";
-// import ReactHTMLParser from "react-html-parser";
+import React, { useState } from "react";
 import { Button, Icon, Modal } from "semantic-ui-react";
 import { Editor } from "@tinymce/tinymce-react";
 
