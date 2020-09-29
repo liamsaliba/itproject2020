@@ -24,8 +24,9 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
   next(action);
 
   axios.defaults.baseURL =
-    process.env.REACT_APP_BASE_URL || "http://localhost:5000/api";
-  // "https://camelcase-itproject.herokuapp.com/api";
+    process.env.REACT_APP_BASE_URL ||
+    // || "http://localhost:5000/api";
+    "https://camelcase-itproject.herokuapp.com/api";
 
   const dataOrParams = ["get"].includes(method) ? "params" : "data";
 
