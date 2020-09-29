@@ -8,6 +8,7 @@ import {
 } from "theme-ui";
 import { NavHashLink, HashLink } from "react-router-hash-link";
 import isAbsoluteURL from "is-absolute-url";
+import camel from "../svg/camel.svg";
 
 const styles = {
   variant: "links.nav",
