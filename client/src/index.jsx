@@ -5,22 +5,22 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 
-import {
-  configureStore,
-  login,
-  logout,
-  fetchPortfolios,
-  fetchPortfolio,
-  createPortfolio,
-  deletePortfolio,
-  createPage,
-} from "./store";
+// import {
+//   configureStore,
+//   login,
+//   logout,
+//   fetchPortfolios,
+//   fetchPortfolio,
+//   createPortfolio,
+//   deletePortfolio,
+//   createPage,
+// } from "./store";
 
-import * as templates from "./store/slices/tests/templates";
+// import * as templates from "./store/slices/tests/templates";
 
-import * as actions from "./store/slices/actions";
+// import * as actions from "./store/slices/actions";
 
-const store = configureStore();
+// const store = configureStore();
 
 // store.dispatch(login("user2", "12345678"));
 // store.dispatch(fetchPortfolios());
