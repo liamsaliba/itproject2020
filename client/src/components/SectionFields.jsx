@@ -32,10 +32,21 @@ export default function SectionField({ sectionField: {type, },  }) {
   const [isVolunteering, setIsVoluntary] = useState(false);
   const [isOngoing, setIsOngoing] = useState(false);
 
+  const inputFieldStyle = {
+      mb:"3",
+      width:"100%",
+    };
+
+  const datePickerStyle = {
+    ...inputFieldStyle, 
+    border: "1.5px solid #aaa", 
+    borderRadius:"5px"
+  };
+
   const StartDatePicker = () => (
     <React.Fragment>
       <DatePicker 
-        sx={inputFieldStyle}
+        sx={datePickerStyle}
         selected={startDate} 
         onChange={date => setStartDate(date)}
         dateFormat="MM/yyy"
@@ -46,7 +57,7 @@ export default function SectionField({ sectionField: {type, },  }) {
 
   const EndDatePicker = () => (
     <DatePicker 
-      sx={inputFieldStyle} 
+      sx={datePickerStyle} 
       selected={endDate} 
       onChange={date => setEndDate(date)}
       dateFormat="MM/yyy"
@@ -54,10 +65,7 @@ export default function SectionField({ sectionField: {type, },  }) {
     />
   );
 
-  const inputFieldStyle = {
-    mb:"3",
-    width:"100%",
-  };
+  
 
   /* const handleSave = e => {
     // e.preventDefault();
