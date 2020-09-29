@@ -83,7 +83,7 @@ const {
 } = slice.actions;
 
 // Selectors
-const selectAuthSlice = state => state.auth;
+export const selectAuthSlice = state => state.auth;
 
 export const selectToken = createSelector(selectAuthSlice, auth => auth.token);
 export const selectUser = createSelector(selectAuthSlice, auth => auth.user);
