@@ -1,13 +1,20 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import NotExist from "./NotExist";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectPortfolioByUsername } from "../../store";
+import {
+  fetchEntirePortfolio,
+  selectPortfolioByUsername,
+  selectPortfoliosSlice,
+} from "../../store";
 import UserPage from "./UserPage";
 
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Toast } from "../../components";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -23,18 +30,49 @@ const LoadingPortfolio = props => (
 );
 
 const User = props => {
+  const dispatch = useDispatch();
   const { userId } = props;
+  const portfolios = useSelector(selectPortfoliosSlice);
+  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
   const editing = props.editing || false;
 
-  // useEffect;
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );
-  return <LoadingPortfolio userId={userId} />;
-  return portfolio ? (
-    <UserPage userId={userId} />
+
+  useEffect(() => {
+    dispatch(fetchEntirePortfolio(userId));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (portfolios.loading && loading) {
+      setLoading(true);
+    }
+    if (loading && !portfolios.loading) {
+      setLoaded(true);
+      if (portfolios.error) {
+        console.log(portfolios.error);
+        toast.error(
+          <Toast
+            title="Couldn't load portfolio."
+            message={portfolios.error.data}
+            technical={portfolios.error.message}
+          />
+        );
+      }
+    }
+  }, [portfolios]);
+
+  return loaded ? (
+    portfolio ? (
+      <UserPage userId={userId} />
+    ) : (
+      <NotExist userId={userId} />
+    )
   ) : (
-    <NotExist userId={userId} />
+    <LoadingPortfolio userId={userId} />
   );
 };
 
