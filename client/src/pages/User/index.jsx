@@ -7,10 +7,20 @@ import { useSelector } from "react-redux";
 import { selectPortfolioByUsername } from "../../store";
 import UserPage from "./UserPage";
 
+import { Dimmer, Loader, Segment } from "semantic-ui-react";
+
 export const RouteUser = () => {
   const { userId } = useParams();
   return <User userId={userId} />;
 };
+
+const LoadingPortfolio = props => (
+  <Segment placeholder size="massive" sx={{ height: "100%" }}>
+    <Dimmer active inverted>
+      <Loader inverted>Loading {props.userId}'s portfolio</Loader>
+    </Dimmer>
+  </Segment>
+);
 
 const User = props => {
   const { userId } = props;
@@ -20,7 +30,7 @@ const User = props => {
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );
-
+  return <LoadingPortfolio userId={userId} />;
   return portfolio ? (
     <UserPage userId={userId} />
   ) : (
