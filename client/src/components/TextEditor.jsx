@@ -36,14 +36,11 @@ export default function TextEditor() {
           height: 600,
           menubar: false,
           plugins: [
-            "advlist autolink lists link image charmap preview",
-            "code fullscreen",
-            "media table paste codesample",
+            "advlist autolink lists link image charmap preview code fullscreen media table paste codesample",
           ],
           toolbar:
-            "undo redo | formatselect | bold italic underline | link codesample code | \
-             alignleft aligncenter alignright alignjustify | \
-             bullist numlist ",
+            "undo redo | formatselect | bold italic underline | link codesample code | alignleft aligncenter" +
+            "alignright alignjustify | bullist numlist ",
         }}
         onEditorChange={handleChange}
       />
