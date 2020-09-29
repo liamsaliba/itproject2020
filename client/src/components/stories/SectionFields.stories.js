@@ -13,6 +13,7 @@ const Template = args => <SectionField {...args} />;
 export const Education = Template.bind();
 Education.args = {
   sectionField: {
+    isNew: false,
     type:"education"
   }
 };
@@ -20,6 +21,7 @@ Education.args = {
 export const Experience = Template.bind();
 Experience.args = {
   sectionField: {
+    isNew: false,
     type:"experience"
   }
 };
