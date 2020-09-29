@@ -7,7 +7,7 @@ import profileImg from "../svg/profile.webp";
 const hashCode = s =>
   s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
 
-export const Profile = props => {
+export const ProfileIcon = props => {
   const tint = props.userId ? hashCode(props.userId) : 0;
   return (
     <IconButton {...props} as={Link} sx={{ width: 48, height: 48 }}>
