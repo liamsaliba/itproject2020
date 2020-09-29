@@ -66,6 +66,14 @@ const Items = props => {
       <Flex sx={{ justifyContent: "center" }}>
         <Menu secondary vertical>
           {items}
+          <Menu.Item
+            name="Create Page"
+            active={activeItem === "Create Page"}
+            onClick={handlePageClick}
+          >
+            Create Page
+            <Icon name="plus" />
+          </Menu.Item>
         </Menu>
       </Flex>
     );
