@@ -4,7 +4,7 @@ import Body from "../Body";
 
 export default {
   component: Body,
-  title: "Components/Body",
+  title: "Components/UserPages/Body",
 };
 
 const Template = args => <Body {...args} />;

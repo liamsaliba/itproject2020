@@ -5,7 +5,7 @@ import Section from './../Section';
 
 export default {
   component: Section,
-  title: "Components/Section",
+  title: "Components/UserPages/Section",
 };
 
 const Template = args => <Section {...args} />;

@@ -6,7 +6,7 @@ import * as BodyStories from "./Body.stories";
 
 export default {
   component: Artefact,
-  title: "Components/Artefact",
+  title: "Components/UserPages/Artefact",
 };
 
 const style = {

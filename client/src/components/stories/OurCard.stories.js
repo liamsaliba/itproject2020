@@ -7,7 +7,7 @@ import OurCard from '../OurCard';
 
 export default {
   component: OurCard,
-  title: "Components/OurCard",
+  title: "Components/UserPages/OurCard",
 };
 
 const Template = args => <OurCard {...args} />;
