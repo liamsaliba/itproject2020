@@ -4,7 +4,7 @@ import React from "react";
 
 import camel from "../../svg/camel.svg";
 
-import { MenuItem, MenuButton, MenuImage, Profile } from "../../components";
+import { MenuItem, MenuButton, MenuImage, ProfileIcon } from "../../components";
 import { useSelector } from "react-redux";
 
 export default () => {
@@ -23,7 +23,7 @@ export default () => {
             <MenuItem to={`u/${auth.user.username}`}>Portfolio</MenuItem>
             <MenuItem to="logout">Logout</MenuItem>
             <MenuItem to="profile">{auth.user.username}</MenuItem>
-            <Profile userId={auth.user.username} to="/profile" p={2} />
+            <ProfileIcon userId={auth.user.username} to="/profile" p={2} />
           </React.Fragment>
         )}
         {!auth.token && (

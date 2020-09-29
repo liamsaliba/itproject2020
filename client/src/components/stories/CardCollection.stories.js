@@ -6,7 +6,7 @@ import * as CardStories from "./OurCard.stories";
 
 export default {
   component: CardCollection,
-  title: "Components/CardCollection",
+  title: "Components/UserPages/CardCollection",
 };
 
 const Template = args => <CardCollection {...args} />;

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 export default function OurCard({card: {title, body, featureType, feature, featureOrientation}}) {
   console.log(typeof(feature));
   const style = {
-    boxShadow: "0 0 8px rgba(0, 0, 0, 0.125)",
+    boxShadow: "0 0 8px rgba(0, 0, 0, 0.25)",
     maxWidth: "300px",
     padding: 2,
     m: 2,

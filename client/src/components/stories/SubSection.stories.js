@@ -5,7 +5,7 @@ import SubSection from '../SubSection';
 
 export default {
   component: SubSection,
-  title: "Components/SubSection",
+  title: "Components/UserPages/SubSection",
 };
 
 const Template = args => <SubSection {...args} />;

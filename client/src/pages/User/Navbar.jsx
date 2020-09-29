@@ -2,7 +2,7 @@ import React from "react";
 
 import camel from "../../svg/camel.svg";
 
-import { Profile, ThemeSelector, Navbar } from "../../components";
+import { ProfileIcon, ThemeSelector, Navbar } from "../../components";
 
 export default props => {
   const { userId: id, theme, setTheme, pages } = props;
@@ -21,7 +21,7 @@ export default props => {
       </Navbar.Left>
       <Navbar.Center size="4">{menuItems}</Navbar.Center>
       <Navbar.Right size="1">
-        <Profile userId={id} to="#" />
+        <ProfileIcon userId={id} to="#" />
       </Navbar.Right>
     </Navbar>
   );
