@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Flex, Box, Styled } from "theme-ui";
+import { jsx, Flex } from "theme-ui";
 import {
   Accordion,
   Icon,
