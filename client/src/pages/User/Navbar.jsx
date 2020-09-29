@@ -1,8 +1,11 @@
 import React from "react";
 
-import camel from "../../svg/camel.svg";
-
-import { ProfileIcon, ThemeSelector, Navbar } from "../../components";
+import {
+  ProfileIcon,
+  ThemeSelector,
+  Navbar,
+  MenuCamel,
+} from "../../components";
 
 export default props => {
   const { userId: id, theme, setTheme, pages } = props;
@@ -16,7 +19,7 @@ export default props => {
   return (
     <Navbar>
       <Navbar.Left>
-        <Navbar.Image src={camel} to="/" />
+        <MenuCamel />
         <ThemeSelector theme={theme} setTheme={setTheme} />
       </Navbar.Left>
       <Navbar.Center size="4">{menuItems}</Navbar.Center>

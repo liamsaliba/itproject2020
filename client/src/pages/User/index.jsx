@@ -16,7 +16,7 @@ const User = props => {
   const { userId } = props;
   const editing = props.editing || false;
 
-  useEffect;
+  // useEffect;
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );

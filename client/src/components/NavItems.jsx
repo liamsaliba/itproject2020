@@ -64,3 +64,5 @@ export const MenuImage = props => {
     </IconButton>
   );
 };
+
+export const MenuCamel = () => <MenuImage src={camel} to="/" />;
