@@ -14,6 +14,8 @@ export {
 
 export {
   // action creators
+  startEditing,
+  finishEditing,
   fetchPortfolios,
   fetchPortfolio,
   fetchEntirePortfolio,

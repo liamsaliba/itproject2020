@@ -9,6 +9,8 @@ import {
   deletePortfolio,
   createPage,
   login,
+  startEditing,
+  finishEditing,
 } from "../";
 
 import axios from "axios";
@@ -129,6 +131,49 @@ describe("portfoliosSlice", () => {
           await store.dispatch(fetchPortfolio("a"));
 
           expect(portfoliosSlice().loading).toBe(false);
+        });
+      });
+    });
+  });
+
+  describe("portfolio editing mode", () => {
+    describe("if authenticated", () => {
+      beforeEach(async () => {
+        fakeAxios
+          .onPost(endpoints.login)
+          .reply(200, { user: { username: "a" }, token: "t" });
+
+        await store.dispatch(login("a", "b"));
+
+        fakeAxios
+          .onGet(endpoints.portfoliosByUsername("a"))
+          .reply(200, { username: "a", pages: [] });
+
+        await store.dispatch(fetchPortfolio("a"));
+      });
+
+      describe("if unset", () => {
+        it("should be undefined / false", () => {
+          expect(portfoliosSlice().entities["a"]).not.toHaveProperty("editing");
+        });
+      });
+
+      describe("if editing start", () => {
+        it("should be true", () => {
+          store.dispatch(startEditing());
+
+          expect(portfoliosSlice().entities["a"]).toHaveProperty("editing");
+          expect(portfoliosSlice().entities["a"].editing).toBeTruthy();
+        });
+
+        // Not Yet Implemented
+        describe("if editing finish", () => {
+          it("should be false", () => {
+            store.dispatch(finishEditing());
+
+            expect(portfoliosSlice().entities["a"]).toHaveProperty("editing");
+            expect(portfoliosSlice().entities["a"].editing).toBeFalsy();
+          });
         });
       });
     });

@@ -22,6 +22,14 @@ const slice = createSlice({
   name: "portfolios",
   initialState: adapter.getInitialState(cacheProps),
   reducers: {
+    portfolioEditingStart: (portfolios, action) => {
+      const { username } = action.payload;
+      adapter.upsertOne(portfolios, { username, editing: true });
+    },
+    portfolioEditingFinish: (portfolios, action) => {
+      const { username } = action.payload;
+      adapter.upsertOne(portfolios, { username, editing: false });
+    },
     portfolioRequestedMany: (portfolios, action) => {
       portfolios.loading = true;
     },
@@ -100,6 +108,8 @@ const slice = createSlice({
 });
 
 const {
+  portfolioEditingStart,
+  portfolioEditingFinish,
   portfolioRequestedMany,
   portfolioReceivedMany,
   portfolioRequestManyFailed,
@@ -122,6 +132,13 @@ export const {
   selectAll: selectAllPortfolios,
   selectTotal: selectTotalPortfolios,
 } = adapter.getSelectors(state => state.portfolios);
+
+export const selectCurrentUserPortfolio = createSelector(
+  [selectPortfolioEntities, selectUsername],
+  (portfolios, username) => {
+    return portfolios[username];
+  }
+);
 
 export const selectPagesByUsername = username =>
   createSelector(
@@ -292,3 +309,15 @@ export const deletePortfolio = (username, password) =>
     data: { username, password },
     onSuccess: portfolioDeleted.type,
   });
+
+export const startEditing = () => (dispatch, getState) => {
+  const username = selectUsername(getState());
+  if (username === undefined) return;
+  return dispatch(portfolioEditingStart({ username }));
+};
+
+export const finishEditing = () => (dispatch, getState) => {
+  const username = selectUsername(getState());
+  if (username === undefined) return;
+  return dispatch(portfolioEditingFinish({ username }));
+};
