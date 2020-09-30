@@ -28402,9 +28402,11 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
     >
       <div
         className="css-1byw20y-CardCollection"
+        id="Lawrence's Random Card Collection"
       >
         <h2
           className="css-0"
+          id="Lawrence's Random Card Collection"
         >
            
           Lawrence's Random Card Collection
@@ -28412,7 +28414,6 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
         </h2>
         <div
           className="css-fkpb18-CardCollection"
-          id="Lawrence's Random Card Collection"
         >
           <div
             className="css-1ecaiyz-Card"
