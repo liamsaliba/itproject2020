@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Icon, Modal } from "semantic-ui-react";
+import { Modal } from "semantic-ui-react";
 import { Editor } from "@tinymce/tinymce-react";
 import ReactHTMLParser from "react-html-parser";
 
