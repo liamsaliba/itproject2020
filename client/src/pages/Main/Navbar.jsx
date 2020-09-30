@@ -2,9 +2,7 @@
 import { jsx, Box, Flex } from "theme-ui";
 import React from "react";
 
-import camel from "../../svg/camel.svg";
-
-import { MenuItem, MenuButton, MenuImage, ProfileIcon } from "../../components";
+import { MenuItem, MenuButton, MenuCamel, ProfileIcon } from "../../components";
 import { useSelector } from "react-redux";
 
 export default () => {
@@ -13,7 +11,7 @@ export default () => {
   return (
     <Box p={2}>
       <Flex sx={{ alignItems: "center" }}>
-        <MenuImage src={camel} to="/" />
+        <MenuCamel />
         <MenuItem to="/">Camel Pages</MenuItem>
         <MenuItem to="themes">Themes</MenuItem>
         <Box mx="auto" />

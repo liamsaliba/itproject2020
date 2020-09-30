@@ -126,6 +126,7 @@ export const {
   selectAll: selectAllPages,
   selectTotal: selectTotalPages,
 } = adapter.getSelectors(state => state.pages);
+export const selectPagesSlice = state => state.pages;
 
 export const selectArtifactsByPageId = pageId =>
   createSelector(

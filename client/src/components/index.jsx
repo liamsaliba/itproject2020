@@ -4,3 +4,5 @@ export { default as ThemeSelector } from "./ThemeSelector";
 export { ProfileIcon } from "./ProfileIcon";
 export { default as Navbar } from "./Navbar";
 export { default as Toast } from "./Toast";
+export { default as Loading } from "./Loading";
+export { default as CenterFlex } from "./CenterFlex";

@@ -1,11 +1,19 @@
 /** @jsx jsx */
-import { jsx, Flex, ThemeProvider } from "theme-ui";
-import Navbar from "./Navbar";
-import { useState, useEffect } from "react";
-import themes from "../../themes";
-import Body from "./Body";
-import { Title } from "./../../components/index";
+import { jsx } from "theme-ui";
+import { NotExist } from "./NotExist";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  fetchEntirePortfolio,
+  selectPortfolioByUsername,
+  selectPortfoliosSlice,
+} from "../../store";
+import UserPage from "./UserPage";
+
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Toast, Loading } from "../../components";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -13,35 +21,50 @@ export const RouteUser = () => {
 };
 
 const User = props => {
-  const id = props.userId;
-  const [theme, setTheme] = useState("base");
-  const [preset, setPreset] = useState(themes[theme]);
+  const dispatch = useDispatch();
+  const { userId } = props;
+  const portfolios = useSelector(selectPortfoliosSlice);
+  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
-  const pages = ["Publications", "Experience", "Articles", "About"];
+  // const editing = props.editing || false;
+
+  const portfolio = useSelector(state =>
+    selectPortfolioByUsername(state, userId)
+  );
 
   useEffect(() => {
-    setPreset(themes[theme]);
-  }, [theme]);
+    dispatch(fetchEntirePortfolio(userId));
+  }, [dispatch, userId]);
 
-  return (
-    <ThemeProvider theme={preset}>
-      <Title>{id}</Title>
+  useEffect(() => {
+    console.log(portfolios.loading, loading);
+    if (!loading && portfolios.loading) {
+      setLoading(true);
+    }
+    if (loading && !portfolios.loading) {
+      setLoaded(true);
+      if (portfolios.error) {
+        console.log(portfolios.error);
+        toast.error(
+          <Toast
+            title="Couldn't load portfolio."
+            message={portfolios.error.data}
+            technical={portfolios.error.message}
+          />
+        );
+      }
+    }
+  }, [portfolios, loading]);
 
-      <Flex
-        sx={{
-          flexDirection: "column",
-          minHeight: "100vh",
-          bg: "background",
-          color: "text",
-        }}
-      >
-        <header>
-          <Navbar userId={id} theme={theme} setTheme={setTheme} pages={pages} />
-        </header>
-
-        <Body userId={id} pages={pages} />
-      </Flex>
-    </ThemeProvider>
+  return loaded ? (
+    portfolio ? (
+      <UserPage userId={userId} />
+    ) : (
+      <NotExist userId={userId} />
+    )
+  ) : (
+    <Loading>Loading {props.userId}'s portfolio</Loading>
   );
 };
 

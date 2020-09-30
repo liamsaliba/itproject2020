@@ -135,10 +135,10 @@ export const {
 
 export const selectCurrentUserPortfolio = createSelector(
   [selectPortfolioEntities, selectUsername],
-  (portfolios, username) => {
-    return portfolios[username];
-  }
+  (portfolios, username) => (username ? portfolios[username] : undefined)
 );
+
+export const selectPortfoliosSlice = state => state.portfolios;
 
 export const selectPagesByUsername = username =>
   createSelector(
@@ -189,10 +189,13 @@ export const fetchPortfolios = () => (dispatch, getState) => {
 };
 
 // load a portfolio by username, with _all_ properties
-export const fetchPortfolio = (username, cache = true) => (
+export const fetchPortfolio = (username = null, cache = true) => (
   dispatch,
   getState
 ) => {
+  if (username === null) {
+    username = selectUsername(getState());
+  }
   const portfolio = selectPortfolioByUsername(getState(), username);
   if (cache && portfolio && cacheNotExpired(portfolio.lastFetch)) return;
   return dispatch(

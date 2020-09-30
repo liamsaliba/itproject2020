@@ -6,8 +6,10 @@ import {
   IconButton,
   NavLink as StyledNavLink,
 } from "theme-ui";
+import { Button as SemanticButton } from "semantic-ui-react";
 import { NavHashLink, HashLink } from "react-router-hash-link";
 import isAbsoluteURL from "is-absolute-url";
+import camel from "../svg/camel.svg";
 
 const styles = {
   variant: "links.nav",
@@ -51,6 +53,12 @@ export const MenuButton = props => (
   </Button>
 );
 
+export const MenuSemanticButton = props => (
+  <SemanticButton {...props} as={Link} variant="nav" m={2} p={2}>
+    {props.children}
+  </SemanticButton>
+);
+
 export const MenuImage = props => {
   // Add default value for props.round!
   const imageCircle = props.round ? { borderRadius: "50%" } : {};
@@ -64,3 +72,5 @@ export const MenuImage = props => {
     </IconButton>
   );
 };
+
+export const MenuCamel = () => <MenuImage src={camel} to="/" />;

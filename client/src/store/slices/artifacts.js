@@ -88,6 +88,7 @@ export const {
   selectAll: selectAllArtifacts,
   selectTotal: selectTotalArtifacts,
 } = adapter.getSelectors(state => state.artifacts);
+export const selectArtifactsSlice = state => state.artifacts;
 
 // Action Creators
 

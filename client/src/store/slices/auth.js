@@ -83,10 +83,10 @@ const {
 } = slice.actions;
 
 // Selectors
-const selectAuth = state => state.auth;
+export const selectAuthSlice = state => state.auth;
 
-export const selectToken = createSelector(selectAuth, auth => auth.token);
-export const selectUser = createSelector(selectAuth, auth => auth.user);
+export const selectToken = createSelector(selectAuthSlice, auth => auth.token);
+export const selectUser = createSelector(selectAuthSlice, auth => auth.user);
 export const selectUsername = createSelector(selectUser, user =>
   user === undefined ? undefined : user.username
 );

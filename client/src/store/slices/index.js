@@ -5,6 +5,7 @@ export {
   logout,
   logoutAll,
   // selectors
+  selectAuthSlice,
   selectToken,
   selectUser,
   selectUsername,
@@ -26,6 +27,8 @@ export {
   changePortfolioTheme,
   deletePortfolio,
   // selectors
+  selectCurrentUserPortfolio,
+  selectPortfoliosSlice,
   selectPortfolioByUsername,
   selectPortfolioUsernames,
   selectPortfolioEntities,
@@ -47,6 +50,7 @@ export {
   deletePage,
   renamePage,
   // selectors
+  selectPagesSlice,
   selectPageById,
   selectPageIds,
   selectPageEntities,
@@ -65,6 +69,7 @@ export {
   editArtifact,
   deleteArtifact,
   // selectors
+  selectArtifactsSlice,
   selectArtifactById,
   selectArtifactIds,
   selectArtifactEntities,
