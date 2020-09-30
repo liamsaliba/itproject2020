@@ -24,7 +24,7 @@ const SectionMenu = props => {
       <Item name="Settings" icon="settings" />
       <Item name="Pages" icon="file text" />
       <Item name="Create Artifacts" icon="file" />
-      <Item name="Text Editor" icon="paragraph" />
+      {/* <Item name="Text Editor" icon="paragraph" /> */}
     </Menu>
   );
 };
