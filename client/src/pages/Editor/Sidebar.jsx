@@ -68,8 +68,12 @@ const Items = props => {
         <Menu secondary vertical fluid>
           {items}
           <Menu.Item>
-            <Button>
-              <Icon name="plus" /> Create Page
+            <Button primary>
+              <Icon.Group fitted sx={{ mr: "0.5em" }}>
+                <Icon name="file text" />
+                <Icon corner name="add" />
+              </Icon.Group>
+              Create Page
             </Button>
           </Menu.Item>
         </Menu>
@@ -102,6 +106,7 @@ const Sections = () => {
 
   // Hard Coded Section Names Here
   const names = ["Settings", "Pages", "Create Artifacts", "Text Editor"];
+  const icons = ["settings", "file text", "file", "paragraph"];
   const pages = ["Home", "Publications", "Projects", "Experience", "About"];
 
   const handleClick = (e, titleProps) => {
@@ -116,19 +121,26 @@ const Sections = () => {
   };
 
   let sections = names.map((name, index) => (
-    <Accordion key={name + index} styled name={name} exclusive={false} fluid>
+    <Accordion
+      key={name + index}
+      styled
+      name={name}
+      exclusive={false}
+      fluid
+      sx={{ p: "0.2em" }}
+    >
       <Accordion.Title
         active={activeAccordion === index}
         index={index}
         onClick={handleClick}
       >
         <Icon name="dropdown" />
+        <Icon name={icons[index]} sx={{ pr: "1.5em" }} />
         {name}
       </Accordion.Title>
 
       <Accordion.Content sx={styling} active={activeAccordion === index}>
         <Items name={name} pages={name === "Pages" ? pages : null} />
-        <br />
       </Accordion.Content>
     </Accordion>
   ));
