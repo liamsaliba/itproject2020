@@ -89,7 +89,7 @@ const Items = props => {
       "nisi quibusdam saepe. Commodi temporibus, atque rem unde vel," +
       "voluptatem tempore quisquam fugit exercitationem voluptates sint." +
       "Porro temporibus quisquam eveniet molestiae.";
-    return <TextEditor defaultText={defaultText} />;
+    return <TextEditor textEditor={{ defaultText }} />;
   } else {
     return (
       <div>
