@@ -84,11 +84,12 @@ const Items = props => {
       </Flex>
     );
   } else if (props.name === "Text Editor") {
-    return (
-      <Flex sx={{ justifyContent: "center" }}>
-        <TextEditor />
-      </Flex>
-    );
+    const defaultText =
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate" +
+      "nisi quibusdam saepe. Commodi temporibus, atque rem unde vel," +
+      "voluptatem tempore quisquam fugit exercitationem voluptates sint." +
+      "Porro temporibus quisquam eveniet molestiae.";
+    return <TextEditor textEditor={{ defaultText }} />;
   } else {
     return (
       <div>
