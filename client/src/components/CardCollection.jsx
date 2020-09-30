@@ -8,7 +8,7 @@ import Card from "./Card";
 /* ------------------------------------------------------------------- */
 
 // writing it here before making a separate file for it!
-export default function CardCollection({ name, cards }) {
+export default function CardCollection({ pageId, name, cards }) {
   const styling = {
     margin: "0 auto",
     mb: 10,
@@ -25,9 +25,9 @@ export default function CardCollection({ name, cards }) {
   ));
 
   return (
-    <Box sx={{ textAlign: "center" }}>
-      <Styled.h2> {name} </Styled.h2>
-      <Box id={name} sx={styling} mr={5} ml={5}>
+    <Box sx={{ textAlign: "center" }} id={name}>
+      <Styled.h2 id={name}> {name} </Styled.h2>
+      <Box sx={styling} mr={5} ml={5}>
         {allCards}
       </Box>
     </Box>

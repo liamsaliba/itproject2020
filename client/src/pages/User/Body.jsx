@@ -7,6 +7,9 @@ import documentPreview from "../../svg/DocumentPreview.png";
 import CardCollection from "../../components/CardCollection";
 import Artefacts from "../../components/Artefacts";
 import * as ArtefactStories from "../../components/stories/Artefacts.stories";
+import { selectPortfolioPages } from "../../store";
+import { useSelector } from "react-redux";
+// import { selectPortfolioPageIds } from "../../store/slices/portfolios";
 
 const styling = {
   textAlign: "center",
@@ -24,9 +27,19 @@ const Header = ({ username }) => (
   </Box>
 );
 
-export default props => {
-  const { username, pages: names } = props;
+// const pages = ["Publications", "Experience", "Articles", "About"];
 
+export default props => {
+  const { userId } = props;
+  const pageOrder = useSelector(state => selectPortfolioPages(state, userId));
+  // const pages = useSelector(state => selectPagesByUsername(state, userId));
+
+  // const pages1 = useSelector(state => selectPortfolioPageIds(state, userId));
+  // const pages2 = useSelector(state => Object.values(state.pages.entities));
+  // const pages3 = pages2.filter(page => pages1.includes(page.id));
+  // console.log({ pages3 });
+  // console.log(pages);
+  // console.log(pageOrder);
   const exampleCard = {
     card: {
       title: "Title",
@@ -45,16 +58,25 @@ export default props => {
     exampleCard,
   ];
 
-  const pages = names.map(name => (
-    <CardCollection name={name} key={"page" + name} cards={exampleCards} />
+  // const pageContainers = pages.map(page => (
+  //   <CardCollection name={page.name} key={page.id} cards={exampleCards} />
+  // ));
+
+  const pageContainers = pageOrder.map(page => (
+    <CardCollection
+      name={page.name}
+      key={page.id}
+      pageId={page.id}
+      cards={exampleCards}
+    />
   ));
 
   return (
     <Container as="main" display="flex" sx={styling}>
       <Box>
-        <Header username={username} />
-        {pages}
+        <Header username={userId} />
         <Artefacts {...ArtefactStories.LeftFeature.args} />
+        {pageContainers}
       </Box>
     </Container>
   );

@@ -10,10 +10,10 @@ const toastMiddleware = ({ dispatch }) => next => async action => {
 
   if (data === null || data === {}) {
     console.warn("TOAST: ", action);
-    if (hideErrorToast !== false) toast.warn(message);
+    if (hideErrorToast === false) toast.warn(message);
   } else {
     console.warn("TOAST: ", action);
-    if (hideErrorToast !== false)
+    if (hideErrorToast === false)
       toast.warn(`${JSON.stringify(data)} (${message})`);
   }
 

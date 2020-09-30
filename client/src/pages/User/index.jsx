@@ -7,13 +7,17 @@ import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
   selectPortfolioByUsername,
+  // selectPortfolioEditing,
   selectPortfoliosSlice,
 } from "../../store";
 import UserPage from "./UserPage";
 
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { Toast, Loading } from "../../components";
+import { Toast } from "../../components";
+import { Dimmer } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
+import React from "react";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -24,6 +28,7 @@ const User = props => {
   const dispatch = useDispatch();
   const { userId } = props;
   const portfolios = useSelector(selectPortfoliosSlice);
+  // const editing = useSelector(selectPortfolioEditing);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -55,14 +60,17 @@ const User = props => {
     }
   }, [portfolios, loading]);
 
-  return loaded ? (
-    portfolio ? (
-      <UserPage userId={userId} />
-    ) : (
-      <NotExist userId={userId} />
-    )
-  ) : (
-    <Loading>Loading {props.userId}'s portfolio</Loading>
+  return (
+    <React.Fragment>
+      <Dimmer active={!loaded && !portfolio} inverted>
+        <Loader inverted>Loading {props.userId}'s portfolio</Loader>
+      </Dimmer>
+      {portfolio ? (
+        <UserPage userId={userId} />
+      ) : loaded ? (
+        <NotExist userId={userId} />
+      ) : null}
+    </React.Fragment>
   );
 };
 

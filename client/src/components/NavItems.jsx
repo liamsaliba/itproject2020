@@ -6,7 +6,7 @@ import {
   IconButton,
   NavLink as StyledNavLink,
 } from "theme-ui";
-import { Button as SemanticButton } from "semantic-ui-react";
+import { Button as SemanticButton, Icon } from "semantic-ui-react";
 import { NavHashLink, HashLink } from "react-router-hash-link";
 import isAbsoluteURL from "is-absolute-url";
 import camel from "../svg/camel.svg";
@@ -31,6 +31,10 @@ const GenericLink = (LinkComponent, { href, ...props }) => {
 export const NavLink = props => GenericLink(NavHashLink, props);
 export const Link = props => GenericLink(HashLink, props);
 
+export const Dot = (
+  <Icon color="red" name="circle" size="small" sx={{ pl: "4px" }} />
+);
+
 export const MenuItem = props => (
   <StyledNavLink
     {...props}
@@ -44,6 +48,7 @@ export const MenuItem = props => (
     p={2}
   >
     {props.children}
+    {props.important && <Dot />}
   </StyledNavLink>
 );
 

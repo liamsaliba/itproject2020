@@ -5,6 +5,12 @@ import Footer from "./Footer";
 import { jsx, Flex, ThemeProvider, Box } from "theme-ui";
 import themes from "../../themes";
 
+export const Whitebox = props => (
+  <Box p={5} sx={{ backgroundColor: "rgba(255, 255, 255, 0.85)" }}>
+    {props.children}
+  </Box>
+);
+
 export default props => {
   const theme = themes.custom;
 
@@ -24,9 +30,7 @@ export default props => {
             backgroundImage: "url('https://i.redd.it/jpx7gtsw5ye41.jpg')",
           }}
         >
-          <Box p={5} sx={{ backgroundColor: "rgba(255, 255, 255, 0.85)" }}>
-            {props.children}
-          </Box>
+          <Whitebox children={props.children} />
         </Flex>
         <Footer as="footer" />
       </Flex>

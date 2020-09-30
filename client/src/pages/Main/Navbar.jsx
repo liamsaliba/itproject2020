@@ -2,7 +2,12 @@
 import { jsx, Box, Flex } from "theme-ui";
 import React from "react";
 
-import { MenuItem, MenuButton, MenuCamel, ProfileIcon } from "../../components";
+import {
+  MenuItem,
+  MenuButton,
+  MenuCamel,
+  ProfileDropdown,
+} from "../../components";
 import { useSelector } from "react-redux";
 
 export default () => {
@@ -15,18 +20,9 @@ export default () => {
         <MenuItem to="/">Camel Pages</MenuItem>
         <MenuItem to="themes">Themes</MenuItem>
         <Box mx="auto" />
-        {auth.token && (
-          <React.Fragment>
-            <MenuItem to="editor">Editor</MenuItem>
-            <MenuItem to={`u/${auth.user.username}`}>Portfolio</MenuItem>
-            <MenuItem to="logout">Logout</MenuItem>
-            <MenuItem to="profile">{auth.user.username}</MenuItem>
-            <ProfileIcon userId={auth.user.username} to="/profile" p={2} />
-          </React.Fragment>
-        )}
+        {auth.token && <ProfileDropdown items="default" />}
         {!auth.token && (
           <React.Fragment>
-            {/*will be user.profile */}
             <MenuItem to="login">Login</MenuItem>
             <MenuButton to="signup">Sign up</MenuButton>
           </React.Fragment>

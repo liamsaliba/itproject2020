@@ -3,7 +3,7 @@ import { jsx, Spinner } from "theme-ui";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
-import { logout } from "../../store";
+import { logoutAll } from "../../store";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 

@@ -15,6 +15,15 @@ export {
 
 export {
   // action creators
+  changeAccordion,
+  // selectors
+  selectAccordion,
+  // reducer
+  default as uiReducer,
+} from "./ui";
+
+export {
+  // action creators
   startEditing,
   finishEditing,
   fetchPortfolios,
@@ -27,7 +36,11 @@ export {
   changePortfolioTheme,
   deletePortfolio,
   // selectors
+  selectPortfolioPages,
+  selectPortfolioEditing,
   selectCurrentUserPortfolio,
+  selectPortfolioTheme,
+  selectPortfolioBio,
   selectPortfoliosSlice,
   selectPortfolioByUsername,
   selectPortfolioUsernames,

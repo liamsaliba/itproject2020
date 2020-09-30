@@ -1,15 +1,16 @@
 /** @jsx jsx */
-import { jsx, Flex, Container, ThemeProvider } from "theme-ui";
+import { jsx, Flex, ThemeProvider } from "theme-ui";
 import User from "../User";
-import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import { Title } from "./../../components/index";
-import * as Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar";
 
 import themes from "../../themes";
+import { selectCurrentUserPortfolio, selectUsername } from "../../store";
 
 export default props => {
-  const id = useSelector(state => state.auth.user.username);
+  const portfolio = useSelector(selectCurrentUserPortfolio);
+  const id = useSelector(selectUsername);
 
   return (
     <Flex
@@ -21,27 +22,27 @@ export default props => {
         color: "black",
       }}
     >
+      <Title>Editor: {id}</Title>
       <ThemeProvider theme={themes.base}>
-        <Title>Editor: {id}</Title>
-        <aside
+        <Flex
           sx={{
             width: "250px",
             borderRight: "1px black solid",
             overflowY: "auto",
             overflowX: "hidden",
-            height: "100%",
+            height: "100vh",
+            flexDirection: "column",
           }}
         >
-          {/* <Sidebar/> */}
-          <Navbar userId={id} />
-          <Container
-            sx={{
-              overflow: "auto",
-            }}
-          >
-            <Sidebar.Sections />
-          </Container>
-        </aside>
+          {portfolio ? <Sidebar /> : null}
+          {/* <Dimmer.Dimmable as={Flex} dimmed={!portfolio}>
+            <Dimmer inverted active={!portfolio}>
+              <Loader size="large">Loading {id}'s portfolio...</Loader>
+
+              
+            </Dimmer>
+          </Dimmer.Dimmable> */}
+        </Flex>
       </ThemeProvider>
       <main
         sx={{

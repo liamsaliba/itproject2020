@@ -47,6 +47,15 @@ const createPortfolio = async (req, res) => {
   }
 };
 
+const findPortfolio = async username => {
+  const portfolio = await Portfolio.findByUsername(username);
+  if (!portfolio) throw Error(`Portfolio for the user ${username} not found.`);
+  const p = portfolio.toObject();
+  const contents = await Portfolio.findAllPages(username);
+  p.pages = contents || [];
+  return p;
+};
+
 // Find a portfolio given its owner's username
 const findPortfolioByUsername = async (req, res) => {
   try {
@@ -54,11 +63,8 @@ const findPortfolioByUsername = async (req, res) => {
       throw Error("User not found!");
     }
     const username = req.params.username;
-    const portfolio = await Portfolio.findByUsername(username);
-    const p = portfolio.toObject();
-    const contents = await Portfolio.findAllPages(username);
-    p.pages = contents;
-    res.status(200).json(p);
+    const portfolio = await findPortfolio(username);
+    res.status(200).json(portfolio);
   } catch (err) {
     res
       .status(404)
@@ -124,11 +130,8 @@ const findAllDetails = async (req, res) => {
       throw Error("User not found!");
     }
     const username = req.params.username;
-    let portfolio = await Portfolio.findByUsername(username);
-    if (!portfolio) {
-      throw Error(`Portfolio for the user ${username} not found.`);
-    }
-    portfolio = portfolio.toObject();
+    const portfolio = await findPortfolio(username);
+
     let pages = await Page.findByUsername(username);
     pages = pages ? pages : [];
     let artifacts = await Artifact.findByUsername(username);

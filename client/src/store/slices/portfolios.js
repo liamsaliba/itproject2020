@@ -70,15 +70,39 @@ const slice = createSlice({
   },
   extraReducers: {
     [pageActions.pageCreated]: (portfolios, action) => {
-      const { username, id, name } = action.payload;
-      const newPage = { id, name };
-      if (!portfolios.entities[username]) {
+      const { username, id: pageId, name } = action.payload;
+      const newPage = { pageId, name };
+      if (
+        !portfolios.entities[username] ||
+        !portfolios.entities[username].pages
+      ) {
         adapter.upsertOne({
           username,
           pages: [newPage],
         });
       }
       portfolios.entities[username].pages.push(newPage);
+    },
+    [pageActions.pageUpdated]: (portfolios, action) => {
+      const { username, id: pageId, name } = action.payload;
+      const newPage = { pageId, name };
+      if (
+        !portfolios.entities[username] ||
+        !portfolios.entities[username].pages
+      ) {
+        adapter.upsertOne({
+          username,
+          pages: [newPage],
+        });
+      }
+      for (let i = 0; i < portfolios.entities[username].pages.length; i++) {
+        if (portfolios.entities[username].pages[i].pageId === pageId) {
+          portfolios.entities[username].pages[i] = {
+            ...portfolios.entities[username].pages[i],
+            name,
+          };
+        }
+      }
     },
     [portfolioFetchedAll]: (portfolios, action) => {
       const { portfolio } = action.payload;
@@ -138,19 +162,46 @@ export const selectCurrentUserPortfolio = createSelector(
   (portfolios, username) => (username ? portfolios[username] : undefined)
 );
 
+export const selectPortfolioTheme = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.theme || "default" : undefined)
+);
+export const selectPortfolioBio = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.bio || "" : undefined)
+);
+
+export const selectPortfolioEditing = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.editing || false : undefined)
+);
+
+export const selectPortfolioPages = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.pages || [] : undefined)
+);
+
+export const selectPortfolioPageIds = createSelector(
+  selectPortfolioPages,
+  pages => (pages ? pages.map(page => page.pageId) || [] : undefined)
+);
+
+export const selectPortfolioPageNames = createSelector(
+  selectPortfolioPages,
+  pages => (pages ? pages.map(page => page.name) || [] : undefined)
+);
+
 export const selectPortfoliosSlice = state => state.portfolios;
 
 export const selectPagesByUsername = username =>
   createSelector(
     [
-      state => selectPortfolioByUsername(state, username), // select the current portfolio
-      state => state.pages.ids.map(id => state.pages.entities[id]), // this is the same as selectAllPages
+      state => selectPortfolioPageIds(state, username), // select the current portfolio
+      state => Object.values(state.pages.entities), // this is the same as selectAllPages
     ],
-    (portfolio, pages) => {
+    (portfolioPages, pages) => {
       // return the pages for the given portfolio only
-      return Object.keys(pages)
-        .map(c => pages[c])
-        .filter(page => portfolio.pages.includes(page.id));
+      return pages.filter(page => portfolioPages.includes(page.id));
     }
   );
 
@@ -204,6 +255,7 @@ export const fetchPortfolio = (username = null, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioReceivedOne.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };
@@ -229,6 +281,7 @@ export const fetchEntirePortfolio = (username, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioFetchedAll.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };
@@ -248,6 +301,7 @@ export const fetchPortfolioPages = (username, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioFetchedPages.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };
@@ -268,6 +322,7 @@ export const fetchPortfolioArtifacts = (username, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioFetchedArtifacts.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };

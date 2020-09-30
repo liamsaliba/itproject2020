@@ -1,30 +1,37 @@
 import React from "react";
 
-import {
-  ProfileIcon,
-  ThemeSelector,
-  Navbar,
-  MenuCamel,
-} from "../../components";
+import { ProfileDropdown, Navbar, MenuCamel } from "../../components";
+import { useSelector } from "react-redux";
+import { selectPortfolioPages, selectToken } from "../../store";
+
+const NavItem = ({ page }) => (
+  <Navbar.Item key={page.pageId} to={`#${page.name}`}>
+    {page.name}
+  </Navbar.Item>
+);
 
 export default props => {
-  const { userId: id, theme, setTheme, pages } = props;
+  const token = useSelector(selectToken);
+  const { userId } = props;
+  const pages = useSelector(state => selectPortfolioPages(state, userId));
 
-  const menuItems = pages.map(name => (
-    <Navbar.Item key={name} to={`#${name}`}>
-      {name}
-    </Navbar.Item>
-  ));
+  const menuItems =
+    pages.length > 10
+      ? pages
+          .slice(0, 10)
+          .map(page => <NavItem page={page} />)
+          .concat([<Navbar.Item>...</Navbar.Item>])
+      : pages.map(page => <NavItem page={page} />);
 
   return (
     <Navbar>
       <Navbar.Left>
         <MenuCamel />
-        <ThemeSelector theme={theme} setTheme={setTheme} />
+        <Navbar.Item to="#">{userId}</Navbar.Item>
       </Navbar.Left>
       <Navbar.Center size="4">{menuItems}</Navbar.Center>
       <Navbar.Right size="1">
-        <ProfileIcon userId={id} to="#" />
+        {token && <ProfileDropdown items="default" />}
       </Navbar.Right>
     </Navbar>
   );

@@ -1,151 +1,45 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
-import {
-  Accordion,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  Grid,
-} from "semantic-ui-react";
-import React, { useState } from "react";
-import { ThemeSelector } from "../../components";
-import TextEditor from "../../components/TextEditor";
+import React from "react";
 
-// import themes from "../../themes";
+import Navbar from "./Navbar";
 
-const Items = props => {
-  //Themes
-  const [theme, setTheme] = useState("base");
-  const [activeItem, setActive] = useState("Home");
+// import SectionTextEditor from "./SectionTextEditor";
+import SectionArtifacts from "./SectionArtifacts";
+import SectionSettings from "./SectionSettings";
+import SectionPages from "./SectionPages";
+import SectionMenu from "./SectionMenu";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { finishEditing, startEditing } from "../../store";
 
-  const handlePageClick = (e, page) => {
-    setActive(activeItem === { page });
-  };
+export default props => {
+  const dispatch = useDispatch();
 
-  // const [preset, setPreset] = useState(themes[theme]);
-  // preset should be used within ThemeProvider to wrap the section => User. (Store functionality)
+  useEffect(() => {
+    dispatch(startEditing());
+    return () => {
+      dispatch(finishEditing());
+    };
+  }, [dispatch]);
 
-  /* useEffect(() => {
-    setPreset(themes[theme]);
-  }, [theme]); */
-
-  if (props.name === "Settings") {
-    return (
-      <React.Fragment>
-        <Flex sx={{ justifyContent: "center" }}>
-          <ThemeSelector theme={theme} setTheme={setTheme} />
-        </Flex>
-      </React.Fragment>
-    );
-  } else if (props.name === "Pages") {
-    const items = props.pages.map(page => (
-      <Menu.Item
-        name={page}
-        active={activeItem === { page }}
-        onClick={handlePageClick}
-        key={"page" + page}
+  return (
+    <React.Fragment>
+      <Navbar userId={props.id} />
+      <SectionMenu />
+      <Flex
+        sx={{
+          flex: "1",
+          justifyContent: "center",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
       >
-        <span>
-          <Grid>
-            <Grid.Column floated="left" width={5}>
-              {page}
-            </Grid.Column>
-            <Grid.Column floated="right" width={3}>
-              <Dropdown floating inline direction="left">
-                <Dropdown.Menu>
-                  <Dropdown.Item>Rename Page</Dropdown.Item>
-                  <Dropdown.Item>Delete Page</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Grid.Column>
-          </Grid>
-        </span>
-      </Menu.Item>
-    ));
-    return (
-      <Flex sx={{ justifyContent: "center" }}>
-        <Menu secondary vertical fluid>
-          {items}
-          <Menu.Item>
-            <Button primary>
-              <Icon.Group fitted sx={{ mr: "0.5em" }}>
-                <Icon name="file text" />
-                <Icon corner name="add" />
-              </Icon.Group>
-              Create Page
-            </Button>
-          </Menu.Item>
-        </Menu>
+        <SectionSettings />
+        <SectionPages />
+        <SectionArtifacts />
+        {/* <SectionTextEditor /> */}
       </Flex>
-    );
-  } else if (props.name === "Create Artifacts") {
-    return (
-      <Flex sx={{ justifyContent: "center" }}>
-        <Button>Add Artifacts</Button>
-      </Flex>
-    );
-  } else if (props.name === "Text Editor") {
-    const defaultText =
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate" +
-      "nisi quibusdam saepe. Commodi temporibus, atque rem unde vel," +
-      "voluptatem tempore quisquam fugit exercitationem voluptates sint." +
-      "Porro temporibus quisquam eveniet molestiae.";
-    return <TextEditor textEditor={{ defaultText }} />;
-  } else {
-    return (
-      <div>
-        Error, Incorrect Section Name! Items Component in Editor/SideBar.jsx
-      </div>
-    );
-  }
+    </React.Fragment>
+  );
 };
-
-const Sections = () => {
-  const [activeAccordion, setActive] = useState(-1);
-
-  // Hard Coded Section Names Here
-  const names = ["Settings", "Pages", "Create Artifacts", "Text Editor"];
-  const icons = ["settings", "file text", "file", "paragraph"];
-  const pages = ["Home", "Publications", "Projects", "Experience", "About"];
-
-  const handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    setActive(activeAccordion === index ? -1 : index);
-  };
-
-  // Styling
-  const styling = {
-    overflowY: "auto",
-    overflowX: "hidden",
-  };
-
-  let sections = names.map((name, index) => (
-    <Accordion
-      key={name + index}
-      styled
-      name={name}
-      exclusive={false}
-      fluid
-      sx={{ p: "0.2em" }}
-    >
-      <Accordion.Title
-        active={activeAccordion === index}
-        index={index}
-        onClick={handleClick}
-      >
-        <Icon name="dropdown" />
-        <Icon name={icons[index]} sx={{ pr: "1.5em" }} />
-        {name}
-      </Accordion.Title>
-
-      <Accordion.Content sx={styling} active={activeAccordion === index}>
-        <Items name={name} pages={name === "Pages" ? pages : null} />
-      </Accordion.Content>
-    </Accordion>
-  ));
-
-  return sections;
-};
-
-export { Sections };
