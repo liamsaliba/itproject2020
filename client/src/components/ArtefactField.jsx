@@ -10,7 +10,6 @@ import {
 } from "semantic-ui-react";
 
 export default function ArtefactField({ state:{open, setOpen}, artefactField:{isNew}, onAddDocument }) {
-  console.log(open);
   const modalStyle = { 
     mr: "5em",
     ml: "5em"
