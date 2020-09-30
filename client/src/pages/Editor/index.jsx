@@ -7,9 +7,10 @@ import { Title } from "./../../components/index";
 import * as Sidebar from "./Sidebar";
 
 import themes from "../../themes";
+import { selectUsername } from "../../store";
 
 export default props => {
-  const id = useSelector(state => state.auth.user.username);
+  const id = useSelector(selectUsername);
 
   return (
     <Flex
