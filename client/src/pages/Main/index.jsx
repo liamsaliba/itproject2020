@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import About from "./About";
 import Login from "./Login";
 import Logout from "./Logout";
+import LogoutAll from "./LogoutAll";
 import SignUp from "./SignUp";
 import Landing from "./Landing";
 import ThemeTest from "../demo/ThemeTest";
@@ -23,7 +24,7 @@ export default () => {
         <Route component={Login} path={"/login/:userId"} />
         <Route component={Logout} exact path={["/logout", "/signout"]} />
         <Route
-          component={Logout}
+          component={LogoutAll}
           exact
           path={["/logout/all", "/signout/all"]}
         />
