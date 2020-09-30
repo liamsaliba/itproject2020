@@ -3,14 +3,14 @@ import { jsx } from "theme-ui";
 
 import documentPreview from "../../svg/DocumentPreview.png";
 
-import OurCard from "../OurCard";
+import Card from "../Card";
 
 export default {
-  component: OurCard,
-  title: "Components/UserPages/OurCard",
+  component: Card,
+  title: "Components/UserPages/Card",
 };
 
-const Template = args => <OurCard {...args} />;
+const Template = args => <Card {...args} />;
 
 export const Default = Template.bind();
 Default.args = {
