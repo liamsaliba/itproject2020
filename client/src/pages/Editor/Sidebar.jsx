@@ -8,10 +8,23 @@ import PageList from "../../components/PageList";
 
 // import themes from "../../themes";
 
-const Items = props => {
-  //Themes
+const ItemSettings = props => {
   const [theme, setTheme] = useState("base");
 
+  return (
+    <React.Fragment>
+      <Flex sx={{ justifyContent: "center" }}>
+        <div>
+          <Icon name="paint brush" />
+          Theme
+          <ThemeSelector theme={theme} setTheme={setTheme} />
+        </div>
+      </Flex>
+    </React.Fragment>
+  );
+};
+
+const Items = props => {
   // const [preset, setPreset] = useState(themes[theme]);
   // preset should be used within ThemeProvider to wrap the section => User. (Store functionality)
 
@@ -20,13 +33,7 @@ const Items = props => {
   }, [theme]); */
 
   if (props.name === "Settings") {
-    return (
-      <React.Fragment>
-        <Flex sx={{ justifyContent: "center" }}>
-          <ThemeSelector theme={theme} setTheme={setTheme} />
-        </Flex>
-      </React.Fragment>
-    );
+    return ItemSettings(props);
   } else if (props.name === "Pages") {
     return <PageList pages={props.pages} />;
   } else if (props.name === "Create Artifacts") {

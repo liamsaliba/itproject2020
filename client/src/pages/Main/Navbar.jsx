@@ -2,8 +2,15 @@
 import { jsx, Box, Flex } from "theme-ui";
 import React from "react";
 
-import { MenuItem, MenuButton, MenuCamel, ProfileIcon } from "../../components";
+import {
+  MenuItem,
+  MenuButton,
+  MenuCamel,
+  ProfileIcon,
+  ProfileDropdown,
+} from "../../components";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default () => {
   const auth = useSelector(state => state.auth);
@@ -16,13 +23,17 @@ export default () => {
         <MenuItem to="themes">Themes</MenuItem>
         <Box mx="auto" />
         {auth.token && (
-          <React.Fragment>
-            <MenuItem to="editor">Editor</MenuItem>
-            <MenuItem to={`u/${auth.user.username}`}>Portfolio</MenuItem>
-            <MenuItem to="logout">Logout</MenuItem>
-            <MenuItem to="profile">{auth.user.username}</MenuItem>
-            <ProfileIcon userId={auth.user.username} to="/profile" p={2} />
-          </React.Fragment>
+          <ProfileDropdown
+            items={[
+              { icon: "edit", text: "Editor", as: Link, to: "/editor" },
+              {
+                icon: "user circle",
+                text: "Portfolio",
+                as: Link,
+                to: `u/${auth.user.username}`,
+              },
+            ]}
+          />
         )}
         {!auth.token && (
           <React.Fragment>

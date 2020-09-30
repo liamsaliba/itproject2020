@@ -1,9 +1,8 @@
 /** @jsx jsx */
-import { jsx, Box, Flex, Close } from "theme-ui";
+import { jsx, Box, Flex } from "theme-ui";
 
-import { MenuItem, MenuCamel } from "../../components";
+import { MenuItem, MenuCamel, ProfileDropdown } from "../../components";
 import { Link } from "react-router-dom";
-import { Icon } from "semantic-ui-react";
 
 export default ({ userId: id }) => {
   return (
@@ -11,11 +10,12 @@ export default ({ userId: id }) => {
       <MenuCamel />
       <MenuItem to="#">Editor</MenuItem>
       <Box mx="auto" />
-      <MenuItem to="/logout">
-        <Icon name="sign out" />
-        Logout
-      </MenuItem>
-      <Close as={Link} to={`../../u/${id}`} />
+      <ProfileDropdown
+        userId={id}
+        items={[
+          { as: Link, to: `/u/${id}`, icon: "close", text: "Close Editor" },
+        ]}
+      ></ProfileDropdown>
     </Flex>
   );
 };
