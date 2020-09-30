@@ -6,7 +6,6 @@ import {
   MenuItem,
   MenuButton,
   MenuCamel,
-  ProfileIcon,
   ProfileDropdown,
 } from "../../components";
 import { useSelector } from "react-redux";
@@ -22,22 +21,9 @@ export default () => {
         <MenuItem to="/">Camel Pages</MenuItem>
         <MenuItem to="themes">Themes</MenuItem>
         <Box mx="auto" />
-        {auth.token && (
-          <ProfileDropdown
-            items={[
-              { icon: "edit", text: "Editor", as: Link, to: "/editor" },
-              {
-                icon: "user circle",
-                text: "Portfolio",
-                as: Link,
-                to: `u/${auth.user.username}`,
-              },
-            ]}
-          />
-        )}
+        {auth.token && <ProfileDropdown items="default" />}
         {!auth.token && (
           <React.Fragment>
-            {/*will be user.profile */}
             <MenuItem to="login">Login</MenuItem>
             <MenuButton to="signup">Sign up</MenuButton>
           </React.Fragment>

@@ -16,7 +16,7 @@ export default function ThemeSelector({ theme, setTheme, size = 100 }) {
         Preset: */}
       <Select
         id="theme"
-        value={theme}
+        value={theme === "default" ? "base" : theme}
         onChange={e => setTheme(e.target.value)}
         sx={{ width: size }}
       >

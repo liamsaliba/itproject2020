@@ -138,6 +138,20 @@ export const selectCurrentUserPortfolio = createSelector(
   (portfolios, username) => (username ? portfolios[username] : undefined)
 );
 
+export const selectPortfolioTheme = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.theme || "default" : undefined)
+);
+export const selectPortfolioBio = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.bio || "" : undefined)
+);
+
+export const selectPortfolioEditing = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.editing || false : undefined)
+);
+
 export const selectPortfoliosSlice = state => state.portfolios;
 
 export const selectPagesByUsername = username =>

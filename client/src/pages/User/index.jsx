@@ -7,13 +7,16 @@ import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
   selectPortfolioByUsername,
+  selectPortfolioEditing,
   selectPortfoliosSlice,
 } from "../../store";
 import UserPage from "./UserPage";
 
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { Toast, Loading } from "../../components";
+import { Toast } from "../../components";
+import { Dimmer } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -24,8 +27,9 @@ const User = props => {
   const dispatch = useDispatch();
   const { userId } = props;
   const portfolios = useSelector(selectPortfoliosSlice);
-  const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const editing = useSelector(selectPortfolioEditing);
+  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(true);
 
   // const editing = props.editing || false;
 
@@ -62,7 +66,9 @@ const User = props => {
       <NotExist userId={userId} />
     )
   ) : (
-    <Loading>Loading {props.userId}'s portfolio</Loading>
+    <Dimmer active inverted>
+      <Loader inverted>Loading {props.userId}'s portfolio</Loader>
+    </Dimmer>
   );
 };
 

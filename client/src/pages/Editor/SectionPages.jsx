@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
+import Section from "./Section";
 
 import { useState } from "react";
 import {
@@ -12,7 +13,7 @@ import {
   Input,
 } from "semantic-ui-react";
 
-export default function PageList({ pages }) {
+export const PageList = ({ pages }) => {
   const [activeItem, setActive] = useState("Home");
   const [open, setOpen] = useState(false);
 
@@ -95,4 +96,16 @@ export default function PageList({ pages }) {
       {newPage}
     </Flex>
   );
-}
+};
+
+const SectionPages = () => {
+  const pages = ["Home", "Publications", "Projects", "Experience", "About"];
+
+  return (
+    <Section name="Pages" icon="file text">
+      <PageList pages={pages} />
+    </Section>
+  );
+};
+
+export default SectionPages;

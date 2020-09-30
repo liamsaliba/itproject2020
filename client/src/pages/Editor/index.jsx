@@ -1,15 +1,17 @@
 /** @jsx jsx */
-import { jsx, Flex, Container, ThemeProvider } from "theme-ui";
+import { jsx, Flex, ThemeProvider } from "theme-ui";
 import User from "../User";
-import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import { Title } from "./../../components/index";
-import * as Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar";
 
 import themes from "../../themes";
-import { selectUsername } from "../../store";
+import { selectCurrentUserPortfolio, selectUsername } from "../../store";
+import { Dimmer } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 
 export default props => {
+  const portfolio = useSelector(selectCurrentUserPortfolio);
   const id = useSelector(selectUsername);
 
   return (
@@ -22,8 +24,8 @@ export default props => {
         color: "black",
       }}
     >
+      <Title>Editor: {id}</Title>
       <ThemeProvider theme={themes.base}>
-        <Title>Editor: {id}</Title>
         <aside
           sx={{
             width: "250px",
@@ -33,15 +35,15 @@ export default props => {
             height: "100%",
           }}
         >
-          {/* <Sidebar/> */}
-          <Navbar userId={id} />
-          <Container
-            sx={{
-              overflow: "auto",
-            }}
-          >
-            <Sidebar.Sections />
-          </Container>
+          {portfolio ? (
+            <Sidebar />
+          ) : (
+            <Dimmer inverted active>
+              <Loader inverted size="large">
+                Loading {id}'s portfolio
+              </Loader>
+            </Dimmer>
+          )}
         </aside>
       </ThemeProvider>
       <main

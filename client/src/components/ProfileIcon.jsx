@@ -51,7 +51,24 @@ export const ProfileDropdown = props => {
       ),
       disabled: true,
     },
-    ...(props.items || []),
+    ...(props.items === "default"
+      ? [
+          {
+            key: "editor",
+            icon: "edit",
+            text: "Editor",
+            as: Link,
+            to: "/editor",
+          },
+          {
+            key: "portfolio",
+            icon: "user circle",
+            text: "Portfolio",
+            as: Link,
+            to: `u/${user.username}`,
+          },
+        ]
+      : props.items || []),
     {
       key: "sign-out",
       icon: "sign out",

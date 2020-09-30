@@ -5,18 +5,21 @@ import { useState, useEffect } from "react";
 import themes from "../../themes";
 import Body from "./Body";
 import { Title } from "./../../components/index";
+import { selectPortfolioByUsername } from "../../store";
+import { useSelector } from "react-redux";
 
 const UserPage = props => {
   const { userId } = props;
-
-  const [theme, setTheme] = useState("base");
-  const [preset, setPreset] = useState(themes[theme]);
+  const [preset, setPreset] = useState(themes["base"]);
+  const portfolio = useSelector(state =>
+    selectPortfolioByUsername(state, userId)
+  );
 
   const pages = ["Publications", "Experience", "Articles", "About"];
 
   useEffect(() => {
-    setPreset(themes[theme]);
-  }, [theme]);
+    setPreset(themes[portfolio.theme === "default" ? "base" : portfolio.theme]);
+  }, [portfolio.theme]);
 
   return (
     <ThemeProvider theme={preset}>
@@ -31,12 +34,7 @@ const UserPage = props => {
         }}
       >
         <header>
-          <Navbar
-            userId={userId}
-            theme={theme}
-            setTheme={setTheme}
-            pages={pages}
-          />
+          <Navbar userId={userId} pages={pages} />
         </header>
 
         <Body userId={userId} pages={pages} />

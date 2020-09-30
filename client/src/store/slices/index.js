@@ -36,7 +36,10 @@ export {
   changePortfolioTheme,
   deletePortfolio,
   // selectors
+  selectPortfolioEditing,
   selectCurrentUserPortfolio,
+  selectPortfolioTheme,
+  selectPortfolioBio,
   selectPortfoliosSlice,
   selectPortfolioByUsername,
   selectPortfolioUsernames,

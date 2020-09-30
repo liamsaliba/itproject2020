@@ -1,5 +1,5 @@
 import React from "react";
-import { Styled, Box, Container } from "theme-ui";
+import { Styled, Box } from "theme-ui";
 
 // TODO: Styles
 

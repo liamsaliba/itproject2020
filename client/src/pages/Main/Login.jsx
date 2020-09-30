@@ -1,14 +1,5 @@
 /** @jsx jsx */
-import {
-  jsx,
-  Label,
-  Input,
-  Box,
-  Checkbox,
-  Button,
-  Styled,
-  Spinner,
-} from "theme-ui";
+import { jsx, Label, Input, Box, Checkbox, Button, Styled } from "theme-ui";
 import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +9,8 @@ import { useEffect } from "react";
 import { Link, Title, Toast } from "../../components";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { Dimmer } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 
 export default () => {
   const userId = useParams().userId || "";
@@ -67,10 +60,12 @@ export default () => {
         </Label>
       </Box>
       <Button>Submit</Button>
-      {auth.loading ? <Spinner /> : null}
       <Link to="/signup" sx={{ ml: 4 }}>
         {"Don't have an account? Sign up"}
       </Link>
+      <Dimmer inverted active={auth.loading}>
+        <Loader inverted>Logging in...</Loader>
+      </Dimmer>
     </Box>
   );
 };

@@ -3,6 +3,7 @@ import { jsx, Styled } from "theme-ui";
 
 import { MenuSemanticButton, CenterFlex } from "../../components";
 import { Header, Icon } from "semantic-ui-react";
+import { Flex } from "theme-ui";
 
 export const NotExist = ({ userId }) => (
   <CenterFlex sx={{ minHeight: "100vh" }}>
@@ -14,7 +15,16 @@ export const NotExist = ({ userId }) => (
       Looks like <b>{userId}</b> doesn't have a portfolio yet.
     </Styled.p>
     <Styled.p>Would you like to sign up and create a new one?</Styled.p>
-    <MenuSemanticButton to={`/signup/${userId}`}>Sign up</MenuSemanticButton>
+    <Flex sx={{ flexDirection: "row" }}>
+      <MenuSemanticButton primary to={`/signup/${userId}`}>
+        <Icon name="user plus" />
+        Sign up
+      </MenuSemanticButton>
+      <MenuSemanticButton to={`/`}>
+        <Icon name="home" />
+        Home
+      </MenuSemanticButton>
+    </Flex>
   </CenterFlex>
 );
 

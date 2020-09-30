@@ -1,14 +1,12 @@
 import React from "react";
 
-import {
-  ProfileIcon,
-  ThemeSelector,
-  Navbar,
-  MenuCamel,
-} from "../../components";
+import { ProfileDropdown, Navbar, MenuCamel } from "../../components";
+import { useSelector } from "react-redux";
+import { selectToken } from "../../store";
 
 export default props => {
-  const { userId: id, theme, setTheme, pages } = props;
+  const token = useSelector(selectToken);
+  const { userId: id, pages } = props;
 
   const menuItems = pages.map(name => (
     <Navbar.Item key={name} to={`#${name}`}>
@@ -20,11 +18,11 @@ export default props => {
     <Navbar>
       <Navbar.Left>
         <MenuCamel />
-        <ThemeSelector theme={theme} setTheme={setTheme} />
+        <Navbar.Item to="#">{id}</Navbar.Item>
       </Navbar.Left>
       <Navbar.Center size="4">{menuItems}</Navbar.Center>
       <Navbar.Right size="1">
-        <ProfileIcon userId={id} to="#" />
+        {token && <ProfileDropdown items="default" />}
       </Navbar.Right>
     </Navbar>
   );
