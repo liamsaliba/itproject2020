@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, Styled, Button, Container } from "theme-ui";
 import PropTypes from "prop-types";
-import React, {useState} from 'react'
+import React from 'react'
 import TextEditor from './TextEditor';
 
 export default function Body({ 
@@ -22,33 +22,21 @@ export default function Body({
     verticalAlign: vAlign,
   };
 
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    if (isEditing) {
-      setOpen(!open);
-    }
-  }
-
   const textEditorArgs = {
-    state: {
-      open: open,
-      setOpen: setOpen
-    },
+    isEditing:false, 
     textEditor: {
       defaultText: text
     }
   }
 
   const Text = () => (
-    <Styled.p onClick={handleClick}>{text}</Styled.p>
+    <Styled.p>{text}</Styled.p>
   );
 
   const out = (
     <React.Fragment>
-      <TextEditor {...textEditorArgs} />
       <Container sx={styling}>
-        <Text />
+        <TextEditor {...textEditorArgs} />
         {actionString && <Button onClick={() => onAction}>{actionString}</Button>}
       </Container>
     </React.Fragment>

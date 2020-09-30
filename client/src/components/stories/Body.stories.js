@@ -15,7 +15,6 @@ const Default = {
     hAlign: "center",
     vAlign: "middle",
     text:
-      "Display Title\n" +
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias" +
       " officiis quam et iste ratione earum illo aliquid neque, quis quas" +
       " accusamus voluptatum provident dolorum aspernatur nostrum quo similique" +

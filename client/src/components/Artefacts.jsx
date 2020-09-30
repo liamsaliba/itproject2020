@@ -74,8 +74,8 @@ export default function Artefact({
       return (
         <React.Fragment>
           <ArtefactField {...artefactFieldArgs} />
-          <Flex sx={artefactStyle}>
-            <MediaCollection onClick={handleClick}/>
+          <Flex sx={artefactStyle} onClick={handleClick}>
+            <MediaCollection />
             <Body body={body} />
           </Flex>
         </React.Fragment>
@@ -84,9 +84,9 @@ export default function Artefact({
       return (
         <React.Fragment>
           <ArtefactField {...artefactFieldArgs} />
-          <Flex sx={artefactStyle}>
+          <Flex sx={artefactStyle} onClick={handleClick}>
             <Body body={body} />
-            <MediaCollection onClick={handleClick}/>
+            <MediaCollection />
           </Flex>
         </React.Fragment>
       );

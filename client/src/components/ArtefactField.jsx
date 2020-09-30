@@ -1,23 +1,30 @@
 /** @jsx jsx */
 import PropTypes from "prop-types";
 import { jsx, Label, Box } from "theme-ui";
-import { Input, Button, Modal } from "semantic-ui-react";
+import { Input, Button, Form, TextArea, Modal } from "semantic-ui-react";
+import React, { useState } from "react";
+
 
 export default function ArtefactField({
-  state: { open, setOpen },
+  state: {
+    open,
+    setOpen,
+  },
   artefactField: { isNew },
   onAddDocument,
 }) {
-  const modalStyle = {
-    mr: "5em",
-    ml: "5em",
-  };
 
-  /* const inputFieldStyle = {
-    mb: "3",
+/* 
+  const handleChange = (content, editor) => {
+    setText(content);
+    // console.log("Content was updated:", setText(content));
+  }; */
+
+  const inputFieldStyle = {
+    mb: "1em",
     width: "100%",
     border: "1.5px",
-  }; */
+  };
 
   const getEditing = () => {
     return isNew ? "Create" : "Edit";
@@ -25,7 +32,7 @@ export default function ArtefactField({
 
   const Field = () => (
     <Box as="form">
-      {/* <Label htmlFor="Header">Header</Label>
+      <Label htmlFor="Header">Header</Label>
       <Form sx={inputFieldStyle}>
         <TextArea name="header" />
       </Form>
@@ -33,20 +40,25 @@ export default function ArtefactField({
       <Label htmlFor="Body">Body</Label>
       <Form sx={inputFieldStyle}>
         <TextArea name="body" />
-      </Form> */}
+      </Form>
 
       <Label htmlFor="UploadMedia">Upload Media</Label>
-      <Input type="file" name="uploadMedia"></Input>
+      <Input sx={{mb:"1em"}}type="file" name="MediaDescription"></Input>
+
+      <Label htmlFor="MediaDescription">Description</Label>
+      <Form sx={inputFieldStyle}>
+        <TextArea name="mediaDescription" />
+      </Form> 
     </Box>
   );
 
   return (
     <Modal
-      sx={modalStyle}
       closeIcon
+      size="large"
+      open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
-      open={open}
     >
       <Modal.Header>{getEditing()} Display</Modal.Header>
       <Modal.Content>
