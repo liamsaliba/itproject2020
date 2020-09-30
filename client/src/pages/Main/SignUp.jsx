@@ -1,14 +1,5 @@
 /** @jsx jsx */
-import {
-  jsx,
-  Label,
-  Input,
-  Box,
-  Checkbox,
-  Button,
-  Styled,
-  Spinner,
-} from "theme-ui";
+import { jsx, Label, Input, Box, Checkbox, Button, Styled } from "theme-ui";
 import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -16,13 +7,11 @@ import {
   createPortfolio,
   selectAuthSlice,
   selectPortfoliosSlice,
-  selectCurrentUserPortfolio,
   selectToken,
   selectUsername,
   signup,
-  fetchPortfolio,
 } from "../../store";
-import { Link, Loading, Title, Toast } from "../../components";
+import { Link, Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Dimmer, Loader } from "semantic-ui-react";
@@ -100,7 +89,6 @@ export default () => {
   const portfolioError = useSelector(
     state => selectPortfoliosSlice(state).error
   );
-  const portfolio = useSelector(selectCurrentUserPortfolio);
   useEffect(() => {
     if (form !== null) {
       const {
@@ -128,7 +116,7 @@ export default () => {
       dispatch(signup(firstName, lastName, email, username, password));
       setSubmitted(true);
     }
-  }, [form]);
+  }, [form, dispatch]);
 
   useEffect(() => {
     if (authError) {
@@ -150,7 +138,7 @@ export default () => {
       }
       history.push("/editor");
     }
-  }, [token]);
+  });
 
   useEffect(() => {
     if (portfolioError) {

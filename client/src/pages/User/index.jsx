@@ -11,7 +11,6 @@ import {
 } from "../../store";
 import UserPage from "./UserPage";
 
-import { Segment } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Toast, Loading } from "../../components";
@@ -28,7 +27,7 @@ const User = props => {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  const editing = props.editing || false;
+  // const editing = props.editing || false;
 
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
@@ -36,7 +35,7 @@ const User = props => {
 
   useEffect(() => {
     dispatch(fetchEntirePortfolio(userId));
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
   useEffect(() => {
     console.log(portfolios.loading, loading);
@@ -56,7 +55,7 @@ const User = props => {
         );
       }
     }
-  }, [portfolios]);
+  }, [portfolios, loading]);
 
   return loaded ? (
     portfolio ? (

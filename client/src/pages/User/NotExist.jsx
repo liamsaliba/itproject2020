@@ -1,7 +1,6 @@
 /** @jsx jsx */
-import { jsx, Box, Styled } from "theme-ui";
+import { jsx, Styled } from "theme-ui";
 
-import MainLayout from "../Main/Layout";
 import { MenuSemanticButton, CenterFlex } from "../../components";
 import { Header, Icon } from "semantic-ui-react";
 
