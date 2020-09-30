@@ -3,7 +3,7 @@ import { jsx, Flex, Box, Image } from "theme-ui";
 import PropTypes from "prop-types";
 import documentPreview from "../svg/DocumentPreview.png";
 import { Icon } from 'semantic-ui-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import Body from './Body';
 
@@ -61,19 +61,24 @@ export default function Artefact({ isEditing, artefact: { media, hPos, vPos, sty
   const Out = () => {
     if (hPos==="left") {
       return (
-        <Flex onClick={handleClick}>
+        <React.Fragment>
           <ArtefactField {...artefactFieldArgs}/>
-          <MediaCollection />
-          <Body body={body}/>
-        </Flex> 
+          <Flex onClick={handleClick}>
+            <MediaCollection />
+            <Body body={body}/>
+          </Flex> 
+        </React.Fragment>
       );
     } else if (hPos==="right") {
       return (
-        <Flex onClick={handleClick}>
+        <React.Fragment> 
           <ArtefactField {...artefactFieldArgs}/>
-          <Body body={body}/>
-          <MediaCollection />
-        </Flex> 
+          <Flex onClick={handleClick}>   
+            <Body body={body}/>
+            <MediaCollection />
+          </Flex> 
+        </React.Fragment>
+        
       );
     }
   }

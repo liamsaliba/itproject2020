@@ -2,7 +2,7 @@
 import { jsx, Container, Styled, Divider, Box } from "theme-ui";
 import PropTypes from "prop-types";
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import SubSection from './SubSection';
 import SectionField from './SectionFields';
@@ -48,14 +48,16 @@ export default function Section({ isEditing, section:{ type }, subSections }) {
   }
 
   return (
-    <Container 
-      sx={sectionStyling}
-      onClick={handleClick}
-    >
+    <React.Fragment> 
       <SectionField {...sectionFieldArgs}/>
-      <Styled.h2>{type}</Styled.h2>
-      {SubSections}
-    </Container>
+      <Container 
+        sx={sectionStyling}
+        onClick={handleClick}
+      >
+        <Styled.h2>{type}</Styled.h2>
+        {SubSections}
+      </Container>
+    </React.Fragment>
   );
 };
 
