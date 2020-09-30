@@ -37,9 +37,9 @@ Body.propTypes = {
   body: PropTypes.shape({
     hAlign: PropTypes.string,
     vAlign: PropTypes.string,
-    heading: PropTypes.bool,
-    body: PropTypes.bool,
-    actionString: PropTypes.bool,
+    heading: PropTypes.string,
+    body: PropTypes.string,
+    actionString: PropTypes.string,
     onAction: PropTypes.func,
   }),
 };
