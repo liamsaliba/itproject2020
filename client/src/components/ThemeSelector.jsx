@@ -21,7 +21,11 @@ export default function ThemeSelector({ theme, setTheme, size = 100 }) {
         sx={{ width: size }}
       >
         {Object.keys(themes).map(key => (
-          <option key={key} children={key} />
+          <option
+            key={key}
+            children={key}
+            sx={{ background: "white", color: "black" }}
+          />
         ))}
       </Select>
       {/* </label> */}
