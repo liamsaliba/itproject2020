@@ -65,7 +65,7 @@ export const ProfileDropdown = props => {
             icon: "user circle",
             text: "Portfolio",
             as: Link,
-            to: `u/${user.username}`,
+            to: `/u/${user.username}`,
           },
         ]
       : props.items || []),
