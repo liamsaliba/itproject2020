@@ -2,11 +2,21 @@
 import { jsx, Flex } from "theme-ui";
 
 import { useState } from "react";
-import { Icon, Modal, Menu, Grid, Dropdown } from "semantic-ui-react";
+import {
+  Button,
+  Icon,
+  Modal,
+  Menu,
+  Grid,
+  Dropdown,
+  Input,
+  Header,
+} from "semantic-ui-react";
 
 export default function PageList({ pages }) {
   const [activeItem, setActive] = useState("Home");
   const [open, setOpen] = useState(false);
+
   const handlePageClick = (e, page) => {
     setActive(activeItem === { page });
   };
@@ -41,7 +51,6 @@ export default function PageList({ pages }) {
       onOpen={() => setOpen(true)}
       open={open}
       size="FullScreen"
-      actions={["Cancel", { key: "add", content: "Add", positive: true }]}
       trigger={
         <Menu.Item
             name="Create Page"
@@ -57,7 +66,22 @@ export default function PageList({ pages }) {
             </Button>
           </Menu.Item>
       }
-    ></Modal>
+    >
+      <Modal.Header>
+        <Input transparent placeholder="Page Name" />
+      </Modal.Header>
+      <Modal.Content scrolling>
+        <Modal.Description></Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button basic color="red" onClick={() => setOpen(false)}>
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="green" onClick={() => setOpen(false)}>
+          <Icon name="checkmark" /> Add
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 
   return (
