@@ -4,10 +4,10 @@ import { Editor } from "@tinymce/tinymce-react";
 import ReactHTMLParser from "react-html-parser";
 
 const defaultText =
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate \
-nisi quibusdam saepe. Commodi temporibus, atque rem unde vel, \
-voluptatem tempore quisquam fugit exercitationem voluptates sint. \
-Porro temporibus quisquam eveniet molestiae.";
+  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate" +
+  "nisi quibusdam saepe. Commodi temporibus, atque rem unde vel," +
+  "voluptatem tempore quisquam fugit exercitationem voluptates sint." +
+  "Porro temporibus quisquam eveniet molestiae.";
 
 export default function TextEditor() {
   const [open, setOpen] = useState(false);
