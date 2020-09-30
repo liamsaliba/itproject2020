@@ -125,7 +125,10 @@ const findAllDetails = async (req, res) => {
     }
     const username = req.params.username;
     let portfolio = await Portfolio.findByUsername(username);
-    portfolio = portfolio ? portfolio.toObject() : {};
+    if (!portfolio) {
+      throw Error(`Portfolio for the user ${username} not found.`);
+    }
+    portfolio = portfolio.toObject();
     let pages = await Page.findByUsername(username);
     pages = pages ? pages : [];
     let artifacts = await Artifact.findByUsername(username);
