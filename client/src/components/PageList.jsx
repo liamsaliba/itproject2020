@@ -10,7 +10,6 @@ import {
   Grid,
   Dropdown,
   Input,
-  Header,
 } from "semantic-ui-react";
 
 export default function PageList({ pages }) {
@@ -35,8 +34,12 @@ export default function PageList({ pages }) {
           <Grid.Column floated="right" width={3}>
             <Dropdown right aligned floating inline direction="left">
               <Dropdown.Menu>
-                <Dropdown.Item><Icon name="cursor" fitted /> Rename Page</Dropdown.Item>
-                <Dropdown.Item><Icon name="trash" fitted /> Delete Page</Dropdown.Item>
+                <Dropdown.Item>
+                  <Icon name="cursor" fitted /> Rename Page
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <Icon name="trash" fitted /> Delete Page
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Grid.Column>
@@ -49,22 +52,23 @@ export default function PageList({ pages }) {
       closeOnDimmerClick={false}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
       open={open}
       size="FullScreen"
       trigger={
         <Menu.Item
-            name="Create Page"
-            active={activeItem === "Create Page"}
-            onClick={handlePageClick}
-          >
-           <Button primary>
-              <Icon.Group fitted sx={{ mr: "0.5em" }}>
-                <Icon name="file text" />
-                <Icon corner name="add" />
-              </Icon.Group>
-              Create Page
-            </Button>
-          </Menu.Item>
+          name="Create Page"
+          active={activeItem === "Create Page"}
+          onClick={handlePageClick}
+        >
+          <Button primary>
+            <Icon.Group fitted sx={{ mr: "0.5em" }}>
+              <Icon name="file text" />
+              <Icon corner name="add" />
+            </Icon.Group>
+            Create Page
+          </Button>
+        </Menu.Item>
       }
     >
       <Modal.Header>
