@@ -4,8 +4,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default function Card({
-  card: { title, body, featureType, feature, featureOrientation },
-}) {
+  card: { title, 
+    body, 
+    featureType, 
+    feature, 
+    featureOrientation 
+  },  
+  }) {
   const style = {
     boxShadow: "0 0 8px rgba(0, 0, 0, 0.25)",
     maxWidth: "300px",
@@ -15,8 +20,7 @@ export default function Card({
   };
 
   const featureStyle = {
-    maxWidth: "256px",
-    m: "1em",
+    width:"100%",
   };
 
   const textStle = {

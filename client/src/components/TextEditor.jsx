@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Modal } from "semantic-ui-react";
 import { Editor } from "@tinymce/tinymce-react";
-import ReactHTMLParser from "react-html-parser";
+// import ReactHTMLParser from "react-html-parser";
 
-export default function TextEditor({ textEditor: { defaultText } }) {
-  const [open, setOpen] = useState(false);
+export default function TextEditor({ state: { open, setOpen}, textEditor: { defaultText } }) {
 
   const [text, setText] = useState(defaultText);
 
@@ -15,12 +14,10 @@ export default function TextEditor({ textEditor: { defaultText } }) {
 
   return (
     <Modal
-      basic
+      size="large"
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      size="fullscreen"
-      trigger={<p>{ReactHTMLParser(text)}</p>}
     >
       <Editor
         initialValue={`${text}`}

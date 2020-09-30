@@ -1,10 +1,20 @@
 /** @jsx jsx */
 import { jsx, Styled, Button, Container } from "theme-ui";
 import PropTypes from "prop-types";
+import React, {useState} from 'react'
+import TextEditor from './TextEditor';
 
-export default function Body({
-  body: { style, hAlign, vAlign, heading, body, actionString, onAction },
-}) {
+export default function Body({ 
+  body: { 
+    isEditing, 
+    style, 
+    hAlign, 
+    vAlign, 
+    text, 
+    actionString, 
+    onAction } 
+  }) {
+    
   const styling = {
     ...style,
     padding: "5px",
@@ -12,20 +22,36 @@ export default function Body({
     verticalAlign: vAlign,
   };
 
-  const Heading = () => {
-    return <Styled.h2>{heading}</Styled.h2>;
-  };
+  const [open, setOpen] = useState(false);
 
-  const Text = () => {
-    return <Styled.p>{body}</Styled.p>;
-  };
+  const handleClick = () => {
+    if (isEditing) {
+      setOpen(!open);
+    }
+  }
+
+  const textEditorArgs = {
+    state: {
+      open: open,
+      setOpen: setOpen
+    },
+    textEditor: {
+      defaultText: text
+    }
+  }
+
+  const Text = () => (
+    <Styled.p onClick={handleClick}>{text}</Styled.p>
+  );
 
   const out = (
-    <Container sx={styling}>
-      <Heading />
-      <Text />
-      {actionString && <Button onClick={() => onAction}>{actionString}</Button>}
-    </Container>
+    <React.Fragment>
+      <TextEditor {...textEditorArgs} />
+      <Container sx={styling}>
+        <Text />
+        {actionString && <Button onClick={() => onAction}>{actionString}</Button>}
+      </Container>
+    </React.Fragment>
   );
   return out;
 }
@@ -33,6 +59,7 @@ export default function Body({
 Body.propTypes = {
   /** Composition of the page */
   body: PropTypes.shape({
+    isEditing: PropTypes.bool, 
     hAlign: PropTypes.string,
     vAlign: PropTypes.string,
     heading: PropTypes.string,

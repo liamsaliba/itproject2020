@@ -1,9 +1,12 @@
 /** @jsx jsx */
 import { jsx, Container, Styled } from "theme-ui";
-import React from "react";
+import React, {useState} from 'react'
 import PropTypes from "prop-types";
 
+import SectionField from './SectionFields';
+
 export default function SubSection({
+  isEditing, 
   subSection: {
     type,
     title,
@@ -18,6 +21,26 @@ export default function SubSection({
     description,
   },
 }) {
+  
+  const [open, setOpen] = useState(false);
+
+  const handleClick =() => {
+    if (isEditing) {
+      setOpen(!open);  
+    }
+  }
+
+  const sectionFieldArgs = {
+    state: {
+      open: open,
+      setOpen: setOpen
+    },
+    sectionField: { 
+      isNew: true, 
+      type: type
+    }
+  }
+
   const styling = {
     mt: 0,
     mb: 0,
@@ -27,7 +50,9 @@ export default function SubSection({
     color: "rgb(104, 104, 104)",
   };
 
-  const IsVolunteering = () => (!isVoluntary ? "" : "Is Volunteering");
+  const IsVolunteering = () => (
+    (!isVoluntary) ? "" : "Is Volunteering"
+  );
 
   const IsOngoing = () => {
     const add = !isOngoing ? endDate : "Present";
@@ -64,22 +89,22 @@ export default function SubSection({
 
   const Out = () => {
     return (
-      <Container sx={{ textAlign: "left" }}>
-        <Styled.h3 sx={styling}>{title}</Styled.h3>
-        <SubHeader />
-
-        <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
-          <IsOngoing />
-        </Styled.p>
-        <Styled.p sx={{ ...styling, ...greyedOut }}>
-          <IsVolunteering />
-        </Styled.p>
-        <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
-          {location}
-        </Styled.p>
-
-        <Styled.p sx={{ ...styling, mb: "1em" }}>{description}</Styled.p>
-      </Container>
+      <React.Fragment>
+        <SectionField {...sectionFieldArgs} />
+        <Container 
+          sx={{textAlign:"left"}}
+          onClick={handleClick}
+        >
+          <Styled.h3 sx={styling} >{title}</Styled.h3>
+          <SubHeader/>
+          
+          <Styled.p sx={{...styling, ...greyedOut, mt:"1em"}} ><IsOngoing /></Styled.p>
+          <Styled.p sx={{...styling, ...greyedOut}} ><IsVolunteering /></Styled.p>
+          <Styled.p sx={{...styling, ...greyedOut, mb:"1em"}} >{location}</Styled.p>
+        
+          <Styled.p sx={{...styling, mb:"1em"}} >{description}</Styled.p>
+        </Container> 
+      </React.Fragment>
     );
   };
 
@@ -87,6 +112,7 @@ export default function SubSection({
 }
 
 SubSection.propTypes = {
+  isEditing: PropTypes.bool,
   subSection: PropTypes.shape({
     title: PropTypes.string, // Job Title or School
     field_1: PropTypes.string, // Organisation Type or Degree

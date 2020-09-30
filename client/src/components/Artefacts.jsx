@@ -17,7 +17,7 @@ export default function Artefact({
 }) {
   const [open, setOpen] = useState(false);
 
-  const styling = {
+  const mediaCollectionStyle = {
     ...style,
     padding: "5px",
     display: "flex",
@@ -33,15 +33,15 @@ export default function Artefact({
     };
 
     if (media === "image") {
-      return <Image sx={mediaStyle} src={documentPreview} />;
+      return <Image onClick={handleClick} sx={mediaStyle} src={documentPreview} />;
     } else if (media === "pdf") {
-      return <Icon size="massive" name="file pdf" />;
+      return <Icon onClick={handleClick} size="massive" name="file pdf" />;
     }
     return;
   };
 
   const MediaCollection = () => (
-    <Box sx={styling}>
+    <Box sx={mediaCollectionStyle}>
       <Media />
       {/* <Button onClick={() => onAddDocument}>Add Artefact</Button> */}
     </Box>
@@ -52,6 +52,12 @@ export default function Artefact({
       setOpen(!open);
     }
   };
+
+  const artefactStyle = {
+    mr:"2em",
+    ml:"2em",
+    mb:"1em"
+  }
 
   const artefactFieldArgs = {
     state: {
@@ -68,8 +74,8 @@ export default function Artefact({
       return (
         <React.Fragment>
           <ArtefactField {...artefactFieldArgs} />
-          <Flex onClick={handleClick}>
-            <MediaCollection />
+          <Flex sx={artefactStyle}>
+            <MediaCollection onClick={handleClick}/>
             <Body body={body} />
           </Flex>
         </React.Fragment>
@@ -78,9 +84,9 @@ export default function Artefact({
       return (
         <React.Fragment>
           <ArtefactField {...artefactFieldArgs} />
-          <Flex onClick={handleClick}>
+          <Flex sx={artefactStyle}>
             <Body body={body} />
-            <MediaCollection />
+            <MediaCollection onClick={handleClick}/>
           </Flex>
         </React.Fragment>
       );

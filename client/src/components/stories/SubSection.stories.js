@@ -12,6 +12,7 @@ const Template = args => <SubSection {...args} />;
 
 export const Experience = Template.bind();
 Experience.args = {
+  isEditing: true,
   subSection: {
     type: "experience",
     title: "UI Baus",
@@ -30,6 +31,7 @@ Experience.args = {
 
 export const Education = Template.bind();
 Education.args = {
+  isEditing: true,
   subSection: {
     type: "education",
     title: "University of Melbourne",

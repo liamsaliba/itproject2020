@@ -2345,29 +2345,26 @@ exports[`Storyshots Components/UserPages/Artefact Left Feature 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-4cffwv"
-        onClick={[Function]}
+        className="css-1dhuoyx-Out"
       >
         <div
           className="css-3gr8uu-MediaCollection"
         >
           <img
             className="css-1ocrog9-Media"
+            onClick={[Function]}
             src="DocumentPreview.png"
           />
         </div>
         <div
           className="css-169egj9-Body"
         >
-          <h2
-            className="css-0"
-          >
-            Display Title
-          </h2>
           <p
             className="css-0"
+            onClick={[Function]}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+            Display Title
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
           </p>
           <button
             className="css-109w6ce"
@@ -4727,21 +4724,17 @@ exports[`Storyshots Components/UserPages/Artefact Right Feature 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-4cffwv"
-        onClick={[Function]}
+        className="css-1dhuoyx-Out"
       >
         <div
           className="css-fcmgaa-Body"
         >
-          <h2
-            className="css-0"
-          >
-            Display Title
-          </h2>
           <p
             className="css-0"
+            onClick={[Function]}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+            Display Title
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
           </p>
           <button
             className="css-109w6ce"
@@ -7112,15 +7105,12 @@ exports[`Storyshots Components/UserPages/Body Bottom Left 1`] = `
       <div
         className="css-i3n8il-Body"
       >
-        <h2
-          className="css-0"
-        >
-          Display Title
-        </h2>
         <p
           className="css-0"
+          onClick={[Function]}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Display Title
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -9481,15 +9471,12 @@ exports[`Storyshots Components/UserPages/Body Bottom Right 1`] = `
       <div
         className="css-yulfkf-Body"
       >
-        <h2
-          className="css-0"
-        >
-          Display Title
-        </h2>
         <p
           className="css-0"
+          onClick={[Function]}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Display Title
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -11850,15 +11837,12 @@ exports[`Storyshots Components/UserPages/Body Centered 1`] = `
       <div
         className="css-y0u3ow-Body"
       >
-        <h2
-          className="css-0"
-        >
-          Display Title
-        </h2>
         <p
           className="css-0"
+          onClick={[Function]}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Display Title
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -14219,15 +14203,12 @@ exports[`Storyshots Components/UserPages/Body Top Left 1`] = `
       <div
         className="css-106ah1c-Body"
       >
-        <h2
-          className="css-0"
-        >
-          Display Title
-        </h2>
         <p
           className="css-0"
+          onClick={[Function]}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Display Title
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -16588,15 +16569,12 @@ exports[`Storyshots Components/UserPages/Body Top Right 1`] = `
       <div
         className="css-tmgfmk-Body"
       >
-        <h2
-          className="css-0"
-        >
-          Display Title
-        </h2>
         <p
           className="css-0"
+          onClick={[Function]}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Display Title
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -18963,7 +18941,7 @@ exports[`Storyshots Components/UserPages/Card Default 1`] = `
           Title
         </h3>
         <img
-          className="css-xpyvj4-GetFeature"
+          className="css-1vq2dfm-GetFeature"
           src="DocumentPreview.png"
         />
         <p
@@ -21335,7 +21313,7 @@ exports[`Storyshots Components/UserPages/Card Feature Bottom 1`] = `
           Hi my name is 1!
         </p>
         <img
-          className="css-xpyvj4-GetFeature"
+          className="css-1vq2dfm-GetFeature"
           src="DocumentPreview.png"
         />
       </div>
@@ -23697,7 +23675,7 @@ exports[`Storyshots Components/UserPages/Card No Body 1`] = `
           Title
         </h3>
         <img
-          className="css-xpyvj4-GetFeature"
+          className="css-1vq2dfm-GetFeature"
           src="DocumentPreview.png"
         />
         <p
@@ -26064,7 +26042,7 @@ exports[`Storyshots Components/UserPages/Card No Title 1`] = `
           
         </h3>
         <img
-          className="css-xpyvj4-GetFeature"
+          className="css-1vq2dfm-GetFeature"
           src="DocumentPreview.png"
         />
         <p
@@ -28445,7 +28423,7 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
               Title
             </h3>
             <img
-              className="css-xpyvj4-GetFeature"
+              className="css-1vq2dfm-GetFeature"
               src="DocumentPreview.png"
             />
             <p
@@ -28463,7 +28441,7 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
               Title
             </h3>
             <img
-              className="css-xpyvj4-GetFeature"
+              className="css-1vq2dfm-GetFeature"
               src="DocumentPreview.png"
             />
             <p
@@ -28481,7 +28459,7 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
               Title
             </h3>
             <img
-              className="css-xpyvj4-GetFeature"
+              className="css-1vq2dfm-GetFeature"
               src="DocumentPreview.png"
             />
             <p
@@ -28499,7 +28477,7 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
               Title
             </h3>
             <img
-              className="css-xpyvj4-GetFeature"
+              className="css-1vq2dfm-GetFeature"
               src="DocumentPreview.png"
             />
             <p
@@ -28517,7 +28495,7 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
               Title
             </h3>
             <img
-              className="css-xpyvj4-GetFeature"
+              className="css-1vq2dfm-GetFeature"
               src="DocumentPreview.png"
             />
             <p
@@ -28535,7 +28513,7 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
               Title
             </h3>
             <img
-              className="css-xpyvj4-GetFeature"
+              className="css-1vq2dfm-GetFeature"
               src="DocumentPreview.png"
             />
             <p
@@ -28553,7 +28531,7 @@ exports[`Storyshots Components/UserPages/CardCollection Default 1`] = `
               Title
             </h3>
             <img
-              className="css-xpyvj4-GetFeature"
+              className="css-1vq2dfm-GetFeature"
               src="DocumentPreview.png"
             />
             <p
@@ -30914,8 +30892,7 @@ exports[`Storyshots Components/UserPages/Section Education 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-c42wct-Section"
-        onClick={[Function]}
+        className="css-18tzia8-Section"
       >
         <h2
           className="css-0"
@@ -30927,6 +30904,7 @@ exports[`Storyshots Components/UserPages/Section Education 1`] = `
         >
           <div
             className="css-o9fd9s-Out"
+            onClick={[Function]}
           >
             <h3
               className="css-q1hd4x-Out"
@@ -30968,6 +30946,7 @@ exports[`Storyshots Components/UserPages/Section Education 1`] = `
         >
           <div
             className="css-o9fd9s-Out"
+            onClick={[Function]}
           >
             <h3
               className="css-q1hd4x-Out"
@@ -31009,6 +30988,7 @@ exports[`Storyshots Components/UserPages/Section Education 1`] = `
         >
           <div
             className="css-o9fd9s-Out"
+            onClick={[Function]}
           >
             <h3
               className="css-q1hd4x-Out"
@@ -33393,8 +33373,7 @@ exports[`Storyshots Components/UserPages/Section Experiences 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-c42wct-Section"
-        onClick={[Function]}
+        className="css-18tzia8-Section"
       >
         <h2
           className="css-0"
@@ -33406,6 +33385,7 @@ exports[`Storyshots Components/UserPages/Section Experiences 1`] = `
         >
           <div
             className="css-o9fd9s-Out"
+            onClick={[Function]}
           >
             <h3
               className="css-q1hd4x-Out"
@@ -33449,6 +33429,7 @@ exports[`Storyshots Components/UserPages/Section Experiences 1`] = `
         >
           <div
             className="css-o9fd9s-Out"
+            onClick={[Function]}
           >
             <h3
               className="css-q1hd4x-Out"
@@ -33492,6 +33473,7 @@ exports[`Storyshots Components/UserPages/Section Experiences 1`] = `
         >
           <div
             className="css-o9fd9s-Out"
+            onClick={[Function]}
           >
             <h3
               className="css-q1hd4x-Out"
@@ -35879,6 +35861,7 @@ exports[`Storyshots Components/UserPages/SubSection Education 1`] = `
     >
       <div
         className="css-o9fd9s-Out"
+        onClick={[Function]}
       >
         <h3
           className="css-q1hd4x-Out"
@@ -38262,6 +38245,7 @@ exports[`Storyshots Components/UserPages/SubSection Experience 1`] = `
     >
       <div
         className="css-o9fd9s-Out"
+        onClick={[Function]}
       >
         <h3
           className="css-q1hd4x-Out"
