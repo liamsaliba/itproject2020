@@ -31,9 +31,12 @@ const contact = async (req, res) => {
     var htmlBody = `<h2>Mail From camel_case Contact Form</h2><p>from: ${name} <a href="mailto:${email}">${email}</a></p><p>${message}</p>`;
 
     var useremail = await User.findByUsername(username);
+    if (!useremail) { 
+      return res.status(403).json('username is not found');
+    }
 
     var mail = {
-      from: process.env.EMAILACCOUNT, // sender address
+      from: process.env.EMAIL_ACCOUNT, // sender address
       to: useremail, // list of receivers (THIS COULD BE A DIFFERENT ADDRESS or ADDRESSES SEPARATED BY COMMAS)
       subject: "Mail From camel_case Contact Form", // Subject line
       text: textBody,
@@ -53,9 +56,9 @@ const contact = async (req, res) => {
     });
 
     await newContact.save();
-    res.status(200).json(newContact.toObject());
+    res.status(200).send(newContact.toObject());
   } catch (err) {
-    res.status(400).json(err);
+    res.status(401).json(err);
   }
 };
 
