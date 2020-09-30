@@ -61,7 +61,7 @@ export default function Section({ isEditing, section:{ type }, subSections }) {
 
 Section.propTypes = {
   /** Composition of the page */
-  editingMode: PropTypes.bool,
+  isEditing: PropTypes.bool,
   section: PropTypes.shape({ 
     type: PropTypes.string // 
   }), 
