@@ -35,7 +35,7 @@ export default function PageList({ pages }) {
             <Dropdown right aligned floating inline direction="left">
               <Dropdown.Menu>
                 <Dropdown.Item>
-                  <Icon name="cursor" fitted /> Rename Page
+                  <Icon name="i cursor" fitted /> Rename Page
                 </Dropdown.Item>
                 <Dropdown.Item>
                   <Icon name="trash" fitted /> Delete Page
