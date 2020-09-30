@@ -34,8 +34,7 @@ export default function SectionField({
   const [isOngoing, setIsOngoing] = useState(false);
 
   const modalStyle = {
-    mr: "5em",
-    ml: "5em",
+    mt:"3em"
   };
 
   const inputFieldStyle = {
@@ -172,11 +171,12 @@ export default function SectionField({
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
   );
-
-  if (type === "Education") {
+  
+  if (type==="education") {
     return (
       <Modal
         sx={modalStyle}
+        size="small"
         closeIcon
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
@@ -192,10 +192,13 @@ export default function SectionField({
         </Modal.Actions>
       </Modal>
     );
-  } else if (type === "Experience") {
+  }
+
+  else if (type==="experience") {
     return (
       <Modal
         sx={modalStyle}
+        size="small"
         closeIcon
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}

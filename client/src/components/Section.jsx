@@ -1,20 +1,16 @@
 /** @jsx jsx */
-import { jsx, Container, Styled, Divider, Box } from "theme-ui";
+import { jsx, Styled, Divider, Box } from "theme-ui";
 import PropTypes from "prop-types";
 
-import React, { useState } from "react";
+import SubSection from './SubSection';
 
-import SubSection from "./SubSection";
-import SectionField from "./SectionFields";
-
-export default function Section({ isEditing, section: { type }, subSections }) {
-  const [open, setOpen] = useState(false);
-
+export default function Section({ isEditing, section:{ type }, subSections }) {
   const sectionStyling = {
     boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
     border: "1px solid #aaa",
     borderRadius: "5px",
-    p: "3",
+    p: "1em",
+    m: "2em"
   };
 
   const GetBreakLine = ({ i, len, sx }) => {
@@ -29,37 +25,17 @@ export default function Section({ isEditing, section: { type }, subSections }) {
   };
 
   const SubSections = subSections.map((subSection, i) => (
-    <Box sx={{ pl: "1em", pr: "1em" }}>
-      <SubSection subSection={subSection} />
+    <Box sx={{ pl:"1em", pr:"1em" }}>
+      <SubSection isEditing={isEditing} subSection={subSection} />
       <GetBreakLine i={i} len={subSections.length} />
     </Box>
   ));
 
-  const sectionFieldArgs = {
-    state: {
-      open: open,
-      setOpen: setOpen,
-    },
-    sectionField: {
-      isNew: false,
-      type: type,
-    },
-  };
-
-  const handleClick = () => {
-    if (isEditing) {
-      setOpen(!open);
-    }
-  };
-
   return (
-    <React.Fragment>
-      <SectionField {...sectionFieldArgs} />
-      <Container sx={sectionStyling} onClick={handleClick}>
-        <Styled.h2>{type}</Styled.h2>
-        {SubSections}
-      </Container>
-    </React.Fragment>
+    <Box sx={sectionStyling} >
+      <Styled.h2>{type}</Styled.h2>
+      {SubSections}
+    </Box>
   );
 }
 
