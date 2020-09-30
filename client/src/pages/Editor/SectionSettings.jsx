@@ -5,6 +5,7 @@ import { ThemeSelector } from "../../components";
 import { Icon } from "semantic-ui-react";
 import { changePortfolioTheme, selectCurrentUserPortfolio } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "semantic-ui-react";
 
 const SectionSettings = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,13 @@ const SectionSettings = () => {
         <Icon name="paint brush" />
         Theme
         <ThemeSelector theme={portfolio.theme} setTheme={setTheme} />
+      </div>
+      <div>
+        <Icon name="paint brush" />
+        Theme
+        <Button negative icon="warning sign">
+          Delete Portfolio
+        </Button>
       </div>
     </Section>
   );

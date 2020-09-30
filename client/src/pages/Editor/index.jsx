@@ -7,8 +7,6 @@ import Sidebar from "./Sidebar";
 
 import themes from "../../themes";
 import { selectCurrentUserPortfolio, selectUsername } from "../../store";
-import { Dimmer } from "semantic-ui-react";
-import { Loader } from "semantic-ui-react";
 
 export default props => {
   const portfolio = useSelector(selectCurrentUserPortfolio);
@@ -26,13 +24,14 @@ export default props => {
     >
       <Title>Editor: {id}</Title>
       <ThemeProvider theme={themes.base}>
-        <aside
+        <Flex
           sx={{
             width: "250px",
             borderRight: "1px black solid",
             overflowY: "auto",
             overflowX: "hidden",
-            height: "100%",
+            height: "100vh",
+            flexDirection: "column",
           }}
         >
           {portfolio ? <Sidebar /> : null}
@@ -43,7 +42,7 @@ export default props => {
               
             </Dimmer>
           </Dimmer.Dimmable> */}
-        </aside>
+        </Flex>
       </ThemeProvider>
       <main
         sx={{

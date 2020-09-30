@@ -11,13 +11,18 @@ import {
   Grid,
   Dropdown,
   Form,
+  Input,
 } from "semantic-ui-react";
-import { selectUsername, selectPortfolioPages, createPage } from "../../store";
+import {
+  selectUsername,
+  selectPortfolioPages,
+  createPage,
+  renamePage,
+} from "../../store";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const PageDropdown = () => {
+const PageDropdown = ({ pageState }) => {
   return (
     <Dropdown
       right
@@ -28,9 +33,7 @@ const PageDropdown = () => {
       sx={{ p: "0.2em" }}
     >
       <Dropdown.Menu>
-        <Dropdown.Item>
-          <Icon name="i cursor" fitted /> Rename
-        </Dropdown.Item>
+        <RenamePageModal pageState={pageState} />
         <Dropdown.Item>
           <Icon name="trash" fitted /> Delete
         </Dropdown.Item>
@@ -40,21 +43,84 @@ const PageDropdown = () => {
 };
 
 const Page = ({ active, setActive, page }) => {
+  const { name, pageId } = page;
+
   const handlePageClick = e => {
     setActive(page);
   };
 
   return (
-    <Menu.Item name={page} active={active} onClick={handlePageClick}>
+    <Menu.Item
+      name={name}
+      active={active}
+      key={pageId}
+      onClick={handlePageClick}
+      fluid
+    >
       <Grid>
-        <Grid.Column floated="left" width={6} sx={{ verticalAlign: "middle" }}>
-          <span>{page}</span>
+        <Grid.Column floated="left" width={2} sx={{ verticalAlign: "middle" }}>
+          <span>{name}</span>
         </Grid.Column>
-        <Grid.Column floated="right" width={3}>
-          <PageDropdown />
+        <Grid.Column floated="right">
+          <PageDropdown pageState={{ name, pageId }} />
         </Grid.Column>
       </Grid>
     </Menu.Item>
+  );
+};
+
+const RenamePageModal = ({ pageState }) => {
+  const { name, pageId } = pageState;
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState({ name });
+  const dispatch = useDispatch();
+  const handleChange = (e, { name, value }) =>
+    setState({ ...state, [name]: value });
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(renamePage(pageId, state.name));
+    setOpen(false);
+  };
+
+  return (
+    <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
+      closeOnDimmerClick={false}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
+      open={open}
+      trigger={
+        <Dropdown.Item>
+          <Icon name="i cursor" fitted /> Rename
+        </Dropdown.Item>
+      }
+    >
+      <Modal.Header>
+        <Input
+          transparent
+          fluid
+          iconPosition="left"
+          icon="file"
+          placeholder="Page Name"
+          name="name"
+          onChange={handleChange}
+          defaultValue={name}
+          required
+        />
+      </Modal.Header>
+      <Modal.Actions>
+        <Button basic color="red" onClick={() => setOpen(false)} type="button">
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="green" type="submit">
+          <Icon name="checkmark" /> Rename Page
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 };
 
@@ -98,6 +164,9 @@ const NewPageModal = () => {
       <Modal.Header>
         <Form.Input
           transparent
+          fluid
+          iconPosition="left"
+          icon="file"
           placeholder="Page Name"
           name="name"
           onChange={handleChange}
@@ -133,7 +202,6 @@ const NewPageModal = () => {
 const SectionPages = () => {
   const username = useSelector(selectUsername);
   const pages = useSelector(state => selectPortfolioPages(state, username));
-  console.log(pages, username);
   // eslint-disable-next-line
   const [activePage, setActive] = useState("Home");
   // activePage === page
@@ -144,7 +212,7 @@ const SectionPages = () => {
         {pages.length === 0 ? (
           "No pages, care to make a new one?"
         ) : (
-          <Menu secondary vertical>
+          <Menu secondary vertical fluid>
             {pages.map(page => (
               <Page
                 key={page}

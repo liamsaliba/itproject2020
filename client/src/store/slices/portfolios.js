@@ -70,8 +70,8 @@ const slice = createSlice({
   },
   extraReducers: {
     [pageActions.pageCreated]: (portfolios, action) => {
-      const { username, id, name } = action.payload;
-      const newPage = { id, name };
+      const { username, id: pageId, name } = action.payload;
+      const newPage = { pageId, name };
       if (
         !portfolios.entities[username] ||
         !portfolios.entities[username].pages
@@ -82,6 +82,27 @@ const slice = createSlice({
         });
       }
       portfolios.entities[username].pages.push(newPage);
+    },
+    [pageActions.pageUpdated]: (portfolios, action) => {
+      const { username, id: pageId, name } = action.payload;
+      const newPage = { pageId, name };
+      if (
+        !portfolios.entities[username] ||
+        !portfolios.entities[username].pages
+      ) {
+        adapter.upsertOne({
+          username,
+          pages: [newPage],
+        });
+      }
+      for (let i = 0; i < portfolios.entities[username].pages.length; i++) {
+        if (portfolios.entities[username].pages[i].pageId === pageId) {
+          portfolios.entities[username].pages[i] = {
+            ...portfolios.entities[username].pages[i],
+            name,
+          };
+        }
+      }
     },
     [portfolioFetchedAll]: (portfolios, action) => {
       const { portfolio } = action.payload;
@@ -160,6 +181,16 @@ export const selectPortfolioPages = createSelector(
   portfolio => (portfolio ? portfolio.pages || [] : undefined)
 );
 
+export const selectPortfolioPageIds = createSelector(
+  selectPortfolioPages,
+  pages => (pages ? pages.map(page => page.pageId) || [] : undefined)
+);
+
+export const selectPortfolioPageNames = createSelector(
+  selectPortfolioPages,
+  pages => (pages ? pages.map(page => page.name) || [] : undefined)
+);
+
 export const selectPortfoliosSlice = state => state.portfolios;
 
 export const selectPagesByUsername = username =>
@@ -172,7 +203,9 @@ export const selectPagesByUsername = username =>
       // return the pages for the given portfolio only
       return Object.keys(pages)
         .map(c => pages[c])
-        .filter(page => portfolio.pages.includes(page.id));
+        .filter(page =>
+          portfolio.pages.includes({ pageId: page.id, name: page.name })
+        );
     }
   );
 

@@ -20,7 +20,7 @@ const SectionMenu = props => {
   );
 
   return (
-    <Menu vertical fluid primary borderless>
+    <Menu vertical fluid primary borderless sx={{ m: "0 !important" }}>
       <Item name="Settings" icon="settings" />
       <Item name="Pages" icon="file text" />
       <Item name="Create Artifacts" icon="file" />

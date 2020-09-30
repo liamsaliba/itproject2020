@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Container } from "theme-ui";
+import { jsx, Flex } from "theme-ui";
 import React from "react";
 
 import Navbar from "./Navbar";
@@ -27,8 +27,9 @@ export default props => {
     <React.Fragment>
       <Navbar userId={props.id} />
       <SectionMenu />
-      <Container
+      <Flex
         sx={{
+          flex: "1",
           justifyContent: "center",
           overflowY: "auto",
           overflowX: "hidden",
@@ -38,7 +39,7 @@ export default props => {
         <SectionPages />
         <SectionArtifacts />
         <SectionTextEditor />
-      </Container>
+      </Flex>
     </React.Fragment>
   );
 };

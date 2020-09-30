@@ -14,7 +14,6 @@ const UserPage = props => {
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );
-
   const pages = ["Publications", "Experience", "Articles", "About"];
 
   useEffect(() => {
@@ -40,10 +39,10 @@ const UserPage = props => {
         }}
       >
         <header>
-          <Navbar userId={userId} pages={pages} />
+          <Navbar userId={userId} />
         </header>
 
-        <Body userId={userId} pages={pages} />
+        <Body userId={userId} />
       </Flex>
     </ThemeProvider>
   );

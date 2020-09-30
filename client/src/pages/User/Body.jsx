@@ -7,6 +7,8 @@ import documentPreview from "../../svg/DocumentPreview.png";
 import CardCollection from "../../components/CardCollection";
 import Artefacts from "../../components/Artefacts";
 import * as ArtefactStories from "../../components/stories/Artefacts.stories";
+import { selectPagesByUsername, selectPortfolioPages } from "../../store";
+import { useSelector } from "react-redux";
 
 const styling = {
   textAlign: "center",
@@ -25,8 +27,10 @@ const Header = ({ username }) => (
 );
 
 export default props => {
-  const { username, pages: names } = props;
-
+  const { userId } = props;
+  const pageOrder = useSelector(state => selectPortfolioPages(state, userId));
+  const pages = useSelector(state => selectPagesByUsername(state, userId));
+  console.log(pages);
   const exampleCard = {
     card: {
       title: "Title",
@@ -45,16 +49,16 @@ export default props => {
     exampleCard,
   ];
 
-  const pages = names.map(name => (
-    <CardCollection name={name} key={"page" + name} cards={exampleCards} />
-  ));
+  // const pageContainers = pages.map(page => (
+  //   <CardCollection name={page.name} key={page.id} cards={exampleCards} />
+  // ));
 
   return (
     <Container as="main" display="flex" sx={styling}>
       <Box>
-        <Header username={username} />
-        {pages}
+        <Header username={userId} />
         <Artefacts {...ArtefactStories.LeftFeature.args} />
+        {pages}
       </Box>
     </Container>
   );

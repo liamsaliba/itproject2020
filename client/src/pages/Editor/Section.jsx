@@ -39,13 +39,26 @@ export const AccordionSection = props => {
 const Section = ({ name, children }) => {
   const active = useSelector(selectAccordion);
   const animation = "fade down";
+
   return (
-    <Transition.Group animation={animation} duration={500}>
+    <Transition.Group animation={animation} duration={0}>
       {active === name && (
-        <Flex sx={{ justifyContent: "center", p: 2 }}>{children}</Flex>
+        <Flex
+          sx={{
+            flexDirection: "column",
+            textAlign: "center",
+            minHeight: "200px",
+            p: 2,
+            flex: "1",
+          }}
+        >
+          {children}
+        </Flex>
       )}
     </Transition.Group>
   );
+  //
+  // );
 };
 
 export default Section;
