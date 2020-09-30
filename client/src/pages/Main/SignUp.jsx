@@ -20,6 +20,7 @@ import {
   selectToken,
   selectUsername,
   signup,
+  fetchPortfolio,
 } from "../../store";
 import { Link, Loading, Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
@@ -88,7 +89,8 @@ const SignUpForm = ({ userId, setForm }) => {
 export default () => {
   const userId = useParams().userId;
   const dispatch = useDispatch();
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
   const history = useHistory();
 
   const token = useSelector(selectToken);
@@ -99,9 +101,8 @@ export default () => {
     state => selectPortfoliosSlice(state).error
   );
   const portfolio = useSelector(selectCurrentUserPortfolio);
-
   useEffect(() => {
-    if (form !== {}) {
+    if (form !== null) {
       const {
         confirmPassword,
         password,
@@ -114,7 +115,18 @@ export default () => {
         toast.error("Password does not match.");
         return;
       }
+      if (
+        password === "" ||
+        username === "" ||
+        email === "" ||
+        firstName === "" ||
+        lastName === ""
+      ) {
+        toast.error("Required fields are empty.");
+        return;
+      }
       dispatch(signup(firstName, lastName, email, username, password));
+      setSubmitted(true);
     }
   }, [form]);
 
@@ -132,17 +144,13 @@ export default () => {
 
   useEffect(() => {
     if (token) {
-      toast("Created new account!");
-      dispatch(createPortfolio());
+      if (submitted) {
+        toast("Created new account!");
+        dispatch(createPortfolio());
+      }
+      history.push("/editor");
     }
   }, [token]);
-
-  useEffect(() => {
-    if (portfolio) {
-      history.push("/editor");
-      toast("Created new portfolio!");
-    }
-  });
 
   useEffect(() => {
     if (portfolioError) {
@@ -162,7 +170,7 @@ export default () => {
       <Dimmer inverted active={authLoading}>
         <Loader inverted>Signing up...</Loader>
       </Dimmer>
-      <Dimmer inverted active={token && !portfolio}>
+      <Dimmer inverted active={token && submitted}>
         <Loader inverted>Creating {username}'s new portfolio...</Loader>
       </Dimmer>
     </Box>
