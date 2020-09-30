@@ -18,8 +18,15 @@ export {
 export {
   // action creators
   changeAccordion,
+  changePortfolio,
+  setLoading,
+  setLoadingFinished,
   // selectors
   selectAccordion,
+  selectCurrentPortfolio,
+  selectLoadingStatus,
+  selectLoadingText,
+  selectLoading,
   // reducer
   default as uiReducer,
 } from "./ui";

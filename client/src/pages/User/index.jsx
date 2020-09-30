@@ -7,17 +7,18 @@ import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
   selectPortfolioByUsername,
-  // selectPortfolioEditing,
+  selectPortfolioEditing,
   selectPortfoliosSlice,
+  changePortfolio,
+  selectCurrentPortfolio,
+  setLoading as setStoreLoading,
+  setLoadingFinished,
 } from "../../store";
 import UserPage from "./UserPage";
 
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Toast } from "../../components";
-import { Dimmer } from "semantic-ui-react";
-import { Loader } from "semantic-ui-react";
-import React from "react";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -27,12 +28,17 @@ export const RouteUser = () => {
 const User = props => {
   const dispatch = useDispatch();
   const { userId } = props;
+  const username = useSelector(selectCurrentPortfolio);
   const portfolios = useSelector(selectPortfoliosSlice);
-  // const editing = useSelector(selectPortfolioEditing);
+  const editing = useSelector(selectPortfolioEditing);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   // const editing = props.editing || false;
+
+  useEffect(() => {
+    dispatch(changePortfolio(userId));
+  });
 
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
@@ -43,11 +49,10 @@ const User = props => {
   }, [dispatch, userId]);
 
   useEffect(() => {
-    if (!loading && portfolios.loading) {
-      setLoading(true);
-    }
-    if (loading && !portfolios.loading) {
-      setLoaded(true);
+    if (portfolios.loading) {
+      dispatch(setStoreLoading(`Loading ${userId}'s portfolio`));
+    } else {
+      dispatch(setLoadingFinished());
       if (portfolios.error) {
         toast.error(
           <Toast
@@ -58,20 +63,13 @@ const User = props => {
         );
       }
     }
-  }, [portfolios, loading]);
+  }, [portfolios, userId, dispatch]);
 
-  return (
-    <React.Fragment>
-      <Dimmer active={!loaded && !portfolio} inverted>
-        <Loader inverted>Loading {props.userId}'s portfolio</Loader>
-      </Dimmer>
-      {portfolio ? (
-        <UserPage userId={userId} />
-      ) : loaded ? (
-        <NotExist userId={userId} />
-      ) : null}
-    </React.Fragment>
-  );
+  return portfolio ? (
+    <UserPage userId={userId} />
+  ) : loaded ? (
+    <NotExist userId={userId} />
+  ) : null;
 };
 
 export default User;

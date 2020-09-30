@@ -35,13 +35,6 @@ export default props => {
           }}
         >
           {portfolio ? <Sidebar /> : null}
-          {/* <Dimmer.Dimmable as={Flex} dimmed={!portfolio}>
-            <Dimmer inverted active={!portfolio}>
-              <Loader size="large">Loading {id}'s portfolio...</Loader>
-
-              
-            </Dimmer>
-          </Dimmer.Dimmable> */}
         </Flex>
       </ThemeProvider>
       <main
