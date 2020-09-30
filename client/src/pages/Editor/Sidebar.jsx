@@ -84,11 +84,7 @@ const Items = props => {
       </Flex>
     );
   } else if (props.name === "Text Editor") {
-    return (
-      <Flex sx={{ justifyContent: "center" }}>
-        <TextEditor />
-      </Flex>
-    );
+    return <TextEditor />;
   } else {
     return (
       <div>
