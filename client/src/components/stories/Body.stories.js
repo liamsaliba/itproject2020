@@ -11,22 +11,23 @@ const Template = args => <Body {...args} />;
 
 const Default = {
   body: {
-    hAlign: "center",  
-    vAlign: "middle", 
-    heading: "Display Title", 
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias" +
-          " officiis quam et iste ratione earum illo aliquid neque, quis quas" +
-          " accusamus voluptatum provident dolorum aspernatur nostrum quo similique" +
-          " odit!",
-    actionString: "Optional Action", 
+    hAlign: "center",
+    vAlign: "middle",
+    heading: "Display Title",
+    body:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias" +
+      " officiis quam et iste ratione earum illo aliquid neque, quis quas" +
+      " accusamus voluptatum provident dolorum aspernatur nostrum quo similique" +
+      " odit!",
+    actionString: "Optional Action",
     onAction: null,
-  }
-}
+  },
+};
 
 export const Centered = Template.bind({});
 Centered.args = {
   body: {
-    ...Default.body
+    ...Default.body,
   },
 };
 

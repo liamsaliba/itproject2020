@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-import CardCollection from '../CardCollection';
+import CardCollection from "../CardCollection";
 import * as CardStories from "./OurCard.stories";
 
 export default {

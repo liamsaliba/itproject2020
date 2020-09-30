@@ -9,7 +9,7 @@ export default function TextEditor({ textEditor: { defaultText } }) {
   const [text, setText] = useState(defaultText);
 
   const handleChange = (content, editor) => {
-    setText(content)
+    setText(content);
     // console.log("Content was updated:", setText(content));
   };
 

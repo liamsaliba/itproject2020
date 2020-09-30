@@ -2,7 +2,9 @@
 import { jsx, Styled, Button, Container } from "theme-ui";
 import PropTypes from "prop-types";
 
-export default function Body({ body: { style, hAlign, vAlign, heading, body, actionString, onAction } }) {
+export default function Body({
+  body: { style, hAlign, vAlign, heading, body, actionString, onAction },
+}) {
   const styling = {
     ...style,
     padding: "5px",
@@ -11,16 +13,12 @@ export default function Body({ body: { style, hAlign, vAlign, heading, body, act
   };
 
   const Heading = () => {
-    return (
-      <Styled.h2>{heading}</Styled.h2>
-    );
-  }
+    return <Styled.h2>{heading}</Styled.h2>;
+  };
 
   const Text = () => {
-    return (
-      <Styled.p>{body}</Styled.p>
-    );
-  }
+    return <Styled.p>{body}</Styled.p>;
+  };
 
   const out = (
     <Container sx={styling}>
