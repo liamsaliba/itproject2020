@@ -2,11 +2,11 @@
 import { jsx, Box, Styled } from "theme-ui";
 
 import MainLayout from "../Main/Layout";
-import { MenuButton } from "../../components";
+import { MenuSemanticButton, CenterFlex } from "../../components";
 import { Header, Icon } from "semantic-ui-react";
 
 export const NotExist = ({ userId }) => (
-  <Box>
+  <CenterFlex sx={{ minHeight: "100vh" }}>
     <Header as="h2">
       <Icon name="question circle" />
       <Header.Content>Portfolio not found</Header.Content>
@@ -15,14 +15,10 @@ export const NotExist = ({ userId }) => (
       Looks like <b>{userId}</b> doesn't have a portfolio yet.
     </Styled.p>
     <Styled.p>Would you like to sign up and create a new one?</Styled.p>
-    <MenuButton to={`/signup/${userId}`}>Sign up</MenuButton>
-  </Box>
+    <MenuSemanticButton to={`/signup/${userId}`}>Sign up</MenuSemanticButton>
+  </CenterFlex>
 );
 
 export default ({ userId }) => {
-  return (
-    <MainLayout>
-      <NotExist userId={userId} />
-    </MainLayout>
-  );
+  return <NotExist userId={userId} />;
 };

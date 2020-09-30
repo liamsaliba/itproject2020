@@ -11,23 +11,15 @@ import {
 } from "../../store";
 import UserPage from "./UserPage";
 
-import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { Toast } from "../../components";
+import { Toast, Loading } from "../../components";
 
 export const RouteUser = () => {
   const { userId } = useParams();
   return <User userId={userId} />;
 };
-
-const LoadingPortfolio = props => (
-  <Segment placeholder size="massive" sx={{ height: "100%" }}>
-    <Dimmer active inverted>
-      <Loader inverted>Loading {props.userId}'s portfolio</Loader>
-    </Dimmer>
-  </Segment>
-);
 
 const User = props => {
   const dispatch = useDispatch();
@@ -70,12 +62,10 @@ const User = props => {
     portfolio ? (
       <UserPage userId={userId} />
     ) : (
-      <Segment placeholder size="massive" sx={{ height: "100%" }}>
-        <NotExist userId={userId} />
-      </Segment>
+      <NotExist userId={userId} />
     )
   ) : (
-    <LoadingPortfolio userId={userId} />
+    <Loading>Loading {props.userId}'s portfolio</Loading>
   );
 };
 

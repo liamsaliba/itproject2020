@@ -12,50 +12,39 @@ import {
 import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../../store";
+import {
+  createPortfolio,
+  selectAuthSlice,
+  selectPortfoliosSlice,
+  selectCurrentUserPortfolio,
+  selectToken,
+  selectUsername,
+  signup,
+} from "../../store";
+import { Link, Loading, Title, Toast } from "../../components";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { Dimmer, Loader } from "semantic-ui-react";
 
-import { Link, Title } from "../../components";
-import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
-export default () => {
-  const userId = useParams().userId || "";
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const auth = useSelector(state => state.auth);
-
-  useEffect(() => {
-    if (auth.error) {
-      toast.error("Unable to create user account. " + auth.error);
-    }
-  }, [auth.error]);
-
-  useEffect(() => {
-    if (auth.token) {
-      history.push("/editor");
-      toast("Created new account!");
-    }
-  }, [auth.token, history]);
-
+const SignUpForm = ({ userId, setForm }) => {
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    if (formData.get("confirmPassword") !== formData.get("password")) {
-      toast.error("Password does not match.");
-      return;
-    }
-    dispatch(
-      signup(
-        formData.get("firstName"),
-        formData.get("lastName"),
-        formData.get("email"),
-        formData.get("username"),
-        formData.get("password")
-      )
-    );
+    const confirmPassword = formData.get("confirmPassword");
+    const password = formData.get("password");
+    const firstName = formData.get("firstName");
+    const lastName = formData.get("lastName");
+    const email = formData.get("email");
+    const username = formData.get("username");
 
-    // dispatch(signup(firstName, lastName, email, username, password));
+    setForm({
+      confirmPassword,
+      password,
+      firstName,
+      lastName,
+      email,
+      username,
+    });
   };
 
   return (
@@ -74,7 +63,7 @@ export default () => {
       <Input name="email" mb={1} />
 
       <Label htmlFor="username">Username</Label>
-      <Input name="username" mb={1} defaultValue={userId} />
+      <Input name="username" mb={1} defaultValue={userId || ""} />
 
       <Label htmlFor="password">Password</Label>
       <Input type="password" name="password" mb={1} />
@@ -89,10 +78,93 @@ export default () => {
         </Label>
       </Box>
       <Button>Submit</Button>
-      {auth.loading ? <Spinner /> : null}
       <Link to="/login" sx={{ ml: 4 }}>
         {"Have an account? Log in"}
       </Link>
+    </Box>
+  );
+};
+
+export default () => {
+  const userId = useParams().userId;
+  const dispatch = useDispatch();
+  const [form, setForm] = useState({});
+  const history = useHistory();
+
+  const token = useSelector(selectToken);
+  const authLoading = useSelector(state => selectAuthSlice(state).loading);
+  const username = useSelector(selectUsername);
+  const authError = useSelector(state => selectAuthSlice(state).error);
+  const portfolioError = useSelector(
+    state => selectPortfoliosSlice(state).error
+  );
+  const portfolio = useSelector(selectCurrentUserPortfolio);
+
+  useEffect(() => {
+    if (form !== {}) {
+      const {
+        confirmPassword,
+        password,
+        firstName,
+        lastName,
+        email,
+        username,
+      } = form;
+      if (confirmPassword !== password) {
+        toast.error("Password does not match.");
+        return;
+      }
+      dispatch(signup(firstName, lastName, email, username, password));
+    }
+  }, [form]);
+
+  useEffect(() => {
+    if (authError) {
+      toast.error(
+        <Toast
+          title="Couldn't create user account."
+          message={authError.data}
+          technical={authError.message}
+        />
+      );
+    }
+  }, [authError]);
+
+  useEffect(() => {
+    if (token) {
+      toast("Created new account!");
+      dispatch(createPortfolio());
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (portfolio) {
+      history.push("/editor");
+      toast("Created new portfolio!");
+    }
+  });
+
+  useEffect(() => {
+    if (portfolioError) {
+      toast.error(
+        <Toast
+          title="Couldn't create portfolio."
+          message={portfolioError.data}
+          technical={portfolioError.message}
+        />
+      );
+    }
+  }, [portfolioError]);
+
+  return (
+    <Box>
+      <SignUpForm userId={userId} setForm={setForm} />
+      <Dimmer inverted active={authLoading}>
+        <Loader inverted>Signing up...</Loader>
+      </Dimmer>
+      <Dimmer inverted active={token && !portfolio}>
+        <Loader inverted>Creating {username}'s new portfolio...</Loader>
+      </Dimmer>
     </Box>
   );
 };

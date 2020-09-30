@@ -135,9 +135,7 @@ export const {
 
 export const selectCurrentUserPortfolio = createSelector(
   [selectPortfolioEntities, selectUsername],
-  (portfolios, username) => {
-    return portfolios[username];
-  }
+  (portfolios, username) => (username ? undefined : portfolios[username])
 );
 
 export const selectPortfoliosSlice = state => state.portfolios;
