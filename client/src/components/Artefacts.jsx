@@ -3,10 +3,14 @@ import { jsx, Flex, Box, Image } from "theme-ui";
 import PropTypes from "prop-types";
 import documentPreview from "../svg/DocumentPreview.png";
 import { Icon } from 'semantic-ui-react';
+import React, { useState } from 'react';
 
 import Body from './Body';
 
-export default function Artefact({ artefact: { media, hPos, vPos, style }, body, onAddDocument}) {
+import ArtefactField from './ArtefactField';
+
+export default function Artefact({ isEditing, artefact: { media, hPos, vPos, style }, body, onAddDocument}) {
+  const [open, setOpen] = useState(false);
 
   const styling = {
     ...style,
@@ -38,20 +42,43 @@ export default function Artefact({ artefact: { media, hPos, vPos, style }, body,
     </Box>
   );
 
+  const handleClick = () => {
+    if (isEditing) {
+      setOpen(!open)
+    }
+  }
+
+  const artefactFieldArgs = {
+    state:{
+      open: open, 
+      setOpen: setOpen
+    }, 
+    artefactField:{
+      isNew: false
+    }, 
+  }
+
   const Out = () => {
     if (hPos==="left") {
       return (
-        <Flex>
-          <MediaCollection />
-          <Body body={body}/>
-        </Flex> 
+        <React.Fragment>
+          <ArtefactField {...artefactFieldArgs}/>
+          <Flex onClick={handleClick}>
+            <MediaCollection />
+            <Body body={body}/>
+          </Flex> 
+        </React.Fragment>
       );
     } else if (hPos==="right") {
       return (
-        <Flex>
-          <Body body={body}/>
-          <MediaCollection />
-        </Flex> 
+        <React.Fragment> 
+          <ArtefactField {...artefactFieldArgs}/>
+          <Flex onClick={handleClick}>   
+            <Body body={body}/>
+            <MediaCollection />
+          </Flex> 
+        </React.Fragment>
+        
       );
     }
   }
@@ -63,6 +90,7 @@ export default function Artefact({ artefact: { media, hPos, vPos, style }, body,
 
 Artefact.propTypes = {
   /** Composition of the page */
+  isEditing: PropTypes.bool,
   artefact: PropTypes.shape({
     media: PropTypes.string,
     hPos: PropTypes.string,

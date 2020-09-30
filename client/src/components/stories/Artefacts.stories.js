@@ -20,6 +20,7 @@ const Template = args => <Artefact {...args} />;
 
 export const RightFeature = Template.bind({});
 RightFeature.args = {
+  isEditing: true,
   artefact: { 
     media: "pdf", 
     hPos: "right", 
@@ -35,6 +36,7 @@ RightFeature.args = {
 
 export const LeftFeature = Template.bind({});
 LeftFeature.args = {
+  isEditing: true,
   artefact: { 
     media: "image", 
     hPos: "left", 

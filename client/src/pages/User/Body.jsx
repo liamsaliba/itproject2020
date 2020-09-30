@@ -5,6 +5,8 @@ import profileExample from "../../svg/Profile_example.png";
 import documentPreview from "../../svg/DocumentPreview.png";
 
 import CardCollection from "../../components/CardCollection";
+import Artefacts from "../../components/Artefacts";
+import * as ArtefactStories from "../../components/stories/Artefacts.stories";
 
 const styling = {
   textAlign: "center",
@@ -25,18 +27,26 @@ const Header = ({ username }) => (
 export default props => {
   const { username, pages: names } = props;
 
-  const exampleCard = {card: {
-    title: "Title", 
-    body: "Hi my name is 1!", 
-    featureType: "image", // Describes the feature tupe {image|video|...}
-    feature: documentPreview, // or something else!
-    featureOrientation:"top"
-  }};
+  const exampleCard = {
+    card: {
+      title: "Title",
+      body: "Hi my name is 1!",
+      featureType: "image", // Describes the feature tupe {image|video|...}
+      feature: documentPreview, // or something else!
+      featureOrientation: "top",
+    },
+  };
 
-  const exampleCards = [exampleCard, exampleCard, exampleCard, exampleCard, exampleCard];
+  const exampleCards = [
+    exampleCard,
+    exampleCard,
+    exampleCard,
+    exampleCard,
+    exampleCard,
+  ];
 
   const pages = names.map(name => (
-    <CardCollection name={name} cards={exampleCards}/>
+    <CardCollection name={name} cards={exampleCards} />
   ));
 
   return (
@@ -44,6 +54,7 @@ export default props => {
       <Box>
         <Header username={username} />
         {pages}
+        <Artefacts {...ArtefactStories.LeftFeature.args} />
       </Box>
     </Container>
   );
