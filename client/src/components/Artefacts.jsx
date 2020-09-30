@@ -2,36 +2,41 @@
 import { jsx, Flex, Box, Image } from "theme-ui";
 import PropTypes from "prop-types";
 import documentPreview from "../svg/DocumentPreview.png";
-import { Icon } from 'semantic-ui-react';
-import React, { useState } from 'react';
+import { Icon } from "semantic-ui-react";
+import React, { useState } from "react";
 
-import Body from './Body';
+import Body from "./Body";
 
-import ArtefactField from './ArtefactField';
+import ArtefactField from "./ArtefactField";
 
-export default function Artefact({ isEditing, artefact: { media, hPos, vPos, style }, body, onAddDocument}) {
+export default function Artefact({
+  isEditing,
+  artefact: { media, hPos, vPos, style },
+  body,
+  onAddDocument,
+}) {
   const [open, setOpen] = useState(false);
 
   const styling = {
     ...style,
     padding: "5px",
-    display:"flex",
-    justifyContent:"center"
+    display: "flex",
+    justifyContent: "center",
   };
 
   const Media = () => {
     const mediaStyle = {
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
-      maxHeight:"300px",
-      maxWidth:"300px",
-      padding:"2px"
-    }
+      maxHeight: "300px",
+      maxWidth: "300px",
+      padding: "2px",
+    };
 
-    if (media==="image") {
-      return (<Image sx={mediaStyle} src={documentPreview} />);
-    } else if (media==="pdf") {
-      return (<Icon size='massive' name='file pdf' />);
-    } 
+    if (media === "image") {
+      return <Image sx={mediaStyle} src={documentPreview} />;
+    } else if (media === "pdf") {
+      return <Icon size="massive" name="file pdf" />;
+    }
     return;
   };
 
@@ -44,48 +49,45 @@ export default function Artefact({ isEditing, artefact: { media, hPos, vPos, sty
 
   const handleClick = () => {
     if (isEditing) {
-      setOpen(!open)
+      setOpen(!open);
     }
-  }
+  };
 
   const artefactFieldArgs = {
-    state:{
-      open: open, 
-      setOpen: setOpen
-    }, 
-    artefactField:{
-      isNew: false
-    }, 
-  }
+    state: {
+      open: open,
+      setOpen: setOpen,
+    },
+    artefactField: {
+      isNew: false,
+    },
+  };
 
   const Out = () => {
-    if (hPos==="left") {
+    if (hPos === "left") {
       return (
         <React.Fragment>
-          <ArtefactField {...artefactFieldArgs}/>
+          <ArtefactField {...artefactFieldArgs} />
           <Flex onClick={handleClick}>
             <MediaCollection />
-            <Body body={body}/>
-          </Flex> 
+            <Body body={body} />
+          </Flex>
         </React.Fragment>
       );
-    } else if (hPos==="right") {
+    } else if (hPos === "right") {
       return (
-        <React.Fragment> 
-          <ArtefactField {...artefactFieldArgs}/>
-          <Flex onClick={handleClick}>   
-            <Body body={body}/>
+        <React.Fragment>
+          <ArtefactField {...artefactFieldArgs} />
+          <Flex onClick={handleClick}>
+            <Body body={body} />
             <MediaCollection />
-          </Flex> 
+          </Flex>
         </React.Fragment>
-        
       );
     }
-  }
+  };
 
-  return (
-    <Out />
-  );
+  return <Out />;
 }
 
 Artefact.propTypes = {
@@ -95,8 +97,8 @@ Artefact.propTypes = {
     media: PropTypes.string,
     hPos: PropTypes.string,
     vPos: PropTypes.string,
-    sx: PropTypes.object, 
+    sx: PropTypes.object,
   }),
-  body: PropTypes.object, 
-  onAddDocument: PropTypes.func, 
+  body: PropTypes.object,
+  onAddDocument: PropTypes.func,
 };

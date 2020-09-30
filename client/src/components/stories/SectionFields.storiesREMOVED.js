@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-import SectionField from './../SectionFields';
+import SectionField from "./../SectionFields";
 
 export default {
   component: SectionField,
@@ -14,14 +14,14 @@ export const Education = Template.bind();
 Education.args = {
   sectionField: {
     isNew: false,
-    type:"education"
-  }
+    type: "education",
+  },
 };
 
 export const Experience = Template.bind();
 Experience.args = {
   sectionField: {
     isNew: false,
-    type:"experience"
-  }
+    type: "experience",
+  },
 };

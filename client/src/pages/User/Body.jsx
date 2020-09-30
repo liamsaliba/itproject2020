@@ -46,7 +46,7 @@ export default props => {
   ];
 
   const pages = names.map(name => (
-    <CardCollection name={name} cards={exampleCards} />
+    <CardCollection name={name} key={"page" + name} cards={exampleCards} />
   ));
 
   return (

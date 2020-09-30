@@ -1,59 +1,60 @@
 /** @jsx jsx */
 
-import { jsx, Label, Box,} from "theme-ui";
+import { jsx, Label, Box } from "theme-ui";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
   Input,
   Checkbox,
   Button,
-  TextArea, 
+  TextArea,
   Form,
   Modal,
 } from "semantic-ui-react";
 
 // import { toast } from "react-toastify";
 
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
 
-import { PropTypes } from 'prop-types';
+import { PropTypes } from "prop-types";
 
-
-
-export default function SectionField({ state:{open, setOpen}, sectionField: {isNew, type, },  }) {
+export default function SectionField({
+  state: { open, setOpen },
+  sectionField: { isNew, type },
+}) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
   const [isVolunteering, setIsVoluntary] = useState(false);
   const [isOngoing, setIsOngoing] = useState(false);
 
-  const modalStyle = { 
+  const modalStyle = {
     mr: "5em",
-    ml: "5em"
+    ml: "5em",
   };
 
   const inputFieldStyle = {
-    mb:"3",
-    width:"100%",
-    border: "1.5px", 
+    mb: "3",
+    width: "100%",
+    border: "1.5px",
   };
 
   const datePickerStyle = {
-    ...inputFieldStyle, 
-    border: "1.5px solid #aaa", 
-    borderRadius:"5px"
+    ...inputFieldStyle,
+    border: "1.5px solid #aaa",
+    borderRadius: "5px",
   };
 
   const StartDatePicker = () => (
     <React.Fragment>
-      <DatePicker 
+      <DatePicker
         sx={datePickerStyle}
-        selected={startDate} 
+        selected={startDate}
         onChange={date => setStartDate(date)}
         dateFormat="MM/yyy"
         showMonthYearPicker
@@ -62,9 +63,9 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
   );
 
   const EndDatePicker = () => (
-    <DatePicker 
-      sx={datePickerStyle} 
-      selected={endDate} 
+    <DatePicker
+      sx={datePickerStyle}
+      selected={endDate}
       onChange={date => setEndDate(date)}
       dateFormat="MM/yyy"
       showMonthYearPicker
@@ -72,9 +73,8 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
   );
 
   const getEditing = () => {
-    return (isNew) ? "Create" : "Edit"
-  }
-  
+    return isNew ? "Create" : "Edit";
+  };
 
   /* const handleSave = e => {
     // e.preventDefault();
@@ -82,7 +82,6 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
     // dispatch(login(formData.get("username"), formData.get("password")));
   }; */
 
-  
   const Education = () => (
     <Box as="form">
       <Label htmlFor="School">School *</Label>
@@ -100,12 +99,12 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
       <Label htmlFor="Grade">Grade</Label>
       <Input name="grade" sx={inputFieldStyle} />
 
-      <Box sx={{...inputFieldStyle, display:"flex"}}>
-        <Box sx={{mr:"2em"}}>
-          <Label  htmlFor="StartDate">Start Date *</Label>
+      <Box sx={{ ...inputFieldStyle, display: "flex" }}>
+        <Box sx={{ mr: "2em" }}>
+          <Label htmlFor="StartDate">Start Date *</Label>
           <StartDatePicker />
         </Box>
-        
+
         <Box>
           <Label htmlFor="EndDate">End Date (or expected)</Label>
           <EndDatePicker />
@@ -114,7 +113,7 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
 
       <Label htmlFor="Description">Tell us about it!</Label>
       <Form sx={inputFieldStyle}>
-        <TextArea name="password"/>
+        <TextArea name="password" />
       </Form>
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
@@ -123,7 +122,6 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
   const Experience = () => (
     // <Box as="form" onSubmit={handleSave}>
     <Box as="form">
-      
       <Label htmlFor="Job Title">Job Title *</Label>
       <Input name="jobTitle" sx={inputFieldStyle} />
 
@@ -137,20 +135,29 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
       <Input name="location" sx={inputFieldStyle} />
 
       <Box sx={inputFieldStyle}>
-          <Checkbox sx={{mr:"2em"}} label="Is this a volunteering role?" name={"isVoluntary"} onChange={() => setIsVoluntary(!isVolunteering)}/>
+        <Checkbox
+          sx={{ mr: "2em" }}
+          label="Is this a volunteering role?"
+          name={"isVoluntary"}
+          onChange={() => setIsVoluntary(!isVolunteering)}
+        />
       </Box>
 
       <Box sx={inputFieldStyle}>
-          <Checkbox label="Is this an ongoing role?" name={"isOngoing"} onChange={() => setIsOngoing(!isOngoing)}/>
+        <Checkbox
+          label="Is this an ongoing role?"
+          name={"isOngoing"}
+          onChange={() => setIsOngoing(!isOngoing)}
+        />
       </Box>
 
-      <Box sx={{...inputFieldStyle, display:"flex"}}>
-        <Box sx={{mr:"2em"}}>
+      <Box sx={{ ...inputFieldStyle, display: "flex" }}>
+        <Box sx={{ mr: "2em" }}>
           <Label htmlFor="StartDate">Start Date *</Label>
           <StartDatePicker />
         </Box>
-        
-        {(isOngoing ? null : 
+
+        {isOngoing ? null : (
           <Box>
             <Label htmlFor="EndDate">End Date</Label>
             <EndDatePicker />
@@ -160,13 +167,13 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
 
       <Label htmlFor="Description">Tell us about it!</Label>
       <Form sx={inputFieldStyle}>
-        <TextArea name="password"/>
+        <TextArea name="password" />
       </Form>
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
   );
-  
-  if (type==="Education") {
+
+  if (type === "Education") {
     return (
       <Modal
         sx={modalStyle}
@@ -180,14 +187,12 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
           <Education />
         </Modal.Content>
         <Modal.Actions>
-          <Button color="gray" >Delete</Button> 
+          <Button color="grey">Delete</Button>
           <Button>Save</Button>
         </Modal.Actions>
       </Modal>
     );
-  }
-
-  else if (type==="Experience") {
+  } else if (type === "Experience") {
     return (
       <Modal
         sx={modalStyle}
@@ -201,16 +206,16 @@ export default function SectionField({ state:{open, setOpen}, sectionField: {isN
           <Experience />
         </Modal.Content>
         <Modal.Actions>
-          <Button color="gray" >Delete</Button> 
+          <Button color="grey">Delete</Button>
           <Button>Save</Button>
         </Modal.Actions>
       </Modal>
     );
   }
   return null;
-};
+}
 
-SectionField.propTypes={
+SectionField.propTypes = {
   state: PropTypes.shape({
     open: PropTypes.bool, // Modal State
     setOpen: PropTypes.func, // Toggle Modal State

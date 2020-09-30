@@ -44,6 +44,7 @@ const Items = props => {
         name={page}
         active={activeItem === { page }}
         onClick={handlePageClick}
+        key={"page" + page}
       >
         <span>
           <Grid>
@@ -51,7 +52,7 @@ const Items = props => {
               {page}
             </Grid.Column>
             <Grid.Column floated="right" width={3}>
-              <Dropdown right aligned floating inline direction="left">
+              <Dropdown floating inline direction="left">
                 <Dropdown.Menu>
                   <Dropdown.Item>Rename Page</Dropdown.Item>
                   <Dropdown.Item>Delete Page</Dropdown.Item>
@@ -64,15 +65,16 @@ const Items = props => {
     ));
     return (
       <Flex sx={{ justifyContent: "center" }}>
-        <Menu secondary vertical>
+        <Menu secondary vertical fluid>
           {items}
-          <Menu.Item
-            name="Create Page"
-            active={activeItem === "Create Page"}
-            onClick={handlePageClick}
-          >
-            Create Page
-            <Icon name="plus" />
+          <Menu.Item>
+            <Button primary>
+              <Icon.Group fitted sx={{ mr: "0.5em" }}>
+                <Icon name="file text" />
+                <Icon corner name="add" />
+              </Icon.Group>
+              Create Page
+            </Button>
           </Menu.Item>
         </Menu>
       </Flex>
@@ -104,6 +106,7 @@ const Sections = () => {
 
   // Hard Coded Section Names Here
   const names = ["Settings", "Pages", "Create Artifacts", "Text Editor"];
+  const icons = ["settings", "file text", "file", "paragraph"];
   const pages = ["Home", "Publications", "Projects", "Experience", "About"];
 
   const handleClick = (e, titleProps) => {
@@ -118,13 +121,21 @@ const Sections = () => {
   };
 
   let sections = names.map((name, index) => (
-    <Accordion styled name={name} exclusive={false} fluid>
+    <Accordion
+      key={name + index}
+      styled
+      name={name}
+      exclusive={false}
+      fluid
+      sx={{ p: "0.2em" }}
+    >
       <Accordion.Title
         active={activeAccordion === index}
         index={index}
         onClick={handleClick}
       >
         <Icon name="dropdown" />
+        <Icon name={icons[index]} sx={{ pr: "1.5em" }} />
         {name}
       </Accordion.Title>
 
