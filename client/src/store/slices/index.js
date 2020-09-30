@@ -15,6 +15,15 @@ export {
 
 export {
   // action creators
+  changeAccordion,
+  // selectors
+  selectAccordion,
+  // reducer
+  default as uiReducer,
+} from "./ui";
+
+export {
+  // action creators
   startEditing,
   finishEditing,
   fetchPortfolios,
