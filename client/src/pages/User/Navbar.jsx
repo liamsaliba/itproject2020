@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { selectPortfolioPages, selectToken } from "../../store";
 
 const NavItem = ({ page }) => (
-  <Navbar.Item key={page.pageId} to={`#${page.pageId}`}>
+  <Navbar.Item key={page.pageId} to={`#${page.name}`}>
     {page.name}
   </Navbar.Item>
 );

@@ -14,7 +14,6 @@ const UserPage = props => {
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );
-  const pages = ["Publications", "Experience", "Articles", "About"];
 
   useEffect(() => {
     setPreset(

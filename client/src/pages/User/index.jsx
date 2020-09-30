@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
   selectPortfolioByUsername,
-  selectPortfolioEditing,
+  // selectPortfolioEditing,
   selectPortfoliosSlice,
 } from "../../store";
 import UserPage from "./UserPage";
@@ -28,7 +28,7 @@ const User = props => {
   const dispatch = useDispatch();
   const { userId } = props;
   const portfolios = useSelector(selectPortfoliosSlice);
-  const editing = useSelector(selectPortfolioEditing);
+  // const editing = useSelector(selectPortfolioEditing);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 

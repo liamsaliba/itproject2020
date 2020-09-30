@@ -196,16 +196,12 @@ export const selectPortfoliosSlice = state => state.portfolios;
 export const selectPagesByUsername = username =>
   createSelector(
     [
-      state => selectPortfolioByUsername(state, username), // select the current portfolio
-      state => state.pages.ids.map(id => state.pages.entities[id]), // this is the same as selectAllPages
+      state => selectPortfolioPageIds(state, username), // select the current portfolio
+      state => Object.values(state.pages.entities), // this is the same as selectAllPages
     ],
-    (portfolio, pages) => {
+    (portfolioPages, pages) => {
       // return the pages for the given portfolio only
-      return Object.keys(pages)
-        .map(c => pages[c])
-        .filter(page =>
-          portfolio.pages.includes({ pageId: page.id, name: page.name })
-        );
+      return pages.filter(page => portfolioPages.includes(page.id));
     }
   );
 
