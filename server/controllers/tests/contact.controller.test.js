@@ -28,6 +28,24 @@ afterAll(async () => {
 });
 
 describe("Contact Controller - Create Contact", () => {
+  it("Fail to contact - username not fount", async () => {
+    const req = httpMocks.createRequest({
+      method: "POST",
+      body: {
+        username: "dghsgdh", //jamescorden
+        name: "Kimberly",
+        email: "jamescorden@latelateshow.com",
+        message: "Hi, how are you?",
+      },
+    });
+    const res = httpMocks.createResponse(req);
+    await contactController.contact(req, res).then(async () => {
+      const body = await res._getData();
+      expect(res.statusCode).toBe(403);
+      expect(body).toBe('"username is not found"');
+    });
+  });
+  
   it("Successfully create a new contact", async () => {
     const req = httpMocks.createRequest({
       method: "POST",
@@ -57,21 +75,4 @@ describe("Contact Controller - Create Contact", () => {
       expect(body).not.toHaveProperty("_id");
     });
   }); 
-  it("Fail to contact - username not fount", async () => {
-    const req = httpMocks.createRequest({
-      method: "POST",
-      body: {
-        username: "dghsgdh", //jamescorden
-        name: "Kimberly",
-        email: "jamescorden@latelateshow.com",
-        message: "Hi, how are you?",
-      },
-    });
-    const res = httpMocks.createResponse(req);
-    await contactController.contact(req, res).then(async () => {
-      const body = await res._getData();
-      expect(res.statusCode).toBe(403);
-      expect(body).toBe('"username is not found"');
-    });
-  });
 });
