@@ -35,15 +35,14 @@ export default props => {
             height: "100%",
           }}
         >
-          {portfolio ? (
-            <Sidebar />
-          ) : (
-            <Dimmer inverted active>
-              <Loader inverted size="large">
-                Loading {id}'s portfolio
-              </Loader>
+          {portfolio ? <Sidebar /> : null}
+          {/* <Dimmer.Dimmable as={Flex} dimmed={!portfolio}>
+            <Dimmer inverted active={!portfolio}>
+              <Loader size="large">Loading {id}'s portfolio...</Loader>
+
+              
             </Dimmer>
-          )}
+          </Dimmer.Dimmable> */}
         </aside>
       </ThemeProvider>
       <main

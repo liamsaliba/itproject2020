@@ -26,12 +26,14 @@ export default props => {
   return (
     <React.Fragment>
       <Navbar userId={props.id} />
+      <SectionMenu />
       <Container
         sx={{
-          overflow: "auto",
+          justifyContent: "center",
+          overflowY: "auto",
+          overflowX: "hidden",
         }}
       >
-        <SectionMenu />
         <SectionSettings />
         <SectionPages />
         <SectionArtifacts />

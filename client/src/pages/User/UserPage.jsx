@@ -18,7 +18,13 @@ const UserPage = props => {
   const pages = ["Publications", "Experience", "Articles", "About"];
 
   useEffect(() => {
-    setPreset(themes[portfolio.theme === "default" ? "base" : portfolio.theme]);
+    setPreset(
+      themes[
+        ["default", "theme"].includes(portfolio.theme)
+          ? "base"
+          : portfolio.theme
+      ]
+    );
   }, [portfolio.theme]);
 
   return (

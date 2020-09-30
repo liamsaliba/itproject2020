@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { Toast } from "../../components";
 import { Dimmer } from "semantic-ui-react";
 import { Loader } from "semantic-ui-react";
+import React from "react";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -28,8 +29,8 @@ const User = props => {
   const { userId } = props;
   const portfolios = useSelector(selectPortfoliosSlice);
   const editing = useSelector(selectPortfolioEditing);
-  const [loading, setLoading] = useState(true);
-  const [loaded, setLoaded] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   // const editing = props.editing || false;
 
@@ -59,16 +60,17 @@ const User = props => {
     }
   }, [portfolios, loading]);
 
-  return loaded ? (
-    portfolio ? (
-      <UserPage userId={userId} />
-    ) : (
-      <NotExist userId={userId} />
-    )
-  ) : (
-    <Dimmer active inverted>
-      <Loader inverted>Loading {props.userId}'s portfolio</Loader>
-    </Dimmer>
+  return (
+    <React.Fragment>
+      <Dimmer active={!loaded && !portfolio} inverted>
+        <Loader inverted>Loading {props.userId}'s portfolio</Loader>
+      </Dimmer>
+      {portfolio ? (
+        <UserPage userId={userId} />
+      ) : loaded ? (
+        <NotExist userId={userId} />
+      ) : null}
+    </React.Fragment>
   );
 };
 

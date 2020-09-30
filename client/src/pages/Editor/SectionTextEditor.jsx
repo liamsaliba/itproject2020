@@ -3,7 +3,9 @@ import { jsx } from "theme-ui";
 import Section from "./Section";
 
 import TextEditor from "../../components/TextEditor";
+import { useState } from "react";
 const SectionTextEditor = () => {
+  const [open, setOpen] = useState(true);
   const defaultText =
     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate" +
     "nisi quibusdam saepe. Commodi temporibus, atque rem unde vel," +
@@ -12,7 +14,7 @@ const SectionTextEditor = () => {
 
   return (
     <Section name="Text Editor" icon="paragraph">
-      <TextEditor textEditor={{ defaultText }} />
+      <TextEditor textEditor={{ defaultText }} state={(open, setOpen)} />
     </Section>
   );
 };

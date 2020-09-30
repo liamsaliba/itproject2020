@@ -10,100 +10,153 @@ import {
   Menu,
   Grid,
   Dropdown,
-  Input,
+  Form,
 } from "semantic-ui-react";
+import { selectUsername, selectPortfolioPages, createPage } from "../../store";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-export const PageList = ({ pages }) => {
-  const [activeItem, setActive] = useState("Home");
-  const [open, setOpen] = useState(false);
+const PageDropdown = () => {
+  return (
+    <Dropdown
+      right
+      aligned
+      floating
+      inline
+      direction="left"
+      sx={{ p: "0.2em" }}
+    >
+      <Dropdown.Menu>
+        <Dropdown.Item>
+          <Icon name="i cursor" fitted /> Rename
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Icon name="trash" fitted /> Delete
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
 
-  const handlePageClick = (e, page) => {
-    setActive(activeItem === { page });
+const Page = ({ active, setActive, page }) => {
+  const handlePageClick = e => {
+    setActive(page);
   };
 
-  const items = pages.map(page => (
-    <Menu.Item
-      name={page}
-      active={activeItem === { page }}
-      onClick={handlePageClick}
-    >
+  return (
+    <Menu.Item name={page} active={active} onClick={handlePageClick}>
       <Grid>
         <Grid.Column floated="left" width={6} sx={{ verticalAlign: "middle" }}>
           <span>{page}</span>
         </Grid.Column>
         <Grid.Column floated="right" width={3}>
-          <Dropdown
-            right
-            aligned
-            floating
-            inline
-            direction="left"
-            sx={{ p: "0.2em" }}
-          >
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <Icon name="i cursor" fitted /> Rename Page
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Icon name="trash" fitted /> Delete Page
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <PageDropdown />
         </Grid.Column>
       </Grid>
     </Menu.Item>
-  ));
-  const newPage = (
+  );
+};
+
+const NewPageModal = () => {
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState(false);
+  const options = [
+    { key: "x", text: "Experience", value: "experience" },
+    { key: "e", text: "Education", value: "education" },
+    { key: "d", text: "Display", value: "display" },
+  ];
+  const dispatch = useDispatch();
+
+  const handleChange = (e, { name, value }) =>
+    setState({ ...state, [name]: value });
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    // console.log(state);
+    dispatch(createPage(state));
+    setOpen(false);
+  };
+
+  return (
     <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
       closeOnDimmerClick={false}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       dimmer={{ inverted: true }}
       open={open}
-      size="FullScreen"
       trigger={
         <Button primary>
-          <Icon.Group fitted sx={{ mr: "0.5em" }}>
-            <Icon name="file text" />
-            <Icon corner name="add" />
-          </Icon.Group>
+          <Icon corner name="add" />
           Create Page
         </Button>
       }
     >
       <Modal.Header>
-        <Input transparent placeholder="Page Name" />
+        <Form.Input
+          transparent
+          placeholder="Page Name"
+          name="name"
+          onChange={handleChange}
+          required
+        />
       </Modal.Header>
       <Modal.Content scrolling>
-        <Modal.Description></Modal.Description>
+        <Modal.Description sx={{ minHeight: "150px" }}>
+          <Form.Select
+            fluid
+            required
+            label="Type"
+            options={options}
+            placeholder="Type"
+            onChange={handleChange}
+            name="type"
+            // sx={{ zIndex: "999999 !important" }}
+          />
+        </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button basic color="red" onClick={() => setOpen(false)}>
+        <Button basic color="red" onClick={() => setOpen(false)} type="button">
           <Icon name="remove" /> Cancel
         </Button>
-        <Button color="green" onClick={() => setOpen(false)}>
-          <Icon name="checkmark" /> Add
+        <Button color="green" type="submit">
+          <Icon name="checkmark" /> Create Page
         </Button>
       </Modal.Actions>
     </Modal>
   );
-
-  return (
-    <Flex sx={{ justifyContent: "center", flexDirection: "column" }}>
-      <Menu secondary vertical>
-        {items}
-      </Menu>
-      {newPage}
-    </Flex>
-  );
 };
 
 const SectionPages = () => {
-  const pages = ["Home", "Publications", "Projects", "Experience", "About"];
+  const username = useSelector(selectUsername);
+  const pages = useSelector(state => selectPortfolioPages(state, username));
+  console.log(pages, username);
+  // eslint-disable-next-line
+  const [activePage, setActive] = useState("Home");
+  // activePage === page
 
   return (
     <Section name="Pages" icon="file text">
-      <PageList pages={pages} />
+      <Flex sx={{ justifyContent: "center", flexDirection: "column" }}>
+        {pages.length === 0 ? (
+          "No pages, care to make a new one?"
+        ) : (
+          <Menu secondary vertical>
+            {pages.map(page => (
+              <Page
+                key={page}
+                page={page}
+                active={false}
+                setActive={setActive}
+              />
+            ))}
+          </Menu>
+        )}
+      </Flex>
+      <NewPageModal />
     </Section>
   );
 };

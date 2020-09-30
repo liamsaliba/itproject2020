@@ -72,7 +72,10 @@ const slice = createSlice({
     [pageActions.pageCreated]: (portfolios, action) => {
       const { username, id, name } = action.payload;
       const newPage = { id, name };
-      if (!portfolios.entities[username]) {
+      if (
+        !portfolios.entities[username] ||
+        !portfolios.entities[username].pages
+      ) {
         adapter.upsertOne({
           username,
           pages: [newPage],
@@ -150,6 +153,11 @@ export const selectPortfolioBio = createSelector(
 export const selectPortfolioEditing = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.editing || false : undefined)
+);
+
+export const selectPortfolioPages = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.pages || [] : undefined)
 );
 
 export const selectPortfoliosSlice = state => state.portfolios;

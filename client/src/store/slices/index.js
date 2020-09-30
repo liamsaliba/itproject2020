@@ -36,6 +36,7 @@ export {
   changePortfolioTheme,
   deletePortfolio,
   // selectors
+  selectPortfolioPages,
   selectPortfolioEditing,
   selectCurrentUserPortfolio,
   selectPortfolioTheme,
