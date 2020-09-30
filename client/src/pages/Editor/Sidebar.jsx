@@ -44,6 +44,7 @@ const Items = props => {
         name={page}
         active={activeItem === { page }}
         onClick={handlePageClick}
+        key={"page" + page}
       >
         <span>
           <Grid>
@@ -51,7 +52,7 @@ const Items = props => {
               {page}
             </Grid.Column>
             <Grid.Column floated="right" width={3}>
-              <Dropdown right aligned floating inline direction="left">
+              <Dropdown floating inline direction="left">
                 <Dropdown.Menu>
                   <Dropdown.Item>Rename Page</Dropdown.Item>
                   <Dropdown.Item>Delete Page</Dropdown.Item>
@@ -64,15 +65,12 @@ const Items = props => {
     ));
     return (
       <Flex sx={{ justifyContent: "center" }}>
-        <Menu secondary vertical>
+        <Menu secondary vertical fluid>
           {items}
-          <Menu.Item
-            name="Create Page"
-            active={activeItem === "Create Page"}
-            onClick={handlePageClick}
-          >
-            Create Page
-            <Icon name="plus" />
+          <Menu.Item>
+            <Button>
+              <Icon name="plus" /> Create Page
+            </Button>
           </Menu.Item>
         </Menu>
       </Flex>
@@ -118,7 +116,7 @@ const Sections = () => {
   };
 
   let sections = names.map((name, index) => (
-    <Accordion styled name={name} exclusive={false} fluid>
+    <Accordion key={name + index} styled name={name} exclusive={false} fluid>
       <Accordion.Title
         active={activeAccordion === index}
         index={index}
@@ -130,6 +128,7 @@ const Sections = () => {
 
       <Accordion.Content sx={styling} active={activeAccordion === index}>
         <Items name={name} pages={name === "Pages" ? pages : null} />
+        <br />
       </Accordion.Content>
     </Accordion>
   ));

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Styled, Flex, Container, ThemeProvider } from "theme-ui";
+import { jsx, Flex, Container, ThemeProvider } from "theme-ui";
 import User from "../User";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
@@ -9,7 +9,6 @@ import * as Sidebar from "./Sidebar";
 import themes from "../../themes";
 
 export default props => {
-  const theme = themes.custom;
   const id = useSelector(state => state.auth.user.username);
 
   return (
@@ -18,13 +17,15 @@ export default props => {
         display: "flex",
         flexWrap: "wrap",
         height: "100vh",
+        background: "white",
+        color: "black",
       }}
     >
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={themes.base}>
         <Title>Editor: {id}</Title>
         <aside
           sx={{
-            width: "sidebar",
+            width: "250px",
             borderRight: "1px black solid",
             overflowY: "auto",
             overflowX: "hidden",
@@ -38,7 +39,6 @@ export default props => {
               overflow: "auto",
             }}
           >
-            <Styled.p>This is the editor page of user {id}.</Styled.p>
             <Sidebar.Sections />
           </Container>
         </aside>

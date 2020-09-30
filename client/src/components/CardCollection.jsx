@@ -20,7 +20,9 @@ export default function CardCollection({ name, cards }) {
     transition: "all 0.3s",
   };
 
-  let allCards = cards.map(cardInput => <Card {...cardInput} />);
+  let allCards = cards.map((card, index) => (
+    <Card key={"card" + index} {...card} />
+  ));
 
   return (
     <Box sx={{ textAlign: "center" }}>

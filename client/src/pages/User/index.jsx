@@ -38,14 +38,12 @@ const User = props => {
   }, [dispatch, userId]);
 
   useEffect(() => {
-    console.log(portfolios.loading, loading);
     if (!loading && portfolios.loading) {
       setLoading(true);
     }
     if (loading && !portfolios.loading) {
       setLoaded(true);
       if (portfolios.error) {
-        console.log(portfolios.error);
         toast.error(
           <Toast
             title="Couldn't load portfolio."

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default ({ userId: id }) => {
   return (
-    <Flex bg="muted" p={2} sx={{ alignItems: "center" }}>
+    <Flex p={2} sx={{ alignItems: "center" }}>
       <MenuCamel />
       <MenuItem to="#">Editor</MenuItem>
       <Box mx="auto" />

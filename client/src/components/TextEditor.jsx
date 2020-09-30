@@ -19,7 +19,7 @@ export default function TextEditor({ textEditor: { defaultText } }) {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      size="FullScreen"
+      size="fullscreen"
       trigger={<p>{ReactHTMLParser(text)}</p>}
     >
       <Editor
