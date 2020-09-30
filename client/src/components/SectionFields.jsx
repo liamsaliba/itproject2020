@@ -25,9 +25,7 @@ import { PropTypes } from 'prop-types';
 
 
 
-export default function SectionField({ sectionField: {isNew, type, },  }) {
-  const [open, setOpen] = useState(false);
-
+export default function SectionField({ state:{open, setOpen}, sectionField: {isNew, type, },  }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -168,14 +166,14 @@ export default function SectionField({ sectionField: {isNew, type, },  }) {
     </Box>
   );
   
-  if (type==="education") {
+  if (type==="Education") {
     return (
       <Modal
         sx={modalStyle}
+        closeIcon
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
-        trigger={<Button>{getEditing()}</Button>}
       >
         <Modal.Header>{getEditing()} Education</Modal.Header>
         <Modal.Content>
@@ -189,14 +187,14 @@ export default function SectionField({ sectionField: {isNew, type, },  }) {
     );
   }
 
-  else if (type==="experience") {
+  else if (type==="Experience") {
     return (
       <Modal
         sx={modalStyle}
+        closeIcon
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
-        trigger={<Button>{getEditing()}</Button>}
       >
         <Modal.Header>{getEditing()} Experience</Modal.Header>
         <Modal.Content>
@@ -209,11 +207,16 @@ export default function SectionField({ sectionField: {isNew, type, },  }) {
       </Modal>
     );
   }
+  return null;
 };
 
 SectionField.propTypes={
+  state: PropTypes.shape({
+    open: PropTypes.bool, // Modal State
+    setOpen: PropTypes.func, // Toggle Modal State
+  }),
   sectionField: PropTypes.shape({
     isNew: PropTypes.bool, // if true, creating , else editing
-    type: PropTypes.string, // {"education", "experience"}
+    type: PropTypes.string, // {"Education", "Experience"}
   }),
 };

@@ -12,6 +12,7 @@ const Template = args => <Section {...args} />;
 
 export const Experiences = Template.bind({});
 Experiences.args = {
+  isEditing: true,
   section: { 
     type: "Experience", 
   },
@@ -24,6 +25,7 @@ Experiences.args = {
 
 export const Education = Template.bind({});
 Education.args = {
+  isEditing: true,
   section: { 
     type: "Education", 
   },
