@@ -255,6 +255,7 @@ export const fetchPortfolio = (username = null, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioReceivedOne.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };
@@ -280,6 +281,7 @@ export const fetchEntirePortfolio = (username, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioFetchedAll.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };
@@ -299,6 +301,7 @@ export const fetchPortfolioPages = (username, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioFetchedPages.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };
@@ -319,6 +322,7 @@ export const fetchPortfolioArtifacts = (username, cache = true) => (
       onStart: portfolioRequestedOne.type,
       onSuccess: portfolioFetchedArtifacts.type,
       onFailure: portfolioRequestOneFailed.type,
+      hideErrorToast: true,
     })
   );
 };
