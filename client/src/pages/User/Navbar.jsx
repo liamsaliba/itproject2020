@@ -1,5 +1,5 @@
-import React from "react";
-
+/** @jsx jsx */
+import { jsx } from "theme-ui";
 import { ProfileDropdown, Navbar, MenuCamel } from "../../components";
 import { useSelector } from "react-redux";
 import { selectPortfolioPages, selectToken } from "../../store";
@@ -27,9 +27,12 @@ export default props => {
     <Navbar>
       <Navbar.Left>
         <MenuCamel />
-        <Navbar.Item to="#">{userId}</Navbar.Item>
       </Navbar.Left>
-      <Navbar.Center size="4">{menuItems}</Navbar.Center>
+      <Navbar.Center size="4">
+        <Navbar.Item to="#">{userId}</Navbar.Item>
+        <span sx={{ p: "0.4em" }}>|</span>
+        {menuItems}
+      </Navbar.Center>
       <Navbar.Right size="1">
         {token && <ProfileDropdown items="default" />}
       </Navbar.Right>

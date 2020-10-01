@@ -29,7 +29,7 @@ export default () => {
           exact
           path={["/logout/all", "/signout/all"]}
         />
-        <Route component={Settings} exact path="/settings/:userId" />
+        <Route component={Settings} exact path="/settings" />
         <Route component={SignUp} exact path="/signup" />
         <Route component={SignUp} path="/signup/:userId" />
         <Route component={ThemeTest} exact path="/themes" />

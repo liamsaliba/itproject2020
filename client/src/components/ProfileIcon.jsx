@@ -70,6 +70,13 @@ export const ProfileDropdown = props => {
         ]
       : props.items || []),
     {
+      key: "settings",
+      icon: "settings",
+      text: "Settings",
+      as: Link,
+      to: "/settings",
+    },
+    {
       key: "sign-out",
       icon: "sign out",
       text: "Logout",
