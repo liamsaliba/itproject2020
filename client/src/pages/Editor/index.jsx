@@ -2,15 +2,42 @@
 import { jsx, Flex, ThemeProvider } from "theme-ui";
 import User from "../User";
 import { useSelector } from "react-redux";
-import { Title } from "./../../components/index";
+import { Title, Toast } from "./../../components/index";
 import Sidebar from "./Sidebar";
 
 import themes from "../../themes";
-import { selectCurrentUserPortfolio, selectUsername } from "../../store";
+import {
+  selectAuthSlice,
+  selectCurrentUserPortfolio,
+  selectUsername,
+} from "../../store";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default props => {
   const portfolio = useSelector(selectCurrentUserPortfolio);
+  const authError = useSelector(state => selectAuthSlice(state).error);
+  const history = useHistory();
+
   const id = useSelector(selectUsername);
+
+  useEffect(() => {
+    if (authError) {
+      history.push("/logout");
+      toast.info(
+        <Toast
+          title="You've been logged out."
+          message={authError.data}
+          technical={authError.message}
+        />
+      );
+    }
+    if (id === undefined) {
+      history.push("/login");
+      toast.error(<Toast title="You need to login to edit a portfolio." />);
+    }
+  });
 
   return (
     <Flex
@@ -44,7 +71,6 @@ export default props => {
           minWidth: 320,
           overflowY: "auto",
           overflowX: "hidden",
-
           height: "100%",
         }}
       >
