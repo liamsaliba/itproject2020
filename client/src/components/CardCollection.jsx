@@ -11,7 +11,7 @@ import Card from "./Card";
 export default function CardCollection({ pageId, name, cards }) {
   const styling = {
     margin: "0 auto",
-    mb: 10,
+    mb: "2em",
     display: "flex",
     flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
     flexDirection: "row",
