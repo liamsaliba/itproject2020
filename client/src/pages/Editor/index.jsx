@@ -7,6 +7,7 @@ import Sidebar from "./Sidebar";
 
 import themes from "../../themes";
 import {
+  createPage,
   selectAuthSlice,
   selectCurrentUserPortfolio,
   selectUsername,
@@ -14,13 +15,24 @@ import {
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 export default props => {
   const portfolio = useSelector(selectCurrentUserPortfolio);
   const authError = useSelector(state => selectAuthSlice(state).error);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const id = useSelector(selectUsername);
+
+  useEffect(() => {
+    // TODO: implement in backend
+    if (portfolio && portfolio.pages.length === 0 && !portfolio.loading) {
+      dispatch(createPage({ name: "About", type: "display" }));
+      dispatch(createPage({ name: "Education", type: "education" }));
+      dispatch(createPage({ name: "Experience", type: "experience" }));
+    }
+  }, [portfolio, dispatch]);
 
   useEffect(() => {
     if (authError) {

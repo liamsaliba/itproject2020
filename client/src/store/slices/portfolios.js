@@ -13,6 +13,7 @@ import {
   portfolioFetchedPages,
   portfolioFetchedArtifacts,
 } from "./actions";
+import { selectCurrentPortfolio } from "./ui";
 
 export const adapter = createEntityAdapter({
   selectId: portfolio => portfolio.username,

@@ -11,9 +11,10 @@ import Body from "../../components/Body";
 import * as ArtefactStories from "../../components/stories/Artefacts.stories";
 import * as BodyStories from "../../components/stories/Body.stories";
 import * as SectionStories from "../../components/stories/Sections.stories";
-import { selectPortfolioPages } from "../../store";
+import { selectPortfolioPages, selectPagesByUsername } from "../../store";
 import { useSelector } from "react-redux";
 // import { selectPortfolioPageIds } from "../../store/slices/portfolios";
+import { selectCurrentPages } from "./../../store/slices/portfolios";
 
 const styling = {
   textAlign: "center",
@@ -36,8 +37,9 @@ const Header = ({ username }) => (
 export default props => {
   const { userId } = props;
   const pageOrder = useSelector(state => selectPortfolioPages(state, userId));
-  // const pages = useSelector(state => selectPagesByUsername(state, userId));
-
+  const pages = useSelector(selectPagesByUsername(userId));
+  console.log(pageOrder);
+  console.log(pages);
   // const pages1 = useSelector(state => selectPortfolioPageIds(state, userId));
   // const pages2 = useSelector(state => Object.values(state.pages.entities));
   // const pages3 = pages2.filter(page => pages1.includes(page.id));

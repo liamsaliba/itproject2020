@@ -71,7 +71,6 @@ const Page = ({ active, setActive, page }) => {
 const DeletePageModal = ({ pageState }) => {
   const { name, pageId } = pageState;
   const [open, setOpen] = useState(false);
-  const [state, setState] = useState({ name });
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
@@ -169,6 +168,7 @@ const RenamePageModal = ({ pageState }) => {
 
 const NewPageModal = () => {
   const [open, setOpen] = useState(false);
+  // eslint-disable-next-line
   const [state, setState] = useState({ name: "", type: "experience" });
   const options = [
     { key: "x", text: "Experience", value: "experience" },

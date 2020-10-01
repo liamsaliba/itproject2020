@@ -28,16 +28,19 @@ export const RouteUser = () => {
 const User = props => {
   const dispatch = useDispatch();
   const { userId } = props;
+  // eslint-disable-next-line
   const username = useSelector(selectCurrentPortfolio);
   const portfolios = useSelector(selectPortfoliosSlice);
+  // eslint-disable-next-line
   const editing = useSelector(selectPortfolioEditing);
-  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
   const [loaded, setLoaded] = useState(false);
 
   // const editing = props.editing || false;
 
   useEffect(() => {
     dispatch(changePortfolio(userId));
+    dispatch(setStoreLoading(`Loading ${userId}'s portfolio`));
   }, [userId, dispatch]);
 
   const portfolio = useSelector(state =>
@@ -49,9 +52,7 @@ const User = props => {
   }, [dispatch, userId]);
 
   useEffect(() => {
-    if (portfolios.loading) {
-      dispatch(setStoreLoading(`Loading ${userId}'s portfolio`));
-    } else {
+    if (portfolio) {
       dispatch(setLoadingFinished());
       if (portfolios.error) {
         toast.error(
