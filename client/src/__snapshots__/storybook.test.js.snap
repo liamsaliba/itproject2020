@@ -2346,6 +2346,7 @@ exports[`Storyshots Components/UserPages/Artefact Left Feature 1`] = `
     >
       <div
         className="css-1dhuoyx-Out"
+        onClick={[Function]}
       >
         <div
           className="css-3gr8uu-MediaCollection"
@@ -2360,11 +2361,13 @@ exports[`Storyshots Components/UserPages/Artefact Left Feature 1`] = `
           className="css-169egj9-Body"
         >
           <p
-            className="css-0"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
-            Display Title
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
           </p>
           <button
             className="css-109w6ce"
@@ -4725,16 +4728,19 @@ exports[`Storyshots Components/UserPages/Artefact Right Feature 1`] = `
     >
       <div
         className="css-1dhuoyx-Out"
+        onClick={[Function]}
       >
         <div
           className="css-fcmgaa-Body"
         >
           <p
-            className="css-0"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
-            Display Title
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
           </p>
           <button
             className="css-109w6ce"
@@ -7106,11 +7112,13 @@ exports[`Storyshots Components/UserPages/Body Bottom Left 1`] = `
         className="css-i3n8il-Body"
       >
         <p
-          className="css-0"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
-          Display Title
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -9472,11 +9480,13 @@ exports[`Storyshots Components/UserPages/Body Bottom Right 1`] = `
         className="css-yulfkf-Body"
       >
         <p
-          className="css-0"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
-          Display Title
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -11838,11 +11848,13 @@ exports[`Storyshots Components/UserPages/Body Centered 1`] = `
         className="css-y0u3ow-Body"
       >
         <p
-          className="css-0"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
-          Display Title
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -14204,11 +14216,13 @@ exports[`Storyshots Components/UserPages/Body Top Left 1`] = `
         className="css-106ah1c-Body"
       >
         <p
-          className="css-0"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
-          Display Title
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
@@ -16570,11 +16584,13 @@ exports[`Storyshots Components/UserPages/Body Top Right 1`] = `
         className="css-tmgfmk-Body"
       >
         <p
-          className="css-0"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
-          Display Title
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias officiis quam et iste ratione earum illo aliquid neque, quis quas accusamus voluptatum provident dolorum aspernatur nostrum quo similique odit!
         </p>
         <button
           className="css-109w6ce"
