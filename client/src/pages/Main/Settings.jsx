@@ -1,18 +1,18 @@
 /** @jsx jsx */
-import { jsx, Label, Input, Box, Checkbox, Button, Styled } from "theme-ui";
+import { jsx, Label, Input, Box, Button, Styled } from "theme-ui";
 import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAuthSlice,
-  selectPortfoliosSlice,
-  selectToken,
-  selectUsername,
+  // selectPortfoliosSlice,
+  // selectToken,
+  // selectUsername,
   selectUser,
 } from "../../store";
-import { Link, Title, Toast } from "../../components";
+import { Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { Divider } from "semantic-ui-react";
 
 const SettingsForm = ({ userId, setForm }) => {
@@ -69,16 +69,16 @@ const SettingsForm = ({ userId, setForm }) => {
 export default () => {
   const dispatch = useDispatch();
   const [form, setForm] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
-  const history = useHistory();
+  // const [submitted, setSubmitted] = useState(false);
+  // const history = useHistory();
 
-  const token = useSelector(selectToken);
-  const authLoading = useSelector(state => selectAuthSlice(state).loading);
-  const username = useSelector(selectUsername);
+  // const token = useSelector(selectToken);
+  // const authLoading = useSelector(state => selectAuthSlice(state).loading);
+  // const username = useSelector(selectUsername);
   const authError = useSelector(state => selectAuthSlice(state).error);
-  const portfolioError = useSelector(
-    state => selectPortfoliosSlice(state).error
-  );
+  // const portfolioError = useSelector(
+  //   state => selectPortfoliosSlice(state).error
+  // );
   useEffect(() => {
     if (form !== null) {
       const { confirmPassword, password, firstName, lastName, email } = form;
@@ -96,7 +96,7 @@ export default () => {
         return;
       }
       // dispatch(signup(firstName, lastName, email, username, password));
-      setSubmitted(true);
+      // setSubmitted(true);
     }
   }, [form, dispatch]);
 
