@@ -33,7 +33,6 @@ export default function Section({ isEditing, section:{ type }, subSections }) {
 
   return (
     <Box sx={sectionStyling} >
-      <Styled.h2>{type}</Styled.h2>
       {SubSections}
     </Box>
   );
