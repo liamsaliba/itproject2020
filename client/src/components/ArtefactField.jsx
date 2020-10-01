@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import { jsx, Label, Box } from "theme-ui";
 import { Input, Button, Form, TextArea, Modal } from "semantic-ui-react";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
 
 export default function ArtefactField({

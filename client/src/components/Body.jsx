@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Styled, Button, Container } from "theme-ui";
+import { jsx, Button, Container } from "theme-ui";
 import PropTypes from "prop-types";
 import React from 'react'
 import TextEditor from './TextEditor';
@@ -29,9 +29,9 @@ export default function Body({
     }
   }
 
-  const Text = () => (
+  /* const Text = () => (
     <Styled.p>{text}</Styled.p>
-  );
+  ); */
 
   const out = (
     <React.Fragment>
