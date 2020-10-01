@@ -64,7 +64,7 @@ const User = props => {
         );
       }
     }
-  }, [portfolios, userId, dispatch]);
+  }, [portfolios, portfolio, userId, dispatch]);
 
   return portfolio ? (
     <UserPage userId={userId} />
