@@ -10,7 +10,7 @@ export default function Section({ isEditing, section:{ type }, subSections }) {
     border: "1px solid #aaa",
     borderRadius: "5px",
     p: "1em",
-    m: "2em"
+    m: "5em"
   };
 
   const GetBreakLine = ({ i, len, sx }) => {

@@ -6,7 +6,11 @@ import documentPreview from "../../svg/DocumentPreview.png";
 
 import CardCollection from "../../components/CardCollection";
 import Artefacts from "../../components/Artefacts";
+import Section from "../../components/Section";
+import Body from "../../components/Body";
 import * as ArtefactStories from "../../components/stories/Artefacts.stories";
+import * as BodyStories from "../../components/stories/Body.stories";
+import * as SectionStories from "../../components/stories/Section.stories";
 import { selectPortfolioPages } from "../../store";
 import { useSelector } from "react-redux";
 // import { selectPortfolioPageIds } from "../../store/slices/portfolios";
@@ -54,8 +58,6 @@ export default props => {
     exampleCard,
     exampleCard,
     exampleCard,
-    exampleCard,
-    exampleCard,
   ];
 
   // const pageContainers = pages.map(page => (
@@ -75,7 +77,11 @@ export default props => {
     <Container as="main" display="flex" sx={styling}>
       <Box>
         <Header username={userId} />
+        <Body body={{...BodyStories.Centered.args.body, actionString:""}} />
+        <Section {...SectionStories.Experiences.args} />
+        <Section {...SectionStories.Education.args} />
         <Artefacts {...ArtefactStories.LeftFeature.args} />
+        <Artefacts {...ArtefactStories.RightFeature.args} />
         {pageContainers}
       </Box>
     </Container>

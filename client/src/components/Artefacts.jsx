@@ -54,9 +54,9 @@ export default function Artefact({
   };
 
   const artefactStyle = {
-    mr:"2em",
-    ml:"2em",
-    mb:"1em"
+    mr:"5em",
+    ml:"5em",
+    mb:"2em"
   }
 
   const artefactFieldArgs = {
