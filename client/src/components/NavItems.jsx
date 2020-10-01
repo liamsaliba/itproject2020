@@ -26,7 +26,12 @@ export const NavLink = props => GenericLink(NavHashLink, props);
 export const Link = props => GenericLink(HashLink, props);
 
 export const Dot = () => (
-  <Icon color="red" name="circle" size="small" sx={{ pl: "4px" }} />
+  <Icon
+    color="red"
+    name="circle"
+    size="mini"
+    sx={{ top: "28px", position: "fixed", verticalAlign: "top" }}
+  />
 );
 
 export const MenuItem = props => (
@@ -42,12 +47,7 @@ export const MenuItem = props => (
     p={2}
   >
     {props.children}
-    <Icon
-      color="red"
-      name="circle"
-      size="mini"
-      sx={{ top: "28px", position: "fixed", verticalAlign: "top" }}
-    />
+    {props.important && <Dot />}
   </StyledNavLink>
 );
 
