@@ -75,14 +75,15 @@ export default function SectionField({
     return isNew ? "Create" : "Edit";
   };
 
-  /* const handleSave = e => {
-    // e.preventDefault();
-    // const formData = new FormData(e.target);
-    // dispatch(login(formData.get("username"), formData.get("password")));
-  }; */
+  const handleSubmit = e => {
+    e.preventDefault();
+    // console.log(state);
+    // dispatch(createPage(state));
+    setOpen(false);
+  };
 
   const Education = () => (
-    <Box as="form">
+    <Box>
       <Label htmlFor="School">School *</Label>
       <Input name="school" sx={inputFieldStyle} />
 
@@ -120,7 +121,7 @@ export default function SectionField({
 
   const Experience = () => (
     // <Box as="form" onSubmit={handleSave}>
-    <Box as="form">
+    <Box>
       <Label htmlFor="Job Title">Job Title *</Label>
       <Input name="jobTitle" sx={inputFieldStyle} />
 
@@ -165,9 +166,7 @@ export default function SectionField({
       </Box>
 
       <Label htmlFor="Description">Tell us about it!</Label>
-      <Form sx={inputFieldStyle}>
-        <TextArea name="password" />
-      </Form>
+      <TextArea sx={inputFieldStyle} name="password" />
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
   );
@@ -181,14 +180,16 @@ export default function SectionField({
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
+        as={Form}
+        onSubmit={handleSubmit}
       >
         <Modal.Header>{getEditing()} Education</Modal.Header>
         <Modal.Content>
           <Education />
         </Modal.Content>
         <Modal.Actions>
-          <Button color="grey">Delete</Button>
-          <Button>Save</Button>
+          <Button color="red">Delete</Button>
+          <Button color="blue" type="submit">Submit</Button>
         </Modal.Actions>
       </Modal>
     );
@@ -209,8 +210,8 @@ export default function SectionField({
           <Experience />
         </Modal.Content>
         <Modal.Actions>
-          <Button color="grey">Delete</Button>
-          <Button>Save</Button>
+          <Button color="red">Delete</Button>
+          <Button color="blue" type="submit">Submit</Button>
         </Modal.Actions>
       </Modal>
     );

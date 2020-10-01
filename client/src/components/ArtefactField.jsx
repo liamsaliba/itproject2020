@@ -14,11 +14,12 @@ export default function ArtefactField({
   onAddDocument,
 }) {
 
-/* 
-  const handleChange = (content, editor) => {
-    setText(content);
-    // console.log("Content was updated:", setText(content));
-  }; */
+  const handleSubmit = e => {
+    e.preventDefault();
+    // console.log(state);
+    // dispatch(createPage(state));
+    setOpen(false);
+  };
 
   const inputFieldStyle = {
     mb: "1em",
@@ -31,24 +32,18 @@ export default function ArtefactField({
   };
 
   const Field = () => (
-    <Box as="form">
+    <Box>
       <Label htmlFor="Header">Header</Label>
-      <Form sx={inputFieldStyle}>
-        <TextArea name="header" />
-      </Form>
+      <TextArea sx={inputFieldStyle} name="header" />
 
       <Label htmlFor="Body">Body</Label>
-      <Form sx={inputFieldStyle}>
-        <TextArea name="body" />
-      </Form>
+      <TextArea sx={inputFieldStyle} name="body" />
 
       <Label htmlFor="UploadMedia">Upload Media</Label>
       <Input sx={{mb:"1em"}}type="file" name="MediaDescription"></Input>
 
       <Label htmlFor="MediaDescription">Description</Label>
-      <Form sx={inputFieldStyle}>
-        <TextArea name="mediaDescription" />
-      </Form> 
+      <TextArea sx={inputFieldStyle} name="mediaDescription" />
     </Box>
   );
 
@@ -59,14 +54,16 @@ export default function ArtefactField({
       open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
+      as={Form}
+      onSubmit={handleSubmit}
     >
       <Modal.Header>{getEditing()} Display</Modal.Header>
       <Modal.Content>
         <Field />
       </Modal.Content>
       <Modal.Actions>
-        <Button color="grey">Delete</Button>
-        <Button>Save</Button>
+          <Button color="red">Delete</Button>
+          <Button color="blue" type="submit">Submit</Button>
       </Modal.Actions>
     </Modal>
   );
