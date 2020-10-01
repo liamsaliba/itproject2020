@@ -104,6 +104,22 @@ const slice = createSlice({
         }
       }
     },
+    [pageActions.pageDeleted]: (portfolios, action) => {
+      const pageId = action.request.data.id;
+      const username = action.request.username;
+      if (
+        !portfolios.entities[username] ||
+        !portfolios.entities[username].pages
+      ) {
+        adapter.upsertOne({
+          username,
+          pages: [],
+        });
+      }
+      portfolios.entities[username].pages = portfolios.entities[
+        username
+      ].pages.filter(page => page.pageId !== pageId);
+    },
     [portfolioFetchedAll]: (portfolios, action) => {
       const { portfolio } = action.payload;
       portfolio.lastFetch = Date.now();

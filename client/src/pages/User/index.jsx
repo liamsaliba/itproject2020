@@ -38,7 +38,7 @@ const User = props => {
 
   useEffect(() => {
     dispatch(changePortfolio(userId));
-  });
+  }, [userId, dispatch]);
 
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)

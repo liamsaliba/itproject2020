@@ -18,6 +18,7 @@ import {
   selectPortfolioPages,
   createPage,
   renamePage,
+  deletePage,
 } from "../../store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -34,9 +35,7 @@ const PageDropdown = ({ pageState }) => {
     >
       <Dropdown.Menu>
         <RenamePageModal pageState={pageState} />
-        <Dropdown.Item>
-          <Icon name="trash" fitted /> Delete
-        </Dropdown.Item>
+        <DeletePageModal pageState={pageState} />
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -66,6 +65,50 @@ const Page = ({ active, setActive, page }) => {
         </Grid.Column>
       </Grid>
     </Menu.Item>
+  );
+};
+
+const DeletePageModal = ({ pageState }) => {
+  const { name, pageId } = pageState;
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState({ name });
+  const dispatch = useDispatch();
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(deletePage(pageId));
+    setOpen(false);
+  };
+
+  return (
+    <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
+      closeOnDimmerClick={false}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
+      open={open}
+      trigger={
+        <Dropdown.Item>
+          <Icon name="trash" fitted /> Delete
+        </Dropdown.Item>
+      }
+    >
+      <Modal.Header>
+        Are you sure you want to delete the page "{name}"? This process is
+        irreversible.
+      </Modal.Header>
+      <Modal.Actions>
+        <Button basic onClick={() => setOpen(false)} type="button">
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="red" type="submit">
+          <Icon name="trash" /> Delete Page
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 };
 
@@ -126,7 +169,7 @@ const RenamePageModal = ({ pageState }) => {
 
 const NewPageModal = () => {
   const [open, setOpen] = useState(false);
-  const [state, setState] = useState(false);
+  const [state, setState] = useState({ name: "", type: "experience" });
   const options = [
     { key: "x", text: "Experience", value: "experience" },
     { key: "e", text: "Education", value: "education" },
@@ -134,8 +177,27 @@ const NewPageModal = () => {
   ];
   const dispatch = useDispatch();
 
-  const handleChange = (e, { name, value }) =>
+  const handleChange = (e, { name, value }) => {
     setState({ ...state, [name]: value });
+    // if (
+    //   ["Experience", "Education", "About", ""].includes(state.name) &&
+    //   name === "type"
+    // ) {
+    //   switch (value) {
+    //     case "experience":
+    //       setState({ ...state, name: "Experience" });
+    //       break;
+    //     case "education":
+    //       setState({ ...state, name: "Education" });
+    //       break;
+    //     case "display":
+    //       setState({ ...state, name: "About" });
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -170,6 +232,7 @@ const NewPageModal = () => {
           placeholder="Page Name"
           name="name"
           onChange={handleChange}
+          value={state.name}
           required
         />
       </Modal.Header>
@@ -182,6 +245,7 @@ const NewPageModal = () => {
             options={options}
             placeholder="Type"
             onChange={handleChange}
+            value={state.type}
             name="type"
             // sx={{ zIndex: "999999 !important" }}
           />

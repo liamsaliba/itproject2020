@@ -249,12 +249,14 @@ export const renamePage = (id, name) => changePageOptions(id, { name });
 // delete a page by id
 export const deletePage = id => (dispatch, getState) => {
   const token = selectToken(getState());
+  const username = selectUsername(getState());
 
   return dispatch(
     apiStarted({
       url: endpoints.pagesById(id),
       method: "delete",
       data: { id },
+      req: { username, pageId: id },
       token,
       onSuccess: pageDeleted.type,
     })
