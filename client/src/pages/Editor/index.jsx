@@ -16,23 +16,31 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export default props => {
   const portfolio = useSelector(selectCurrentUserPortfolio);
   const authError = useSelector(state => selectAuthSlice(state).error);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [newPortfolio, setNewPortfolio] = useState(true);
 
   const id = useSelector(selectUsername);
 
   useEffect(() => {
     // TODO: implement in backend
-    if (portfolio && portfolio.pages.length === 0 && !portfolio.loading) {
+    if (
+      newPortfolio &&
+      portfolio &&
+      portfolio.pages.length === 0 &&
+      !portfolio.loading
+    ) {
       dispatch(createPage({ name: "About", type: "display" }));
       dispatch(createPage({ name: "Education", type: "education" }));
       dispatch(createPage({ name: "Experience", type: "experience" }));
+      setNewPortfolio(false);
     }
-  }, [portfolio, dispatch]);
+  }, [portfolio, dispatch, newPortfolio]);
 
   useEffect(() => {
     if (authError) {

@@ -22,6 +22,7 @@ import {
   selectToken,
   selectUsername,
   signup,
+  selectPortfolioByUsername,
 } from "../../store";
 import { Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
@@ -137,6 +138,9 @@ export default () => {
   const token = useSelector(selectToken);
   const authLoading = useSelector(state => selectAuthSlice(state).loading);
   const username = useSelector(selectUsername);
+  const portfolio = useSelector(state =>
+    selectPortfolioByUsername(state, username)
+  );
   const authError = useSelector(state => selectAuthSlice(state).error);
   const portfolioError = useSelector(
     state => selectPortfoliosSlice(state).error
@@ -191,9 +195,14 @@ export default () => {
         toast("Created new account!");
         dispatch(createPortfolio());
       }
+    }
+  }, [token, submitted, dispatch]);
+
+  useEffect(() => {
+    if (token && portfolio) {
       history.push("/editor");
     }
-  });
+  }, [token, history, portfolio]);
 
   useEffect(() => {
     if (portfolioError) {

@@ -2,7 +2,6 @@
 import { jsx } from "theme-ui";
 import { Container, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
-import documentPreview from "../../svg/DocumentPreview.png";
 
 import { Cards } from "../../components/Cards";
 import Artefacts from "../../components/Artefacts";
