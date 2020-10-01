@@ -4,6 +4,8 @@ export {
   signup,
   logout,
   logoutAll,
+  deleteUser,
+  updateUser,
   // selectors
   selectAuthSlice,
   selectToken,

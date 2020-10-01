@@ -66,6 +66,17 @@ const slice = createSlice({
       localStorage.removeItem(userKey);
       localStorage.removeItem(tokenKey);
     },
+    userDeleted: (auth, action) => {
+      auth.user = {};
+      auth.token = "";
+      localStorage.removeItem(userKey);
+      localStorage.removeItem(tokenKey);
+    },
+    userUpdated: (auth, action) => {
+      auth.user = action.payload;
+      localStorage.setItem(userKey, JSON.stringify(user));
+      localStorage.removeItem(userKey);
+    },
   },
 });
 
@@ -80,6 +91,8 @@ const {
   signUpRequested,
   signUpSucceeded,
   logoutRequested,
+  userDeleted,
+  userUpdated,
 } = slice.actions;
 
 // Selectors
@@ -154,3 +167,19 @@ export const logoutAll = () => (dispatch, getState) => {
     })
   );
 };
+
+export const updateUser = props =>
+  apiStarted({
+    url: endpoints.user(),
+    method: "patch",
+    data: props,
+    onSuccess: userUpdated.type,
+  });
+
+export const deleteUser = (username, password) =>
+  apiStarted({
+    url: endpoints.user(),
+    method: "delete",
+    data: { username, password },
+    onSuccess: userDeleted.type,
+  });
