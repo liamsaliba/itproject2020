@@ -7,7 +7,7 @@ import SubSection from './SubSection';
 export default function Section({ isEditing, section:{ type }, subSections }) {
   const sectionStyling = {
     boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
-    border: "1px solid #aaa",
+    border: "2px solid #aaa",
     borderRadius: "5px",
     p: "1em",
     m: "5em"
@@ -17,7 +17,7 @@ export default function Section({ isEditing, section:{ type }, subSections }) {
     if (i < len - 1) {
       return (
         <Divider
-          sx={{ color: "var(--warm-grey-30,#e6e9ec)", mt: "1em", mb: "1em" }}
+          sx={{ border: "0.5px solid #aaa", mt: "1em", mb: "1em" }}
         />
       );
     }
