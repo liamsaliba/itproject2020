@@ -6,7 +6,7 @@ import documentPreview from "../../svg/DocumentPreview.png";
 import {Card, Cards} from "../Cards";
 
 export default {
-  component: Card,
+  component: Cards,
   title: "Components/UserPages/Cards",
 };
 
