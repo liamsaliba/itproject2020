@@ -18,10 +18,11 @@ export default function Artefact({
 
   const mediaCollectionStyle = {
     ...style,
-    padding: "5px",
+    padding: "1em",
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "text"
+    backgroundColor: "muted",
+    borderRadius: "5px"
   };
 
   const Media = () => {
@@ -29,7 +30,6 @@ export default function Artefact({
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
       maxHeight: "300px",
       maxWidth: "300px",
-      padding: "2px",
     };
 
     if (media === "image") {

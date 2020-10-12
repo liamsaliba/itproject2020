@@ -13,6 +13,7 @@ export default function Card({
   }) {
   const style = {
     boxShadow: "0 0 8px rgba(0, 0, 0, 0.25)",
+    backgroundColor: "muted",
     maxWidth: "300px",
     padding: 2,
     m: 2,
