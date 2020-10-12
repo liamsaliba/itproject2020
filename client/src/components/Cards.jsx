@@ -73,7 +73,8 @@ Card.propTypes = {
 
 /* ------------------------------------------------------------------- */
 
-export const Cards = ({ pageId, name, cards }) => {
+export const Cards = ({ key, pageId, name, cards }) => {
+  // TODO: Where to use pageId?s
   const styling = {
     margin: "0 auto",
     mb: "2em",
@@ -86,7 +87,7 @@ export const Cards = ({ pageId, name, cards }) => {
   };
 
   let allCards = cards.map((card, index) => (
-    <Card key={"card" + index} {...card} />
+    <Card key={key} {...card} />
   ));
 
   return (
