@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Styled, Divider, Box } from "theme-ui";
+import { jsx, Divider, Box } from "theme-ui";
 import PropTypes from "prop-types";
 
 import SubSection from './SubSection';

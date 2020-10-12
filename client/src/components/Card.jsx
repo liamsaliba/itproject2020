@@ -17,7 +17,6 @@ export default function Card({
     padding: 2,
     m: 2,
     textAlign: "center",
-    bg:"grey",
     borderRadius:"5px"
   };
 

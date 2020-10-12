@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import documentPreview from "../svg/DocumentPreview.png";
 import { Icon } from "semantic-ui-react";
 import React, { useState } from "react";
-
 import Body from "./Body";
 
 import ArtefactField from "./ArtefactField";
@@ -22,6 +21,7 @@ export default function Artefact({
     padding: "5px",
     display: "flex",
     justifyContent: "center",
+    backgroundColor: "text"
   };
 
   const Media = () => {
@@ -42,8 +42,7 @@ export default function Artefact({
 
   const MediaCollection = () => (
     <Box sx={mediaCollectionStyle}>
-      <Media />
-      {/* <Button onClick={() => onAddDocument}>Add Artefact</Button> */}
+      <Media /> 
     </Box>
   );
 
