@@ -50,7 +50,7 @@ export default function ArtefactField({
   return (
     <Modal
       closeIcon
-      size="large"
+      size="small"
       open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
