@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import PropTypes from "prop-types";
-import { jsx, Label, Box } from "theme-ui";
-import { Input, Button, Form, TextArea, Modal } from "semantic-ui-react";
+import { jsx, Box } from "theme-ui";
+import { Input, Header, Button, Form, TextArea, Modal } from "semantic-ui-react";
 // import React, { useState } from "react";
 
 
@@ -33,16 +33,16 @@ export default function ArtefactField({
 
   const Field = () => (
     <Box>
-      <Label htmlFor="Header">Header</Label>
+      <Header as='h4' htmlFor="Header">Header</Header>
       <TextArea sx={inputFieldStyle} name="header" />
 
-      <Label htmlFor="Body">Body</Label>
+      <Header as='h4' htmlFor="Body">Body</Header>
       <TextArea sx={inputFieldStyle} name="body" />
 
-      <Label htmlFor="UploadMedia">Upload Media</Label>
+      <Header as='h4' htmlFor="UploadMedia">Upload Media</Header>
       <Input sx={{mb:"1em"}}type="file" name="MediaDescription"></Input>
 
-      <Label htmlFor="MediaDescription">Description</Label>
+      <Header as='h4' htmlFor="MediaDescription">Description</Header>
       <TextArea sx={inputFieldStyle} name="mediaDescription" />
     </Box>
   );
