@@ -73,11 +73,17 @@ export default props => {
     />
   ));
 
+    const summaryTextStyle = {
+      width:"auto",
+      ml:"5em",
+      mr:"5em"
+    }
+
   return (
     <Container as="main" display="flex" sx={styling}>
       <Box>
         <Header username={userId} />
-        <Body body={{...BodyStories.Centered.args.body, actionString:""}} />
+        <Body body={{...BodyStories.Centered.args.body, actionString:"", style:summaryTextStyle}}/>
         <Section {...SectionStories.Experiences.args} />
         <Section {...SectionStories.Education.args} />
         <Artefacts {...ArtefactStories.LeftFeature.args} />
