@@ -203,6 +203,8 @@ export default function SectionField({
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
+        as={Form}
+        onSubmit={handleSubmit}
       >
         <Modal.Header>{getEditing()} Experience</Modal.Header>
         <Modal.Content>

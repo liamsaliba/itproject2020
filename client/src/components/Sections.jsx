@@ -1,13 +1,13 @@
 /** @jsx jsx */
-import { jsx, Container, Styled } from "theme-ui";
+import { jsx, Divider, Box, Container, Styled } from "theme-ui";
 import React, {useState} from 'react'
 import PropTypes from "prop-types";
 
 import SectionField from './SectionFields';
 
-export default function SubSection({
+export function Section({
   isEditing, 
-  subSection: {
+  section: {
     type,
     title,
     field_1,
@@ -36,6 +36,7 @@ export default function SubSection({
       setOpen: setOpen
     },
     sectionField: { 
+      // TODO: isNew as variable!
       isNew: true, 
       type: type
     }
@@ -87,34 +88,31 @@ export default function SubSection({
     return;
   };
 
-  const Out = () => {
-    return (
-      <React.Fragment>
-        <SectionField {...sectionFieldArgs} />
-        <Container 
-          sx={{textAlign:"left"}}
-          onClick={handleClick}
-        >
-          <Styled.h3 sx={styling} >{title}</Styled.h3>
-          <SubHeader/>
-          
-          <Styled.p sx={{...styling, ...greyedOut, mt:"1em"}} ><IsOngoing /></Styled.p>
-          <Styled.p sx={{...styling, ...greyedOut}} ><IsVolunteering /></Styled.p>
-          <Styled.p sx={{...styling, ...greyedOut, mb:"1em"}} >{location}</Styled.p>
+  return (
+    <React.Fragment>
+      <SectionField {...sectionFieldArgs} />
+      <Container 
+        sx={{textAlign:"left"}}
+        onClick={handleClick}
+      >
+        <Styled.h3 sx={styling} >{title}</Styled.h3>
+        <SubHeader/>
         
-          <Styled.p sx={{...styling, mb:"1em"}} >{description}</Styled.p>
-        </Container> 
-      </React.Fragment>
-    );
-  };
-
-  return <Out />;
+        <Styled.p sx={{...styling, ...greyedOut, mt:"1em"}} ><IsOngoing /></Styled.p>
+        <Styled.p sx={{...styling, ...greyedOut}} ><IsVolunteering /></Styled.p>
+        <Styled.p sx={{...styling, ...greyedOut, mb:"1em"}} >{location}</Styled.p>
+      
+        <Styled.p sx={{...styling, mb:"1em"}} >{description}</Styled.p>
+      </Container> 
+    </React.Fragment>
+  );
 }
 
-SubSection.propTypes = {
+Section.propTypes = {
   isEditing: PropTypes.bool,
-  subSection: PropTypes.shape({
+  section: PropTypes.shape({
     title: PropTypes.string, // Job Title or School
+    type: PropTypes.string, // "education" or "experience"
     field_1: PropTypes.string, // Organisation Type or Degree
     field_2: PropTypes.string, // EmploymentType or FieldOfStudy
     location: PropTypes.string, // Location or Location
@@ -125,4 +123,43 @@ SubSection.propTypes = {
     endDate: PropTypes.string, // Both Experience and Education
     description: PropTypes.string, // Both Experience and Education
   }),
+};
+
+export function Sections({ isEditing, sections }) {
+  const sectionStyling = {
+    boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
+    border: "2px solid #aaa",
+    borderRadius: "5px",
+    p: "1em",
+    m: "5em"
+  };
+
+  const GetBreakLine = ({ i, len }) => {
+    if (i < len - 1) {
+      return (
+        <Divider
+          sx={{ border: "0.5px solid #aaa", mt: "1em", mb: "1em" }}
+        />
+      );
+    }
+    return null;
+  };
+
+  const SubSections = sections.map((section, i) => (
+    <Box sx={{ pl:"1em", pr:"1em" }}>
+      <Section isEditing={isEditing} section={section} />
+      <GetBreakLine i={i} len={sections.length} />
+    </Box>
+  ));
+
+  return (
+    <Box sx={sectionStyling} >
+      {SubSections}
+    </Box>
+  );
+}
+
+Sections.propTypes = {
+  isEditing: PropTypes.bool,
+  sections: PropTypes.array,
 };
