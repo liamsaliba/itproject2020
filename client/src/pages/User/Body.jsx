@@ -4,7 +4,7 @@ import { Container, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
 import documentPreview from "../../svg/DocumentPreview.png";
 
-import CardCollection from "../../components/CardCollection";
+import {Cards} from "../../components/Cards";
 import Artefacts from "../../components/Artefacts";
 import Section from "../../components/Section";
 import Body from "../../components/Body";
@@ -65,7 +65,7 @@ export default props => {
   // ));
 
   const pageContainers = pageOrder.map(page => (
-    <CardCollection
+    <Cards
       name={page.name}
       key={page.id}
       pageId={page.id}

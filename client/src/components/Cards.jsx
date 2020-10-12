@@ -1,16 +1,17 @@
 /** @jsx jsx */
-import { jsx, Image, Styled, Card as ThemedCard } from "theme-ui";
+import { jsx, Box, Image, Styled, Card as ThemedCard } from "theme-ui";
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function Card({
+export const Card = ({
   card: { title, 
     body, 
     featureType, 
     feature, 
     featureOrientation 
   },  
-  }) {
+  }) => {
+
   const style = {
     boxShadow: "0 0 8px rgba(0, 0, 0, 0.25)",
     backgroundColor: "muted",
@@ -25,7 +26,7 @@ export default function Card({
     width:"100%",
   };
 
-  const textStle = {
+  const textStyle = {
     pt: "0.25em",
     pb: "0.25em",
     mb: "0",
@@ -43,17 +44,18 @@ export default function Card({
     return (
       // When you click it, may open a modal to view the publication?
       <ThemedCard sx={style}>
-        <Styled.h3 sx={textStle}>{title}</Styled.h3>
-        <Styled.p sx={textStle}>{body}</Styled.p>
+        <Styled.h3 sx={textStyle}>{title}</Styled.h3>
+        <Styled.p sx={textStyle}>{body}</Styled.p>
         <GetFeature />
       </ThemedCard>
     );
   }
   return (
+    // The Featyre is above the body
     <ThemedCard sx={style}>
-      <Styled.h3 sx={textStle}>{title}</Styled.h3>
+      <Styled.h3 sx={textStyle}>{title}</Styled.h3>
       <GetFeature />
-      <Styled.p sx={textStle}>{body}</Styled.p>
+      <Styled.p sx={textStyle}>{body}</Styled.p>
     </ThemedCard>
   );
 }
@@ -67,4 +69,37 @@ Card.propTypes = {
     feature: PropTypes.string, // or something else!
     featureOrientation: PropTypes.string,
   }),
+};
+
+/* ------------------------------------------------------------------- */
+
+export const Cards = ({ pageId, name, cards }) => {
+  const styling = {
+    margin: "0 auto",
+    mb: "2em",
+    display: "flex",
+    flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "all 0.3s",
+  };
+
+  let allCards = cards.map((card, index) => (
+    <Card key={"card" + index} {...card} />
+  ));
+
+  return (
+    <Box sx={{ textAlign: "center" }} id={name}>
+      <Styled.h2 id={name}> {name} </Styled.h2>
+      <Box sx={styling} mr={5} ml={5}>
+        {allCards}
+      </Box>
+    </Box>
+  );
+}
+
+Cards.propTypes = {
+  name: PropTypes.string,
+  cards: PropTypes.array,
 };
