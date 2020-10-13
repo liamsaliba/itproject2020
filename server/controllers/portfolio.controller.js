@@ -3,6 +3,7 @@ const emailBot = require("../emailbot/email");
 const Page = require("../models/page.model");
 const Artifact = require("../models/artifact.model");
 const Media = require("../models/media.model");
+const User = require("../models/user.model");
 
 // Return an array of all portfolios on the server
 const getAllPortfolios = async (_req, res) => {
@@ -57,6 +58,14 @@ const findPortfolio = async username => {
   const p = portfolio.toObject();
   const contents = await Portfolio.findAllPages(username);
   p.pages = contents || [];
+  const user = await User.findOne({ username });
+  if (!user) throw Error(`User ${username} not found.`);
+
+  // Add a few more details to the returned portfolio
+  p.firstName = user.local.firstName;
+  p.lastName = user.local.lastName;
+  p.email = user.local.email;
+  p.avatar = user.avatar;
   return p;
 };
 

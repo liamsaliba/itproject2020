@@ -70,6 +70,35 @@ const changeUserDetails = async (req, res) => {
   }
 };
 
+// Add an avatar to a user (or change it if it already exists)
+const addAvatar = async (req, res) => {
+  try {
+    // Delete the current avatar of the user
+    await Media.findOneAndDelete({
+      username: req.user.username,
+      description: "avatar",
+    });
+
+    // Create a new media
+    const newMedia = new Media({
+      username: req.user.username,
+      url: req.file.path,
+      type: "image",
+      description: "avatar",
+      public_id: req.file.public_id,
+    });
+    await newMedia.save();
+
+    // Also update the avatar's URL of the user
+    req.user.avatar = req.file.path;
+    await req.user.save();
+
+    res.status(200).json("Avatar changed.");
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
+  }
+};
+
 // Delete a user
 const deleteUser = async (req, res) => {
   try {
@@ -218,4 +247,5 @@ module.exports = {
   logoutUserAllDevices,
   googleOAuth,
   facebookOAuth,
+  addAvatar,
 };

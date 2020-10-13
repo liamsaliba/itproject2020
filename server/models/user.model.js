@@ -64,6 +64,10 @@ const userSchema = new Schema(
         type: mongoose.SchemaTypes.Email,
       },
     },
+    avatar: {
+      type: String, // URL of the avatar
+      required: false,
+    },
     google: {
       id: {
         type: String,

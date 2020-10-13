@@ -35,6 +35,10 @@ const portfolioSchema = new Schema(
       default: "default",
       required: false,
     },
+    avatar: {
+      type: String, // ID of avatar media document
+      required: false,
+    },
   },
   {
     toObject: {
