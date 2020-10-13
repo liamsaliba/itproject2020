@@ -21,10 +21,14 @@ const createPortfolio = async (req, res) => {
       const username = req.user.username;
       const bio = req.body.bio;
       const theme = req.body.theme;
+      const font = req.body.font;
+      const colour = req.body.colour;
       const newPortfolio = new Portfolio({
         username,
         bio,
         theme,
+        font,
+        colour,
       });
       const returnedPortfolio = newPortfolio.toObject();
       returnedPortfolio.pages = [];
@@ -80,9 +84,11 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const { bio, theme } = req.body;
+    const { bio, theme, font, colour } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
+    portfolio.font = font ? font : portfolio.font;
+    portfolio.colour = colour ? colour : portfolio.colour;
     let changeItems = [];
     if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
     if (portfolio.isModified("theme"))

@@ -25,6 +25,16 @@ const portfolioSchema = new Schema(
       default: "default",
       required: false,
     },
+    font: {
+      type: String,
+      default: "default",
+      required: false,
+    },
+    colour: {
+      type: String,
+      default: "default",
+      required: false,
+    },
   },
   {
     toObject: {
