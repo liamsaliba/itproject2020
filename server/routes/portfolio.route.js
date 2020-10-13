@@ -16,6 +16,12 @@ router.post(
   portfolioController.createPortfolio
 );
 
+router.post(
+  "/default",
+  userMiddleware.authenticateToken,
+  portfolioController.createDefaultPortfolio
+);
+
 router.get("/", portfolioController.getAllPortfolios);
 
 router.get("/:username/all", portfolioController.findAllDetails);

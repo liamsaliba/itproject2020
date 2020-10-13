@@ -52,6 +52,61 @@ const createPortfolio = async (req, res) => {
   }
 };
 
+const createDefaultPortfolio = async (req, res) => {
+  try {
+    if (req.user && req.user.username) {
+      const username = req.user.username;
+      const newPortfolio = new Portfolio({ username });
+      const aboutPage = new Page({
+        username,
+        portfolioId: newPortfolio._id,
+        name: "About",
+        type: "about",
+      });
+      const educationpage = new Page({
+        username,
+        portfolioId: newPortfolio._id,
+        name: "Education",
+        type: "education",
+      });
+      const experiencePage = new Page({
+        username,
+        portfolioId: newPortfolio._id,
+        name: "Experience",
+        type: "experience",
+      });
+      await aboutPage.save();
+      await educationpage.save();
+      await experiencePage.save();
+
+      const returnedPortfolio = newPortfolio.toObject();
+      returnedPortfolio.pages = [
+        aboutPage._id,
+        educationpage._id,
+        experiencePage._id,
+      ];
+      returnedPortfolio.firstName = req.user.local.firstName;
+      returnedPortfolio.lastName = req.user.local.lastName;
+      returnedPortfolio.email = req.user.local.email;
+      await newPortfolio.save();
+      if (req.user.local && req.user.local.email) {
+        emailBot.sendPortfolioAddNotification(req.user.local.email, req.user);
+      }
+      res.status(200).send(returnedPortfolio);
+    } else {
+      throw Error("User unidentified.");
+    }
+  } catch (err) {
+    if (err.code == 11000) {
+      res.status(400).json("Portfolio of this user already exists!");
+    } else if (err.message) {
+      res.status(400).json(err.message);
+    } else {
+      res.status(400).json(err);
+    }
+  }
+};
+
 const findPortfolio = async username => {
   const portfolio = await Portfolio.findByUsername(username);
   if (!portfolio) throw Error(`Portfolio for the user ${username} not found.`);
@@ -66,6 +121,7 @@ const findPortfolio = async username => {
   p.lastName = user.local.lastName;
   p.email = user.local.email;
   p.avatar = user.avatar;
+  console.log(user);
   return p;
 };
 
@@ -187,4 +243,5 @@ module.exports = {
   getAllPortfolios,
   changePortfolio,
   findAllDetails,
+  createDefaultPortfolio,
 };
