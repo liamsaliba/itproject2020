@@ -33,7 +33,7 @@ const contact = async (req, res) => {
     var useremail = await User.findByUsername(username);
 
     var mail = {
-      from: process.env.EMAILACCOUNT, // sender address
+      from: process.env.EMAIL_ACCOUNT, // sender address
       to: useremail, // list of receivers (THIS COULD BE A DIFFERENT ADDRESS or ADDRESSES SEPARATED BY COMMAS)
       subject: "Mail From camel_case Contact Form", // Subject line
       text: textBody,
@@ -53,9 +53,9 @@ const contact = async (req, res) => {
     });
 
     await newContact.save();
-    res.status(200).json(newContact.toObject());
+    res.status(200).send(newContact.toObject());
   } catch (err) {
-    res.status(400).json(err);
+    res.status(401).json(err);
   }
 };
 
