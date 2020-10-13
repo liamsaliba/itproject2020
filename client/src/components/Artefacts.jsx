@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import documentPreview from "../svg/DocumentPreview.png";
 import { Icon } from "semantic-ui-react";
 import React, { useState } from "react";
-
 import Body from "./Body";
 
 import ArtefactField from "./ArtefactField";
@@ -19,9 +18,11 @@ export default function Artefact({
 
   const mediaCollectionStyle = {
     ...style,
-    padding: "5px",
+    padding: "1em",
     display: "flex",
     justifyContent: "center",
+    backgroundColor: "muted",
+    borderRadius: "5px",
   };
 
   const Media = () => {
@@ -29,11 +30,12 @@ export default function Artefact({
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
       maxHeight: "300px",
       maxWidth: "300px",
-      padding: "2px",
     };
 
     if (media === "image") {
-      return <Image onClick={handleClick} sx={mediaStyle} src={documentPreview} />;
+      return (
+        <Image onClick={handleClick} sx={mediaStyle} src={documentPreview} />
+      );
     } else if (media === "pdf") {
       return <Icon onClick={handleClick} size="massive" name="file pdf" />;
     }
@@ -43,7 +45,6 @@ export default function Artefact({
   const MediaCollection = () => (
     <Box sx={mediaCollectionStyle}>
       <Media />
-      {/* <Button onClick={() => onAddDocument}>Add Artefact</Button> */}
     </Box>
   );
 
@@ -54,10 +55,10 @@ export default function Artefact({
   };
 
   const artefactStyle = {
-    mr:"2em",
-    ml:"2em",
-    mb:"1em"
-  }
+    mr: "5em",
+    ml: "5em",
+    mb: "2em",
+  };
 
   const artefactFieldArgs = {
     state: {

@@ -5,7 +5,6 @@ import Artefact from "../Artefacts";
 import * as BodyStories from "./Body.stories";
 
 export default {
-  component: Artefact,
   title: "Components/UserPages/Artefact",
 };
 
@@ -28,7 +27,7 @@ RightFeature.args = {
   },
   body: {
     ...BodyStories.TopLeft.args.body,
-    isEditing: true, 
+    isEditing: true,
     ...style,
   },
   // onAddDocument:
@@ -45,7 +44,7 @@ LeftFeature.args = {
   },
   body: {
     ...BodyStories.TopRight.args.body,
-    isEditing: true, 
+    isEditing: true,
     ...style,
   },
   // onAddDocument:

@@ -1,20 +1,12 @@
 /** @jsx jsx */
 import { jsx, Button, Container } from "theme-ui";
 import PropTypes from "prop-types";
-import React from 'react'
-import TextEditor from './TextEditor';
+import React from "react";
+import TextEditor from "./TextEditor";
 
-export default function Body({ 
-  body: { 
-    isEditing, 
-    style, 
-    hAlign, 
-    vAlign, 
-    text, 
-    actionString, 
-    onAction } 
-  }) {
-    
+export default function Body({
+  body: { isEditing, style, hAlign, vAlign, text, actionString, onAction },
+}) {
   const styling = {
     ...style,
     padding: "5px",
@@ -23,11 +15,11 @@ export default function Body({
   };
 
   const textEditorArgs = {
-    isEditing:false, 
+    isEditing: false,
     textEditor: {
-      defaultText: text
-    }
-  }
+      defaultText: text,
+    },
+  };
 
   /* const Text = () => (
     <Styled.p>{text}</Styled.p>
@@ -37,7 +29,9 @@ export default function Body({
     <React.Fragment>
       <Container sx={styling}>
         <TextEditor {...textEditorArgs} />
-        {actionString && <Button onClick={() => onAction}>{actionString}</Button>}
+        {actionString && (
+          <Button onClick={() => onAction}>{actionString}</Button>
+        )}
       </Container>
     </React.Fragment>
   );
@@ -47,7 +41,7 @@ export default function Body({
 Body.propTypes = {
   /** Composition of the page */
   body: PropTypes.shape({
-    isEditing: PropTypes.bool, 
+    isEditing: PropTypes.bool,
     hAlign: PropTypes.string,
     vAlign: PropTypes.string,
     heading: PropTypes.string,

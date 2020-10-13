@@ -4,9 +4,13 @@ import { Container, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
 import documentPreview from "../../svg/DocumentPreview.png";
 
-import CardCollection from "../../components/CardCollection";
+import { Cards } from "../../components/Cards";
 import Artefacts from "../../components/Artefacts";
+import { Sections } from "../../components/Sections";
+import Body from "../../components/Body";
 import * as ArtefactStories from "../../components/stories/Artefacts.stories";
+import * as BodyStories from "../../components/stories/Body.stories";
+import * as SectionStories from "../../components/stories/Sections.stories";
 import { selectPortfolioPages } from "../../store";
 import { useSelector } from "react-redux";
 // import { selectPortfolioPageIds } from "../../store/slices/portfolios";
@@ -50,20 +54,14 @@ export default props => {
     },
   };
 
-  const exampleCards = [
-    exampleCard,
-    exampleCard,
-    exampleCard,
-    exampleCard,
-    exampleCard,
-  ];
+  const exampleCards = [exampleCard, exampleCard, exampleCard];
 
   // const pageContainers = pages.map(page => (
   //   <CardCollection name={page.name} key={page.id} cards={exampleCards} />
   // ));
 
   const pageContainers = pageOrder.map(page => (
-    <CardCollection
+    <Cards
       name={page.name}
       key={page.id}
       pageId={page.id}
@@ -71,11 +69,27 @@ export default props => {
     />
   ));
 
+  const summaryTextStyle = {
+    width: "auto",
+    ml: "5em",
+    mr: "5em",
+  };
+
   return (
     <Container as="main" display="flex" sx={styling}>
       <Box>
         <Header username={userId} />
+        <Body
+          body={{
+            ...BodyStories.Centered.args.body,
+            actionString: "",
+            style: summaryTextStyle,
+          }}
+        />
+        <Sections {...SectionStories.SingleExperience.args} />
+        <Sections {...SectionStories.SingleEducation.args} />
         <Artefacts {...ArtefactStories.LeftFeature.args} />
+        <Artefacts {...ArtefactStories.RightFeature.args} />
         {pageContainers}
       </Box>
     </Container>

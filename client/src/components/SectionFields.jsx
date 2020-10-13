@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { jsx, Label, Box } from "theme-ui";
+import { jsx, Box } from "theme-ui";
 
 import React, { useState } from "react";
 
@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   Input,
   Checkbox,
+  Header,
   Button,
   TextArea,
   Form,
@@ -34,7 +35,7 @@ export default function SectionField({
   const [isOngoing, setIsOngoing] = useState(false);
 
   const modalStyle = {
-    mt:"3em"
+    mt: "3em",
   };
 
   const inputFieldStyle = {
@@ -84,37 +85,51 @@ export default function SectionField({
 
   const Education = () => (
     <Box>
-      <Label htmlFor="School">School *</Label>
+      <Header as="h4" htmlFor="School">
+        School *
+      </Header>
       <Input name="school" sx={inputFieldStyle} />
 
-      <Label htmlFor="Degree">Degree *</Label>
+      <Header as="h4" htmlFor="Degree">
+        Degree *
+      </Header>
       <Input name="degree" sx={inputFieldStyle} />
 
-      <Label htmlFor="Field Of Study">Field Of Study</Label>
+      <Header as="h4" htmlFor="Field Of Study">
+        Field Of Study
+      </Header>
       <Input name="employmentType" sx={inputFieldStyle} />
 
-      <Label htmlFor="Location">Location</Label>
+      <Header as="h4" htmlFor="Location">
+        Location
+      </Header>
       <Input name="location" sx={inputFieldStyle} />
 
-      <Label htmlFor="Grade">Grade</Label>
+      <Header as="h4" htmlFor="Grade">
+        Grade
+      </Header>
       <Input name="grade" sx={inputFieldStyle} />
 
       <Box sx={{ ...inputFieldStyle, display: "flex" }}>
         <Box sx={{ mr: "2em" }}>
-          <Label htmlFor="StartDate">Start Date *</Label>
+          <Header as="h4" htmlFor="StartDate">
+            Start Date *
+          </Header>
           <StartDatePicker />
         </Box>
 
         <Box>
-          <Label htmlFor="EndDate">End Date (or expected)</Label>
+          <Header as="h4" htmlFor="EndDate">
+            End Date (or expected)
+          </Header>
           <EndDatePicker />
         </Box>
       </Box>
 
-      <Label htmlFor="Description">Tell us about it!</Label>
-      <Form sx={inputFieldStyle}>
-        <TextArea name="password" />
-      </Form>
+      <Header as="h4" htmlFor="Description">
+        Tell us about it!
+      </Header>
+      <TextArea name="description" sx={inputFieldStyle} />
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
   );
@@ -122,16 +137,24 @@ export default function SectionField({
   const Experience = () => (
     // <Box as="form" onSubmit={handleSave}>
     <Box>
-      <Label htmlFor="Job Title">Job Title *</Label>
+      <Header as="h4" htmlFor="Job Title">
+        Job Title *
+      </Header>
       <Input name="jobTitle" sx={inputFieldStyle} />
 
-      <Label htmlFor="Organisation">Organisation *</Label>
+      <Header as="h4" htmlFor="Organisation">
+        Organisation *
+      </Header>
       <Input name="organisation" sx={inputFieldStyle} />
 
-      <Label htmlFor="Employment Type">Employment Type</Label>
+      <Header as="h4" htmlFor="Employment Type">
+        Employment Type
+      </Header>
       <Input name="employmentType" sx={inputFieldStyle} />
 
-      <Label htmlFor="Location">Location</Label>
+      <Header as="h4" htmlFor="Location">
+        Location
+      </Header>
       <Input name="location" sx={inputFieldStyle} />
 
       <Box sx={inputFieldStyle}>
@@ -153,25 +176,31 @@ export default function SectionField({
 
       <Box sx={{ ...inputFieldStyle, display: "flex" }}>
         <Box sx={{ mr: "2em" }}>
-          <Label htmlFor="StartDate">Start Date *</Label>
+          <Header as="h4" htmlFor="StartDate">
+            Start Date *
+          </Header>
           <StartDatePicker />
         </Box>
 
         {isOngoing ? null : (
           <Box>
-            <Label htmlFor="EndDate">End Date</Label>
+            <Header as="h4" htmlFor="EndDate">
+              End Date
+            </Header>
             <EndDatePicker />
           </Box>
         )}
       </Box>
 
-      <Label htmlFor="Description">Tell us about it!</Label>
-      <TextArea sx={inputFieldStyle} name="password" />
+      <Header as="h4" htmlFor="Description">
+        Tell us about it!
+      </Header>
+      <TextArea name="description" sx={inputFieldStyle} />
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
   );
-  
-  if (type==="education") {
+
+  if (type === "education") {
     return (
       <Modal
         sx={modalStyle}
@@ -189,13 +218,13 @@ export default function SectionField({
         </Modal.Content>
         <Modal.Actions>
           <Button color="red">Delete</Button>
-          <Button color="blue" type="submit">Submit</Button>
+          <Button color="blue" type="submit">
+            Submit
+          </Button>
         </Modal.Actions>
       </Modal>
     );
-  }
-
-  else if (type==="experience") {
+  } else if (type === "experience") {
     return (
       <Modal
         sx={modalStyle}
@@ -204,6 +233,8 @@ export default function SectionField({
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
+        as={Form}
+        onSubmit={handleSubmit}
       >
         <Modal.Header>{getEditing()} Experience</Modal.Header>
         <Modal.Content>
@@ -211,7 +242,9 @@ export default function SectionField({
         </Modal.Content>
         <Modal.Actions>
           <Button color="red">Delete</Button>
-          <Button color="blue" type="submit">Submit</Button>
+          <Button color="blue" type="submit">
+            Submit
+          </Button>
         </Modal.Actions>
       </Modal>
     );
