@@ -4,14 +4,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export const Card = ({
-  card: { title, 
-    body, 
-    featureType, 
-    feature, 
-    featureOrientation 
-  },  
-  }) => {
-
+  card: { title, body, featureType, feature, featureOrientation },
+}) => {
   const style = {
     boxShadow: "0 0 8px rgba(0, 0, 0, 0.25)",
     backgroundColor: "muted",
@@ -19,11 +13,11 @@ export const Card = ({
     padding: 2,
     m: 2,
     textAlign: "center",
-    borderRadius:"5px"
+    borderRadius: "5px",
   };
 
   const featureStyle = {
-    width:"100%",
+    width: "100%",
   };
 
   const textStyle = {
@@ -58,7 +52,7 @@ export const Card = ({
       <Styled.p sx={textStyle}>{body}</Styled.p>
     </ThemedCard>
   );
-}
+};
 
 Card.propTypes = {
   /** Composition of the page */
@@ -86,9 +80,7 @@ export const Cards = ({ key, pageId, name, cards }) => {
     transition: "all 0.3s",
   };
 
-  let allCards = cards.map((card, index) => (
-    <Card key={key} {...card} />
-  ));
+  let allCards = cards.map((card, index) => <Card key={key} {...card} />);
 
   return (
     <Box sx={{ textAlign: "center" }} id={name}>
@@ -98,7 +90,7 @@ export const Cards = ({ key, pageId, name, cards }) => {
       </Box>
     </Box>
   );
-}
+};
 
 Cards.propTypes = {
   name: PropTypes.string,

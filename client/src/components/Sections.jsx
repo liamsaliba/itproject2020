@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { jsx, Divider, Box, Container, Styled } from "theme-ui";
-import React, {useState} from 'react'
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import SectionField from './SectionFields';
+import SectionField from "./SectionFields";
 
 export function Section({
-  isEditing, 
+  isEditing,
   section: {
     type,
     title,
@@ -21,26 +21,25 @@ export function Section({
     description,
   },
 }) {
-  
   const [open, setOpen] = useState(false);
 
-  const handleClick =() => {
+  const handleClick = () => {
     if (isEditing) {
-      setOpen(!open);  
+      setOpen(!open);
     }
-  }
+  };
 
   const sectionFieldArgs = {
     state: {
       open: open,
-      setOpen: setOpen
+      setOpen: setOpen,
     },
-    sectionField: { 
+    sectionField: {
       // TODO: isNew as variable!
-      isNew: true, 
-      type: type
-    }
-  }
+      isNew: true,
+      type: type,
+    },
+  };
 
   const styling = {
     mt: 0,
@@ -51,9 +50,7 @@ export function Section({
     color: "rgb(104, 104, 104)",
   };
 
-  const IsVolunteering = () => (
-    (!isVoluntary) ? "" : "Is Volunteering"
-  );
+  const IsVolunteering = () => (!isVoluntary ? "" : "Is Volunteering");
 
   const IsOngoing = () => {
     const add = !isOngoing ? endDate : "Present";
@@ -91,19 +88,22 @@ export function Section({
   return (
     <React.Fragment>
       <SectionField {...sectionFieldArgs} />
-      <Container 
-        sx={{textAlign:"left"}}
-        onClick={handleClick}
-      >
-        <Styled.h3 sx={styling} >{title}</Styled.h3>
-        <SubHeader/>
-        
-        <Styled.p sx={{...styling, ...greyedOut, mt:"1em"}} ><IsOngoing /></Styled.p>
-        <Styled.p sx={{...styling, ...greyedOut}} ><IsVolunteering /></Styled.p>
-        <Styled.p sx={{...styling, ...greyedOut, mb:"1em"}} >{location}</Styled.p>
-      
-        <Styled.p sx={{...styling, mb:"1em"}} >{description}</Styled.p>
-      </Container> 
+      <Container sx={{ textAlign: "left" }} onClick={handleClick}>
+        <Styled.h3 sx={styling}>{title}</Styled.h3>
+        <SubHeader />
+
+        <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
+          <IsOngoing />
+        </Styled.p>
+        <Styled.p sx={{ ...styling, ...greyedOut }}>
+          <IsVolunteering />
+        </Styled.p>
+        <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
+          {location}
+        </Styled.p>
+
+        <Styled.p sx={{ ...styling, mb: "1em" }}>{description}</Styled.p>
+      </Container>
     </React.Fragment>
   );
 }
@@ -131,32 +131,26 @@ export function Sections({ isEditing, sections }) {
     border: "2px solid #aaa",
     borderRadius: "5px",
     p: "1em",
-    m: "5em"
+    m: "5em",
   };
 
   const GetBreakLine = ({ i, len }) => {
     if (i < len - 1) {
       return (
-        <Divider
-          sx={{ border: "0.5px solid #aaa", mt: "1em", mb: "1em" }}
-        />
+        <Divider sx={{ border: "0.5px solid #aaa", mt: "1em", mb: "1em" }} />
       );
     }
     return null;
   };
 
   const SubSections = sections.map((section, i) => (
-    <Box sx={{ pl:"1em", pr:"1em" }}>
+    <Box sx={{ pl: "1em", pr: "1em" }}>
       <Section isEditing={isEditing} section={section} />
       <GetBreakLine i={i} len={sections.length} />
     </Box>
   ));
 
-  return (
-    <Box sx={sectionStyling} >
-      {SubSections}
-    </Box>
-  );
+  return <Box sx={sectionStyling}>{SubSections}</Box>;
 }
 
 Sections.propTypes = {

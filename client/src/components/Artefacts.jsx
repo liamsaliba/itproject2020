@@ -22,7 +22,7 @@ export default function Artefact({
     display: "flex",
     justifyContent: "center",
     backgroundColor: "muted",
-    borderRadius: "5px"
+    borderRadius: "5px",
   };
 
   const Media = () => {
@@ -33,7 +33,9 @@ export default function Artefact({
     };
 
     if (media === "image") {
-      return <Image onClick={handleClick} sx={mediaStyle} src={documentPreview} />;
+      return (
+        <Image onClick={handleClick} sx={mediaStyle} src={documentPreview} />
+      );
     } else if (media === "pdf") {
       return <Icon onClick={handleClick} size="massive" name="file pdf" />;
     }
@@ -42,7 +44,7 @@ export default function Artefact({
 
   const MediaCollection = () => (
     <Box sx={mediaCollectionStyle}>
-      <Media /> 
+      <Media />
     </Box>
   );
 
@@ -53,10 +55,10 @@ export default function Artefact({
   };
 
   const artefactStyle = {
-    mr:"5em",
-    ml:"5em",
-    mb:"2em"
-  }
+    mr: "5em",
+    ml: "5em",
+    mb: "2em",
+  };
 
   const artefactFieldArgs = {
     state: {

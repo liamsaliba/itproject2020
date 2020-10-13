@@ -35,7 +35,7 @@ export default function SectionField({
   const [isOngoing, setIsOngoing] = useState(false);
 
   const modalStyle = {
-    mt:"3em"
+    mt: "3em",
   };
 
   const inputFieldStyle = {
@@ -85,35 +85,51 @@ export default function SectionField({
 
   const Education = () => (
     <Box>
-      <Header as='h4' htmlFor="School">School *</Header>
+      <Header as="h4" htmlFor="School">
+        School *
+      </Header>
       <Input name="school" sx={inputFieldStyle} />
 
-      <Header as='h4' htmlFor="Degree">Degree *</Header>
+      <Header as="h4" htmlFor="Degree">
+        Degree *
+      </Header>
       <Input name="degree" sx={inputFieldStyle} />
 
-      <Header as='h4' htmlFor="Field Of Study">Field Of Study</Header>
+      <Header as="h4" htmlFor="Field Of Study">
+        Field Of Study
+      </Header>
       <Input name="employmentType" sx={inputFieldStyle} />
 
-      <Header as='h4' htmlFor="Location">Location</Header>
+      <Header as="h4" htmlFor="Location">
+        Location
+      </Header>
       <Input name="location" sx={inputFieldStyle} />
 
-      <Header as='h4' htmlFor="Grade">Grade</Header>
+      <Header as="h4" htmlFor="Grade">
+        Grade
+      </Header>
       <Input name="grade" sx={inputFieldStyle} />
 
       <Box sx={{ ...inputFieldStyle, display: "flex" }}>
         <Box sx={{ mr: "2em" }}>
-          <Header as='h4' htmlFor="StartDate">Start Date *</Header>
+          <Header as="h4" htmlFor="StartDate">
+            Start Date *
+          </Header>
           <StartDatePicker />
         </Box>
 
         <Box>
-          <Header as='h4' htmlFor="EndDate">End Date (or expected)</Header>
+          <Header as="h4" htmlFor="EndDate">
+            End Date (or expected)
+          </Header>
           <EndDatePicker />
         </Box>
       </Box>
 
-      <Header as='h4' htmlFor="Description">Tell us about it!</Header>
-      <TextArea name="description" sx={inputFieldStyle}/>
+      <Header as="h4" htmlFor="Description">
+        Tell us about it!
+      </Header>
+      <TextArea name="description" sx={inputFieldStyle} />
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
   );
@@ -121,16 +137,24 @@ export default function SectionField({
   const Experience = () => (
     // <Box as="form" onSubmit={handleSave}>
     <Box>
-      <Header as='h4' htmlFor="Job Title">Job Title *</Header>
+      <Header as="h4" htmlFor="Job Title">
+        Job Title *
+      </Header>
       <Input name="jobTitle" sx={inputFieldStyle} />
 
-      <Header as='h4' htmlFor="Organisation">Organisation *</Header>
+      <Header as="h4" htmlFor="Organisation">
+        Organisation *
+      </Header>
       <Input name="organisation" sx={inputFieldStyle} />
 
-      <Header as='h4' htmlFor="Employment Type">Employment Type</Header>
+      <Header as="h4" htmlFor="Employment Type">
+        Employment Type
+      </Header>
       <Input name="employmentType" sx={inputFieldStyle} />
 
-      <Header as='h4' htmlFor="Location">Location</Header>
+      <Header as="h4" htmlFor="Location">
+        Location
+      </Header>
       <Input name="location" sx={inputFieldStyle} />
 
       <Box sx={inputFieldStyle}>
@@ -152,25 +176,31 @@ export default function SectionField({
 
       <Box sx={{ ...inputFieldStyle, display: "flex" }}>
         <Box sx={{ mr: "2em" }}>
-          <Header as='h4' htmlFor="StartDate">Start Date *</Header>
+          <Header as="h4" htmlFor="StartDate">
+            Start Date *
+          </Header>
           <StartDatePicker />
         </Box>
 
         {isOngoing ? null : (
           <Box>
-            <Header as='h4' htmlFor="EndDate">End Date</Header>
+            <Header as="h4" htmlFor="EndDate">
+              End Date
+            </Header>
             <EndDatePicker />
           </Box>
         )}
       </Box>
 
-      <Header as='h4' htmlFor="Description">Tell us about it!</Header>
-      <TextArea name="description" sx={inputFieldStyle}/>
+      <Header as="h4" htmlFor="Description">
+        Tell us about it!
+      </Header>
+      <TextArea name="description" sx={inputFieldStyle} />
       {/* {auth.loading ? <Spinner /> : null} */}
     </Box>
   );
-  
-  if (type==="education") {
+
+  if (type === "education") {
     return (
       <Modal
         sx={modalStyle}
@@ -188,13 +218,13 @@ export default function SectionField({
         </Modal.Content>
         <Modal.Actions>
           <Button color="red">Delete</Button>
-          <Button color="blue" type="submit">Submit</Button>
+          <Button color="blue" type="submit">
+            Submit
+          </Button>
         </Modal.Actions>
       </Modal>
     );
-  }
-
-  else if (type==="experience") {
+  } else if (type === "experience") {
     return (
       <Modal
         sx={modalStyle}
@@ -212,7 +242,9 @@ export default function SectionField({
         </Modal.Content>
         <Modal.Actions>
           <Button color="red">Delete</Button>
-          <Button color="blue" type="submit">Submit</Button>
+          <Button color="blue" type="submit">
+            Submit
+          </Button>
         </Modal.Actions>
       </Modal>
     );

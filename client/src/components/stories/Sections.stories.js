@@ -1,5 +1,5 @@
 import React from "react";
-import {Section, Sections}  from "./../Sections";
+import { Section, Sections } from "./../Sections";
 
 export default {
   component: Sections,
@@ -50,17 +50,13 @@ const SectionsTemplate = args => <Sections {...args} />;
 export const SingleExperience = SectionsTemplate.bind({});
 SingleExperience.args = {
   isEditing: true,
-  sections: [
-    Experience.args.section,
-  ],
+  sections: [Experience.args.section],
 };
 
 export const SingleEducation = SectionsTemplate.bind({});
 SingleEducation.args = {
   isEditing: true,
-  sections: [
-    Education.args.section,
-  ],
+  sections: [Education.args.section],
 };
 
 export const ExperienceSections = SectionsTemplate.bind({});

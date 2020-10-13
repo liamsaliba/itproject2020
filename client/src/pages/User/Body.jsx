@@ -4,9 +4,9 @@ import { Container, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
 import documentPreview from "../../svg/DocumentPreview.png";
 
-import {Cards} from "../../components/Cards";
+import { Cards } from "../../components/Cards";
 import Artefacts from "../../components/Artefacts";
-import {Sections} from "../../components/Sections";
+import { Sections } from "../../components/Sections";
 import Body from "../../components/Body";
 import * as ArtefactStories from "../../components/stories/Artefacts.stories";
 import * as BodyStories from "../../components/stories/Body.stories";
@@ -54,11 +54,7 @@ export default props => {
     },
   };
 
-  const exampleCards = [
-    exampleCard,
-    exampleCard,
-    exampleCard,
-  ];
+  const exampleCards = [exampleCard, exampleCard, exampleCard];
 
   // const pageContainers = pages.map(page => (
   //   <CardCollection name={page.name} key={page.id} cards={exampleCards} />
@@ -73,17 +69,23 @@ export default props => {
     />
   ));
 
-    const summaryTextStyle = {
-      width:"auto",
-      ml:"5em",
-      mr:"5em"
-    }
+  const summaryTextStyle = {
+    width: "auto",
+    ml: "5em",
+    mr: "5em",
+  };
 
   return (
     <Container as="main" display="flex" sx={styling}>
       <Box>
         <Header username={userId} />
-        <Body body={{...BodyStories.Centered.args.body, actionString:"", style:summaryTextStyle}}/>
+        <Body
+          body={{
+            ...BodyStories.Centered.args.body,
+            actionString: "",
+            style: summaryTextStyle,
+          }}
+        />
         <Sections {...SectionStories.SingleExperience.args} />
         <Sections {...SectionStories.SingleEducation.args} />
         <Artefacts {...ArtefactStories.LeftFeature.args} />

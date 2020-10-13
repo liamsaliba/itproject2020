@@ -11,7 +11,7 @@ const Template = args => <Body {...args} />;
 
 const Default = {
   body: {
-    isEditing: false, 
+    isEditing: false,
     hAlign: "center",
     vAlign: "middle",
     text:
@@ -28,7 +28,7 @@ export const Centered = Template.bind({});
 Centered.args = {
   body: {
     ...Default.body,
-    isEditing: true, 
+    isEditing: true,
   },
 };
 

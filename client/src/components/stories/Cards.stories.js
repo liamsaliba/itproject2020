@@ -3,7 +3,7 @@ import { jsx } from "theme-ui";
 
 import documentPreview from "../../svg/DocumentPreview.png";
 
-import {Card, Cards} from "../Cards";
+import { Card, Cards } from "../Cards";
 
 export default {
   component: Cards,

@@ -1,19 +1,21 @@
 /** @jsx jsx */
 import PropTypes from "prop-types";
 import { jsx, Box } from "theme-ui";
-import { Input, Header, Button, Form, TextArea, Modal } from "semantic-ui-react";
+import {
+  Input,
+  Header,
+  Button,
+  Form,
+  TextArea,
+  Modal,
+} from "semantic-ui-react";
 // import React, { useState } from "react";
 
-
 export default function ArtefactField({
-  state: {
-    open,
-    setOpen,
-  },
+  state: { open, setOpen },
   artefactField: { isNew },
   onAddDocument,
 }) {
-
   const handleSubmit = e => {
     e.preventDefault();
     // console.log(state);
@@ -33,16 +35,24 @@ export default function ArtefactField({
 
   const Field = () => (
     <Box>
-      <Header as='h4' htmlFor="Header">Header</Header>
+      <Header as="h4" htmlFor="Header">
+        Header
+      </Header>
       <TextArea sx={inputFieldStyle} name="header" />
 
-      <Header as='h4' htmlFor="Body">Body</Header>
+      <Header as="h4" htmlFor="Body">
+        Body
+      </Header>
       <TextArea sx={inputFieldStyle} name="body" />
 
-      <Header as='h4' htmlFor="UploadMedia">Upload Media</Header>
-      <Input sx={{mb:"1em"}}type="file" name="MediaDescription"></Input>
+      <Header as="h4" htmlFor="UploadMedia">
+        Upload Media
+      </Header>
+      <Input sx={{ mb: "1em" }} type="file" name="MediaDescription"></Input>
 
-      <Header as='h4' htmlFor="MediaDescription">Description</Header>
+      <Header as="h4" htmlFor="MediaDescription">
+        Description
+      </Header>
       <TextArea sx={inputFieldStyle} name="mediaDescription" />
     </Box>
   );
@@ -62,8 +72,10 @@ export default function ArtefactField({
         <Field />
       </Modal.Content>
       <Modal.Actions>
-          <Button color="red">Delete</Button>
-          <Button color="blue" type="submit">Submit</Button>
+        <Button color="red">Delete</Button>
+        <Button color="blue" type="submit">
+          Submit
+        </Button>
       </Modal.Actions>
     </Modal>
   );
