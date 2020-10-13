@@ -6,11 +6,11 @@ import documentPreview from "../../svg/DocumentPreview.png";
 
 import {Cards} from "../../components/Cards";
 import Artefacts from "../../components/Artefacts";
-import Section from "../../components/Section";
+import {Sections} from "../../components/Sections";
 import Body from "../../components/Body";
 import * as ArtefactStories from "../../components/stories/Artefacts.stories";
 import * as BodyStories from "../../components/stories/Body.stories";
-import * as SectionStories from "../../components/stories/Section.stories";
+import * as SectionStories from "../../components/stories/Sections.stories";
 import { selectPortfolioPages } from "../../store";
 import { useSelector } from "react-redux";
 // import { selectPortfolioPageIds } from "../../store/slices/portfolios";
