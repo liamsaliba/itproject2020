@@ -84,8 +84,8 @@ export default props => {
       <Box>
         <Header username={userId} />
         <Body body={{...BodyStories.Centered.args.body, actionString:"", style:summaryTextStyle}}/>
-        <Section {...SectionStories.Experiences.args} />
-        <Section {...SectionStories.Education.args} />
+        <Sections {...SectionStories.SingleExperience.args} />
+        <Sections {...SectionStories.SingleEducation.args} />
         <Artefacts {...ArtefactStories.LeftFeature.args} />
         <Artefacts {...ArtefactStories.RightFeature.args} />
         {pageContainers}
