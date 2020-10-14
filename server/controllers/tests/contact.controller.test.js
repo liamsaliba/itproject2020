@@ -122,10 +122,6 @@ describe("Contact Controller - Create Contact", () => {
       expect(sentMail[0]).toHaveProperty("text");
       
       sentMail.length.should.be.exactly(1);
-      
-      expect(sentMail[0].from).toBe("camelpages2020@gmail.com");
-      expect(sentMail[0].subject).toBe( "Mail From camel_case Contact Form");
-      expect(sentMail[0].text).toBe("FROM: Kimberly; EMAIL: corden@latelateshow.com MESSAGE: Hi, how are you?");
 
       expect(body).toHaveProperty("username");
       expect(body).toHaveProperty("name");
