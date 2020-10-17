@@ -14,18 +14,12 @@ import { selectPortfolioPages, selectPagesByUsername } from "../../store";
 import { useSelector } from "react-redux";
 // import { selectPortfolioPageIds } from "../../store/slices/portfolios";
 
-import Section from "../../components/Section";
-import Body from "../../components/Body";
-import * as ArtefactStories from "../../components/stories/Artefacts.stories";
-import * as BodyStories from "../../components/stories/Body.stories";
-import * as SectionStories from "../../components/stories/Section.stories";
-
 const ChooseStory = ({ type }) => {
   switch (type) {
     case "experience":
-      return <Section {...SectionStories.Experiences.args} />;
+      return <Sections {...SectionStories.SingleExperience.args} />;
     case "education":
-      return <Section {...SectionStories.Education.args} />;
+      return <Sections {...SectionStories.SingleEducation.args} />;
     case "display":
       return (
         <Body body={{ ...BodyStories.Centered.args.body, actionString: "" }} />
@@ -56,25 +50,20 @@ const Header = ({ username }) => (
 export default props => {
   const { userId } = props;
   const pages = useSelector(selectPagesByUsername(userId));
-  console.log(pages);
 
-  // const exampleCard = {
-  //   card: {
-  //     title: "Title",
-  //     body: "Hi my name is 1!",
-  //     featureType: "image", // Describes the feature tupe {image|video|...}
-  //     feature: documentPreview, // or something else!
-  //     featureOrientation: "top",
-  //   },
-  // };
+  const exampleCard = {
+    card: {
+      title: "Title",
+      body: "Hi my name is 1!",
+      featureType: "image", // Describes the feature tupe {image|video|...}
+      // feature: documentPreview, // or something else!
+      featureOrientation: "top",
+    },
+  };
 
   const exampleCards = [exampleCard, exampleCard, exampleCard];
 
-  // const pageContainers = pages.map(page => (
-  //   <CardCollection name={page.name} key={page.id} cards={exampleCards} />
-  // ));
-
-  const pageContainers = pageOrder.map(page => (
+  const pageContainers = pages.map(page => (
     <Cards
       name={page.name}
       key={page.id}
