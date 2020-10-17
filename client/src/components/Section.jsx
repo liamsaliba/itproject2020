@@ -1,5 +1,9 @@
 /** @jsx jsx */
-import { jsx, Box, Image, Styled, Card as ThemedCard } from "theme-ui";
+import { jsx, Box, Styled } from "theme-ui";
+
+const Heading = ({ name, id }) => {
+  return <Styled.h2 id={id}>{name}</Styled.h2>;
+};
 
 export const Section = ({ pageId, name, artifacts }) => {
   // TODO: Where to use pageId?s
@@ -16,10 +20,8 @@ export const Section = ({ pageId, name, artifacts }) => {
 
   return (
     <Box sx={{ textAlign: "center" }} id={name}>
-      <Styled.h2 id={name}> {name} </Styled.h2>
-      <Box sx={styling} mr={5} ml={5}>
-        {artifacts}
-      </Box>
+      <Heading id={pageId} name={name} />
+      <Box sx={styling}>{artifacts}</Box>
     </Box>
   );
 };

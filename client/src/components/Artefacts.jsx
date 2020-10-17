@@ -8,6 +8,10 @@ import Body from "./Body";
 
 import ArtefactField from "./ArtefactField";
 
+// export const Feature = ({media}) => {
+
+// }
+
 export default function Artefact({
   isEditing,
   artefact: { media, hPos, vPos, style },
@@ -70,31 +74,27 @@ export default function Artefact({
     },
   };
 
-  const Out = () => {
-    if (hPos === "left") {
-      return (
-        <React.Fragment>
-          <ArtefactField {...artefactFieldArgs} />
-          <Flex sx={artefactStyle}>
-            <MediaCollection onClick={handleClick} />
-            <Body body={body} />
-          </Flex>
-        </React.Fragment>
-      );
-    } else if (hPos === "right") {
-      return (
-        <React.Fragment>
-          <ArtefactField {...artefactFieldArgs} />
-          <Flex sx={artefactStyle} onClick={handleClick}>
-            <Body body={body} />
-            <MediaCollection onClick={handleClick}/>
-          </Flex>
-        </React.Fragment>
-      );
-    }
-  };
+  const children =
+    hPos === "left" ? (
+      <React.Fragment>
+        <MediaCollection onClick={handleClick} />
+        <Body body={body} />
+      </React.Fragment>
+    ) : hPos === "right" ? (
+      <React.Fragment>
+        <Body body={body} />
+        <MediaCollection onClick={handleClick} />
+      </React.Fragment>
+    ) : null;
 
-  return <Out />;
+  return (
+    <React.Fragment>
+      <ArtefactField {...artefactFieldArgs} />
+      <Flex sx={artefactStyle} onClick={handleClick}>
+        {children}
+      </Flex>
+    </React.Fragment>
+  );
 }
 
 Artefact.propTypes = {

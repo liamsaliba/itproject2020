@@ -28,12 +28,8 @@ export const Card = ({
     mt: "0",
   };
 
-  const GetFeature = () => {
-    if (featureType === "image") {
-      return <Image src={feature} sx={featureStyle} />;
-    }
-    return <React.Fragment></React.Fragment>;
-  };
+  const GetFeature = () =>
+    featureType === "image" ? <Image src={feature} sx={featureStyle} /> : null;
 
   if (featureOrientation === "bottom") {
     return (
