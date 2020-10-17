@@ -2,6 +2,7 @@
 import { jsx, Box, Image, Styled, Card as ThemedCard } from "theme-ui";
 import React from "react";
 import PropTypes from "prop-types";
+import { Section } from "./Section";
 
 export const Card = ({
   card: { title, body, featureType, feature, featureOrientation },
@@ -66,6 +67,15 @@ Card.propTypes = {
 };
 
 /* ------------------------------------------------------------------- */
+
+export const Cards = props => (
+  <Section
+    {...props}
+    artifacts={props.cards.map((card, index) => (
+      <Card key={props.key + index} {...card} />
+    ))}
+  />
+);
 
 export const Cards = ({ key, pageId, name, cards }) => {
   // TODO: Where to use pageId?s
