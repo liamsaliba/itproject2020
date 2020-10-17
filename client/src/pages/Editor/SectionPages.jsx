@@ -22,6 +22,7 @@ import {
 } from "../../store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { artifactTypeToName } from "../../components/Artifact";
 
 const PageDropdown = ({ pageState }) => {
   return (
@@ -52,7 +53,7 @@ const Page = ({ active, setActive, page }) => {
     <Menu.Item
       name={name}
       active={active}
-      key={pageId}
+      key={pageId.toString()}
       onClick={handlePageClick}
       fluid
     >
@@ -169,7 +170,7 @@ const RenamePageModal = ({ pageState }) => {
 const NewPageModal = () => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
-  const [state, setState] = useState({ name: "", type: "experience" });
+  const [state, setState] = useState({ name: "", type: "" });
   const options = [
     { key: "x", text: "Experience", value: "experience" },
     { key: "e", text: "Education", value: "education" },
@@ -179,24 +180,12 @@ const NewPageModal = () => {
 
   const handleChange = (e, { name, value }) => {
     setState({ ...state, [name]: value });
-    // if (
-    //   ["Experience", "Education", "About", ""].includes(state.name) &&
-    //   name === "type"
-    // ) {
-    //   switch (value) {
-    //     case "experience":
-    //       setState({ ...state, name: "Experience" });
-    //       break;
-    //     case "education":
-    //       setState({ ...state, name: "Education" });
-    //       break;
-    //     case "display":
-    //       setState({ ...state, name: "About" });
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
+    if (
+      name === "type" &&
+      ["Experience", "Education", "Display", ""].includes(state.name)
+    ) {
+      setState({ ...state, name: artifactTypeToName(value) });
+    }
   };
 
   const handleSubmit = e => {
@@ -223,21 +212,20 @@ const NewPageModal = () => {
         </Button>
       }
     >
-      <Modal.Header>
-        <Form.Input
-          transparent
-          fluid
-          iconPosition="left"
-          icon="file"
-          placeholder="Page Name"
-          name="name"
-          onChange={handleChange}
-          value={state.name}
-          required
-        />
-      </Modal.Header>
+      <Modal.Header>Create new page</Modal.Header>
       <Modal.Content scrolling>
-        <Modal.Description sx={{ minHeight: "150px" }}>
+        <Modal.Description sx={{ minHeight: "150px", overflow: "visible" }}>
+          <Form.Input
+            fluid
+            iconPosition="left"
+            icon="file"
+            placeholder="Page Name"
+            name="name"
+            onChange={handleChange}
+            value={state.name}
+            size="large"
+            required
+          />
           <Form.Select
             fluid
             required
@@ -279,7 +267,7 @@ const SectionPages = () => {
           <Menu secondary vertical fluid>
             {pages.map(page => (
               <Page
-                key={page}
+                key={page.pageId.toString()}
                 page={page}
                 active={false}
                 setActive={setActive}

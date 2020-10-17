@@ -187,11 +187,6 @@ export const selectPortfolioBio = createSelector(
   portfolio => (portfolio ? portfolio.bio || "" : undefined)
 );
 
-export const selectPortfolioEditing = createSelector(
-  selectPortfolioByUsername,
-  portfolio => (portfolio ? portfolio.editing || false : undefined)
-);
-
 export const selectPortfolioPages = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.pages || [] : undefined)
@@ -207,33 +202,12 @@ export const selectPortfolioPageNames = createSelector(
   pages => (pages ? pages.map(page => page.name) || [] : undefined)
 );
 
+export const selectPortfolioIsEditing = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.editing || false : false)
+);
+
 export const selectPortfoliosSlice = state => state.portfolios;
-
-export const selectPagesByUsername = username =>
-  createSelector(
-    [
-      state => selectPortfolioPageIds(state, username), // select the current portfolio
-      state => Object.values(state.pages.entities), // this is the same as selectAllPages
-    ],
-    (portfolioPages, pages) => {
-      // return the pages for the given portfolio only
-      return pages.filter(page => portfolioPages.includes(page.id));
-    }
-  );
-
-export const selectTotalPagesByUsername = username =>
-  createSelector(
-    [
-      state => selectPortfolioByUsername(state, username), // select the current portfolio
-      state => state.pages.ids.map(id => state.pages.entities[id]), // this is the same as selectAllPages
-    ],
-    (portfolio, pages) => {
-      // return the pages for the given portfolio only
-      return Object.keys(pages)
-        .map(c => pages[c])
-        .filter(page => portfolio.pages.includes(page.id)).length;
-    }
-  );
 
 // Action Creators
 

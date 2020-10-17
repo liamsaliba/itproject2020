@@ -1,100 +1,159 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
-import { Container, Box, Image, Styled } from "theme-ui";
+import { jsx, Flex, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
 
-import { Cards } from "../../components/Cards";
-import Artefacts from "../../components/Artefacts";
-import { Sections } from "../../components/Sections";
-import Body from "../../components/Body";
-import * as ArtefactStories from "../../components/stories/Artefacts.stories";
-import * as BodyStories from "../../components/stories/Body.stories";
-import * as SectionStories from "../../components/stories/Sections.stories";
-import { selectPortfolioPages, selectPagesByUsername } from "../../store";
+import {
+  selectArtifactsByPageId,
+  selectPageById,
+  selectPortfolioIsEditing,
+  selectPortfolioPages,
+} from "../../store";
 import { useSelector } from "react-redux";
-// import { selectPortfolioPageIds } from "../../store/slices/portfolios";
+import { Section, Artifact } from "../../components";
+import { selectPortfolioBio } from "../../store/slices/portfolios";
 
-const ChooseStory = ({ type }) => {
-  switch (type) {
-    case "experience":
-      return <Sections {...SectionStories.SingleExperience.args} />;
-    case "education":
-      return <Sections {...SectionStories.SingleEducation.args} />;
-    case "display":
-      return (
-        <Body body={{ ...BodyStories.Centered.args.body, actionString: "" }} />
-      );
-    default:
-      return null;
-  }
+import { Button, Form, Icon, TextArea } from "semantic-ui-react";
+import { Modal } from "semantic-ui-react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { changePortfolioBio } from "../../store/slices/portfolios";
+
+const NewArtifact = ({ onClick, pageId, type }) => {
+  // pass up pageId, so we know what page we're adding to.
+  return (
+    <Box>
+      <Button icon small labelPosition="left" onClick={() => onClick(pageId)}>
+        <Icon name="add" />
+        Add {type}
+      </Button>
+    </Box>
+  );
 };
 
-const styling = {
-  textAlign: "center",
-  justifyContent: "center",
-};
+const EditBioModal = ({ bio }) => {
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState({ bio });
+  const dispatch = useDispatch();
+  const handleChange = (e, { name, value }) =>
+    setState({ ...state, [name]: value });
 
-const Header = ({ username }) => (
-  <Box mb={5}>
-    <Image
-      src={profileExample}
-      sx={{ borderRadius: "50%", width: "20%" }}
-      margin={2}
-    />
-    <Styled.h1> {username} </Styled.h1>
-  </Box>
-);
-
-// const pages = ["Publications", "Experience", "Articles", "About"];
-
-export default props => {
-  const { userId } = props;
-  const pages = useSelector(selectPagesByUsername(userId));
-
-  const exampleCard = {
-    card: {
-      title: "Title",
-      body: "Hi my name is 1!",
-      featureType: "image", // Describes the feature tupe {image|video|...}
-      // feature: documentPreview, // or something else!
-      featureOrientation: "top",
-    },
-  };
-
-  const exampleCards = [exampleCard, exampleCard, exampleCard];
-
-  const pageContainers = pages.map(page => (
-    <Cards
-      name={page.name}
-      key={page.id}
-      pageId={page.id}
-      cards={exampleCards}
-    />
-  ));
-
-  const summaryTextStyle = {
-    width: "auto",
-    ml: "5em",
-    mr: "5em",
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(changePortfolioBio(state.bio));
+    setOpen(false);
   };
 
   return (
-    <Container as="main" display="flex" sx={styling}>
-      <Box>
-        <Header username={userId} />
-        <Body
-          body={{
-            ...BodyStories.Centered.args.body,
-            actionString: "",
-            style: summaryTextStyle,
-          }}
+    <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
+      closeOnDimmerClick={false}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
+      open={open}
+      trigger={
+        <Button icon small labelPosition="left">
+          <Icon name="pencil" />
+          Edit bio
+        </Button>
+      }
+    >
+      <Modal.Header>Biography</Modal.Header>
+      <Modal.Content>
+        <TextArea
+          transparent
+          fluid
+          iconPosition="left"
+          icon="file"
+          placeholder="a short thing about yourself..."
+          name="bio"
+          onChange={handleChange}
+          defaultValue={bio}
+          required
         />
-        <Sections {...SectionStories.SingleExperience.args} />
-        <Sections {...SectionStories.SingleEducation.args} />
-        <Artefacts {...ArtefactStories.LeftFeature.args} />
-        <Artefacts {...ArtefactStories.RightFeature.args} />
-        {pageContainers}
-      </Box>
-    </Container>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button basic color="red" onClick={() => setOpen(false)} type="button">
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="green" type="submit">
+          <Icon name="checkmark" /> Save
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 };
+
+const Header = ({ username, bio, editing }) => {
+  return (
+    <Box mb={5}>
+      <Image
+        src={profileExample}
+        sx={{ borderRadius: "50%", width: "30%" }}
+        margin={2}
+      />
+      {/* TODO: put first name + last name here instead! */}
+      <Styled.h1> {username} </Styled.h1>
+      <Styled.p> {bio} </Styled.p>
+      {editing ? <EditBioModal bio={bio} /> : null}
+    </Box>
+  );
+};
+
+const Page = ({ pageId: id, name, userId }) => {
+  const page = useSelector(state => selectPageById(state, id));
+  const content = useSelector(state => selectArtifactsByPageId(state, id));
+  const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
+  // TODO: display a toast saying unable to fetch page.
+  if (page === undefined) return null;
+  const { type } = page;
+  const artifacts = content.map(artifact => (
+    <Artifact {...artifact} editing={editing} />
+  ));
+
+  const newbtn = (
+    <NewArtifact onClick={() => console.log("hello")} type={type} pageId={id} />
+  );
+
+  const pageProps = {
+    id,
+    name,
+    content: artifacts,
+    editing,
+    type,
+    newbtn,
+  };
+
+  return <Section {...pageProps} />;
+};
+
+const SinglePagePortfolio = props => {
+  const { userId } = props;
+  const bio = useSelector(state => selectPortfolioBio(state, userId));
+  const pages = useSelector(state => selectPortfolioPages(state, userId));
+  const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
+
+  // userId will be given with the pages selector, so no need to pass it to children (...page)
+  const pageContainers = pages.map(page => (
+    <Page {...page} key={page.pageId.toString()} userId={userId} />
+  ));
+
+  const styling = {
+    textAlign: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+  };
+
+  return (
+    <Flex as="main" sx={styling}>
+      <Header username={userId} bio={bio} editing={editing} />
+      {pageContainers}
+    </Flex>
+  );
+};
+
+// TODO: implement Multi Page Portfolio
+
+export default SinglePagePortfolio;

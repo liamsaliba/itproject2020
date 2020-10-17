@@ -4,8 +4,8 @@ import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 import themes from "../../themes";
 import Body from "./Body";
-import { Title } from "./../../components/index";
-import { selectPortfolioByUsername } from "../../store";
+import { Title } from "./../../components";
+import { selectPortfolioTheme } from "../../store";
 import { useSelector } from "react-redux";
 import Hamburger from "../../components/Hamburger";
 
@@ -21,19 +21,11 @@ const { MediaContextProvider, Media } = createMedia({
 const UserPage = props => {
   const { userId } = props;
   const [preset, setPreset] = useState(themes["base"]);
-  const portfolio = useSelector(state =>
-    selectPortfolioByUsername(state, userId)
-  );
+  const theme = useSelector(state => selectPortfolioTheme(state, userId));
 
   useEffect(() => {
-    setPreset(
-      themes[
-        ["default", "theme"].includes(portfolio.theme)
-          ? "base"
-          : portfolio.theme
-      ]
-    );
-  }, [portfolio.theme]);
+    setPreset(themes[["default", "theme"].includes(theme) ? "base" : theme]);
+  }, [theme]);
 
   return (
     <MediaContextProvider>

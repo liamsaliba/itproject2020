@@ -28,9 +28,9 @@ export default props => {
     pages.length > 10
       ? pages
           .slice(0, 10)
-          .map(page => <NavItem page={page} />)
+          .map(page => <NavItem key={page.pageId.toString()} page={page} />)
           .concat([<Navbar.Item>...</Navbar.Item>])
-      : pages.map(page => <NavItem page={page} />);
+      : pages.map(page => <NavItem key={page.pageId.toString()} page={page} />);
 
   return (
     <Navbar>

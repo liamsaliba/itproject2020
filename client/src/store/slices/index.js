@@ -1,3 +1,5 @@
+import { createSelector } from "@reduxjs/toolkit";
+
 export {
   // action creators
   login,
@@ -44,20 +46,21 @@ export {
   changePortfolioBio,
   changePortfolioTheme,
   deletePortfolio,
-  // selectors
+  // selectors (custom)
   selectPortfolioPages,
-  selectPortfolioEditing,
+  selectPortfolioPageNames,
+  selectPortfolioPageIds,
   selectCurrentUserPortfolio,
+  selectPortfolioIsEditing,
   selectPortfolioTheme,
   selectPortfolioBio,
   selectPortfoliosSlice,
+  // Selectors
   selectPortfolioByUsername,
   selectPortfolioUsernames,
   selectPortfolioEntities,
   selectAllPortfolios,
   selectTotalPortfolios,
-  selectPagesByUsername,
-  selectTotalPagesByUsername,
   // reducer
   default as portfoliosReducer,
 } from "./portfolios";
@@ -78,8 +81,6 @@ export {
   selectPageEntities,
   selectAllPages,
   selectTotalPages,
-  selectArtifactsByPageId,
-  selectTotalArtifactsByPageId,
   // reducer
   default as pagesReducer,
 } from "./pages";

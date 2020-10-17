@@ -128,34 +128,6 @@ export const {
 } = adapter.getSelectors(state => state.pages);
 export const selectPagesSlice = state => state.pages;
 
-export const selectArtifactsByPageId = pageId =>
-  createSelector(
-    [
-      state => selectPageById(state, pageId), // select the current page
-      state => state.artifacts.ids.map(id => state.artifacts.entities[id]), // this is the same as selectAllArtifacts
-    ],
-    (page, artifacts) => {
-      // return the artifacts for the given page only
-      return Object.keys(artifacts)
-        .map(c => artifacts[c])
-        .filter(artifact => page.contents.includes(artifact.id));
-    }
-  );
-
-export const selectTotalArtifactsByPageId = pageId =>
-  createSelector(
-    [
-      state => selectPageById(state, pageId), // select the current page
-      state => state.artifacts.ids.map(id => state.artifacts.entities[id]), // this is the same as selectAllArtifacts
-    ],
-    (page, artifacts) => {
-      // return the artifacts for the given page only
-      return Object.keys(artifacts)
-        .map(c => artifacts[c])
-        .filter(artifact => page.contents.includes(artifact.id)).length;
-    }
-  );
-
 // Action Creators
 // load a page by id, with _all_ properties
 export const fetchPage = (id, cache = true) => (dispatch, getState) => {

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
   selectPortfolioByUsername,
-  selectPortfolioEditing,
+  selectPortfolioIsEditing,
   selectPortfoliosSlice,
   changePortfolio,
   selectCurrentPortfolio,
@@ -32,7 +32,7 @@ const User = props => {
   const username = useSelector(selectCurrentPortfolio);
   const portfolios = useSelector(selectPortfoliosSlice);
   // eslint-disable-next-line
-  const editing = useSelector(selectPortfolioEditing);
+  const editing = useSelector(selectPortfolioIsEditing);
   // eslint-disable-next-line
   const [loaded, setLoaded] = useState(false);
 

@@ -1,23 +1,19 @@
 /** @jsx jsx */
 import { jsx, Flex, Box, Image } from "theme-ui";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import documentPreview from "../svg/DocumentPreview.png";
 import { Icon } from "semantic-ui-react";
 import React, { useState } from "react";
 import Body from "./Body";
 
-import ArtefactField from "./ArtefactField";
+import ArtifactForm from "./ArtifactForm";
 
-// export const Feature = ({media}) => {
-
-// }
-
-export default function Artefact({
+const Display = ({
   isEditing,
-  artefact: { media, hPos, vPos, style },
+  artifact: { media, hPos, vPos, style },
   body,
   onAddDocument,
-}) {
+}) => {
   const [open, setOpen] = useState(false);
 
   const mediaCollectionStyle = {
@@ -89,23 +85,12 @@ export default function Artefact({
 
   return (
     <React.Fragment>
-      <ArtefactField {...artefactFieldArgs} />
+      <ArtifactForm {...artefactFieldArgs} />
       <Flex sx={artefactStyle} onClick={handleClick}>
         {children}
       </Flex>
     </React.Fragment>
   );
-}
-
-Artefact.propTypes = {
-  /** Composition of the page */
-  isEditing: PropTypes.bool,
-  artefact: PropTypes.shape({
-    media: PropTypes.string,
-    hPos: PropTypes.string,
-    vPos: PropTypes.string,
-    sx: PropTypes.object,
-  }),
-  body: PropTypes.object,
-  onAddDocument: PropTypes.func,
 };
+
+export default Display;

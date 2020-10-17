@@ -3,7 +3,20 @@ import { jsx, Divider, Box, Container, Styled } from "theme-ui";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import SectionField from "./SectionFields";
+import SectionField from "./ArtifactForm";
+
+const IsVolunteering = ({ isVoluntary }) =>
+  isVoluntary ? "Is Volunteering" : "";
+
+const IsOngoing = ({ isOngoing, startDate, endDate }) => {
+  return startDate.concat(" - ", !isOngoing ? endDate : "Present");
+};
+
+const addGrade = ({ grade }) => {
+  return grade ? " \u00B7 Grade: ".concat(grade) : null;
+};
+
+export const Education = () => {};
 
 export function Section({
   isEditing,
@@ -50,26 +63,11 @@ export function Section({
     color: "rgb(104, 104, 104)",
   };
 
-  const IsVolunteering = () => (!isVoluntary ? "" : "Is Volunteering");
-
-  const IsOngoing = () => {
-    const add = !isOngoing ? endDate : "Present";
-    return startDate.concat(" - ", add);
-  };
-
-  const getGrade = () => {
-    if (grade) {
-      return "Grade: ".concat(grade);
-    } else {
-      return;
-    }
-  };
-
   const SubHeader = () => {
     if (type === "education") {
       return (
         <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
-          {field_1.concat(" \u00B7 ", field_2, " \u00B7 ", getGrade())}
+          {field_1.concat(" \u00B7 ", field_2, addGrade())}
         </Styled.h4>
       );
     } else if (type === "experience") {
@@ -125,6 +123,15 @@ Section.propTypes = {
   }),
 };
 
+const GetBreakLine = ({ i, len }) => {
+  if (i < len - 1) {
+    return (
+      <Divider sx={{ border: "0.5px solid #aaa", mt: "1em", mb: "1em" }} />
+    );
+  }
+  return null;
+};
+
 export function Sections({ isEditing, sections }) {
   const sectionStyling = {
     boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
@@ -132,15 +139,6 @@ export function Sections({ isEditing, sections }) {
     borderRadius: "5px",
     p: "1em",
     m: "5em",
-  };
-
-  const GetBreakLine = ({ i, len }) => {
-    if (i < len - 1) {
-      return (
-        <Divider sx={{ border: "0.5px solid #aaa", mt: "1em", mb: "1em" }} />
-      );
-    }
-    return null;
   };
 
   const SubSections = sections.map((section, i) => (
