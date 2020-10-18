@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 const Contact = require("../models/contact.model");
 const nodemailer = require("nodemailer");
-const nodemailerMock = require("nodemailer-mock");
+// const nodemailerMock = require("nodemailer-mock");
 
 const contact = async (req, res) => {
   try {
