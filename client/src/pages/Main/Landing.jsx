@@ -23,17 +23,38 @@ import { Link } from "react-router-dom";
 
 const HomepageHeading = () => (
   <Container fluid text textAlign="center">
-    <Header
-      as="h1"
+    <Grid>
+      <Grid.Row>
+        <Grid.Column width={4}>
+          <Image src={camel} />
+        </Grid.Column>
+        <Grid.Column textAlign="left" width={12}>
+          <Header
+            as="h1"
+            // textAlign="center"
+            // image={camel}
+            content="Camel Pages"
+            style={{
+              fontSize: "5em",
+              fontWeight: "normal",
+              marginTop: "0.5em",
+            }}
+          />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+    {/* <Header 
+      as="h1" 
       textAlign="center"
+      image={camel}
+      content="Camel Pages"
       style={{
-        fontSize: "4em",
-        fontWeight: "normal",
-        marginTop: "1.5em",
-      }}
-    >
-      <Image src={camel} /> Camel Pages
-    </Header>
+        fontSize: '5em',
+        fontWeight: 'normal',    
+        marginTop: '1.5em'    
+      }}/> */}
+    {/* <Image src={camel} /> Camel Pages */}
+    {/* </Header> */}
     {/* <Header as="h2" textAlign="center" content="Simple. Customisable. Professional."/> */}
 
     {/* <br /><br /><br /> */}
