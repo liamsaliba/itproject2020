@@ -56,14 +56,14 @@ export default () => {
         <br />
         <Form size="large" onSubmit={handleSubmit}>
           <Form.Input
-            id="username"
+            name="username"
             fluid
             icon="user"
             iconPosition="left"
             placeholder="Username / Email address"
           />
           <Form.Input
-            id="password"
+            name="password"
             fluid
             icon="lock"
             iconPosition="left"
