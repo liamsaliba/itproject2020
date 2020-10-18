@@ -25,7 +25,7 @@ export default props => {
 
   return (
     <React.Fragment>
-      <Navbar userId={props.id} />
+      <Navbar userId={props.id} closeEditor={props.closeEditor} />
       <SectionMenu />
       <Flex
         sx={{

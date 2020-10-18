@@ -6,7 +6,7 @@ import { Icon } from "semantic-ui-react";
 import React, { useState } from "react";
 import Body from "./Body";
 
-import ArtifactForm from "./ArtifactForm";
+import { EditArtifactForm } from "./ArtifactForm";
 
 const Display = ({ editing, contents, id, media }) => {
   const [open, setOpen] = useState(false);
@@ -88,7 +88,7 @@ const Display = ({ editing, contents, id, media }) => {
 
   return (
     <React.Fragment>
-      <ArtifactForm {...artefactFieldArgs} />
+      <EditArtifactForm {...artefactFieldArgs} />
       <Flex sx={artefactStyle} onClick={handleClick}>
         {children}
       </Flex>

@@ -2,12 +2,18 @@
 import { jsx } from "theme-ui";
 import React from "react";
 
-import { Button, Checkbox, Form, Icon, List } from "semantic-ui-react";
+import { Button, Form, Icon, List } from "semantic-ui-react";
 import { FormProvider } from "react-hook-form";
 import { Modal } from "semantic-ui-react";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Dropdown } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
+// import { uploadMedia } from "../store/middleware/mediaUpload";
+import { uploadMedia, selectToken } from "../store";
+import { useSelector } from "react-redux";
+import { selectUserMedia } from "../store/combinedSelectors";
+import { selectMediaByUsername } from "../store/combinedSelectors";
 
 export const NewMedia = () => {
   return (
@@ -42,10 +48,14 @@ export const MediaItem = ({ url, description, type, filename, id }) => {
 };
 
 export const MediaList = () => {
+  const media = useSelector(state => selectMediaByUsername(state, "liam"));
+  // const media = useSelector(state => selectUserMedia(state));
+  console.log(media);
   return (
     <List divided relaxed sx={{ textAlign: "left" }}>
-      <MediaItem type="pdf" />
-      <MediaItem type="image" />
+      {media.map(item => (
+        <MediaItem {...item} key={item.id} />
+      ))}
     </List>
   );
 };
@@ -69,13 +79,17 @@ const sampleMedia = [
   },
 ];
 
-export const ChooseMedia = ({ media = sampleMedia }) => {
+export const ChooseMedia = () => {
+  const media = useSelector(selectUserMedia);
+  console.log(media);
+
   const options = media.map(item => {
     return {
-      key: media.id,
-      value: media.id,
-      text: media.description,
-      icon: filetypes[media.type] || "file",
+      key: item.id,
+      value: item.id,
+      text: item.description,
+      icon: filetypes[item.type] || "file",
+      props: item,
     };
   });
 
@@ -83,38 +97,126 @@ export const ChooseMedia = ({ media = sampleMedia }) => {
     color: "blue",
     content: label.text,
     icon: label.icon,
-    onClick: () => console.log("clicked ", label.id),
+    onClick: () => console.log("clicked ", label.value),
   });
 
   return (
-    <Dropdown
-      multiple
-      selection
-      fluid
-      options={options}
-      placeholder="Add media"
-      renderLabel={renderLabel}
-      divided
-      relaxed
-      sx={{ textAlign: "left" }}
-    >
+    <Form.Group widths="equal">
+      <Dropdown
+        action={{
+          color: "teal",
+          labelPosition: "right",
+          icon: "copy",
+          content: "Copy",
+        }}
+        multiple
+        selection
+        search
+        fluid
+        options={options}
+        placeholder="Add media"
+        renderLabel={renderLabel}
+        divided
+        relaxed
+        sx={{ textAlign: "left" }}
+      />
       <UploadMedia />
-      {media.map(item => {
-        console.log(item);
-        return <MediaItem {...item} />;
-      })}
-    </Dropdown>
+    </Form.Group>
   );
 };
 
 const UploadMedia = () => {
-  const choosing = useState(false);
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState({
+    image_file: null,
+    image_preview: "",
+    description: "",
+  });
+  const dispatch = useDispatch();
+  const handleChange = (e, values) => {
+    const { name, value } = values;
+    setState({ ...state, [name]: value });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (state.image_file === null) {
+      // todo: display error
+      return;
+    }
+    if (state.description === "") {
+      // todo: display error
+      return;
+    }
+    console.log(state);
+    dispatch(uploadMedia(state.image_file, state.description));
+    // uploadMedia(dispatch)(token, state.image_file, state.description);
+    setOpen(false);
+  };
+
+  const handleImagePreview = e => {
+    const file = e.target.files[0];
+    const base64 = URL.createObjectURL(file);
+
+    setState({
+      image_preview: base64,
+      image_file: file,
+    });
+  };
 
   return (
-    <Button icon small labelPosition="left">
-      <Icon name="file" />
-      Upload Media
-    </Button>
+    <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
+      closeOnDimmerClick={false}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
+      open={open}
+      trigger={
+        <Button icon small labelPosition="left">
+          <Icon name="upload" />
+          Upload
+        </Button>
+      }
+    >
+      <Modal.Header>Upload Media</Modal.Header>
+      <Modal.Content>
+        {state.image_preview ? (
+          <img
+            src={state.image_preview}
+            alt="preview"
+            sx={{ maxWidth: "100%" }}
+          />
+        ) : null}
+        <Form.Input
+          fluid
+          placeholder="A bird, a plane, a turkey sandwich"
+          label="Description"
+          name="description"
+          onChange={handleChange}
+          defaultValue={""}
+          required
+        />
+        <Form.Input
+          label="Upload File"
+          name="file"
+          onChange={handleImagePreview}
+          required
+          type="file"
+          accept="image/jpg,image/bmp,image/png"
+        />
+      </Modal.Content>
+      <Modal.Actions>
+        <Button basic color="red" onClick={() => setOpen(false)} type="button">
+          <Icon name="cancel" /> Cancel
+        </Button>
+        <Button color="green" type="submit">
+          <Icon name="upload" /> Upload
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 };
 

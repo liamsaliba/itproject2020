@@ -105,3 +105,19 @@ export {
   // reducer
   default as artifactsReducer,
 } from "./artifacts";
+
+export {
+  // action creators
+  uploadMedia,
+  getMedia,
+  deleteMedia,
+  // selectors
+  selectMediaSlice,
+  selectMediaById,
+  selectMediaIds,
+  selectMediaEntities,
+  selectAllMedia,
+  selectTotalMedia,
+  // reducer
+  default as mediaReducer,
+} from "./media";

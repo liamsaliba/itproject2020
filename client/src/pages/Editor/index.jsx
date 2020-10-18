@@ -2,12 +2,12 @@
 import { jsx, Flex, ThemeProvider } from "theme-ui";
 import User from "../User";
 import { useSelector } from "react-redux";
-import { Title, Toast } from "./../../components/index";
+import { Toast } from "./../../components/index";
 import Sidebar from "./Sidebar";
 
 import themes from "../../themes";
 import {
-  createPage,
+  getMedia,
   selectAuthSlice,
   selectCurrentUserPortfolio,
   selectUsername,
@@ -23,24 +23,14 @@ export default props => {
   const authError = useSelector(state => selectAuthSlice(state).error);
   const history = useHistory();
   const dispatch = useDispatch();
-  const [newPortfolio, setNewPortfolio] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const id = useSelector(selectUsername);
 
   useEffect(() => {
-    // TODO: implement in backend
-    if (
-      newPortfolio &&
-      portfolio &&
-      portfolio.pages.length === 0 &&
-      !portfolio.loading
-    ) {
-      dispatch(createPage({ name: "About", type: "display" }));
-      dispatch(createPage({ name: "Education", type: "education" }));
-      dispatch(createPage({ name: "Experience", type: "experience" }));
-      setNewPortfolio(false);
-    }
-  }, [portfolio, dispatch, newPortfolio]);
+    dispatch(getMedia());
+    setTimeout(() => setOpen(true), 100);
+  }, []);
 
   useEffect(() => {
     if (authError) {
@@ -65,7 +55,6 @@ export default props => {
         display: "flex",
         flexWrap: "wrap",
         height: "100vh",
-        background: "white",
         color: "black",
       }}
     >
@@ -78,10 +67,22 @@ export default props => {
             height: "100vh",
             flexDirection: "column",
             boxShadow: "1px 0 6px 0px #999",
-            position: "relative",
+            position: "absolute",
+            transition: "0.2s",
+            zIndex: "999",
+            background: "white",
+            fontFamily: "sans-serif",
+            transform: `translate(${open && portfolio ? 0 : -250}px, 0px)`,
           }}
         >
-          {portfolio ? <Sidebar /> : null}
+          {portfolio ? (
+            <Sidebar
+              closeEditor={() => {
+                setOpen(false);
+                setTimeout(() => history.push(`/u/${id}`), 200);
+              }}
+            />
+          ) : null}
         </Flex>
       </ThemeProvider>
       <main
@@ -92,6 +93,9 @@ export default props => {
           overflowY: "auto",
           overflowX: "hidden",
           height: "100%",
+          transition: "0.2s",
+          marginLeft: `${open && portfolio ? 250 : 0}px`,
+          opacity: `${open && portfolio ? 100 : 20}%`,
         }}
       >
         <User userId={id} />

@@ -1,11 +1,7 @@
 // Combined selectors
 import { createSelector } from "@reduxjs/toolkit";
-import {
-  selectPageArtifactIds,
-  selectPortfolioPageIds,
-  selectAllPages,
-  selectAllArtifacts,
-} from "./slices";
+import { selectAllPages, selectAllArtifacts, selectAllMedia } from "./slices";
+import { selectUsername } from "./slices/auth";
 
 // export const selectPagesByUsername = createSelector(
 //   [
@@ -33,9 +29,9 @@ import {
 
 export const selectPagesByUsername = createSelector(
   [state => selectAllPages(state), (_, username) => username],
-  (state, username) => {
+  (pages, username) => {
     // return the pages for the given portfolio only
-    return selectAllPages(state).filter(page => page.username === username);
+    return pages.filter(page => page.username === username);
   }
 );
 
@@ -46,4 +42,17 @@ export const selectArtifactsByPageId = createSelector(
     // return the pages for the given portfolio only
     return artifacts.filter(artifact => artifact.pageId === pageId);
   }
+);
+
+export const selectMediaByUsername = createSelector(
+  [state => selectAllMedia(state), (_, username) => username],
+  (media, username) => {
+    // return the pages for the given portfolio only
+    return media.filter(item => item.username === username);
+  }
+);
+
+export const selectUserMedia = createSelector(
+  [state => state, state => selectUsername(state)],
+  selectMediaByUsername
 );

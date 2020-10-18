@@ -54,6 +54,7 @@ const DisplayForm = () => {
         error={getErrors(errors, "header")}
         name="header"
         label="Header"
+        size="large"
       />
       <Controller
         as={Form.Input}
@@ -297,19 +298,41 @@ const forms = {
   education: {
     content: <EducationForm />,
     title: "Education",
-    defaultValues: {},
+    defaultValues: {
+      school: "",
+      fieldOfStudy: "",
+      degree: "",
+      location: "",
+      grade: "",
+      isVoluntary: false,
+      startDate: "",
+      endDate: "",
+      media: [],
+      details: "",
+    },
     // TODO: callback: ,
   },
   experience: {
     content: <ExperienceForm />,
     title: "Experience",
-    defaultValues: {},
+    defaultValues: {
+      jobTitle: "",
+      organisation: "",
+      department: "",
+      location: "",
+      employmentType: "",
+      isVoluntary: false,
+      startDate: "",
+      endDate: "",
+      media: [],
+      details: "",
+    },
     // TODO: callback: ,
   },
   display: {
     content: <DisplayForm />,
     title: "Display",
-    defaultValues: { header: "", body: "" },
+    defaultValues: { header: "", body: "", media: [] },
     validate: (data, setError) => {
       if (data.header === "" && data.body === "") {
         setError("body", {
@@ -330,16 +353,20 @@ const forms = {
 
 export const NewArtifactForm = ({ type, action }) => {
   console.log("Loaded form!");
+
   const thisForm = forms[type];
   if (!thisForm) return null;
   const header = "Create new ".concat(thisForm.title);
-  // const action = (body) => action(pageId, body);
+
   return <FormModal {...thisForm} action={action} title={header} type={type} />;
 };
 
-export const EditArtifactForm = ({ type, action, trigger, artifactId }) => {
-  const artifact = useSelector(state => selectArtifactById(state, artifactId));
-
+export const EditArtifactForm = ({
+  type,
+  action,
+  defaultValues,
+  altAction,
+}) => {
   const thisForm = forms[type];
   if (!thisForm) return null;
   const header = "Edit ".concat(thisForm.title);
@@ -349,18 +376,10 @@ export const EditArtifactForm = ({ type, action, trigger, artifactId }) => {
       {...thisForm}
       action={action}
       title={header}
-      trigger={trigger}
-      defaultValues={artifact}
+      defaultValues={defaultValues}
+      altAction={altAction}
     />
   );
-};
-
-const ArtifactForm = ({ type, pageId, isNew, trigger }) => {
-  const thisForm = forms[type];
-  if (!thisForm) return null;
-
-  const header = (isNew ? "Create new " : "Edit ").concat(thisForm.title);
-  return <FormModal {...thisForm} title={header} trigger={trigger} />;
 };
 
 // content: the actual form
@@ -371,6 +390,7 @@ const FormModal = ({
   content,
   type,
   validate = (data, setError) => true,
+  altAction,
 }) => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
@@ -392,6 +412,18 @@ const FormModal = ({
     await triggerValidation({ name });
   };
 
+  const removeButton = (
+    <Button
+      icon
+      color="red"
+      labelPosition="left"
+      onClick={() => setOpen(false)}
+    >
+      <Icon name="cancel" />
+      Cancel
+    </Button>
+  );
+
   return (
     <FormProvider {...form} onChange={onChange}>
       <Modal
@@ -404,7 +436,7 @@ const FormModal = ({
         onSubmit={handleSubmit(onSubmit)}
         dimmer={{ inverted: true }}
         trigger={
-          <Button small labelPosition="left">
+          <Button icon labelPosition="left">
             <Icon name="add" />
             Add {type}
           </Button>
@@ -413,15 +445,7 @@ const FormModal = ({
         <Modal.Header>{title}</Modal.Header>
         <Modal.Content>{content}</Modal.Content>
         <Modal.Actions>
-          <Button
-            icon
-            color="red"
-            labelPosition="left"
-            onClick={() => setOpen(false)}
-          >
-            <Icon name="trash" />
-            Remove
-          </Button>
+          {altAction ? altAction : removeButton}
           <Button icon color="blue" type="submit" labelPosition="left">
             <Icon name="checkmark" />
             Submit
@@ -431,8 +455,6 @@ const FormModal = ({
     </FormProvider>
   );
 };
-
-export default ArtifactForm;
 
 // SectionField.propTypes = {
 //   state: PropTypes.shape({

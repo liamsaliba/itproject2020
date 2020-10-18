@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { NotExist } from "./NotExist";
@@ -11,14 +12,11 @@ import {
   selectPortfoliosSlice,
   changePortfolio,
   selectCurrentPortfolio,
-  setLoading as setStoreLoading,
-  setLoadingFinished,
 } from "../../store";
 import UserPage from "./UserPage";
 
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { Toast } from "../../components";
+import { selectLoadingStatus } from "../../store/slices/ui";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -33,44 +31,25 @@ const User = props => {
   const portfolios = useSelector(selectPortfoliosSlice);
   // eslint-disable-next-line
   const editing = useSelector(selectPortfolioIsEditing);
-  // eslint-disable-next-line
-  const [loaded, setLoaded] = useState(false);
-
+  const loading = useSelector(selectLoadingStatus);
   // const editing = props.editing || false;
 
   useEffect(() => {
-    dispatch(changePortfolio(userId));
-    dispatch(setStoreLoading(`Loading ${userId}'s portfolio`));
-  }, [userId, dispatch]);
+    if (username !== userId) {
+      dispatch(changePortfolio(userId));
+      dispatch(fetchEntirePortfolio(userId));
+    }
+  }, [userId]);
 
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );
 
-  useEffect(() => {
-    dispatch(fetchEntirePortfolio(userId));
-  }, [dispatch, userId]);
-
-  useEffect(() => {
-    if (portfolio) {
-      dispatch(setLoadingFinished());
-      if (portfolios.error) {
-        toast.error(
-          <Toast
-            title="Couldn't load portfolio."
-            message={portfolios.error.data}
-            technical={portfolios.error.message}
-          />
-        );
-      }
-    }
-  }, [portfolios, portfolio, userId, dispatch]);
-
   return portfolio ? (
     <UserPage userId={userId} />
-  ) : loaded ? (
+  ) : loading ? null : (
     <NotExist userId={userId} />
-  ) : null;
+  );
 };
 
 export default User;

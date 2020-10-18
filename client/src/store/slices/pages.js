@@ -29,6 +29,7 @@ const slice = createSlice({
         pages,
         action.payload.map(page => addLastFetch(page))
       );
+      pages.lastFetch = Date.now();
       pages.loading = false;
     },
     pageRequestManyFailed: (pages, action) => {
@@ -56,7 +57,7 @@ const slice = createSlice({
     },
     pageDeleted: (pages, action) => {
       const pageId = action.request.data.id;
-      adapter.removeOne(pages, pageId);
+      // adapter.removeOne(pages, pageId);
     },
     pageReceivedOneAll: (pages, action) => {
       const { page } = addLastFetch(action.payload);
@@ -71,9 +72,9 @@ const slice = createSlice({
           id: pageId,
           artifacts: [{ id }],
         });
-        return;
+      } else {
+        pages.entities[pageId].artifacts.push({ id });
       }
-      pages.entities[pageId].artifacts.push({ id });
     },
     [artifactActions.artifactDeleted]: (pages, action) => {
       // TODO

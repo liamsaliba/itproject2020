@@ -21,6 +21,9 @@ import { useDispatch } from "react-redux";
 import { changePortfolioBio } from "../../store/slices/portfolios";
 import { NewArtifactForm } from "../../components/ArtifactForm";
 import { createArtifact } from "../../store/slices/artifacts";
+import { Segment } from "semantic-ui-react";
+import { NewPageModal } from "../Editor/SectionPages";
+import { Header } from "semantic-ui-react";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -78,7 +81,7 @@ const EditBioModal = ({ bio }) => {
   );
 };
 
-const Header = ({ username, bio, editing }) => {
+const MainHeader = ({ username, bio, editing }) => {
   return (
     <Box mb={5}>
       <Image
@@ -130,6 +133,18 @@ const Page = ({ pageId: id, name, userId }) => {
   return <Section {...pageProps} />;
 };
 
+const NewPlaceholder = ({ children, tagline }) => (
+  <Box sx={{ margin: "2em" }}>
+    <Segment placeholder fluid>
+      <Header icon>
+        <Icon name="file outline" />
+        {tagline}
+      </Header>
+      {children}
+    </Segment>
+  </Box>
+);
+
 const SinglePagePortfolio = props => {
   const { userId } = props;
   const bio = useSelector(state => selectPortfolioBio(state, userId));
@@ -149,8 +164,18 @@ const SinglePagePortfolio = props => {
 
   return (
     <Flex as="main" sx={styling}>
-      <Header username={userId} bio={bio} editing={editing} />
+      <MainHeader username={userId} bio={bio} editing={editing} />
+      {editing && pages.length === 0 ? (
+        <NewPlaceholder tagline="No pages yet!  Would you like to create a new one?">
+          <NewPageModal />
+        </NewPlaceholder>
+      ) : null}
       {pageContainers}
+      {editing && pages.length !== 0 ? (
+        <NewPlaceholder tagline="We're at the end here, want to create a new page?">
+          <NewPageModal />
+        </NewPlaceholder>
+      ) : null}
     </Flex>
   );
 };

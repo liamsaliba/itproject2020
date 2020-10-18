@@ -61,6 +61,7 @@ export const ProfileDropdown = props => {
             text: "Editor",
             as: Link,
             to: "/editor",
+            selected: false,
           },
           {
             key: "portfolio",

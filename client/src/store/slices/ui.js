@@ -1,5 +1,6 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-
+import { actions as portfolioActions } from "./portfolios";
+import { portfolioFetchedAll } from "./actions";
 // Slices   (Actions and Reducers)
 const slice = createSlice({
   name: "ui",
@@ -7,6 +8,7 @@ const slice = createSlice({
     accordion: null,
     currentPortfolio: null,
     loading: false,
+    loadingPortfolio: false,
     loadingText: null,
   },
   reducers: {
@@ -14,7 +16,13 @@ const slice = createSlice({
       ui.accordion = action.payload;
     },
     changePortfolio: (ui, action) => {
-      ui.currentPortfolio = action.payload;
+      const userId = action.payload;
+      if (ui.currentPortfolio !== userId) {
+        ui.currentPortfolio = userId;
+        ui.loadingPortfolio = true;
+        ui.loading = true;
+        ui.loadingText = `Loading ${userId}'s portfolio`;
+      }
     },
     setLoading: (ui, action) => {
       ui.loading = true;
@@ -23,6 +31,22 @@ const slice = createSlice({
     setLoadingFinished: (ui, action) => {
       ui.loading = false;
       ui.loadingText = null;
+    },
+  },
+  extraReducers: {
+    [portfolioActions.portfolioRequestOneFailed]: (ui, action) => {
+      if (ui.loadingPortfolio) {
+        ui.loadingPortfolio = false;
+        ui.loading = false;
+        ui.loadingText = "";
+      }
+    },
+    [portfolioFetchedAll]: (ui, action) => {
+      if (ui.loadingPortfolio) {
+        ui.loadingPortfolio = false;
+        ui.loading = false;
+        ui.loadingText = "";
+      }
     },
   },
 });

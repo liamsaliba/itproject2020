@@ -25,6 +25,8 @@ import { useDispatch } from "react-redux";
 import { artifactTypeToName } from "../../components/Artifact";
 
 const PageDropdown = ({ pageState }) => {
+  const dispatch = useDispatch();
+
   return (
     <Dropdown
       right
@@ -36,7 +38,10 @@ const PageDropdown = ({ pageState }) => {
     >
       <Dropdown.Menu>
         <RenamePageModal pageState={pageState} />
-        <DeletePageModal pageState={pageState} />
+        <DeleteConfirmationModal
+          action={() => dispatch(deletePage(pageState.pageId))}
+          name={pageState.name}
+        />
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -69,15 +74,14 @@ const Page = ({ active, setActive, page }) => {
   );
 };
 
-const DeletePageModal = ({ pageState }) => {
-  const { name, pageId } = pageState;
+const DeleteConfirmationModal = ({ setParentOpen, action, name = "this" }) => {
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(deletePage(pageId));
+    action();
     setOpen(false);
+    if (setParentOpen) setParentOpen(false);
   };
 
   return (
@@ -97,15 +101,14 @@ const DeletePageModal = ({ pageState }) => {
       }
     >
       <Modal.Header>
-        Are you sure you want to delete the page "{name}"? This process is
-        irreversible.
+        Are you sure you want to delete {name}? This process is irreversible.
       </Modal.Header>
       <Modal.Actions>
         <Button basic onClick={() => setOpen(false)} type="button">
           <Icon name="remove" /> Cancel
         </Button>
         <Button color="red" type="submit">
-          <Icon name="trash" /> Delete Page
+          <Icon name="trash" /> Delete
         </Button>
       </Modal.Actions>
     </Modal>
@@ -142,7 +145,8 @@ const RenamePageModal = ({ pageState }) => {
         </Dropdown.Item>
       }
     >
-      <Modal.Header>
+      <Modal.Header>Edit page name</Modal.Header>
+      <Modal.Content>
         <Input
           transparent
           fluid
@@ -154,7 +158,7 @@ const RenamePageModal = ({ pageState }) => {
           defaultValue={name}
           required
         />
-      </Modal.Header>
+      </Modal.Content>
       <Modal.Actions>
         <Button basic color="red" onClick={() => setOpen(false)} type="button">
           <Icon name="remove" /> Cancel
@@ -167,7 +171,7 @@ const RenamePageModal = ({ pageState }) => {
   );
 };
 
-const NewPageModal = () => {
+export const NewPageModal = () => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
   const [state, setState] = useState({ name: "", type: "display" });
@@ -179,12 +183,14 @@ const NewPageModal = () => {
   const dispatch = useDispatch();
 
   const handleChange = (e, { name, value }) => {
-    setState({ ...state, [name]: value });
     if (
       name === "type" &&
       ["Experience", "Education", "Display", ""].includes(state.name)
     ) {
-      setState({ ...state, name: artifactTypeToName(value) });
+      setState({ ...state, name: artifactTypeToName(value), type: value });
+    } else {
+      // do it this way -- setState is async
+      setState({ ...state, [name]: value });
     }
   };
 
@@ -213,17 +219,18 @@ const NewPageModal = () => {
       }
     >
       <Modal.Header>Create new page</Modal.Header>
-      <Modal.Content scrolling>
+      <Modal.Content>
         <Modal.Description sx={{ minHeight: "150px", overflow: "visible" }}>
           <Form.Input
             fluid
             iconPosition="left"
             icon="file"
+            label="Page Name"
             placeholder="Page Name"
             name="name"
             onChange={handleChange}
             value={state.name}
-            size="large"
+            size="big"
             required
           />
           <Form.Select

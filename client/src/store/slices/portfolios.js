@@ -80,9 +80,9 @@ const slice = createSlice({
           username,
           pages: [newPage],
         });
-        return;
+      } else {
+        portfolios.entities[username].pages.push(newPage);
       }
-      portfolios.entities[username].pages.push(newPage);
     },
     [pageActions.pageUpdated]: (portfolios, action) => {
       const { username, id: pageId, name } = action.payload;
@@ -95,15 +95,15 @@ const slice = createSlice({
           username,
           pages: [newPage],
         });
-        return;
-      }
-      // update the name
-      for (let i = 0; i < portfolios.entities[username].pages.length; i++) {
-        if (portfolios.entities[username].pages[i].pageId === pageId) {
-          portfolios.entities[username].pages[i] = {
-            ...portfolios.entities[username].pages[i],
-            name,
-          };
+      } else {
+        // update the name
+        for (let i = 0; i < portfolios.entities[username].pages.length; i++) {
+          if (portfolios.entities[username].pages[i].pageId === pageId) {
+            portfolios.entities[username].pages[i] = {
+              ...portfolios.entities[username].pages[i],
+              name,
+            };
+          }
         }
       }
     },
@@ -118,11 +118,11 @@ const slice = createSlice({
           username,
           pages: [],
         });
-        return;
+      } else {
+        portfolios.entities[username].pages = portfolios.entities[
+          username
+        ].pages.filter(page => page.pageId !== pageId);
       }
-      portfolios.entities[username].pages = portfolios.entities[
-        username
-      ].pages.filter(page => page.pageId !== pageId);
     },
     [portfolioFetchedAll]: (portfolios, action) => {
       const { portfolio } = action.payload;
@@ -327,7 +327,7 @@ export const createPortfolio = (portfolio = {}) => (dispatch, getState) => {
 
   return dispatch(
     apiStarted({
-      url: endpoints.portfolios,
+      url: endpoints.createPortfolio,
       method: "post",
       data: portfolio,
       token,
