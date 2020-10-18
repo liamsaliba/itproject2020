@@ -1,6 +1,17 @@
 /** @jsx jsx */
-import { jsx, Label, Input, Box, Checkbox, Button, Styled } from "theme-ui";
+import { jsx, Box } from "theme-ui";
 import { toast } from "react-toastify";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Dimmer,
+  Loader,
+} from "semantic-ui-react";
+import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,10 +22,9 @@ import {
   selectUsername,
   signup,
 } from "../../store";
-import { Link, Title, Toast } from "../../components";
+import { Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { Dimmer, Loader } from "semantic-ui-react";
 
 const SignUpForm = ({ userId, setForm }) => {
   const handleSubmit = e => {
@@ -38,40 +48,70 @@ const SignUpForm = ({ userId, setForm }) => {
   };
 
   return (
-    <Box as="form" pb={3} onSubmit={handleSubmit}>
-      <Title>Login</Title>
+    <Grid verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Title>Signup</Title>
 
-      <Styled.h2>Sign up</Styled.h2>
-      <br />
-      <Label htmlFor="firstName">First Name</Label>
-      <Input name="firstName" mb={1} />
-
-      <Label htmlFor="lastName">Last Name</Label>
-      <Input name="lastName" mb={1} />
-
-      <Label htmlFor="email">Email</Label>
-      <Input name="email" mb={1} />
-
-      <Label htmlFor="username">Username</Label>
-      <Input name="username" mb={1} defaultValue={userId || ""} />
-
-      <Label htmlFor="password">Password</Label>
-      <Input type="password" name="password" mb={1} />
-
-      <Label htmlFor="confirm password">Confirm Password</Label>
-      <Input type="password" name="confirmPassword" mb={3} />
-
-      <Box>
-        <Label mb={3}>
-          <Checkbox />
-          Remember me
-        </Label>
-      </Box>
-      <Button>Submit</Button>
-      <Link to="/login" sx={{ ml: 4 }}>
-        {"Have an account? Log in"}
-      </Link>
-    </Box>
+        <Header as="h2" textAlign="center">
+          <Image src={camel} /> Sign up for a new account
+        </Header>
+        <br />
+        <Form size="large" onSubmit={handleSubmit}>
+          <Form.Input
+            name="firstName"
+            fluid
+            icon="address card"
+            iconPosition="left"
+            placeholder="First Name"
+          />
+          <Form.Input
+            name="lastName"
+            fluid
+            icon="address card"
+            iconPosition="left"
+            placeholder="Last Name"
+          />
+          <Form.Input
+            name="email"
+            fluid
+            icon="mail"
+            iconPosition="left"
+            placeholder="Email"
+          />
+          <Form.Input
+            name="username"
+            fluid
+            icon="user"
+            iconPosition="left"
+            placeholder="Username"
+            defaultValue={userId || ""}
+          />
+          <Form.Input
+            name="password"
+            fluid
+            icon="lock"
+            iconPosition="left"
+            placeholder="Password"
+            type="password"
+          />
+          <Form.Input
+            name="confirmPassword"
+            fluid
+            icon="lock"
+            iconPosition="left"
+            placeholder="Confirm Password"
+            type="password"
+          />
+          <Form.Checkbox name="remember" label="Remember me" defaultChecked />
+          <Button fluid size="large" type="submit">
+            Sign Up
+          </Button>
+        </Form>
+        <Message positive>
+          Already have an account? <a href="/login">Log in now!</a>
+        </Message>
+      </Grid.Column>
+    </Grid>
   );
 };
 
