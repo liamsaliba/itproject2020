@@ -82,7 +82,7 @@ export default () => {
             defaultChecked
             onClick={() => setRemember(!remember)}
           />
-          <Button fluid size="large" type="submit">
+          <Button fluid primary size="large" type="submit">
             Login
           </Button>
         </Form>

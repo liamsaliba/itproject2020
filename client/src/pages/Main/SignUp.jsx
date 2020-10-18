@@ -111,7 +111,7 @@ const SignUpForm = ({ userId, setForm }) => {
             defaultChecked
             onClick={() => setRemember(!remember)}
           />
-          <Button fluid size="large" type="submit">
+          <Button fluid primary size="large" type="submit">
             Sign Up
           </Button>
         </Form>
