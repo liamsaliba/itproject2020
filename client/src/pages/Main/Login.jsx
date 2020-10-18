@@ -1,12 +1,22 @@
 /** @jsx jsx */
-import { jsx, Label, Input, Box, Checkbox, Button, Styled } from "theme-ui";
+import { jsx, Box } from "theme-ui";
 import { toast } from "react-toastify";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment,
+} from "semantic-ui-react";
+import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "../../store";
 import { useEffect } from "react";
-import { Link, Title, Toast } from "../../components";
+import { Title, Toast } from "../../components";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Dimmer } from "semantic-ui-react";
@@ -46,26 +56,44 @@ export default () => {
   };
   return (
     <Box as="form" onSubmit={handleSubmit}>
-      <Title>Login</Title>
-      <Styled.h2>Log in</Styled.h2>
-      <br />
-      <Label htmlFor="username">Username / Email</Label>
-      <Input name="username" mb={3} defaultValue={userId} />
-      <Label htmlFor="password">Password</Label>
-      <Input type="password" name="password" mb={3} />
-      <Box>
-        <Label mb={3}>
-          <Checkbox name="remember" defaultChecked={true} />
-          Remember me
-        </Label>
-      </Box>
-      <Button>Submit</Button>
-      <Link to="/signup" sx={{ ml: 4 }}>
-        {"Don't have an account? Sign up"}
-      </Link>
-      <Dimmer inverted active={auth.loading}>
-        <Loader inverted>Logging in...</Loader>
-      </Dimmer>
+      <Grid verticalAlign="middle">
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Title>Login</Title>
+          <Header as="h2" textAlign="center">
+            <Image src={camel} /> Log in to your account
+          </Header>
+          <br />
+          <Form size="large">
+            <Form.Input
+              id="username"
+              fluid
+              icon="user"
+              iconPosition="left"
+              placeholder="Username / Email address"
+            />
+            <Form.Input
+              id="password"
+              fluid
+              icon="lock"
+              iconPosition="left"
+              placeholder="Password"
+              type="password"
+            />
+            <Form.Checkbox id="remember" label="Remember me" defaultChecked />
+
+            <Button fluid size="large" type="submit">
+              Login
+            </Button>
+          </Form>
+
+          <Message positive>
+            Don't have an account? <a href="/signup">Sign up now!</a>
+          </Message>
+          <Dimmer inverted active={auth.loading}>
+            <Loader inverted>Logging in...</Loader>
+          </Dimmer>
+        </Grid.Column>
+      </Grid>
     </Box>
   );
 };
