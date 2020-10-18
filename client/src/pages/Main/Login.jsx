@@ -1,15 +1,7 @@
 /** @jsx jsx */
-import { jsx, Box } from "theme-ui";
+import { jsx } from "theme-ui";
 import { toast } from "react-toastify";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Image,
-  Message,
-  Segment,
-} from "semantic-ui-react";
+import { Button, Form, Grid, Header, Image, Message } from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -55,45 +47,43 @@ export default () => {
     dispatch(login(username, password, useCookie));
   };
   return (
-    <Box as="form" onSubmit={handleSubmit}>
-      <Grid verticalAlign="middle">
-        <Grid.Column style={{ maxWidth: 450 }}>
-          <Title>Login</Title>
-          <Header as="h2" textAlign="center">
-            <Image src={camel} /> Log in to your account
-          </Header>
-          <br />
-          <Form size="large">
-            <Form.Input
-              id="username"
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Username / Email address"
-            />
-            <Form.Input
-              id="password"
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-            />
-            <Form.Checkbox id="remember" label="Remember me" defaultChecked />
+    <Grid verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Title>Login</Title>
+        <Header as="h2" textAlign="center">
+          <Image src={camel} /> Log in to your account
+        </Header>
+        <br />
+        <Form size="large" onSubmit={handleSubmit}>
+          <Form.Input
+            id="username"
+            fluid
+            icon="user"
+            iconPosition="left"
+            placeholder="Username / Email address"
+          />
+          <Form.Input
+            id="password"
+            fluid
+            icon="lock"
+            iconPosition="left"
+            placeholder="Password"
+            type="password"
+          />
+          <Form.Checkbox id="remember" label="Remember me" defaultChecked />
 
-            <Button fluid size="large" type="submit">
-              Login
-            </Button>
-          </Form>
+          <Button fluid size="large" type="submit">
+            Login
+          </Button>
+        </Form>
 
-          <Message positive>
-            Don't have an account? <a href="/signup">Sign up now!</a>
-          </Message>
-          <Dimmer inverted active={auth.loading}>
-            <Loader inverted>Logging in...</Loader>
-          </Dimmer>
-        </Grid.Column>
-      </Grid>
-    </Box>
+        <Message positive>
+          Don't have an account? <a href="/signup">Sign up now!</a>
+        </Message>
+        <Dimmer inverted active={auth.loading}>
+          <Loader inverted>Logging in...</Loader>
+        </Dimmer>
+      </Grid.Column>
+    </Grid>
   );
 };
