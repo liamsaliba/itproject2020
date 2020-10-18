@@ -3,6 +3,7 @@ const emailBot = require("../emailbot/email");
 const Page = require("../models/page.model");
 const Artifact = require("../models/artifact.model");
 const Media = require("../models/media.model");
+const User = require("../models/user.model");
 
 // Return an array of all portfolios on the server
 const getAllPortfolios = async (_req, res) => {
@@ -21,13 +22,72 @@ const createPortfolio = async (req, res) => {
       const username = req.user.username;
       const bio = req.body.bio;
       const theme = req.body.theme;
+      const font = req.body.font;
+      const colour = req.body.colour;
       const newPortfolio = new Portfolio({
         username,
         bio,
         theme,
+        font,
+        colour,
       });
       const returnedPortfolio = newPortfolio.toObject();
       returnedPortfolio.pages = [];
+      await newPortfolio.save();
+      if (req.user.local && req.user.local.email) {
+        emailBot.sendPortfolioAddNotification(req.user.local.email, req.user);
+      }
+      res.status(200).send(returnedPortfolio);
+    } else {
+      throw Error("User unidentified.");
+    }
+  } catch (err) {
+    if (err.code == 11000) {
+      res.status(400).json("Portfolio of this user already exists!");
+    } else if (err.message) {
+      res.status(400).json(err.message);
+    } else {
+      res.status(400).json(err);
+    }
+  }
+};
+
+const createDefaultPortfolio = async (req, res) => {
+  try {
+    if (req.user && req.user.username) {
+      const username = req.user.username;
+      const newPortfolio = new Portfolio({ username });
+      const aboutPage = new Page({
+        username,
+        portfolioId: newPortfolio._id,
+        name: "About",
+        type: "about",
+      });
+      const educationpage = new Page({
+        username,
+        portfolioId: newPortfolio._id,
+        name: "Education",
+        type: "education",
+      });
+      const experiencePage = new Page({
+        username,
+        portfolioId: newPortfolio._id,
+        name: "Experience",
+        type: "experience",
+      });
+      await aboutPage.save();
+      await educationpage.save();
+      await experiencePage.save();
+
+      const returnedPortfolio = newPortfolio.toObject();
+      returnedPortfolio.pages = [
+        aboutPage._id,
+        educationpage._id,
+        experiencePage._id,
+      ];
+      returnedPortfolio.firstName = req.user.local.firstName;
+      returnedPortfolio.lastName = req.user.local.lastName;
+      returnedPortfolio.email = req.user.local.email;
       await newPortfolio.save();
       if (req.user.local && req.user.local.email) {
         emailBot.sendPortfolioAddNotification(req.user.local.email, req.user);
@@ -53,6 +113,14 @@ const findPortfolio = async username => {
   const p = portfolio.toObject();
   const contents = await Portfolio.findAllPages(username);
   p.pages = contents || [];
+  const user = await User.findOne({ username });
+  if (!user) throw Error(`User ${username} not found.`);
+
+  // Add a few more details to the returned portfolio
+  p.firstName = user.local.firstName;
+  p.lastName = user.local.lastName;
+  p.email = user.local.email;
+  p.avatar = user.avatar;
   return p;
 };
 
@@ -80,9 +148,11 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const { bio, theme } = req.body;
+    const { bio, theme, font, colour } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
+    portfolio.font = font ? font : portfolio.font;
+    portfolio.colour = colour ? colour : portfolio.colour;
     let changeItems = [];
     if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
     if (portfolio.isModified("theme"))
@@ -124,6 +194,7 @@ const deletePortfolio = async (req, res) => {
   }
 };
 
+// Get all details about a portfolio (incl. its pages, artifacts and media)
 const findAllDetails = async (req, res) => {
   try {
     if (!req.params.username) {
@@ -151,11 +222,12 @@ const findAllDetails = async (req, res) => {
       aObject.media = media;
       aObjects.push(aObject);
     }
-
     res.status(200).send({
       portfolio,
       pages: pages.map(p => {
         const pObject = p.toObject();
+        pObject.artifacts = aObjects.filter(a => a.pageId == pObject.id)
+                                    .map(a => a.id);
         return pObject;
       }),
       artifacts: aObjects,
@@ -172,4 +244,5 @@ module.exports = {
   getAllPortfolios,
   changePortfolio,
   findAllDetails,
+  createDefaultPortfolio,
 };

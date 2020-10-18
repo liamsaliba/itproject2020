@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const httpMocks = require("node-mocks-http");
 const path = require("path");
 const pageController = require("../page.controller");
+jest.setTimeout(10000);
 
 require("dotenv").config({
   path: path.resolve(__dirname, "../../../.env"),
@@ -50,12 +51,12 @@ describe("Page Controller - Create a Page", () => {
       expect(body).toHaveProperty("type");
       expect(body).toHaveProperty("id");
       expect(body).toHaveProperty("name");
-      expect(body).toHaveProperty("contents");
+      expect(body).toHaveProperty("artifacts");
 
       expect(body.username).toBe("test");
       expect(body.type).toBe("Sample type");
       expect(body.name).toBe("Sample name");
-      expect(body.contents.length).toBe(0);
+      expect(body.artifacts.length).toBe(0);
 
       expect(body).not.toHaveProperty("__v");
       expect(body).not.toHaveProperty("_id");
@@ -107,7 +108,7 @@ describe("Page Controller - Get all details of a page", () => {
       expect(body.page).toHaveProperty("type");
       expect(body.page).toHaveProperty("id");
       expect(body.page).toHaveProperty("name");
-      expect(body.page).toHaveProperty("contents");
+      expect(body.page).toHaveProperty("artifacts");
       expect(body).toHaveProperty("artifacts");
     });
 
@@ -187,7 +188,7 @@ describe("Page Controller - Get a page given ID", () => {
       expect(body).toHaveProperty("type");
       expect(body).toHaveProperty("id");
       expect(body).toHaveProperty("name");
-      expect(body).toHaveProperty("contents");
+      expect(body).toHaveProperty("artifacts");
       expect(body).toHaveProperty("artifacts");
     });
 
