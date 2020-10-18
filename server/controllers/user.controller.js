@@ -97,7 +97,7 @@ const addAvatar = async (req, res) => {
     req.user.avatar = req.file.path;
     await req.user.save();
 
-    res.status(200).json("Avatar changed.");
+    res.status(200).send(newMedia.toObject());
   } catch (err) {
     res.status(400).json(err.message ? err.message : err);
   }

@@ -12,3 +12,5 @@ export const portfolioFetchedArtifacts = createAction(
 );
 export const pageFetchedAll = createAction("pages/pageFetchedAll");
 export const pageFetchedArtifacts = createAction("pages/pageFetchedArtifacts");
+
+export const avatarUploaded = createAction("avatar/avatarUploaded");

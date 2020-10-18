@@ -4,6 +4,8 @@ export const login = user + "/login";
 export const logout = user + "/logout";
 export const logoutAll = logout + "/all";
 
+export const avatar = "/avatar";
+
 export const media = "/media";
 export const mediaById = id => media + "/" + id;
 

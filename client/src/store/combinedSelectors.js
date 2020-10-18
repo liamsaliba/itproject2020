@@ -47,6 +47,7 @@ export const selectArtifactsByPageId = createSelector(
 export const selectMediaByUsername = createSelector(
   [state => selectAllMedia(state), (_, username) => username],
   (media, username) => {
+    console.log(media, username);
     // return the pages for the given portfolio only
     return media.filter(item => item.username === username);
   }

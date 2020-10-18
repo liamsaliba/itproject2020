@@ -429,6 +429,7 @@ const FormModal = ({
       <Modal
         size="small"
         closeIcon
+        closeOnDimmerClick={false}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}

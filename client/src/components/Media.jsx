@@ -2,7 +2,7 @@
 import { jsx } from "theme-ui";
 import React from "react";
 
-import { Button, Form, Icon, List } from "semantic-ui-react";
+import { Button, Form, Icon, List, Popup } from "semantic-ui-react";
 import { FormProvider } from "react-hook-form";
 import { Modal } from "semantic-ui-react";
 import { useState } from "react";
@@ -13,7 +13,12 @@ import { useDispatch } from "react-redux";
 import { uploadMedia, selectToken } from "../store";
 import { useSelector } from "react-redux";
 import { selectUserMedia } from "../store/combinedSelectors";
-import { selectMediaByUsername } from "../store/combinedSelectors";
+import {
+  selectMediaByUsername,
+  selectPagesByUsername,
+} from "../store/combinedSelectors";
+import { useEffect } from "react";
+import PreviewModal from "./DocumentPreview";
 
 export const NewMedia = () => {
   return (
@@ -33,11 +38,22 @@ const filetypes = {
   image: "file image",
 };
 
-export const MediaItem = ({ url, description, type, filename, id }) => {
+const previewDefault = { open: false, src: "" };
+const showPreview = (src, setPreview) => setPreview({ open: true, src });
+
+export const MediaItem = ({
+  url,
+  description,
+  type,
+  filename,
+  id,
+  setPreview,
+}) => {
   const icon = filetypes[type] || "file";
+  const src = url;
 
   return (
-    <List.Item key={id}>
+    <List.Item key={id} onClick={() => showPreview(src, setPreview)}>
       <List.Icon name={icon} size="large" verticalAlign="middle" />
       <List.Content>
         <List.Header as="a">{description}</List.Header>
@@ -49,13 +65,14 @@ export const MediaItem = ({ url, description, type, filename, id }) => {
 
 export const MediaList = () => {
   const media = useSelector(state => selectMediaByUsername(state, "liam"));
-  // const media = useSelector(state => selectUserMedia(state));
-  console.log(media);
+  const [preview, setPreview] = useState({ open: false, src: "" });
+
   return (
-    <List divided relaxed sx={{ textAlign: "left" }}>
+    <List divided relaxed selection sx={{ textAlign: "left" }}>
       {media.map(item => (
-        <MediaItem {...item} key={item.id} />
+        <MediaItem {...item} key={item.id} setPreview={setPreview} />
       ))}
+      <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
     </List>
   );
 };
@@ -68,20 +85,9 @@ export const MediaSelector = ({ url, description, type, filename, id }) => {
   );
 };
 
-const sampleMedia = [
-  {
-    url:
-      "https://www.mdpi.com/animals/animals-10-00780/article_deploy/html/images/animals-10-00780-g006-550.jpg",
-    description: "a camel",
-    filename: "camel.png",
-    type: "image",
-    id: 1,
-  },
-];
-
 export const ChooseMedia = () => {
   const media = useSelector(selectUserMedia);
-  console.log(media);
+  const [preview, setPreview] = useState(previewDefault);
 
   const options = media.map(item => {
     return {
@@ -89,7 +95,7 @@ export const ChooseMedia = () => {
       value: item.id,
       text: item.description,
       icon: filetypes[item.type] || "file",
-      props: item,
+      src: item.url,
     };
   });
 
@@ -97,30 +103,38 @@ export const ChooseMedia = () => {
     color: "blue",
     content: label.text,
     icon: label.icon,
-    onClick: () => console.log("clicked ", label.value),
+    onClick: () => showPreview(label.src, setPreview),
   });
 
   return (
     <Form.Group widths="equal">
-      <Dropdown
-        action={{
-          color: "teal",
-          labelPosition: "right",
-          icon: "copy",
-          content: "Copy",
-        }}
-        multiple
-        selection
-        search
-        fluid
-        options={options}
-        placeholder="Add media"
-        renderLabel={renderLabel}
-        divided
-        relaxed
-        sx={{ textAlign: "left" }}
+      <Popup
+        trigger={
+          <Dropdown
+            action={{
+              color: "teal",
+              labelPosition: "right",
+              icon: "copy",
+              content: "Copy",
+            }}
+            multiple
+            selection
+            search
+            fluid
+            options={options}
+            placeholder="Add media"
+            renderLabel={renderLabel}
+            divided
+            relaxed
+            sx={{ textAlign: "left" }}
+          />
+        }
+        header="Choosing files"
+        content="Click on a file badge to preview that file!"
+        on={["hover"]}
       />
       <UploadMedia />
+      <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
     </Form.Group>
   );
 };
@@ -148,7 +162,6 @@ const UploadMedia = () => {
       // todo: display error
       return;
     }
-    console.log(state);
     dispatch(uploadMedia(state.image_file, state.description));
     // uploadMedia(dispatch)(token, state.image_file, state.description);
     setOpen(false);

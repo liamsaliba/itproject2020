@@ -11,7 +11,7 @@ import {
 } from "../helpers";
 import { selectToken } from "./auth";
 
-import { portfolioFetchedAll, pageFetchedAll } from "./actions";
+import { portfolioFetchedAll, pageFetchedAll, avatarUploaded } from "./actions";
 
 export const adapter = createEntityAdapter();
 
@@ -57,6 +57,10 @@ const slice = createSlice({
       media.error = action.payload;
     },
     mediaUploaded: (media, action) => {
+      media.loading = false;
+      adapter.upsertOne(media, addLastFetch(action.payload));
+    },
+    avatarUploaded: (media, action) => {
       media.loading = false;
       adapter.upsertOne(media, addLastFetch(action.payload));
     },
@@ -110,7 +114,7 @@ export const {
   selectEntities: selectMediaEntities,
   selectAll: selectAllMedia,
   selectTotal: selectTotalMedia,
-} = adapter.getSelectors(state => state.artifacts);
+} = adapter.getSelectors(state => state.media);
 export const selectMediaSlice = state => state.media;
 
 // create a new artifact
@@ -126,7 +130,7 @@ export const uploadMedia = (file, description, type = "image") => (
   //   image: file,
   //   json: { description, type },
   // };
-
+  console.log(formData);
   return dispatch(
     apiStarted({
       url: endpoints.media,
@@ -137,6 +141,31 @@ export const uploadMedia = (file, description, type = "image") => (
       onStart: mediaLoading.type,
       onFailure: mediaUploadFailed.type,
       onSuccess: mediaUploaded.type,
+    })
+  );
+};
+
+// upload an avatar
+export const uploadAvatar = file => (dispatch, getState) => {
+  const token = selectToken(getState());
+  let formData = new FormData();
+  formData.append("image", file);
+  formData.append("json", JSON.stringify({}));
+  // const media = {
+  //   image: file,
+  //   json: { description, type },
+  // };
+  console.log(formData);
+  return dispatch(
+    apiStarted({
+      url: endpoints.avatar,
+      method: "post",
+      multipart: true,
+      data: formData,
+      token,
+      onStart: mediaLoading.type,
+      onFailure: mediaUploadFailed.type,
+      onSuccess: avatarUploaded.type,
     })
   );
 };
