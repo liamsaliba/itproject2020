@@ -14,9 +14,8 @@ import {
 import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-
 import { login } from "../../store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Title, Toast } from "../../components";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -25,6 +24,7 @@ export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const auth = useSelector(state => state.auth);
+  const [remember, setRemember] = useState(true);
 
   useEffect(() => {
     if (auth.error) {
@@ -49,7 +49,7 @@ export default () => {
     const formData = new FormData(e.target);
     const username = formData.get("username");
     const password = formData.get("password");
-    const useCookie = formData.get("remember") === "on";
+    const useCookie = remember === true;
     dispatch(login(username, password, useCookie));
   };
   return (
@@ -77,13 +77,15 @@ export default () => {
             placeholder="Password"
             type="password"
           />
-          <Form.Checkbox name="remember" label="Remember me" defaultChecked />
-
+          <Form.Checkbox
+            label="Remember me"
+            defaultChecked
+            onClick={() => setRemember(!remember)}
+          />
           <Button fluid size="large" type="submit">
             Login
           </Button>
         </Form>
-
         <Message positive>
           Don't have an account? <a href="/signup">Sign up now!</a>
         </Message>
