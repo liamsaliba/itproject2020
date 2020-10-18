@@ -72,7 +72,7 @@ const SignUpForm = ({ userId, setForm }) => {
             placeholder="Last Name"
           />
           <Form.Input
-            name="Email"
+            name="email"
             fluid
             icon="mail"
             iconPosition="left"
@@ -95,21 +95,18 @@ const SignUpForm = ({ userId, setForm }) => {
             type="password"
           />
           <Form.Input
-            name="confirm password"
+            name="confirmPassword"
             fluid
             icon="lock"
             iconPosition="left"
             placeholder="Confirm Password"
             type="password"
           />
-
           <Form.Checkbox name="remember" label="Remember me" defaultChecked />
-
           <Button fluid size="large" type="submit">
             Sign Up
           </Button>
         </Form>
-
         <Message positive>
           Already have an account? <a href="/login">Log in now!</a>
         </Message>
