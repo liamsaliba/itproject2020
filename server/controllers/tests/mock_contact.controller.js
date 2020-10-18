@@ -1,5 +1,5 @@
-const User = require("../models/user.model");
-const Contact = require("../models/contact.model");
+const User = require("../../models/user.model");
+const Contact = require("../../models/contact.model");
 const nodemailer = require("nodemailer");
 const nodemailerMock = require("nodemailer-mock");
 
@@ -18,7 +18,7 @@ const contact = async (req, res) => {
       message,
     });
 
-    let transporter = nodemailer.createTransport({
+    let transporter = nodemailerMock.createTransport({
       host: "smtp.gmail.com",
       port: 465, // secure port
       secure: true,
@@ -54,7 +54,7 @@ const contact = async (req, res) => {
         res.json({ message: `message sent: ${info.messageId}` });
       }
     });
-
+    
     await newContact.save();
     res.status(200).send(newContact.toObject());
   } catch (err) {
