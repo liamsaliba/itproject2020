@@ -122,6 +122,7 @@ const findAllDetails = async (req, res) => {
     let artifacts = await Artifact.findByPageId(page.id);
     artifacts = artifacts ? artifacts : [];
     const p = page.toObject();
+    p.artifacts = artifacts.map(a => a._id);
     res.status(200).send({
       page: p,
       artifacts: artifacts.map(a => {

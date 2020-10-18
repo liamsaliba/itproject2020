@@ -28,6 +28,7 @@ const createArtifact = async (req, res) => {
     }
     const username = req.user.username;
     const contents = req.body.contents;
+    const type = req.body.type;
     const pageId = req.params.pageId;
     const page = await Page.findById(pageId);
     const portfolio = await Portfolio.findByUsername(username);
@@ -37,6 +38,7 @@ const createArtifact = async (req, res) => {
       contents,
       portfolioId,
       pageId,
+      type,
     });
     await newArtifact.save();
     res.status(200).send(newArtifact.toObject());

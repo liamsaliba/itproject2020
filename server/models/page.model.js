@@ -18,7 +18,7 @@ const pageSchema = new Schema(
       type: String,
       required: true,
     },
-    contents: {
+    artifacts: {
       type: [String],
     },
     type: {

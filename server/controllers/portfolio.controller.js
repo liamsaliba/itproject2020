@@ -194,6 +194,7 @@ const deletePortfolio = async (req, res) => {
   }
 };
 
+// Get all details about a portfolio (incl. its pages, artifacts and media)
 const findAllDetails = async (req, res) => {
   try {
     if (!req.params.username) {
@@ -221,11 +222,12 @@ const findAllDetails = async (req, res) => {
       aObject.media = media;
       aObjects.push(aObject);
     }
-
     res.status(200).send({
       portfolio,
       pages: pages.map(p => {
         const pObject = p.toObject();
+        pObject.artifacts = aObjects.filter(a => a.pageId == pObject.id)
+                                    .map(a => a.id);
         return pObject;
       }),
       artifacts: aObjects,
