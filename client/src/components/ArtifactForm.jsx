@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx, Box, Flex } from "theme-ui";
-import React, { useState, useEffect } from "react";
+import { jsx, Box } from "theme-ui";
+import { useState, useEffect } from "react";
 import {
   useForm,
   FormProvider,
@@ -15,26 +15,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ChooseMedia } from "./Media";
 
-import {
-  Input,
-  Checkbox,
-  Header,
-  Button,
-  TextArea,
-  Form,
-  Modal,
-  Icon,
-} from "semantic-ui-react";
+import { Button, Form, Modal, Icon } from "semantic-ui-react";
 
 import ReactDatePicker from "react-datepicker";
-import { selectArtifactById } from "../store";
-import { useSelector } from "react-redux";
-
-const fieldInputStyle = {
-  mb: "1em",
-  width: "100%",
-  border: "1.5px",
-};
 
 const getErrors = (errors, field) =>
   errors[field]
@@ -71,7 +54,7 @@ const DisplayForm = () => {
 };
 
 const EducationForm = () => {
-  const { watch, errors } = useFormContext();
+  const { errors } = useFormContext();
 
   return (
     <Box>

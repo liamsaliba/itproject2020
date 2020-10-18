@@ -30,6 +30,7 @@ export default props => {
   useEffect(() => {
     dispatch(getMedia());
     setTimeout(() => setOpen(true), 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

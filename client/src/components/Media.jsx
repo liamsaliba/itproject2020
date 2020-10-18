@@ -3,21 +3,15 @@ import { jsx } from "theme-ui";
 import React from "react";
 
 import { Button, Form, Icon, List, Popup } from "semantic-ui-react";
-import { FormProvider } from "react-hook-form";
 import { Modal } from "semantic-ui-react";
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { Dropdown } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
-// import { uploadMedia } from "../store/middleware/mediaUpload";
-import { uploadMedia, selectToken } from "../store";
+import { uploadMedia } from "../store";
 import { useSelector } from "react-redux";
 import { selectUserMedia } from "../store/combinedSelectors";
-import {
-  selectMediaByUsername,
-  selectPagesByUsername,
-} from "../store/combinedSelectors";
-import { useEffect } from "react";
+import { selectMediaByUsername } from "../store/combinedSelectors";
 import PreviewModal from "./DocumentPreview";
 
 export const NewMedia = () => {
@@ -133,13 +127,13 @@ export const ChooseMedia = () => {
         content="Click on a file badge to preview that file!"
         on={["hover"]}
       />
-      <UploadMedia />
+      <UploadMediaModal />
       <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
     </Form.Group>
   );
 };
 
-const UploadMedia = () => {
+const UploadMediaModal = () => {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState({
     image_file: null,
@@ -236,7 +230,7 @@ const UploadMedia = () => {
 export const Media = () => {
   return (
     <React.Fragment>
-      <UploadMedia />
+      <UploadMediaModal />
       <MediaList />
     </React.Fragment>
   );

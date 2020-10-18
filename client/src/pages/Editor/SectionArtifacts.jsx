@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { Button } from "semantic-ui-react";
 import Section from "./Section";
 import { Media } from "../../components/Media";
 

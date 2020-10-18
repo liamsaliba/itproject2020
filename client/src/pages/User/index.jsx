@@ -2,14 +2,13 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { NotExist } from "./NotExist";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
   selectPortfolioByUsername,
   selectPortfolioIsEditing,
-  selectPortfoliosSlice,
   changePortfolio,
   selectCurrentPortfolio,
 } from "../../store";
@@ -28,7 +27,6 @@ const User = props => {
   const { userId } = props;
   // eslint-disable-next-line
   const username = useSelector(selectCurrentPortfolio);
-  const portfolios = useSelector(selectPortfoliosSlice);
   // eslint-disable-next-line
   const editing = useSelector(selectPortfolioIsEditing);
   const loading = useSelector(selectLoadingStatus);

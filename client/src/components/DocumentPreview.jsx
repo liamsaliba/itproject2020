@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { Modal, Image, Header, Icon } from "semantic-ui-react";
+import { Modal, Image } from "semantic-ui-react";
 
 const PreviewModal = ({ open, setClosed, src }) => {
   if (!src) {

@@ -10,8 +10,9 @@ export const artifactTypeToName = type => {
       return "Education";
     case "experience":
       return "Experience";
+    default:
+      return null;
   }
-  return null;
 };
 
 const Artifact = props => {
@@ -24,8 +25,9 @@ const Artifact = props => {
     //   return <Education {...props} />;
     // case "experience":
     //   return <Experience {...props} />;
+    default:
+      return <p>{JSON.stringify(props)}</p>;
   }
-  return <p>{JSON.stringify(props)}</p>;
 };
 
 export default Artifact;

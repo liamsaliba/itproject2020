@@ -1,8 +1,8 @@
 /** @jsx jsx */
-import { jsx, Button, Container } from "theme-ui";
+import { jsx, Container } from "theme-ui";
 import PropTypes from "prop-types";
 import React from "react";
-import TextEditor from "./TextEditor";
+// import TextEditor from "./TextEditor";
 
 export default function Body({
   // body: { isEditing, style, hAlign, vAlign, text, actionString, onAction },

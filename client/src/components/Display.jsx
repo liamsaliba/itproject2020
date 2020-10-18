@@ -1,8 +1,6 @@
 /** @jsx jsx */
-import { jsx, Flex, Box, Image } from "theme-ui";
+import { jsx, Flex } from "theme-ui";
 // import PropTypes from "prop-types";
-import documentPreview from "../svg/DocumentPreview.png";
-import { Icon } from "semantic-ui-react";
 import React, { useState } from "react";
 import Body from "./Body";
 
@@ -15,19 +13,19 @@ const Display = ({ editing, contents, id, media }) => {
   const body = <Body hPos="center" vPos="center" {...contents} />;
 
   const MediaCollection = () => {
-    const mediaStyle = {
-      boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
-    };
+    // const mediaStyle = {
+    //   boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
+    // };
 
-    const mediaCollectionStyle = {
-      // ...style,
-      padding: "1em",
-      display: "flex",
-      flex: 1,
-      justifyContent: "center",
-      backgroundColor: "muted",
-      borderRadius: "5px",
-    };
+    // const mediaCollectionStyle = {
+    //   // ...style,
+    //   padding: "1em",
+    //   display: "flex",
+    //   flex: 1,
+    //   justifyContent: "center",
+    //   backgroundColor: "muted",
+    //   borderRadius: "5px",
+    // };
     return null;
     // TODO: reimplement
     // if (media === "image") {

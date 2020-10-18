@@ -57,7 +57,7 @@ const slice = createSlice({
     },
     pageDeleted: (pages, action) => {
       const pageId = action.request.data.id;
-      // adapter.removeOne(pages, pageId);
+      adapter.removeOne(pages, pageId);
     },
     pageReceivedOneAll: (pages, action) => {
       const { page } = addLastFetch(action.payload);

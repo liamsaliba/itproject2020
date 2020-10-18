@@ -2,8 +2,6 @@
 import { jsx, Flex, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
 
-import React from "react";
-
 import {
   selectArtifactsByPageId,
   selectPageById,
