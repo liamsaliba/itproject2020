@@ -1,11 +1,15 @@
 /** @jsx jsx */
 import { jsx, Box, Flex } from "theme-ui";
-import React, { useState } from "react";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import {
+  useForm,
+  FormProvider,
+  useFormContext,
+  Controller,
+} from "react-hook-form";
 
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "react-datepicker/dist/react-datepicker.css";
-
 // used https://codesandbox.io/s/semantic-ui-react-form-hooks-vnyjh?from-embed=&file=/example.js:594-698
 // for react-form-hooks w semantic ui example
 
@@ -17,9 +21,12 @@ import {
   TextArea,
   Form,
   Modal,
+  Icon,
 } from "semantic-ui-react";
 
-import DatePicker from "react-datepicker";
+import ReactDatePicker from "react-datepicker";
+import { selectArtifactById } from "../store";
+import { useSelector } from "react-redux";
 
 const fieldInputStyle = {
   mb: "1em",
@@ -27,76 +34,174 @@ const fieldInputStyle = {
   border: "1.5px",
 };
 
-const Required = <span sx={{ color: "red" }}>*</span>;
-
-const FieldHeader = ({ name, required }) => {
-  return (
-    <Header as="h4" htmlFor={name}>
-      {name}
-      {required ? <Required /> : null}
-    </Header>
-  );
-};
-
-const FieldInput = ({ name, id, required }) => {
-  const style = fieldInputStyle;
-  // TODO use Form.Field
+const NewMedia = () => {
   return (
     <React.Fragment>
-      <FieldHeader name={name} required />
-      <TextArea sx={style} name={id} />
+      <Form.Input label="Upload Media" type="file" name="media" />
+      <Form.Input
+        label="Media Description"
+        name="description"
+        control="textarea"
+      />
     </React.Fragment>
   );
 };
 
-const FieldCheck = ({ name, id, val, setVal }) => {
+// TODO: Media Gallery + File Upload  -- need to move this into another modal
+// https://react.semantic-ui.com/modules/modal/#usage-multiple  (multiple modals)
+const Media = () => (
+  <Button icon small labelPosition="left">
+    <Icon name="file" />
+    Choose Media
+  </Button>
+);
+
+const getErrors = (errors, field) =>
+  errors[field]
+    ? {
+        content: errors[field].message,
+        pointing: "below",
+      }
+    : null;
+
+const DisplayForm = () => {
+  const { errors } = useFormContext();
+
   return (
-    <Box sx={fieldInputStyle}>
-      <Checkbox label={name} name={id} onChange={() => setVal(!{ val })} />
+    <Box>
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "header")}
+        name="header"
+        label="Header"
+      />
+      <Controller
+        as={Form.Input}
+        name="body"
+        label="Body"
+        error={getErrors(errors, "body")}
+      />
+      <Form.Field>
+        <label>Attached Media</label>
+        <Media />
+      </Form.Field>
     </Box>
   );
 };
 
-// <Form.Input label={name} name={id} required={required} placeholder={placeholder} control="textarea"/>
-
-// TODO: Media Gallery
-const MediaUpload = () => (
-  <React.Fragment>
-    <Form.Input label="Upload Media" type="file" name="media" />
-    <Form.Input
-      label="Media Description"
-      name="description"
-      control="textarea"
-    />
-  </React.Fragment>
-);
-
-const DisplayForm = () => (
-  <Box>
-    <FieldInput name="Header" id="header" />
-    <FieldInput name="Body" id="body" />
-    <MediaUpload />
-  </Box>
-);
-
 const EducationForm = () => {
+  const { watch, errors } = useFormContext();
+
   return (
     <Box>
-      <FieldInput name="School" id="school" required />
-      <FieldInput name="Degree" id="degree" required />
-      <FieldInput name="Field of study" id="field" />
-      <FieldInput name="Location" id="location" />
-      <FieldInput name="Grade" id="grade" />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "school")}
+        name="school"
+        label="School"
+        placeholder="Hogwarts School of Witchcraft and Wizardry"
+        required
+        rules={{ required: true }}
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "header")}
+        rules={{ required: true }}
+        name="degree"
+        label="Degree"
+        placeholder="High School"
+        required
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "fieldOfStudy")}
+        name="fieldOfStudy"
+        label="Field of study"
+        placeholder="Studies in Dark Arts"
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "location")}
+        name="location"
+        label="Location"
+        placeholder="Beyond Platform 9 3/4"
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "grade")}
+        name="grade"
+        label="Grade"
+        placeholder="Outstanding"
+      />
 
-      <StartEndDatePicker />
-      <MediaUpload />
+      <Form.Group widths="equal">
+        <Form.Field required>
+          <label>Start Date</label>
+          <Controller
+            name="startDate"
+            render={props => (
+              <ReactDatePicker
+                // sx={datePickerStyle}
+                className="input"
+                placeholderText="Choose start date"
+                dateFormat="MM/yyy"
+                showMonthYearPicker
+                onChange={e => props.onChange(e)}
+                selected={props.value}
+              />
+            )}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>End Date (or expected end date)</label>
+          <Controller
+            name="endDate"
+            render={props => (
+              <ReactDatePicker
+                // sx={datePickerStyle}
+                className="input"
+                placeholderText="Choose end date"
+                dateFormat="MM/yyy"
+                showMonthYearPicker
+                onChange={e => props.onChange(e)}
+                selected={props.value}
+              />
+            )}
+          />
+        </Form.Field>
+      </Form.Group>
 
-      <FieldInput name="Details" id="details" />
+      <Form.Field>
+        <label>Attached Media</label>
+        <Media />
+      </Form.Field>
+
+      <Controller
+        as={Form.TextArea}
+        error={getErrors(errors, "details")}
+        name="details"
+        label="Details"
+        placeholder="Quiddich Player of the Season, 2019"
+      />
     </Box>
   );
 };
 
 const ExperienceForm = () => {
+  const { errors, register } = useFormContext();
+
+  useEffect(() => {
+    register({ name: "jobTitle" }, { required: true });
+    register({ name: "organisation" }, { required: true });
+    register({ name: "department" });
+    register({ name: "location" });
+    register({ name: "employmentType" }, { required: true });
+    register({ name: "grade" });
+    // TODO: add date picker
+    // TODO: add media upload
+    register({ name: "details" });
+  });
+
   const employmentOptions = [
     { key: "f", text: "Full Time", value: "Full Time" },
     { key: "p", text: "Part Time", value: "Part Time" },
@@ -104,75 +209,202 @@ const ExperienceForm = () => {
     { key: "fl", text: "Freelance", value: "Freelance" },
     { key: "i", text: "Internship", value: "Internship" },
   ];
-  // <Box as="form" onSubmit={handleSave}>
   return (
     <Box>
-      <FieldInput name="Job Title" id="title" required />
-      <FieldInput name="Organisation" id="organisation" required />
-      <FieldInput name="Department" id="department" />
-      <FieldInput name="Location" id="location" />
-      {/* TODO: Should be a Select (Full time, part time, ...) */}
-      <Form.Select
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "jobTitle")}
+        name="jobTitle"
+        label="Job Title"
+        placeholder="Auror"
+        required
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "organisation")}
+        name="organisation"
+        label="Organisation"
+        placeholder="Ministry of Magic"
+        required
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "department")}
+        name="department"
+        label="Department"
+        placeholder="Department of Dark Arts"
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "location")}
+        name="location"
+        label="Location"
+        placeholder="London Underground, UK"
+      />
+      <Controller
+        as={Form.Select}
+        error={getErrors(errors, "employmentOptions")}
         fluid
         required
         label="Employment Type"
         options={employmentOptions}
-        placeholder="Type"
-        name="type"
+        placeholder="Full time, part time, ..."
+        name="employmentType"
         // sx={{ zIndex: "999999 !important" }}
       />
-      <FieldInput name="Employment Type" id="employmentType" />
+      <Controller
+        as={Form.Checkbox}
+        error={getErrors(errors, "isVoluntary")}
+        name="isVoluntary"
+        label="This a volunteering role"
+      />
 
-      <FieldCheck name={"Is this a volunteering role?"} id={"isVoluntary"} />
-      <StartEndDatePicker />
-      <MediaUpload />
+      <Form.Group widths="equal">
+        <Form.Field required>
+          <label>Start Date</label>
+          <Controller
+            name="startDate"
+            render={props => (
+              <ReactDatePicker
+                // sx={datePickerStyle}
+                className="input"
+                placeholderText="Choose start date"
+                dateFormat="MM/yyy"
+                showMonthYearPicker
+                onChange={e => props.onChange(e)}
+                selected={props.value}
+              />
+            )}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>End Date (or ongoing)</label>
+          <Controller
+            name="endDate"
+            render={props => (
+              <ReactDatePicker
+                // sx={datePickerStyle}
+                className="input"
+                placeholderText="Ongoing"
+                isClearable
+                dateFormat="MM/yyy"
+                showMonthYearPicker
+                onChange={e => props.onChange(e)}
+                selected={props.value}
+              />
+            )}
+          />
+        </Form.Field>
+      </Form.Group>
 
+      <Form.Field>
+        <label>Attached Media</label>
+        <Media />
+      </Form.Field>
       {/* "Tell us about it!" */}
-      <FieldInput name="Details" id="details" />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "details")}
+        name="details"
+        label="Details"
+        placeholder="Quiddich Player of the Season, 2019"
+      />
     </Box>
   );
 };
 
-const ArtifactForm = ({ type, pageId, isNew }) => {
+const forms = {
+  education: {
+    content: <EducationForm />,
+    title: "Education",
+    defaultValues: {},
+    // TODO: callback: ,
+  },
+  experience: {
+    content: <ExperienceForm />,
+    title: "Experience",
+    defaultValues: {},
+    // TODO: callback: ,
+  },
+  display: {
+    content: <DisplayForm />,
+    title: "Display",
+    defaultValues: { header: "", body: "" },
+    validate: (data, setError) => {
+      if (data.header === "" && data.body === "") {
+        setError("body", {
+          type: "manual",
+          message: "At least one field should be filled.",
+        });
+        setError("header", {
+          type: "manual",
+          message: "At least one field should be filled.",
+        });
+        return false;
+      }
+      return true;
+    },
+    // TODO: callback: ,
+  },
+};
+
+export const NewArtifactForm = ({ type, action }) => {
+  console.log("Loaded form!");
+  const thisForm = forms[type];
+  if (!thisForm) return null;
+  const header = "Create new ".concat(thisForm.title);
+  // const action = (body) => action(pageId, body);
+  return <FormModal {...thisForm} action={action} title={header} type={type} />;
+};
+
+export const EditArtifactForm = ({ type, action, trigger, artifactId }) => {
+  const artifact = useSelector(state => selectArtifactById(state, artifactId));
+
+  const thisForm = forms[type];
+  if (!thisForm) return null;
+  const header = "Edit ".concat(thisForm.title);
+
+  return (
+    <FormModal
+      {...thisForm}
+      action={action}
+      title={header}
+      trigger={trigger}
+      defaultValues={artifact}
+    />
+  );
+};
+
+const ArtifactForm = ({ type, pageId, isNew, trigger }) => {
   const thisForm = forms[type];
   if (!thisForm) return null;
 
   const header = (isNew ? "Create new " : "Edit ").concat(thisForm.title);
-  return <FormModal {...thisForm} pageId={pageId} header={header} />;
+  return <FormModal {...thisForm} title={header} trigger={trigger} />;
 };
 
-const forms = {
-  education: {
-    Content: <EducationForm />,
-    title: "Education",
-    initialState: {},
-    // TODO: callback: ,
-  },
-  experience: {
-    Content: <ExperienceForm />,
-    title: "Experience",
-    // TODO: callback: ,
-  },
-  display: {
-    Content: <DisplayForm />,
-    title: "Display",
-    // TODO: callback: ,
-  },
-};
-
-// Content: the actual form
-const FormModal = ({ title, initialState, action, pageId, Content }) => {
+// content: the actual form
+const FormModal = ({
+  title,
+  defaultValues,
+  action,
+  content,
+  type,
+  validate,
+}) => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
-  const form = useForm();
-  const { handleSubmit, setValue, triggerValidation } = form;
+  const form = useForm({ defaultValues });
+  const { handleSubmit, setValue, triggerValidation, setError } = form;
 
   const onSubmit = (data, e) => {
-    // e.preventDefault();
-    console.log("Submit event", e);
-    console.log(data);
-    // if (action) dispatch(action(state));
-    setOpen(false);
+    if (validate(data, setError)) {
+      // e.preventDefault();
+      console.log("Submit event", e);
+      console.log(data);
+      // if (action) action(data);
+      setOpen(false);
+    }
   };
 
   const onChange = async (e, { name, value }) => {
@@ -190,26 +422,28 @@ const FormModal = ({ title, initialState, action, pageId, Content }) => {
         open={open}
         as={Form}
         onSubmit={handleSubmit(onSubmit)}
+        dimmer={{ inverted: true }}
+        trigger={
+          <Button small labelPosition="left">
+            <Icon name="add" />
+            Add {type}
+          </Button>
+        }
       >
         <Modal.Header>{title}</Modal.Header>
-        <Modal.Content>
-          <Content />
-        </Modal.Content>
+        <Modal.Content>{content}</Modal.Content>
         <Modal.Actions>
           <Button
+            icon
             color="red"
             labelPosition="left"
-            icon="trash"
             onClick={() => setOpen(false)}
           >
-            Delete
+            <Icon name="trash" />
+            Remove
           </Button>
-          <Button
-            color="blue"
-            type="submit"
-            labelPosition="left"
-            icon="checkmark"
-          >
+          <Button icon color="blue" type="submit" labelPosition="left">
+            <Icon name="checkmark" />
             Submit
           </Button>
         </Modal.Actions>
@@ -217,50 +451,6 @@ const FormModal = ({ title, initialState, action, pageId, Content }) => {
     </FormProvider>
   );
 };
-
-const MyDatePicker = ({ startDate, onChange, disabled = false }) => {
-  const style = {
-    ...fieldInputStyle,
-    border: "1.5px solid #aaa",
-    borderRadius: "5px",
-  };
-
-  return (
-    <DatePicker
-      sx={style}
-      selected={startDate}
-      onChange={onChange}
-      dateFormat="MM/yyy"
-      showMonthYearPicker
-      disabled={disabled}
-    />
-  );
-};
-
-const StartEndDatePicker = () => (
-  <React.Fragment>
-    <FieldCheck name={"Is this an ongoing role?"} id={"isOngoing"} />
-
-    <Flex sx={{ ...fieldInputStyle }}>
-      <Box sx={{ mr: "2em" }}>
-        <FieldHeader name={"Start Date"} required />
-        <MyDatePicker
-          startDate={Date.now()}
-          // onChange={date => setStartDate(date)}
-        />
-      </Box>
-      <Box>
-        <FieldHeader name={"End Date (or expected)"} />
-        <MyDatePicker
-          startDate={Date.now()}
-          // onChange={date => setEndDate(date)}
-          disabled={true}
-          // disabled={!isOngoing}
-        />
-      </Box>
-    </Flex>
-  </React.Fragment>
-);
 
 export default ArtifactForm;
 

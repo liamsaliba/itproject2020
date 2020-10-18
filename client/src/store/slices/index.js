@@ -81,6 +81,10 @@ export {
   selectPageEntities,
   selectAllPages,
   selectTotalPages,
+  selectPageArtifacts,
+  selectPageName,
+  selectPageType,
+  selectPageArtifactIds,
   // reducer
   default as pagesReducer,
 } from "./pages";

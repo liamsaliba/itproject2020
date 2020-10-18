@@ -69,16 +69,16 @@ export default props => {
         color: "black",
       }}
     >
-      <Title>Editor: {id}</Title>
       <ThemeProvider theme={themes.base}>
         <Flex
           sx={{
             width: "250px",
-            borderRight: "1px black solid",
             overflowY: "auto",
             overflowX: "hidden",
             height: "100vh",
             flexDirection: "column",
+            boxShadow: "1px 0 6px 0px #999",
+            position: "relative",
           }}
         >
           {portfolio ? <Sidebar /> : null}

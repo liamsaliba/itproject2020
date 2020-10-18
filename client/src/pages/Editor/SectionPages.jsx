@@ -170,7 +170,7 @@ const RenamePageModal = ({ pageState }) => {
 const NewPageModal = () => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
-  const [state, setState] = useState({ name: "", type: "" });
+  const [state, setState] = useState({ name: "", type: "display" });
   const options = [
     { key: "x", text: "Experience", value: "experience" },
     { key: "e", text: "Education", value: "education" },

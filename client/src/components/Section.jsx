@@ -2,6 +2,10 @@
 import { jsx, Box, Flex, Styled } from "theme-ui";
 import { Segment, Header, Icon } from "semantic-ui-react";
 
+export const Dot = () => (
+  <Icon color="red" name="circle" size="mini" sx={{ verticalAlign: "top" }} />
+);
+
 // TODO: on click of heading in edit mode - enable editing the heading.
 const Heading = ({ name, id, editing, newbtn }) => {
   return (
@@ -18,7 +22,7 @@ const ContentBox = ({ type, children }) => {
   const listStyling = {
     display: "flex",
     flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   };

@@ -25,7 +25,7 @@ const Artifact = props => {
     // case "experience":
     //   return <Experience {...props} />;
   }
-  return null;
+  return <p>{JSON.stringify(props)}</p>;
 };
 
 export default Artifact;

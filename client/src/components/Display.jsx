@@ -8,48 +8,44 @@ import Body from "./Body";
 
 import ArtifactForm from "./ArtifactForm";
 
-const Display = ({
-  isEditing,
-  artifact: { media, hPos, vPos, style },
-  body,
-  onAddDocument,
-}) => {
+const Display = ({ editing, contents, id, media }) => {
   const [open, setOpen] = useState(false);
+  const { hPos = "center" } = contents;
 
-  const mediaCollectionStyle = {
-    ...style,
-    padding: "1em",
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "muted",
-    borderRadius: "5px",
-  };
+  const body = <Body hPos="center" vPos="center" {...contents} />;
 
-  const Media = () => {
+  const MediaCollection = () => {
     const mediaStyle = {
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
-      maxHeight: "300px",
-      maxWidth: "300px",
     };
 
-    if (media === "image") {
-      return (
-        <Image onClick={handleClick} sx={mediaStyle} src={documentPreview} />
-      );
-    } else if (media === "pdf") {
-      return <Icon onClick={handleClick} size="massive" name="file pdf" />;
-    }
-    return;
+    const mediaCollectionStyle = {
+      // ...style,
+      padding: "1em",
+      display: "flex",
+      flex: 1,
+      justifyContent: "center",
+      backgroundColor: "muted",
+      borderRadius: "5px",
+    };
+    return null;
+    // TODO: reimplement
+    // if (media === "image") {
+    //   return (
+    //     <Image onClick={handleClick} sx={mediaStyle} src={documentPreview} />
+    //   );
+    // } else if (media === "pdf") {
+    //   return <Icon onClick={handleClick} size="massive" name="file pdf" />;
+    // }
+    // return (
+    //   <Box sx={mediaCollectionStyle}>
+    //     <Media />
+    //   </Box>
+    // );
   };
 
-  const MediaCollection = () => (
-    <Box sx={mediaCollectionStyle}>
-      <Media />
-    </Box>
-  );
-
   const handleClick = () => {
-    if (isEditing) {
+    if (editing) {
       setOpen(!open);
     }
   };
@@ -58,6 +54,7 @@ const Display = ({
     mr: "5em",
     ml: "5em",
     mb: "2em",
+    border: editing ? "1px solid black" : null,
   };
 
   const artefactFieldArgs = {
@@ -71,15 +68,21 @@ const Display = ({
   };
 
   const children =
-    hPos === "left" ? (
+    hPos === "right" ? (
       <React.Fragment>
-        <MediaCollection onClick={handleClick} />
-        <Body body={body} />
+        <MediaCollection />
+        {body}
       </React.Fragment>
-    ) : hPos === "right" ? (
+    ) : hPos === "left" ? (
       <React.Fragment>
-        <Body body={body} />
-        <MediaCollection onClick={handleClick} />
+        {body}
+        <MediaCollection />
+      </React.Fragment>
+    ) : hPos === "center" ? (
+      <React.Fragment>
+        {body}
+        {/* TODO: background media collection */}
+        {/* <MediaCollection onClick={handleClick} /> */}
       </React.Fragment>
     ) : null;
 

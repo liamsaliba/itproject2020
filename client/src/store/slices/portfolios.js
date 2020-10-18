@@ -76,10 +76,11 @@ const slice = createSlice({
         !portfolios.entities[username] ||
         !portfolios.entities[username].pages
       ) {
-        adapter.upsertOne({
+        adapter.upsertOne(portfolios, {
           username,
           pages: [newPage],
         });
+        return;
       }
       portfolios.entities[username].pages.push(newPage);
     },
@@ -90,11 +91,13 @@ const slice = createSlice({
         !portfolios.entities[username] ||
         !portfolios.entities[username].pages
       ) {
-        adapter.upsertOne({
+        adapter.upsertOne(portfolios, {
           username,
           pages: [newPage],
         });
+        return;
       }
+      // update the name
       for (let i = 0; i < portfolios.entities[username].pages.length; i++) {
         if (portfolios.entities[username].pages[i].pageId === pageId) {
           portfolios.entities[username].pages[i] = {
@@ -111,10 +114,11 @@ const slice = createSlice({
         !portfolios.entities[username] ||
         !portfolios.entities[username].pages
       ) {
-        adapter.upsertOne({
+        adapter.upsertOne(portfolios, {
           username,
           pages: [],
         });
+        return;
       }
       portfolios.entities[username].pages = portfolios.entities[
         username

@@ -66,7 +66,17 @@ const slice = createSlice({
   extraReducers: {
     [artifactActions.artifactCreated]: (pages, action) => {
       const { pageId, id } = action.payload;
+      if (!pages.entities[pageId] || !pages.entities[pageId].pages) {
+        adapter.upsertOne(pages, {
+          id: pageId,
+          artifacts: [{ id }],
+        });
+        return;
+      }
       pages.entities[pageId].artifacts.push({ id });
+    },
+    [artifactActions.artifactDeleted]: (pages, action) => {
+      // TODO
     },
     [portfolioFetchedAll]: (pages, action) => {
       const { pages: receivedPages } = action.payload;
@@ -127,6 +137,24 @@ export const {
   selectTotal: selectTotalPages,
 } = adapter.getSelectors(state => state.pages);
 export const selectPagesSlice = state => state.pages;
+
+export const selectPageArtifacts = createSelector(selectPageById, page =>
+  page ? page.artifacts || [] : undefined
+);
+
+export const selectPageName = createSelector(selectPageById, page =>
+  page ? page.name || "" : undefined
+);
+
+export const selectPageType = createSelector(selectPageById, page =>
+  page ? page.type || "" : undefined
+);
+
+export const selectPageArtifactIds = createSelector(
+  selectPageArtifacts,
+  artifacts =>
+    artifacts ? artifacts.map(artifact => artifact.artifactId) || [] : undefined
+);
 
 // Action Creators
 // load a page by id, with _all_ properties

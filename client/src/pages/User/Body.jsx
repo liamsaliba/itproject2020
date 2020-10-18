@@ -2,6 +2,8 @@
 import { jsx, Flex, Box, Image, Styled } from "theme-ui";
 import profileExample from "../../svg/Profile_example.png";
 
+import React from "react";
+
 import {
   selectArtifactsByPageId,
   selectPageById,
@@ -17,18 +19,8 @@ import { Modal } from "semantic-ui-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { changePortfolioBio } from "../../store/slices/portfolios";
-
-const NewArtifact = ({ onClick, pageId, type }) => {
-  // pass up pageId, so we know what page we're adding to.
-  return (
-    <Box>
-      <Button icon small labelPosition="left" onClick={() => onClick(pageId)}>
-        <Icon name="add" />
-        Add {type}
-      </Button>
-    </Box>
-  );
-};
+import { NewArtifactForm } from "../../components/ArtifactForm";
+import { createArtifact } from "../../store/slices/artifacts";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -106,15 +98,24 @@ const Page = ({ pageId: id, name, userId }) => {
   const page = useSelector(state => selectPageById(state, id));
   const content = useSelector(state => selectArtifactsByPageId(state, id));
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
+  const dispatch = useDispatch();
   // TODO: display a toast saying unable to fetch page.
   if (page === undefined) return null;
   const { type } = page;
   const artifacts = content.map(artifact => (
-    <Artifact {...artifact} editing={editing} />
+    <Artifact
+      {...artifact}
+      editing={editing}
+      // temporarily, while we wait for a backend fix...
+      type={type}
+    />
   ));
 
   const newbtn = (
-    <NewArtifact onClick={() => console.log("hello")} type={type} pageId={id} />
+    <NewArtifactForm
+      action={body => dispatch(createArtifact(id, { type, contents: body }))}
+      type={type}
+    />
   );
 
   const pageProps = {

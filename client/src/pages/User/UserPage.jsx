@@ -8,6 +8,7 @@ import { Title } from "./../../components";
 import { selectPortfolioTheme } from "../../store";
 import { useSelector } from "react-redux";
 import Hamburger from "../../components/Hamburger";
+import { selectPortfolioIsEditing } from "../../store/slices/portfolios";
 
 import { createMedia } from "@artsy/fresnel";
 const { MediaContextProvider, Media } = createMedia({
@@ -22,6 +23,7 @@ const UserPage = props => {
   const { userId } = props;
   const [preset, setPreset] = useState(themes["base"]);
   const theme = useSelector(state => selectPortfolioTheme(state, userId));
+  const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
 
   useEffect(() => {
     setPreset(themes[["default", "theme"].includes(theme) ? "base" : theme]);
@@ -30,7 +32,7 @@ const UserPage = props => {
   return (
     <MediaContextProvider>
       <ThemeProvider theme={preset}>
-        <Title>{userId}</Title>
+      <Title>{(editing ? "Editing " : "").concat(userId)}</Title>
         <Flex
           sx={{
             flexDirection: "column",
