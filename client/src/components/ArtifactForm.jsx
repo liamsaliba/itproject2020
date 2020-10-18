@@ -13,6 +13,8 @@ import "react-datepicker/dist/react-datepicker.css";
 // used https://codesandbox.io/s/semantic-ui-react-form-hooks-vnyjh?from-embed=&file=/example.js:594-698
 // for react-form-hooks w semantic ui example
 
+import { ChooseMedia } from "./Media";
+
 import {
   Input,
   Checkbox,
@@ -33,28 +35,6 @@ const fieldInputStyle = {
   width: "100%",
   border: "1.5px",
 };
-
-const NewMedia = () => {
-  return (
-    <React.Fragment>
-      <Form.Input label="Upload Media" type="file" name="media" />
-      <Form.Input
-        label="Media Description"
-        name="description"
-        control="textarea"
-      />
-    </React.Fragment>
-  );
-};
-
-// TODO: Media Gallery + File Upload  -- need to move this into another modal
-// https://react.semantic-ui.com/modules/modal/#usage-multiple  (multiple modals)
-const Media = () => (
-  <Button icon small labelPosition="left">
-    <Icon name="file" />
-    Choose Media
-  </Button>
-);
 
 const getErrors = (errors, field) =>
   errors[field]
@@ -83,7 +63,7 @@ const DisplayForm = () => {
       />
       <Form.Field>
         <label>Attached Media</label>
-        <Media />
+        <ChooseMedia />
       </Form.Field>
     </Box>
   );
@@ -173,7 +153,7 @@ const EducationForm = () => {
 
       <Form.Field>
         <label>Attached Media</label>
-        <Media />
+        <ChooseMedia />
       </Form.Field>
 
       <Controller
@@ -299,7 +279,7 @@ const ExperienceForm = () => {
 
       <Form.Field>
         <label>Attached Media</label>
-        <Media />
+        <ChooseMedia />
       </Form.Field>
       {/* "Tell us about it!" */}
       <Controller
@@ -386,11 +366,11 @@ const ArtifactForm = ({ type, pageId, isNew, trigger }) => {
 // content: the actual form
 const FormModal = ({
   title,
-  defaultValues,
+  defaultValues = {},
   action,
   content,
   type,
-  validate,
+  validate = (data, setError) => true,
 }) => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line

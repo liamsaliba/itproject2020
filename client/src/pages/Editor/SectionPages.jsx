@@ -264,6 +264,7 @@ const SectionPages = () => {
         {pages.length === 0 ? (
           "No pages, care to make a new one?"
         ) : (
+          // replace with https://react.semantic-ui.com/elements/list/#types-divided
           <Menu secondary vertical fluid>
             {pages.map(page => (
               <Page
