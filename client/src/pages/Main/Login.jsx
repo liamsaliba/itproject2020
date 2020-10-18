@@ -1,7 +1,16 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import { toast } from "react-toastify";
-import { Button, Form, Grid, Header, Image, Message } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Dimmer,
+  Loader,
+} from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,10 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store";
 import { useEffect } from "react";
 import { Title, Toast } from "../../components";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { Dimmer } from "semantic-ui-react";
-import { Loader } from "semantic-ui-react";
+import { useHistory, useParams } from "react-router-dom";
 
 export default () => {
   const userId = useParams().userId || "";
@@ -71,7 +77,7 @@ export default () => {
             placeholder="Password"
             type="password"
           />
-          <Form.Checkbox id="remember" label="Remember me" defaultChecked />
+          <Form.Checkbox name="remember" label="Remember me" defaultChecked />
 
           <Button fluid size="large" type="submit">
             Login
