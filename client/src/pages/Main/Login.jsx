@@ -61,6 +61,7 @@ export default () => {
             icon="user"
             iconPosition="left"
             placeholder="Username / Email address"
+            defaultValue={userId}
           />
           <Form.Input
             name="password"
