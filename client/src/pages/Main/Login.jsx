@@ -78,17 +78,14 @@ export default () => {
             type="password"
           />
           <Form.Checkbox
-            name="remember"
             label="Remember me"
             defaultChecked
             onClick={() => setRemember(!remember)}
           />
-
           <Button fluid size="large" type="submit">
             Login
           </Button>
         </Form>
-
         <Message positive>
           Don't have an account? <a href="/signup">Sign up now!</a>
         </Message>

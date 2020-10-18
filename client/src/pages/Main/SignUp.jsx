@@ -27,6 +27,8 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 const SignUpForm = ({ userId, setForm }) => {
+  const [remember, setRemember] = useState(true);
+
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -36,6 +38,7 @@ const SignUpForm = ({ userId, setForm }) => {
     const lastName = formData.get("lastName");
     const email = formData.get("email");
     const username = formData.get("username");
+    const useCookie = remember === true;
 
     setForm({
       confirmPassword,
@@ -44,6 +47,7 @@ const SignUpForm = ({ userId, setForm }) => {
       lastName,
       email,
       username,
+      useCookie,
     });
   };
 
@@ -102,7 +106,11 @@ const SignUpForm = ({ userId, setForm }) => {
             placeholder="Confirm Password"
             type="password"
           />
-          <Form.Checkbox name="remember" label="Remember me" defaultChecked />
+          <Form.Checkbox
+            label="Remember me"
+            defaultChecked
+            onClick={() => setRemember(!remember)}
+          />
           <Button fluid size="large" type="submit">
             Sign Up
           </Button>
@@ -138,6 +146,7 @@ export default () => {
         lastName,
         email,
         username,
+        useCookie,
       } = form;
       if (confirmPassword !== password) {
         toast.error("Password does not match.");
@@ -153,7 +162,9 @@ export default () => {
         toast.error("Required fields are empty.");
         return;
       }
-      dispatch(signup(firstName, lastName, email, username, password));
+      dispatch(
+        signup(firstName, lastName, email, username, password, useCookie)
+      );
       setSubmitted(true);
     }
   }, [form, dispatch]);
