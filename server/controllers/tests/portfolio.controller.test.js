@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const httpMocks = require("node-mocks-http");
 const path = require("path");
 const portfolioController = require("../portfolio.controller");
+jest.setTimeout(10000);
 
 require("dotenv").config({
   path: path.resolve(__dirname, "../../../.env"),
@@ -80,7 +81,7 @@ describe("Portfolio Controller - Create a Portfolio", () => {
   });
 });
 
-describe("Portfolio Controller - Get all details of a portfolio", () => {
+describe("Portfolio Controller - Create new portfolio", () => {
   it("Successfully create a new portfolio", async () => {
     const req = httpMocks.createRequest({
       method: "GET",

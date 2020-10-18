@@ -3,6 +3,7 @@ const httpMocks = require("node-mocks-http");
 const path = require("path");
 const pageController = require("../page.controller");
 const artifactController = require("../artifact.controller");
+jest.setTimeout(10000);
 
 require("dotenv").config({
   path: path.resolve(__dirname, "../../../.env"),
