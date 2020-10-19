@@ -7,7 +7,7 @@ import Body from "./Body";
 import { Title } from "./../../components/index";
 import { selectPortfolioByUsername } from "../../store";
 import { useSelector } from "react-redux";
-import Mobile from "./Mobile";
+import Hamburger from "../../components/Hamburger";
 
 import { createMedia } from "@artsy/fresnel";
 const { MediaContextProvider, Media } = createMedia({
@@ -54,7 +54,11 @@ const UserPage = props => {
             </Media>
           </header>
           <Media at="mobile">
-            <Mobile userId={userId} />
+            <Hamburger
+              landing={false}
+              userId={userId}
+              body={<Body userId={userId} />}
+            />
           </Media>
         </Flex>
       </ThemeProvider>

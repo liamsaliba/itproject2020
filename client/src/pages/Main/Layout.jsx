@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import { jsx, Flex, ThemeProvider, Box } from "theme-ui";
 import themes from "../../themes";
 import { createMedia } from "@artsy/fresnel";
-import Mobile from "./Mobile";
+import Hamburger from "../../components/Hamburger";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -45,7 +45,7 @@ export default props => {
             <Body />
           </Media>
           <Media at="mobile">
-            <Mobile body={<Body />} />
+            <Hamburger landing={true} body={<Body />} />
           </Media>
           <Footer as="footer" />
         </Flex>
