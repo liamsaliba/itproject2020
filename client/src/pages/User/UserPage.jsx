@@ -1,17 +1,13 @@
 /** @jsx jsx */
-import { jsx, Flex, ThemeProvider, Box } from "theme-ui";
+import { jsx, Flex, ThemeProvider } from "theme-ui";
 import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 import themes from "../../themes";
 import Body from "./Body";
 import { Title } from "./../../components/index";
-import { selectPortfolioByUsername, selectPortfolioPages } from "../../store";
+import { selectPortfolioByUsername } from "../../store";
 import { useSelector } from "react-redux";
-
-import { Link } from "../../components/NavItems";
-import { MenuItem, MenuCamel } from "../../components";
-
-import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
+import Mobile from "./Mobile";
 
 import { createMedia } from "@artsy/fresnel";
 const { MediaContextProvider, Media } = createMedia({
@@ -25,29 +21,9 @@ const { MediaContextProvider, Media } = createMedia({
 const UserPage = props => {
   const { userId } = props;
   const [preset, setPreset] = useState(themes["base"]);
-  const [open, setOpen] = useState(false);
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );
-  const pages = useSelector(state => selectPortfolioPages(state, userId));
-
-  const sidebarItems = pages.map(page => (
-    <Menu.Item
-      key={page.pageId}
-      link
-      to={`#${page.name}`}
-      as={Link}
-      activeClassName="nactive"
-      onClick={() => setOpen(false)}
-      sx={{
-        variant: "links.nav",
-      }}
-      smooth // smooth scroll to element
-      p={2}
-    >
-      {page.name}
-    </Menu.Item>
-  ));
 
   useEffect(() => {
     setPreset(
@@ -78,35 +54,7 @@ const UserPage = props => {
             </Media>
           </header>
           <Media at="mobile">
-            <Sidebar.Pushable>
-              <Sidebar
-                as={Menu}
-                animation="slide along"
-                inverted
-                onHide={() => setOpen(false)}
-                vertical
-                visible={open}
-              >
-                <Menu.Item>
-                  <Flex sx={{ alignItems: "center" }}>
-                    <MenuCamel />
-                    <MenuItem to="/">Camel Case</MenuItem>
-                    <Box mx="auto" />
-                  </Flex>
-                </Menu.Item>
-                {sidebarItems}
-              </Sidebar>
-              <Sidebar.Pusher dimmed={open}>
-                <Container>
-                  <Menu inverted pointing secondary size="large">
-                    <Menu.Item onClick={setOpen}>
-                      <Icon name="sidebar" />
-                    </Menu.Item>
-                  </Menu>
-                </Container>
-                <Body userId={userId} />
-              </Sidebar.Pusher>
-            </Sidebar.Pushable>
+            <Mobile userId={userId} />
           </Media>
         </Flex>
       </ThemeProvider>
