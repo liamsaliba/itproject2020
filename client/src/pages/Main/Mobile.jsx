@@ -36,41 +36,62 @@ export default props => {
           </Flex>
         </Menu.Item>
         {auth.token && (
-          <Menu.Item
-            style={{ fontSize: "1.25em" }}
-            as={Link}
-            to={`/u/${user.username}`}
-          >
-            <Flex sx={{ alignItems: "center" }}>
-              <ProfileIcon userId={user.userId} />
-              <span sx={{ p: "0.2em" }} />
-              {user.firstName} {user.lastName}
-              <Box mx="auto" />
-            </Flex>
-          </Menu.Item>
-        )}
-        <Menu.Item as={Link} to="themes" onClick={() => setOpen(false)}>
-          <Icon name="paint brush" />
-          Themes
-        </Menu.Item>
-        {auth.token && (
-          <Menu.Item as={Link} to="/logout" onClick={() => setOpen(false)}>
-            <Icon name="sign out" />
-            Logout
+          <Menu.Item>
+            <Menu.Header style={{ fontSize: "2em", fontWeight: "bold" }}>
+              <Flex sx={{ alignItems: "center" }}>
+                <ProfileIcon userId={user.userId} />
+                <span sx={{ p: "0.2em" }} />
+                {user.firstName} {user.lastName}
+                <Box mx="auto" />
+              </Flex>
+            </Menu.Header>
+            <Menu.Menu style={{ fontSize: "1.5em" }}>
+              <Menu.Item
+                as={Link}
+                to={`/u/${user.username}`}
+                onClick={() => setOpen(false)}
+              >
+                <Icon name="address card" />
+                Portfolio
+              </Menu.Item>
+              <Menu.Item as={Link} to="/logout" onClick={() => setOpen(false)}>
+                <Icon name="sign out" />
+                Logout
+              </Menu.Item>
+            </Menu.Menu>
           </Menu.Item>
         )}
         {!auth.token && (
           <React.Fragment>
-            <Menu.Item as={Link} to="login" onClick={() => setOpen(false)}>
+            <Menu.Item
+              style={{ fontSize: "1.5em" }}
+              as={Link}
+              to="../login"
+              onClick={() => setOpen(false)}
+            >
               <Icon name="sign in" />
               Login
             </Menu.Item>
-            <Menu.Item as={Link} to="signup" onClick={() => setOpen(false)}>
+            <Menu.Item
+              style={{ fontSize: "1.5em" }}
+              as={Link}
+              to="../signup"
+              onClick={() => setOpen(false)}
+            >
               <Icon name="signup" />
               Sign up
             </Menu.Item>
           </React.Fragment>
         )}
+        <Menu.Item
+          style={{ fontSize: "1.5em" }}
+          as={Link}
+          to="themes"
+          onClick={() => setOpen(false)}
+        >
+          <Icon name="paint brush" />
+          Themes
+        </Menu.Item>
       </Sidebar>
       <Sidebar.Pusher dimmed={open}>
         <Container>
