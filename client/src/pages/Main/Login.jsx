@@ -61,14 +61,15 @@ export default () => {
       <Grid.Column style={{ maxWidth: 450 }}>
         <Title>Login</Title>
         <Header as="h2" textAlign="center">
-          <Image src={camel} /> Log in to your account
+          <Image src={camel} />
+          Log in to your account
         </Header>
         <br />
         <Form size="large" onSubmit={handleSubmit}>
           <Form.Input
             name="username"
             fluid
-            icon="user"
+            icon="at"
             iconPosition="left"
             placeholder="Username / Email address"
             defaultValue={userId}

@@ -64,14 +64,14 @@ const SignUpForm = ({ userId, setForm }) => {
           <Form.Input
             name="firstName"
             fluid
-            icon="address card"
+            icon="user"
             iconPosition="left"
             placeholder="First Name"
           />
           <Form.Input
             name="lastName"
             fluid
-            icon="address card"
+            icon="user"
             iconPosition="left"
             placeholder="Last Name"
           />
@@ -85,7 +85,7 @@ const SignUpForm = ({ userId, setForm }) => {
           <Form.Input
             name="username"
             fluid
-            icon="user"
+            icon="at"
             iconPosition="left"
             placeholder="Username"
             defaultValue={userId || ""}
@@ -112,7 +112,10 @@ const SignUpForm = ({ userId, setForm }) => {
             onClick={() => setCookie(!useCookie)}
           />
           <Button animated fluid primary size="large" type="submit">
-            <Button.Content visible>Sign Up</Button.Content>
+            <Button.Content visible>
+              <Icon name="user" />
+              Sign Up
+            </Button.Content>
             <Button.Content hidden>
               <Icon name="arrow right" />
             </Button.Content>
