@@ -19,8 +19,12 @@ export default () => {
       <Navbar.Left>
         <Flex sx={{ alignItems: "center" }}>
           <MenuCamel />
-          <MenuItem to="/">Camel Case</MenuItem>
-          <MenuItem to="themes">Themes</MenuItem>
+          <MenuItem style={{ fontSize: "1.5em" }} to="/">
+            Camel Case
+          </MenuItem>
+          <MenuItem style={{ fontSize: "1.5em" }} to="themes">
+            Themes
+          </MenuItem>
           <Box mx="auto" />
         </Flex>
       </Navbar.Left>

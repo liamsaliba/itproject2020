@@ -5,14 +5,13 @@ import Body from "./Body";
 import { selectPortfolioPages, selectToken, selectUser } from "../../store";
 import { useSelector } from "react-redux";
 import { Link } from "../../components/NavItems";
-import { MenuItem, MenuCamel } from "../../components";
+import { MenuCamel } from "../../components";
 import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
 import { ProfileIcon } from "../../components/ProfileIcon";
 
 export default props => {
   const { userId } = props;
   const [open, setOpen] = useState(false);
-  const [userOpen, setUserOpen] = useState(false);
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
   const pages = useSelector(state => selectPortfolioPages(state, userId));
