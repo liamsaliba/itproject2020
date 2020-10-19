@@ -1,26 +1,33 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+import { jsx, Flex, Box } from "theme-ui";
 import React from "react";
 
 import {
   MenuItem,
   MenuButton,
   MenuCamel,
+  Navbar,
   ProfileDropdown,
 } from "../../components";
-import { Menu } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 
 export default () => {
   const auth = useSelector(state => state.auth);
 
   return (
-    <Menu>
-      <MenuCamel />
-      <MenuItem to="/">Camel Pages</MenuItem>
-      <MenuItem to="themes">Themes</MenuItem>
-
-      <Menu.Menu position="right">
+    <Navbar>
+      <Navbar.Left>
+        <Flex sx={{ alignItems: "center" }}>
+          <MenuCamel />
+          <MenuItem to="/">Camel Case</MenuItem>
+          <Box mx="auto" />
+        </Flex>
+        <Flex sx={{ alignItems: "center" }}>
+          <MenuItem to="themes">Themes</MenuItem>
+          <Box mx="auto" />
+        </Flex>
+      </Navbar.Left>
+      <Navbar.Right>
         {auth.token && <ProfileDropdown items="default" />}
         {!auth.token && (
           <React.Fragment>
@@ -32,7 +39,7 @@ export default () => {
             </MenuButton>
           </React.Fragment>
         )}
-      </Menu.Menu>
-    </Menu>
+      </Navbar.Right>
+    </Navbar>
   );
 };
