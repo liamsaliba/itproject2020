@@ -35,7 +35,6 @@ const UserPage = props => {
     <Menu.Item
       key={page.pageId}
       link
-      as="a"
       to={`#${page.name}`}
       as={Link}
       activeClassName="nactive"
@@ -89,13 +88,12 @@ const UserPage = props => {
                 visible={open}
               >
                 <Menu.Item>
-                  <Flex p={2} sx={{ alignItems: "center" }}>
+                  <Flex sx={{ alignItems: "center" }}>
                     <MenuCamel />
                     <MenuItem to="/">Camel Case</MenuItem>
                     <Box mx="auto" />
                   </Flex>
                 </Menu.Item>
-
                 {sidebarItems}
               </Sidebar>
               <Sidebar.Pusher dimmed={open}>
