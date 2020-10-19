@@ -28,12 +28,12 @@ export default props => {
       <Navbar.Left>
         <MenuCamel />
       </Navbar.Left>
-      <Navbar.Center size="4">
+      <Navbar.Center>
         <Navbar.Item to="#">{userId}</Navbar.Item>
         <span sx={{ p: "0.4em" }}>|</span>
         {menuItems}
       </Navbar.Center>
-      <Navbar.Right size="1">
+      <Navbar.Right>
         {token && <ProfileDropdown items="default" />}
       </Navbar.Right>
     </Navbar>

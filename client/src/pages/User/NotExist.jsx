@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, Styled } from "theme-ui";
 
-import { MenuSemanticButton, CenterFlex } from "../../components";
+import { MenuButton, CenterFlex } from "../../components";
 import { Header, Icon } from "semantic-ui-react";
 import { Flex } from "theme-ui";
 
@@ -16,14 +16,14 @@ export const NotExist = ({ userId }) => (
     </Styled.p>
     <Styled.p>Would you like to sign up and create a new one?</Styled.p>
     <Flex sx={{ flexDirection: "row" }}>
-      <MenuSemanticButton primary to={`/signup/${userId}`}>
+      <MenuButton primary to={`/signup/${userId}`}>
         <Icon name="user plus" />
         Sign up
-      </MenuSemanticButton>
-      <MenuSemanticButton to={`/`}>
+      </MenuButton>
+      <MenuButton to={`/`}>
         <Icon name="home" />
         Home
-      </MenuSemanticButton>
+      </MenuButton>
     </Flex>
   </CenterFlex>
 );
