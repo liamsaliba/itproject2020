@@ -20,9 +20,6 @@ export default () => {
         <Flex sx={{ alignItems: "center" }}>
           <MenuCamel />
           <MenuItem to="/">Camel Case</MenuItem>
-          <Box mx="auto" />
-        </Flex>
-        <Flex sx={{ alignItems: "center" }}>
           <MenuItem to="themes">Themes</MenuItem>
           <Box mx="auto" />
         </Flex>
