@@ -1,17 +1,7 @@
 /** @jsx jsx */
-import { jsx, Label, Input, Box, Styled } from "theme-ui";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Image,
-  Message,
-  Dimmer,
-  Loader,
-} from "semantic-ui-react";
-import camel from "../../svg/camel.svg";
-import { Title, Toast } from "../../components";
+import { jsx } from "theme-ui";
+import { Form, Grid, Header } from "semantic-ui-react";
+import { Title } from "../../components";
 
 import { useHistory } from "react-router-dom";
 
@@ -30,22 +20,15 @@ export default () => {
     <Grid textAlign="middle" verticalAlign="center">
       <Grid.Column style={{ maxWidth: 450 }}>
         <Title>Search</Title>
-        <Header
-          as="h2"
-          textAlign="center"
-          content="Finding a particular Portfolio?"
-        />
         <Form size="huge" onSubmit={handleSubmit}>
           <Form.Input
             name="un"
-            // fluid
+            fluid
             icon="search"
             iconPosition="left"
-            placeholder="Username"
-            // transparent
+            placeholder="Finding a particular Portfolio?"
             inline
           />
-          {/* <Button>Go</Button> */}
         </Form>
       </Grid.Column>
     </Grid>

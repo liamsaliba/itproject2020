@@ -1,38 +1,28 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import Search from "./Search";
-
-import PropTypes from "prop-types";
-import React, { Component } from "react";
 import {
   Button,
   Container,
-  Divider,
   Grid,
   Header,
   Icon,
   Image,
-  List,
-  Menu,
   Segment,
-  Sidebar,
-  Visibility,
 } from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 import { Link } from "react-router-dom";
 
 const HomepageHeading = () => (
   <Container fluid text textAlign="center">
-    <Grid>
+    <Grid stackable>
       <Grid.Row>
-        <Grid.Column width={4}>
-          <Image src={camel} />
+        <Grid.Column floated="center" width={4}>
+          <Image rounded size="small" src={camel} />
         </Grid.Column>
-        <Grid.Column textAlign="left" width={12}>
+        <Grid.Column textAlign="center" width={12}>
           <Header
             as="h1"
-            // textAlign="center"
-            // image={camel}
             content="Camel Pages"
             style={{
               fontSize: "5em",
@@ -43,21 +33,6 @@ const HomepageHeading = () => (
         </Grid.Column>
       </Grid.Row>
     </Grid>
-    {/* <Header 
-      as="h1" 
-      textAlign="center"
-      image={camel}
-      content="Camel Pages"
-      style={{
-        fontSize: '5em',
-        fontWeight: 'normal',    
-        marginTop: '1.5em'    
-      }}/> */}
-    {/* <Image src={camel} /> Camel Pages */}
-    {/* </Header> */}
-    {/* <Header as="h2" textAlign="center" content="Simple. Customisable. Professional."/> */}
-
-    {/* <br /><br /><br /> */}
     <Search />
     <br />
     <Button animated primary size="huge" as={Link} to="signup">
@@ -92,13 +67,12 @@ const HomepageBody = () => (
     </Segment>
 
     {/* Add some quotes lmao */}
-
     <Segment style={{ padding: "0em" }} vertical>
       <Grid celled="internally" columns="equal" stackable>
         <Grid.Row textAlign="center">
           <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
             <Header as="h3" style={{ fontSize: "2em" }}>
-              "What a Company"
+              "Love"
             </Header>
             <p style={{ fontSize: "1.33em" }}>
               That is what they all say about us

@@ -10,6 +10,7 @@ import {
   Message,
   Dimmer,
   Loader,
+  Icon,
 } from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 
@@ -27,7 +28,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 const SignUpForm = ({ userId, setForm }) => {
-  const [remember, setRemember] = useState(true);
+  const [useCookie, setCookie] = useState(true);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -38,7 +39,6 @@ const SignUpForm = ({ userId, setForm }) => {
     const lastName = formData.get("lastName");
     const email = formData.get("email");
     const username = formData.get("username");
-    const useCookie = remember === true;
 
     setForm({
       confirmPassword,
@@ -109,10 +109,13 @@ const SignUpForm = ({ userId, setForm }) => {
           <Form.Checkbox
             label="Remember me"
             defaultChecked
-            onClick={() => setRemember(!remember)}
+            onClick={() => setCookie(!useCookie)}
           />
-          <Button fluid primary size="large" type="submit">
-            Sign Up
+          <Button animated fluid primary size="large" type="submit">
+            <Button.Content visible>Sign Up</Button.Content>
+            <Button.Content hidden>
+              <Icon name="arrow right" />
+            </Button.Content>
           </Button>
         </Form>
         <Message positive>
