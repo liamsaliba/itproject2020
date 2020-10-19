@@ -54,12 +54,10 @@ export default props => {
           Themes
         </Menu.Item>
         {auth.token && (
-          <React.Fragment>
-            <Menu.Item as={Link} to="/logout" onClick={() => setOpen(false)}>
-              <Icon name="sign out" />
-              Logout
-            </Menu.Item>
-          </React.Fragment>
+          <Menu.Item as={Link} to="/logout" onClick={() => setOpen(false)}>
+            <Icon name="sign out" />
+            Logout
+          </Menu.Item>
         )}
         {!auth.token && (
           <React.Fragment>
