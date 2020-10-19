@@ -90,12 +90,12 @@ export default () => {
           <Button animated fluid primary size="large" type="submit">
             <Button.Content visible>Log In</Button.Content>
             <Button.Content hidden>
-              <Icon name="arrow right" />
+              <Icon name="sign in" />
             </Button.Content>
           </Button>
         </Form>
         <Message positive>
-          Don't have an account? <a href="/signup">Sign up now!</a>
+          Don't have an account? <a href="/signup">Sign up</a> now!
         </Message>
         <Dimmer inverted active={auth.loading}>
           <Loader inverted>Logging in...</Loader>

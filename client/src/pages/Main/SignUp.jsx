@@ -112,17 +112,14 @@ const SignUpForm = ({ userId, setForm }) => {
             onClick={() => setCookie(!useCookie)}
           />
           <Button animated fluid primary size="large" type="submit">
-            <Button.Content visible>
-              <Icon name="user" />
-              Sign Up
-            </Button.Content>
+            <Button.Content visible>Sign Up</Button.Content>
             <Button.Content hidden>
-              <Icon name="arrow right" />
+              <Icon name="signup" />
             </Button.Content>
           </Button>
         </Form>
         <Message positive>
-          Already have an account? <a href="/login">Log in now!</a>
+          Already have an account? <a href="/login">Log in</a> now!
         </Message>
       </Grid.Column>
     </Grid>
