@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import Search from "./Search";
+import React from "react";
+
 import {
   Button,
   Container,
@@ -67,7 +69,7 @@ const HomepageBody = () => (
     </Segment>
 
     {/* Add some quotes lmao */}
-    <Segment style={{ padding: "0em" }} vertical>
+    {/* <Segment style={{ padding: "0em" }} vertical>
       <Grid celled="internally" columns="equal" stackable>
         <Grid.Row textAlign="center">
           <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
@@ -88,7 +90,7 @@ const HomepageBody = () => (
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    </Segment>
+    </Segment> */}
 
     <Segment style={{ padding: "8em 0em" }} vertical>
       <Grid container stackable verticalAlign="middle">
@@ -119,9 +121,9 @@ const HomepageBody = () => (
 
 export default () => {
   return (
-    <div>
+    <React.Fragment>
       <HomepageHeading />
       <HomepageBody />
-    </div>
+    </React.Fragment>
   );
 };

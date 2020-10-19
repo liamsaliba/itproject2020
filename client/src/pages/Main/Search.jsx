@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { Form, Grid, Header } from "semantic-ui-react";
+import { Form, Grid } from "semantic-ui-react";
 import { Title } from "../../components";
 
 import { useHistory } from "react-router-dom";
