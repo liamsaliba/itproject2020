@@ -1,4 +1,6 @@
 /** @jsx jsx */
+import { createMedia } from "@artsy/fresnel";
+
 import { jsx } from "theme-ui";
 import { ProfileDropdown, Navbar, MenuCamel } from "../../components";
 import { useSelector } from "react-redux";
@@ -9,6 +11,14 @@ const NavItem = ({ page }) => (
     {page.name}
   </Navbar.Item>
 );
+
+const { MediaContextProvider, Media } = createMedia({
+  breakpoints: {
+    mobile: 0,
+    tablet: 768,
+    computer: 1024,
+  },
+});
 
 export default props => {
   const token = useSelector(selectToken);
@@ -24,18 +34,24 @@ export default props => {
       : pages.map(page => <NavItem page={page} />);
 
   return (
-    <Navbar>
-      <Navbar.Left>
-        <MenuCamel />
-      </Navbar.Left>
-      <Navbar.Center>
-        <Navbar.Item to="#">{userId}</Navbar.Item>
-        <span sx={{ p: "0.4em" }}>|</span>
-        {menuItems}
-      </Navbar.Center>
-      <Navbar.Right>
-        {token && <ProfileDropdown items="default" />}
-      </Navbar.Right>
-    </Navbar>
+    <MediaContextProvider>
+      <Media greaterThan="mobile">
+        <Navbar>
+          <Navbar.Left>
+            <MenuCamel />
+          </Navbar.Left>
+          <Navbar.Center>
+            <Navbar.Item to="#">{userId}</Navbar.Item>
+            <span sx={{ p: "0.4em" }}>|</span>
+            {menuItems}
+          </Navbar.Center>
+          <Navbar.Right>
+            {token && <ProfileDropdown items="default" />}
+          </Navbar.Right>
+        </Navbar>
+      </Media>
+
+      <Media at="mobile"></Media>
+    </MediaContextProvider>
   );
 };
