@@ -17,7 +17,7 @@ export default () => {
     history.push("/u/" + username);
   };
   return (
-    <Grid textAlign="middle" verticalAlign="center">
+    <Grid textAlign="center" verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
         <Title>Search</Title>
         <Form size="huge" onSubmit={handleSubmit}>

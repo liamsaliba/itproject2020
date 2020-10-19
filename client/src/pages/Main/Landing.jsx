@@ -19,7 +19,7 @@ const HomepageHeading = () => (
   <Container fluid text textAlign="center">
     <Grid stackable>
       <Grid.Row>
-        <Grid.Column floated="center" width={4}>
+        <Grid.Column width={4}>
           <Image rounded size="small" src={camel} />
         </Grid.Column>
         <Grid.Column textAlign="center" width={12}>
