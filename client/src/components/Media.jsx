@@ -133,17 +133,24 @@ export const ChooseMedia = () => {
   );
 };
 
+const mediaEmpty = {
+  image_file: null,
+  image_preview: "",
+  description: "",
+};
+
 const UploadMediaModal = () => {
   const [open, setOpen] = useState(false);
-  const [state, setState] = useState({
-    image_file: null,
-    image_preview: "",
-    description: "",
-  });
+  const [state, setState] = useState(mediaEmpty);
   const dispatch = useDispatch();
   const handleChange = (e, values) => {
     const { name, value } = values;
     setState({ ...state, [name]: value });
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    setState(mediaEmpty);
   };
 
   const handleSubmit = e => {
@@ -158,7 +165,7 @@ const UploadMediaModal = () => {
     }
     dispatch(uploadMedia(state.image_file, state.description));
     // uploadMedia(dispatch)(token, state.image_file, state.description);
-    setOpen(false);
+    closeModal();
   };
 
   const handleImagePreview = e => {
@@ -177,7 +184,7 @@ const UploadMediaModal = () => {
       onSubmit={handleSubmit}
       size="tiny"
       closeOnDimmerClick={false}
-      onClose={() => setOpen(false)}
+      onClose={() => closeModal()}
       onOpen={() => setOpen(true)}
       dimmer={{ inverted: true }}
       open={open}
@@ -216,7 +223,7 @@ const UploadMediaModal = () => {
         />
       </Modal.Content>
       <Modal.Actions>
-        <Button basic color="red" onClick={() => setOpen(false)} type="button">
+        <Button basic color="red" onClick={() => closeModal()} type="button">
           <Icon name="cancel" /> Cancel
         </Button>
         <Button color="green" type="submit">
