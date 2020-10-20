@@ -40,14 +40,24 @@ const Edit = ({ editing, setEditing }) => {
     );
   } else {
     return (
-      <Form.Button
-        fluid
-        positive
-        icon="check"
-        content="Save"
-        type="submit"
-        onClick={() => setEditing(false)}
-      />
+      <Form.Group widths="equal">
+        <Form.Button
+          fluid
+          basic
+          negative
+          icon="remove"
+          content="Cancel"
+          onClick={() => setEditing(false)}
+        />
+        <Form.Button
+          fluid
+          positive
+          icon="check"
+          content="Save"
+          type="submit"
+          onClick={() => setEditing(false)}
+        />
+      </Form.Group>
     );
   }
 };
@@ -75,16 +85,14 @@ const SetAvatarModal = ({ user }) => {
       // onSubmit={handleSubmit(onSubmit)}
       dimmer={{ inverted: true }}
       trigger={
-        <ProfileIcon
-          userId={user.userId}
-          width={175}
-          height={175}
-          to="#"
-          sx={{ mr: "5px" }}
-          onClick={() => {
-            setOpen(true);
-          }}
-        />
+        <Button circular inverted animated="fade">
+          <Button.Content visible>
+            <ProfileIcon userId={user.userId} width={150} height={150} />
+          </Button.Content>
+          <Button.Content hidden verticalAlign="middle" textAlign="center">
+            <Icon name="edit" size="huge" />
+          </Button.Content>
+        </Button>
       }
     >
       <Modal.Header>Set Avatar</Modal.Header>
@@ -360,8 +368,18 @@ export default () => {
               disabled
             />
             {Edit({ editing, setEditing })}
-
-            <ChangePasswordModal />
+            <Button
+              icon
+              primary
+              icon="lock"
+              labelPosition="left"
+              content="Change Password"
+              onClick={() =>
+                toast.info(
+                  "A link to change your password has been sent to your email!"
+                )
+              }
+            />
             <DeleteAccountModal />
           </Form>
         </Grid.Column>
