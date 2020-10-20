@@ -36,7 +36,9 @@ export default props => {
 
   const userMenu = (
     <Menu.Item>
-      <Menu.Header style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+      <Menu.Header
+        style={{ fontSize: "1.5em", fontWeight: "bold", marginTop: "3em" }}
+      >
         <Flex sx={{ alignItems: "center" }}>
           <ProfileIcon userId={user.userId} />
           <span sx={{ p: "0.2em" }} />
@@ -64,7 +66,7 @@ export default props => {
   const loginMenu = (
     <React.Fragment>
       <Menu.Item
-        style={{ fontSize: "1.5em" }}
+        style={{ fontSize: "1.5em", marginTop: "3em" }}
         as={Link}
         to="../login"
         onClick={() => setOpen(false)}
@@ -127,9 +129,8 @@ export default props => {
             <Box mx="auto" />
           </Flex>
         </Menu.Item>
-
-        {token ? userMenu : loginMenu}
         {landing ? themesMenu : portfolioMenu}
+        {token ? userMenu : loginMenu}
       </Sidebar>
       <Sidebar.Pusher dimmed={open}>
         <Container>
