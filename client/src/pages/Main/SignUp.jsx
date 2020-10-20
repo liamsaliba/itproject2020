@@ -57,7 +57,8 @@ const SignUpForm = ({ userId, setForm }) => {
         <Title>Signup</Title>
 
         <Header as="h2" textAlign="center">
-          <Image src={camel} /> Sign up for a new account
+          <Image src={camel} />
+          Sign up for a new account
         </Header>
         <br />
         <Form size="large" onSubmit={handleSubmit}>

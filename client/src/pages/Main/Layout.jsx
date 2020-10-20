@@ -30,7 +30,7 @@ export default props => {
         <Media greaterThan="mobile">
           <Flex sx={flexProps}>
             <Navbar as="header" />
-            {props.children}
+            <Flex variant="layout.centerflex">{props.children}</Flex>
             <Footer as="footer" />
           </Flex>
         </Media>

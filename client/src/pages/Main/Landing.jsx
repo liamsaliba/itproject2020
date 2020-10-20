@@ -3,15 +3,7 @@ import { jsx, Flex } from "theme-ui";
 import Search from "./Search";
 import React from "react";
 
-import {
-  Button,
-  Container,
-  Grid,
-  Header,
-  Icon,
-  Image,
-  Segment,
-} from "semantic-ui-react";
+import { Button, Grid, Header, Icon, Image, Segment } from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 import { Link } from "react-router-dom";
 
