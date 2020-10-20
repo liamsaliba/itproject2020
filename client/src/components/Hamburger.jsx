@@ -35,38 +35,40 @@ export default props => {
       ));
 
   const userMenu = (
-    <Menu.Item>
-      <Menu.Header
-        style={{ fontSize: "1.5em", fontWeight: "bold", marginTop: "3em" }}
-      >
-        <Flex sx={{ alignItems: "center" }}>
-          <ProfileIcon userId={user.userId} />
-          <span sx={{ p: "0.2em" }} />
-          {user.firstName} {user.lastName}
-          <Box mx="auto" />
-        </Flex>
-      </Menu.Header>
-      <Menu.Menu style={{ fontSize: "1.5em" }}>
-        <Menu.Item
-          as={Link}
-          to={`/u/${user.username}`}
-          onClick={() => setOpen(false)}
-        >
-          <Icon name="address card" />
-          Portfolio
-        </Menu.Item>
-        <Menu.Item as={Link} to="/logout" onClick={() => setOpen(false)}>
-          <Icon name="sign out" />
-          Logout
-        </Menu.Item>
-      </Menu.Menu>
-    </Menu.Item>
+    <React.Fragment>
+      <Menu.Item disabled style={{ fontSize: "1.5em", marginTop: "3em" }} />
+      <Menu.Item>
+        <Menu.Header style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+          <Flex sx={{ alignItems: "center" }}>
+            <ProfileIcon userId={user.userId} />
+            <span sx={{ p: "0.2em" }} />
+            {user.firstName} {user.lastName}
+            <Box mx="auto" />
+          </Flex>
+        </Menu.Header>
+        <Menu.Menu style={{ fontSize: "1.5em" }}>
+          <Menu.Item
+            as={Link}
+            to={`/u/${user.username}`}
+            onClick={() => setOpen(false)}
+          >
+            <Icon name="address card" />
+            Portfolio
+          </Menu.Item>
+          <Menu.Item as={Link} to="/logout" onClick={() => setOpen(false)}>
+            <Icon name="sign out" />
+            Logout
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu.Item>
+    </React.Fragment>
   );
 
   const loginMenu = (
     <React.Fragment>
+      <Menu.Item disabled style={{ fontSize: "1.5em", marginTop: "3em" }} />
       <Menu.Item
-        style={{ fontSize: "1.5em", marginTop: "3em" }}
+        style={{ fontSize: "1.5em" }}
         as={Link}
         to="../login"
         onClick={() => setOpen(false)}
