@@ -30,25 +30,30 @@ export default props => {
     </Flex>
   );
 
+  const flexProps = {
+    flexDirection: "column",
+    // ensure the screen is always filled (footer isn't floating)
+    minHeight: "100vh",
+  };
+
   return (
     <MediaContextProvider>
       <ThemeProvider theme={theme}>
-        <Flex
-          sx={{
-            flexDirection: "column",
-            // ensure the screen is always filled (footer isn't floating)
-            minHeight: "100vh",
-          }}
-        >
-          <Media greaterThan="mobile">
+        <Media greaterThan="mobile">
+          <Flex sx={flexProps}>
             <Navbar as="header" />
             <Body />
-          </Media>
-          <Media at="mobile">
-            <Hamburger landing={true} body={<Body />} />
-          </Media>
-          <Footer as="footer" />
-        </Flex>
+            <Footer as="footer" />
+          </Flex>
+        </Media>
+        <Media at="mobile">
+          <Flex sx={flexProps}>
+            <Hamburger landing={true}>
+              <Body />
+              <Footer as="footer" />
+            </Hamburger>
+          </Flex>
+        </Media>
       </ThemeProvider>
     </MediaContextProvider>
   );

@@ -8,7 +8,7 @@ import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
 import { selectPortfolioPages, selectToken, selectUser } from "../store";
 
 export default props => {
-  const { landing, body, userId } = props;
+  const { landing, children, userId } = props;
   const [open, setOpen] = useState(false);
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
@@ -109,6 +109,12 @@ export default props => {
     </Menu.Item>
   );
 
+  const flexProps = {
+    flexDirection: "column",
+    // ensure the screen is always filled (footer isn't floating)
+    minHeight: "100vh",
+  };
+
   return (
     <Sidebar.Pushable>
       <Sidebar
@@ -135,20 +141,22 @@ export default props => {
         {token ? userMenu : loginMenu}
       </Sidebar>
       <Sidebar.Pusher dimmed={open}>
-        <Container>
-          <Menu secondary size="large">
-            <Menu.Item onClick={setOpen}>
-              <Icon
-                size="large"
-                floated="left"
-                sx={{ color: "text" }}
-                name="sidebar"
-              />
-            </Menu.Item>
-          </Menu>
-        </Container>
+        <Flex sx={flexProps}>
+          <Container>
+            <Menu secondary size="large">
+              <Menu.Item onClick={setOpen}>
+                <Icon
+                  size="big"
+                  floated="left"
+                  sx={{ color: "text" }}
+                  name="sidebar"
+                />
+              </Menu.Item>
+            </Menu>
+          </Container>
 
-        {body}
+          {children}
+        </Flex>
       </Sidebar.Pusher>
     </Sidebar.Pushable>
   );

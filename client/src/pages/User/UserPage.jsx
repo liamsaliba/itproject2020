@@ -54,11 +54,9 @@ const UserPage = props => {
             </Media>
           </header>
           <Media at="mobile">
-            <Hamburger
-              landing={false}
-              userId={userId}
-              body={<Body userId={userId} />}
-            />
+            <Hamburger landing={false} userId={userId}>
+              <Body userId={userId} />
+            </Hamburger>
           </Media>
         </Flex>
       </ThemeProvider>
