@@ -16,7 +16,7 @@ export const ProfileIcon = props => {
   const w = props.width ? props.width : 40;
   const h = props.height ? props.height : 40;
   return (
-    <IconButton {...props} as={Link} sx={{ width: w, height: h }}>
+    <IconButton {...props} sx={{ width: w, height: h }}>
       <Image
         src={profileImg}
         // variant="avatar"

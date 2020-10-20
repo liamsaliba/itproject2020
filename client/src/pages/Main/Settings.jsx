@@ -26,8 +26,8 @@ import { Title, Toast } from "../../components";
 
 import { useEffect, useState } from "react";
 
-const Edit = ({ field, set }) => {
-  if (field) {
+const Edit = ({ editing, setEditing }) => {
+  if (!editing) {
     return (
       <Form.Button
         fluid
@@ -35,7 +35,7 @@ const Edit = ({ field, set }) => {
         primary
         icon="edit"
         content="Edit"
-        onClick={() => set(false)}
+        onClick={() => setEditing(true)}
       />
     );
   } else {
@@ -46,7 +46,7 @@ const Edit = ({ field, set }) => {
         icon="check"
         content="Save"
         type="submit"
-        onClick={() => set(true)}
+        onClick={() => setEditing(false)}
       />
     );
   }
@@ -81,6 +81,9 @@ const SetAvatarModal = ({ user }) => {
           height={175}
           to="#"
           sx={{ mr: "5px" }}
+          onClick={() => {
+            setOpen(true);
+          }}
         />
       }
     >
@@ -248,9 +251,35 @@ const DeleteAccountModal = () => {
   );
 };
 
-const SettingsForm = ({ userId, setForm }) => {
+export default () => {
+  const dispatch = useDispatch();
+  const [form, setForm] = useState(null);
   const user = useSelector(selectUser);
   const [editing, setEditing] = useState(false);
+  const authError = useSelector(state => selectAuthSlice(state).error);
+
+  useEffect(() => {
+    if (form !== null) {
+      const { firstName, lastName } = form;
+      if (firstName === "" || lastName === "") {
+        toast.error("Required fields are empty.");
+        return;
+      }
+    }
+  }, [form, dispatch]);
+
+  useEffect(() => {
+    // TODO: fix error handling on store
+    if (authError) {
+      toast.error(
+        <Toast
+          title="Couldn't update user account."
+          message={authError.data}
+          technical={authError.message}
+        />
+      );
+    }
+  }, [authError]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -296,8 +325,8 @@ const SettingsForm = ({ userId, setForm }) => {
                 iconPosition="left"
                 label="First Name"
                 defaultValue={user.firstName}
-                transparent={editing}
-                readOnly={editing}
+                transparent={!editing}
+                readOnly={!editing}
               />
               <Form.Input
                 name="lastName"
@@ -306,8 +335,8 @@ const SettingsForm = ({ userId, setForm }) => {
                 iconPosition="left"
                 label="Last Name"
                 defaultValue={user.lastName}
-                transparent={editing}
-                readOnly={editing}
+                transparent={!editing}
+                readOnly={!editing}
               />
             </Form.Group>
             <Form.Input
@@ -330,7 +359,7 @@ const SettingsForm = ({ userId, setForm }) => {
               transparent
               disabled
             />
-            {Edit({ field: editing, set: setEditing })}
+            {Edit({ editing, setEditing })}
 
             <ChangePasswordModal />
             <DeleteAccountModal />
@@ -339,35 +368,4 @@ const SettingsForm = ({ userId, setForm }) => {
       </Grid.Row>
     </Grid>
   );
-};
-
-export default () => {
-  const dispatch = useDispatch();
-  const [form, setForm] = useState(null);
-
-  const authError = useSelector(state => selectAuthSlice(state).error);
-
-  useEffect(() => {
-    if (form !== null) {
-      const { firstName, lastName } = form;
-      if (firstName === "" || lastName === "") {
-        toast.error("Required fields are empty.");
-        return;
-      }
-    }
-  }, [form, dispatch]);
-
-  useEffect(() => {
-    if (authError) {
-      toast.error(
-        <Toast
-          title="Couldn't update user account."
-          message={authError.data}
-          technical={authError.message}
-        />
-      );
-    }
-  }, [authError]);
-
-  return <SettingsForm setForm={setForm} />;
 };
