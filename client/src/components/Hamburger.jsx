@@ -135,7 +135,12 @@ export default props => {
         <Container>
           <Menu secondary size="large">
             <Menu.Item onClick={setOpen}>
-              <Icon sx={{ color: "text" }} name="sidebar" />
+              <Icon
+                size="large"
+                floated="left"
+                sx={{ color: "text" }}
+                name="sidebar"
+              />
             </Menu.Item>
           </Menu>
         </Container>
