@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Flex, Box } from "theme-ui";
+import { jsx, Flex } from "theme-ui";
 import Search from "./Search";
 import React from "react";
 
