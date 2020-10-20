@@ -335,8 +335,6 @@ const forms = {
 };
 
 export const NewArtifactForm = ({ type, action }) => {
-  console.log("Loaded form!");
-
   const thisForm = forms[type];
   if (!thisForm) return null;
   const header = "Create new ".concat(thisForm.title);
@@ -385,7 +383,7 @@ const FormModal = ({
       // e.preventDefault();
       console.log("Submit event", e);
       console.log(data);
-      // if (action) action(data);
+      if (action) action(data);
       setOpen(false);
     }
   };
