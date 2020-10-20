@@ -123,7 +123,7 @@ export default props => {
         >
           <Flex sx={{ alignItems: "center" }}>
             <MenuCamel />
-            Camel Case
+            Camel Pages
             <Box mx="auto" />
           </Flex>
         </Menu.Item>

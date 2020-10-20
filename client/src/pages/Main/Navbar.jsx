@@ -20,7 +20,7 @@ export default () => {
         <Flex sx={{ alignItems: "center" }}>
           <MenuCamel />
           <MenuItem style={{ fontSize: "1.5em" }} to="/">
-            Camel Case
+            Camel Pages
           </MenuItem>
           <MenuItem style={{ fontSize: "1.5em" }} to="themes">
             Themes
