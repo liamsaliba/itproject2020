@@ -24,14 +24,17 @@ const slice = createSlice({
   reducers: {
     portfolioEditingStart: (portfolios, action) => {
       const { username } = action.payload;
+      portfolios.error = null;
       adapter.upsertOne(portfolios, { username, editing: true });
     },
     portfolioEditingFinish: (portfolios, action) => {
       const { username } = action.payload;
+      portfolios.error = null;
       adapter.upsertOne(portfolios, { username, editing: false });
     },
     portfolioRequestedMany: (portfolios, action) => {
       portfolios.loading = true;
+      portfolios.error = null;
     },
     portfolioReceivedMany: (portfolios, action) => {
       if (action.payload.length !== 0) {
@@ -39,6 +42,7 @@ const slice = createSlice({
         // adapter.upsertMany(portfolios, action.payload.map(addCacheProps));
       }
       portfolios.loading = false;
+      portfolios.error = null;
       portfolios.lastFetch = Date.now();
     },
     portfolioRequestManyFailed: (portfolios, action) => {
@@ -47,10 +51,12 @@ const slice = createSlice({
     },
     portfolioRequestedOne: (portfolios, action) => {
       portfolios.loading = true;
+      portfolios.error = null;
     },
     portfolioReceivedOne: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
       portfolios.loading = false;
+      portfolios.error = null;
     },
     portfolioRequestOneFailed: (portfolios, action) => {
       portfolios.loading = false;
@@ -58,9 +64,15 @@ const slice = createSlice({
     },
     portfolioCreated: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
+      portfolios.error = null;
+    },
+    portfolioUpdateRequested: (portfolios, action) => {
+      portfolios.loading = true;
     },
     portfolioUpdated: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
+      portfolios.error = null;
+      portfolios.loading = false;
     },
     portfolioDeleted: (portfolios, action) => {
       const username = action.request.data.username;
@@ -161,6 +173,7 @@ const {
   portfolioReceivedOne,
   portfolioRequestOneFailed,
   portfolioCreated,
+  portfolioUpdateRequested,
   portfolioUpdated,
   portfolioDeleted,
 } = slice.actions;
@@ -209,6 +222,11 @@ export const selectPortfolioPageNames = createSelector(
 export const selectPortfolioIsEditing = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.editing || false : false)
+);
+
+export const selectPortfolioIsLoading = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.loading : false)
 );
 
 export const selectPortfoliosSlice = state => state.portfolios;
@@ -345,6 +363,7 @@ const changePortfolioOptions = data => (dispatch, getState) => {
       method: "patch",
       data,
       token,
+      onStart: portfolioUpdateRequested.type,
       onSuccess: portfolioUpdated.type,
     })
   );
