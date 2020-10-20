@@ -3,21 +3,18 @@ import { jsx, Flex } from "theme-ui";
 import Search from "./Search";
 import React from "react";
 
-import {
-  Button,
-  Container,
-  Grid,
-  Header,
-  Icon,
-  Image,
-  Segment,
-} from "semantic-ui-react";
+import { Button, Grid, Header, Icon, Image, Segment } from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 import { Link } from "react-router-dom";
 
 const HomepageHeading = () => (
-  <Container fluid text textAlign="center">
-    <Grid centered stackable>
+  <Segment textAlign="center" style={{ padding: "1em 0em" }} vertical>
+    <Grid
+      container
+      style={{ marginTop: "4em", marginBottom: "6em" }}
+      centered
+      stackable
+    >
       <Grid.Row>
         <Flex sx={{ alignItems: "center" }}>
           <Image rounded size="small" src={camel} />
@@ -35,22 +32,35 @@ const HomepageHeading = () => (
           </Header>
         </Flex>
       </Grid.Row>
+      <Grid.Row>
+        <Grid.Column>
+          <Search />
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+        <Grid.Column textAlign="center">
+          <Button animated primary size="huge" as={Link} to="signup">
+            <Button.Content visible>Get Started!</Button.Content>
+            <Button.Content hidden>
+              <Icon name="arrow right" />
+            </Button.Content>
+          </Button>
+        </Grid.Column>
+      </Grid.Row>
     </Grid>
-    <Search />
-    <br />
-    <Button animated primary size="huge" as={Link} to="signup">
-      <Button.Content visible>Get Started!</Button.Content>
-      <Button.Content hidden>
-        <Icon name="arrow right" />
-      </Button.Content>
-    </Button>
-  </Container>
+  </Segment>
 );
 
 const HomepageBody = () => (
-  <Container>
-    <Segment style={{ padding: "8em 0em" }} vertical>
-      <Grid container stackable verticalAlign="middle">
+  <React.Fragment>
+    <Segment style={{ padding: "1em 0em" }} vertical>
+      <Grid
+        container
+        style={{ marginTop: "4em", marginBottom: "6em" }}
+        centered
+        verticalAlign="middle"
+        stackable
+      >
         <Grid.Row>
           <Grid.Column width={8}>
             <Header as="h3" style={{ fontSize: "2em" }}>
@@ -68,33 +78,14 @@ const HomepageBody = () => (
         </Grid.Row>
       </Grid>
     </Segment>
-
-    {/* Add some quotes lmao */}
-    {/* <Segment style={{ padding: "0em" }} vertical>
-      <Grid celled="internally" columns="equal" stackable>
-        <Grid.Row textAlign="center">
-          <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              "Love"
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              That is what they all say about us
-            </p>
-          </Grid.Column>
-          <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              "I shouldn't have gone with their competitor."
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              <b>Nan</b> Chief Fun Officer Acme Toys
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment> */}
-
-    <Segment style={{ padding: "8em 0em" }} vertical>
-      <Grid container stackable verticalAlign="middle">
+    <Segment style={{ padding: "1em 0em" }} vertical>
+      <Grid
+        container
+        style={{ marginTop: "4em", marginBottom: "6em" }}
+        centered
+        verticalAlign="middle"
+        stackable
+      >
         <Grid.Row>
           <Grid.Column floated="left" width={6}>
             <Image rounded size="large" src={camel} />
@@ -117,7 +108,7 @@ const HomepageBody = () => (
         </Grid.Row>
       </Grid>
     </Segment>
-  </Container>
+  </React.Fragment>
 );
 
 export default () => {

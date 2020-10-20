@@ -11,6 +11,8 @@ import {
 } from "../../components";
 import { useSelector } from "react-redux";
 
+import { Button, Icon } from "semantic-ui-react";
+
 export default () => {
   const auth = useSelector(state => state.auth);
 
@@ -19,24 +21,38 @@ export default () => {
       <Navbar.Left>
         <Flex sx={{ alignItems: "center" }}>
           <MenuCamel />
-          <MenuItem style={{ fontSize: "1.5em" }} to="/">
+          <MenuItem style={{ fontSize: "1.2em" }} to="/">
             Camel Pages
           </MenuItem>
-          <MenuItem style={{ fontSize: "1.5em" }} to="themes">
+          <MenuItem style={{ fontSize: "1.2em" }} to="themes">
             Themes
           </MenuItem>
           <Box mx="auto" />
         </Flex>
       </Navbar.Left>
       <Navbar.Right>
-        {auth.token && <ProfileDropdown items="default" />}
+        {auth.token && (
+          <React.Fragment>
+            <MenuItem style={{ fontSize: "1.2em" }} to="/editor">
+              <Icon name="edit" />
+              Editor
+            </MenuItem>
+            <ProfileDropdown items="default" />
+          </React.Fragment>
+        )}
         {!auth.token && (
           <React.Fragment>
-            <MenuButton to="login" primary>
-              Login
+            <MenuButton animated to="login" primary>
+              <Button.Content visible>Login</Button.Content>
+              <Button.Content hidden>
+                <Icon name="sign in" />
+              </Button.Content>
             </MenuButton>
-            <MenuButton to="signup" basic primary>
-              Sign up
+            <MenuButton animated to="signup" basic primary>
+              <Button.Content visible>Sign up</Button.Content>
+              <Button.Content hidden>
+                <Icon name="signup" />
+              </Button.Content>
             </MenuButton>
           </React.Fragment>
         )}

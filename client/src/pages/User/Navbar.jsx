@@ -1,8 +1,15 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { ProfileDropdown, Navbar, MenuCamel } from "../../components";
+import { ProfileDropdown, MenuItem, Navbar, MenuCamel } from "../../components";
 import { useSelector } from "react-redux";
-import { selectPortfolioPages, selectToken } from "../../store";
+import React from "react";
+import {
+  selectPortfolioPages,
+  selectToken,
+  selectUsername,
+  selectPortfolioEditing,
+} from "../../store";
+import { Icon } from "semantic-ui-react";
 
 const NavItem = ({ page }) => (
   <Navbar.Item key={page.pageId} to={`#${page.name}`}>
@@ -12,6 +19,8 @@ const NavItem = ({ page }) => (
 
 export default props => {
   const token = useSelector(selectToken);
+  const username = useSelector(selectUsername);
+  const editing = useSelector(state => selectPortfolioEditing(state, username));
   const { userId } = props;
   const pages = useSelector(state => selectPortfolioPages(state, userId));
 
@@ -34,7 +43,17 @@ export default props => {
         {menuItems}
       </Navbar.Center>
       <Navbar.Right>
-        {token && <ProfileDropdown items="default" />}
+        {token && (
+          <React.Fragment>
+            {username === userId && !editing && (
+              <MenuItem style={{ fontSize: "1.2em" }} to="/editor">
+                <Icon name="edit" />
+                Edit
+              </MenuItem>
+            )}
+            <ProfileDropdown items="default" />
+          </React.Fragment>
+        )}
       </Navbar.Right>
     </Navbar>
   );
