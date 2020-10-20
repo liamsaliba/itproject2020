@@ -67,7 +67,7 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
       hideErrorToast,
       request: {
         ...request,
-        // data: multipart ? null : request.data, // don't put non-serializable values in the store
+        data: multipart ? null : request.data, // don't put non-serializable values in the store
       },
     };
     console.log(error);
