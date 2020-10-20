@@ -9,12 +9,12 @@ describe("App", () => {
   });
 });
 
-test("renders learn react link", () => {
+test("renders camel case", () => {
   const { getByText } = render(
     <Router>
       <App />
     </Router>
   );
-  const linkElement = getByText(/Camel Pages/i);
-  expect(linkElement).toBeInTheDocument();
+  const year = getByText(/2020/i);
+  expect(year).toBeInTheDocument();
 });
