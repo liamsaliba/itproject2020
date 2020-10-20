@@ -12,7 +12,7 @@ export default () => {
   return (
     <Flex p={2} sx={{ alignItems: "center" }}>
       <MenuCamel />
-      <MenuItem to="#">Editor</MenuItem>
+      <MenuItem to="/">Camel Pages</MenuItem>
       <Box mx="auto" />
       <Close as={Link} to={`/u/${id}`} />
     </Flex>

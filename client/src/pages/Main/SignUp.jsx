@@ -10,6 +10,7 @@ import {
   Message,
   Dimmer,
   Loader,
+  Icon,
 } from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 
@@ -27,7 +28,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 const SignUpForm = ({ userId, setForm }) => {
-  const [remember, setRemember] = useState(true);
+  const [useCookie, setCookie] = useState(true);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -38,7 +39,6 @@ const SignUpForm = ({ userId, setForm }) => {
     const lastName = formData.get("lastName");
     const email = formData.get("email");
     const username = formData.get("username");
-    const useCookie = remember === true;
 
     setForm({
       confirmPassword,
@@ -64,14 +64,14 @@ const SignUpForm = ({ userId, setForm }) => {
           <Form.Input
             name="firstName"
             fluid
-            icon="address card"
+            icon="user"
             iconPosition="left"
             placeholder="First Name"
           />
           <Form.Input
             name="lastName"
             fluid
-            icon="address card"
+            icon="user"
             iconPosition="left"
             placeholder="Last Name"
           />
@@ -85,7 +85,7 @@ const SignUpForm = ({ userId, setForm }) => {
           <Form.Input
             name="username"
             fluid
-            icon="user"
+            icon="at"
             iconPosition="left"
             placeholder="Username"
             defaultValue={userId || ""}
@@ -109,14 +109,17 @@ const SignUpForm = ({ userId, setForm }) => {
           <Form.Checkbox
             label="Remember me"
             defaultChecked
-            onClick={() => setRemember(!remember)}
+            onClick={() => setCookie(!useCookie)}
           />
-          <Button fluid size="large" type="submit">
-            Sign Up
+          <Button animated fluid primary size="large" type="submit">
+            <Button.Content visible>Sign Up</Button.Content>
+            <Button.Content hidden>
+              <Icon name="signup" />
+            </Button.Content>
           </Button>
         </Form>
         <Message positive>
-          Already have an account? <a href="/login">Log in now!</a>
+          Already have an account? <a href="/login">Log in</a> now!
         </Message>
       </Grid.Column>
     </Grid>

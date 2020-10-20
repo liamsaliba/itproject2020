@@ -24,12 +24,7 @@ export default props => {
         }}
       >
         <Navbar as="header" />
-        <Flex
-          variant="layout.centerflex"
-          // sx={{
-          //   backgroundImage: "url('https://i.redd.it/jpx7gtsw5ye41.jpg')",
-          // }}
-        >
+        <Flex variant="layout.centerflex">
           <Whitebox children={props.children} />
         </Flex>
         <Footer as="footer" />

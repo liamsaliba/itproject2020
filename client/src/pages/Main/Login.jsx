@@ -10,6 +10,7 @@ import {
   Message,
   Dimmer,
   Loader,
+  Icon,
 } from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 
@@ -24,7 +25,7 @@ export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const auth = useSelector(state => state.auth);
-  const [remember, setRemember] = useState(true);
+  const [useCookie, setCookie] = useState(true);
 
   useEffect(() => {
     if (auth.error) {
@@ -49,7 +50,10 @@ export default () => {
     const formData = new FormData(e.target);
     const username = formData.get("username");
     const password = formData.get("password");
-    const useCookie = remember === true;
+    if (password === "" || username === "") {
+      toast.error("Required fields are empty.");
+      return;
+    }
     dispatch(login(username, password, useCookie));
   };
   return (
@@ -57,14 +61,15 @@ export default () => {
       <Grid.Column style={{ maxWidth: 450 }}>
         <Title>Login</Title>
         <Header as="h2" textAlign="center">
-          <Image src={camel} /> Log in to your account
+          <Image src={camel} />
+          Log in to your account
         </Header>
         <br />
         <Form size="large" onSubmit={handleSubmit}>
           <Form.Input
             name="username"
             fluid
-            icon="user"
+            icon="at"
             iconPosition="left"
             placeholder="Username / Email address"
             defaultValue={userId}
@@ -80,14 +85,17 @@ export default () => {
           <Form.Checkbox
             label="Remember me"
             defaultChecked
-            onClick={() => setRemember(!remember)}
+            onClick={() => setCookie(!useCookie)}
           />
-          <Button fluid size="large" type="submit">
-            Login
+          <Button animated fluid primary size="large" type="submit">
+            <Button.Content visible>Log In</Button.Content>
+            <Button.Content hidden>
+              <Icon name="sign in" />
+            </Button.Content>
           </Button>
         </Form>
         <Message positive>
-          Don't have an account? <a href="/signup">Sign up now!</a>
+          Don't have an account? <a href="/signup">Sign up</a> now!
         </Message>
         <Dimmer inverted active={auth.loading}>
           <Loader inverted>Logging in...</Loader>

@@ -1,5 +1,7 @@
 /** @jsx jsx */
-import { jsx, Label, Input, Box, Button, Styled } from "theme-ui";
+import { jsx } from "theme-ui";
+import { Form, Grid } from "semantic-ui-react";
+import { Title } from "../../components";
 
 import { useHistory } from "react-router-dom";
 
@@ -15,13 +17,20 @@ export default () => {
     history.push("/u/" + username);
   };
   return (
-    <Box as="form" onSubmit={handleSubmit}>
-      <Styled.h2>Find a portfolio</Styled.h2>
-      <br />
-      <Label htmlFor="un">Username</Label>
-      <Input name="un" mb={3} />
-      <Button>Go</Button>
-      {/* {auth.loading ? <Spinner /> : null} */}
-    </Box>
+    <Grid textAlign="center" verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Title>Search</Title>
+        <Form size="huge" onSubmit={handleSubmit}>
+          <Form.Input
+            name="un"
+            fluid
+            icon="search"
+            iconPosition="left"
+            placeholder="Finding a particular Portfolio?"
+            inline
+          />
+        </Form>
+      </Grid.Column>
+    </Grid>
   );
 };
