@@ -10,11 +10,11 @@ describe("App", () => {
 });
 
 test("renders camel case", () => {
-  const { getByText } = render(
+  const { getAllByText } = render(
     <Router>
       <App />
     </Router>
   );
-  const year = getByText(/2020/i);
-  expect(year).toBeInTheDocument();
+  const cc = getAllByText(/Camel Pages/i)[0];
+  expect(cc).toBeInTheDocument();
 });

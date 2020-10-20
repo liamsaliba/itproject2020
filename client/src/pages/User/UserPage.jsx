@@ -7,6 +7,16 @@ import Body from "./Body";
 import { Title } from "./../../components/index";
 import { selectPortfolioByUsername } from "../../store";
 import { useSelector } from "react-redux";
+import Hamburger from "../../components/Hamburger";
+
+import { createMedia } from "@artsy/fresnel";
+const { MediaContextProvider, Media } = createMedia({
+  breakpoints: {
+    mobile: 0,
+    tablet: 768,
+    computer: 1024,
+  },
+});
 
 const UserPage = props => {
   const { userId } = props;
@@ -26,24 +36,31 @@ const UserPage = props => {
   }, [portfolio.theme]);
 
   return (
-    <ThemeProvider theme={preset}>
-      <Title>{userId}</Title>
-
-      <Flex
-        sx={{
-          flexDirection: "column",
-          minHeight: "100vh",
-          bg: "background",
-          color: "text",
-        }}
-      >
-        <header>
-          <Navbar userId={userId} />
-        </header>
-
-        <Body userId={userId} />
-      </Flex>
-    </ThemeProvider>
+    <MediaContextProvider>
+      <ThemeProvider theme={preset}>
+        <Title>{userId}</Title>
+        <Flex
+          sx={{
+            flexDirection: "column",
+            minHeight: "100vh",
+            bg: "background",
+            color: "text",
+          }}
+        >
+          <header>
+            <Media greaterThan="mobile">
+              <Navbar userId={userId} />
+              <Body userId={userId} />
+            </Media>
+          </header>
+          <Media at="mobile">
+            <Hamburger landing={false} userId={userId}>
+              <Body userId={userId} />
+            </Hamburger>
+          </Media>
+        </Flex>
+      </ThemeProvider>
+    </MediaContextProvider>
   );
 };
 

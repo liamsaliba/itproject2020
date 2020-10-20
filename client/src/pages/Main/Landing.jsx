@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+import { jsx, Flex } from "theme-ui";
 import Search from "./Search";
 import React from "react";
 
@@ -17,22 +17,23 @@ import { Link } from "react-router-dom";
 
 const HomepageHeading = () => (
   <Container fluid text textAlign="center">
-    <Grid stackable>
+    <Grid centered stackable>
       <Grid.Row>
-        <Grid.Column width={4}>
+        <Flex sx={{ alignItems: "center" }}>
           <Image rounded size="small" src={camel} />
-        </Grid.Column>
-        <Grid.Column textAlign="center" width={12}>
           <Header
             as="h1"
-            content="Camel Pages"
             style={{
-              fontSize: "5em",
+              fontSize: "4em",
               fontWeight: "normal",
               marginTop: "0.5em",
+              alignItems: "center",
             }}
-          />
-        </Grid.Column>
+          >
+            <span sx={{ p: "0.2em" }} />
+            Camel Pages
+          </Header>
+        </Flex>
       </Grid.Row>
     </Grid>
     <Search />

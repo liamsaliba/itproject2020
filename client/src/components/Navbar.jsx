@@ -1,19 +1,13 @@
 /** @jsx jsx */
-import { jsx, Flex } from "theme-ui";
+import { jsx } from "theme-ui";
 import * as MenuItems from "./NavItems";
-
-const flexStyles = {
-  flex: 1,
-  display: "flex",
-  alignItems: "center",
-};
+import { Menu } from "semantic-ui-react";
 
 const Left = props => (
-  <Flex
+  <Menu.Menu
     {...props}
     sx={{
       ...props.sx,
-      ...flexStyles,
       flex: props.size ?? 1,
       justifyContent: "flex-start",
     }}
@@ -21,23 +15,20 @@ const Left = props => (
 );
 
 const Center = props => (
-  <Flex
+  <Menu.Menu
     {...props}
     sx={{
       ...props.sx,
-      ...flexStyles,
-      flex: props.size ?? 1,
-      justifyContent: "center",
     }}
   />
 );
 
 const Right = props => (
-  <Flex
+  <Menu.Menu
     {...props}
+    position="right"
     sx={{
       ...props.sx,
-      ...flexStyles,
       flex: props.size ?? 1,
       justifyContent: "flex-end",
     }}
@@ -45,14 +36,16 @@ const Right = props => (
 );
 
 const Navbar = props => (
-  <Flex
+  <Menu
     p={2}
     {...props}
     sx={{
       ...props.sx,
       alignItems: "center",
       bg: props.bg ?? "background",
+      padding: "0.75em 1em",
     }}
+    secondary
   />
 );
 
