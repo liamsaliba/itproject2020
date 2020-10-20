@@ -1,6 +1,6 @@
 import React from "react";
 
-import Artefact from "../Artefacts";
+import Artefact from "../Artifact";
 
 import * as BodyStories from "./Body.stories";
 
