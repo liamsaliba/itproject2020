@@ -60,7 +60,7 @@ const HomepageHeading = () => (
 );
 
 const HomepageBody = () => (
-  <Container>
+  <React.Fragment>
     <Segment style={{ padding: "1em 0em" }} vertical>
       <Grid
         container
@@ -116,7 +116,7 @@ const HomepageBody = () => (
         </Grid.Row>
       </Grid>
     </Segment>
-  </Container>
+  </React.Fragment>
 );
 
 export default () => {

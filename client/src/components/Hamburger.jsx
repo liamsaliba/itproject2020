@@ -6,6 +6,7 @@ import { Link, SidebarCamel } from "./NavItems";
 import { ProfileIcon } from "./ProfileIcon";
 import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
 import { selectPortfolioPages, selectToken, selectUser } from "../store";
+import Scroller from "./Scroller";
 
 export default props => {
   const { landing, children, userId } = props;
@@ -116,48 +117,50 @@ export default props => {
   };
 
   return (
-    <Sidebar.Pushable>
-      <Sidebar
-        as={Menu}
-        animation="overlay"
-        inverted
-        onHide={() => setOpen(false)}
-        vertical
-        visible={open}
-      >
-        <Menu.Item
-          style={{ fontSize: "1.8em", fontWeight: "bold" }}
-          as={Link}
-          to="/"
-          onClick={() => setOpen(false)}
+    <React.Fragment>
+      <Sidebar.Pushable>
+        <Sidebar
+          as={Menu}
+          animation="overlay"
+          inverted
+          onHide={() => setOpen(false)}
+          vertical
+          visible={open}
         >
-          <Flex sx={{ alignItems: "center" }}>
-            <SidebarCamel />
-            Camel Pages
-            <Box mx="auto" />
+          <Menu.Item
+            style={{ fontSize: "1.8em", fontWeight: "bold" }}
+            as={Link}
+            to="/"
+            onClick={() => setOpen(false)}
+          >
+            <Flex sx={{ alignItems: "center" }}>
+              <SidebarCamel />
+              Camel Pages
+              <Box mx="auto" />
+            </Flex>
+          </Menu.Item>
+          {landing ? themesMenu : portfolioMenu}
+          {token ? userMenu : loginMenu}
+        </Sidebar>
+        <Sidebar.Pusher dimmed={open}>
+          <Flex sx={flexProps}>
+            <Container>
+              <Menu secondary size="large">
+                <Menu.Item onClick={setOpen}>
+                  <Icon
+                    size="big"
+                    floated="left"
+                    sx={{ color: "text" }}
+                    name="sidebar"
+                  />
+                </Menu.Item>
+              </Menu>
+            </Container>
+            {children}
           </Flex>
-        </Menu.Item>
-        {landing ? themesMenu : portfolioMenu}
-        {token ? userMenu : loginMenu}
-      </Sidebar>
-      <Sidebar.Pusher dimmed={open}>
-        <Flex sx={flexProps}>
-          <Container>
-            <Menu secondary size="large">
-              <Menu.Item onClick={setOpen}>
-                <Icon
-                  size="big"
-                  floated="left"
-                  sx={{ color: "text" }}
-                  name="sidebar"
-                />
-              </Menu.Item>
-            </Menu>
-          </Container>
-
-          {children}
-        </Flex>
-      </Sidebar.Pusher>
-    </Sidebar.Pushable>
+        </Sidebar.Pusher>
+      </Sidebar.Pushable>
+      <Scroller />
+    </React.Fragment>
   );
 };
