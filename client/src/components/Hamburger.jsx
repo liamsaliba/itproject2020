@@ -2,7 +2,7 @@
 import { jsx, Flex, Box } from "theme-ui";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, MenuCamel } from "./NavItems";
+import { Link, SidebarCamel } from "./NavItems";
 import { ProfileIcon } from "./ProfileIcon";
 import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
 import { selectPortfolioPages, selectToken, selectUser } from "../store";
@@ -36,7 +36,7 @@ export default props => {
 
   const userMenu = (
     <Menu.Item>
-      <Menu.Header style={{ fontSize: "2em", fontWeight: "bold" }}>
+      <Menu.Header style={{ fontSize: "1.5em", fontWeight: "bold" }}>
         <Flex sx={{ alignItems: "center" }}>
           <ProfileIcon userId={user.userId} />
           <span sx={{ p: "0.2em" }} />
@@ -116,13 +116,13 @@ export default props => {
         visible={open}
       >
         <Menu.Item
-          style={{ fontSize: "1.9em", fontWeight: "bold" }}
+          style={{ fontSize: "1.8em", fontWeight: "bold" }}
           as={Link}
           to="/"
           onClick={() => setOpen(false)}
         >
           <Flex sx={{ alignItems: "center" }}>
-            <MenuCamel />
+            <SidebarCamel />
             Camel Pages
             <Box mx="auto" />
           </Flex>

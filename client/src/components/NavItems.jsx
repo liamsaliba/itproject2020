@@ -67,3 +67,18 @@ export const MenuImage = props => {
 };
 
 export const MenuCamel = () => <MenuImage src={camel} to="/" />;
+
+export const SidebarImage = props => {
+  const imageCircle = props.round ? { borderRadius: "50%" } : {};
+
+  return (
+    <IconButton {...props} sx={{ width: 48, height: 48 }}>
+      <Image
+        src={props.src}
+        sx={{ ...props.sx, ...imageCircle, width: 48, height: 48 }}
+      />
+    </IconButton>
+  );
+};
+
+export const SidebarCamel = () => <SidebarImage src={camel} />;
