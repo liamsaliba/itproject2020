@@ -7,8 +7,7 @@ import {
   Button,
   Icon,
   Modal,
-  Menu,
-  Grid,
+  List,
   Dropdown,
   Form,
   Input,
@@ -29,11 +28,10 @@ const PageDropdown = ({ pageState }) => {
 
   return (
     <Dropdown
-      right
-      aligned
       floating
       inline
       direction="left"
+      icon="caret square down"
       sx={{ p: "0.2em" }}
     >
       <Dropdown.Menu>
@@ -55,22 +53,17 @@ const Page = ({ active, setActive, page }) => {
   };
 
   return (
-    <Menu.Item
+    <List.Item 
       name={name}
-      active={active}
       key={pageId.toString()}
       onClick={handlePageClick}
       fluid
     >
-      <Grid>
-        <Grid.Column floated="left" width={2} sx={{ verticalAlign: "middle" }}>
-          <span>{name}</span>
-        </Grid.Column>
-        <Grid.Column floated="right">
-          <PageDropdown pageState={{ name, pageId }} />
-        </Grid.Column>
-      </Grid>
-    </Menu.Item>
+      <List.Content floated='right'>
+        <PageDropdown pageState={{ name, pageId }} />
+      </List.Content>
+      <List.Header>{name}</List.Header>
+    </List.Item>
   );
 };
 
@@ -96,7 +89,8 @@ const DeleteConfirmationModal = ({ setParentOpen, action, name = "this" }) => {
       open={open}
       trigger={
         <Dropdown.Item>
-          <Icon name="trash" fitted /> Delete
+          <Icon name="trash"/> 
+          Delete
         </Dropdown.Item>
       }
     >
@@ -141,7 +135,7 @@ const RenamePageModal = ({ pageState }) => {
       open={open}
       trigger={
         <Dropdown.Item>
-          <Icon name="i cursor" fitted /> Rename
+          <Icon name="i cursor"/> Rename
         </Dropdown.Item>
       }
     >
@@ -272,16 +266,16 @@ const SectionPages = () => {
           "No pages, care to make a new one?"
         ) : (
           // replace with https://react.semantic-ui.com/elements/list/#types-divided
-          <Menu secondary vertical fluid>
+          <List divided relaxed selection sx={{ textAlign: "left" }}>
             {pages.map(page => (
               <Page
                 key={page.pageId.toString()}
                 page={page}
-                active={false}
+                active={true}
                 setActive={setActive}
               />
             ))}
-          </Menu>
+          </List>
         )}
       </Flex>
       <NewPageModal />
