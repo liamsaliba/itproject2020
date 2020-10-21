@@ -98,8 +98,12 @@ export const MediaItem = ({
         onClick={() => showPreview(src, setPreview)}
       />
       <List.Content key={id} onClick={() => showPreview(src, setPreview)}>
-        <List.Header as="a">{description}</List.Header>
-        <List.Description as="a">{url}</List.Description>
+        <List.Header as="a">
+          {filename === "" ? description : filename}
+        </List.Header>
+        {filename === "" ? null : (
+          <List.Description as="a">{description}</List.Description>
+        )}
       </List.Content>
       <List.Content floated="right">
         <DeleteConfirmationModal
@@ -119,9 +123,11 @@ export const MediaList = () => {
 
   return (
     <List divided relaxed selection sx={{ textAlign: "left" }}>
-      {media.map(item => (
-        <MediaItem {...item} key={item.id} setPreview={setPreview} />
-      ))}
+      {media.length === 0
+        ? "No media uploaded."
+        : media.map(item => (
+            <MediaItem {...item} key={item.id} setPreview={setPreview} />
+          ))}
       <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
     </List>
   );
@@ -135,7 +141,7 @@ export const MediaSelector = ({ url, description, type, filename, id }) => {
   );
 };
 
-export const ChooseMedia = () => {
+export const ChooseMedia = ({ onChange, value, name }) => {
   const media = useSelector(selectUserMedia);
   const [preview, setPreview] = useState(previewDefault);
 
@@ -161,6 +167,8 @@ export const ChooseMedia = () => {
       <Popup
         trigger={
           <Dropdown
+            name={name}
+            value={value}
             action={{
               color: "teal",
               labelPosition: "right",
@@ -172,6 +180,7 @@ export const ChooseMedia = () => {
             search
             fluid
             options={options}
+            onChange={(e, { value }) => onChange(value)}
             placeholder="Add media"
             renderLabel={renderLabel}
             divided
@@ -219,7 +228,7 @@ const UploadMediaModal = ({ buttonText = "Upload" }) => {
       // todo: display error
       return;
     }
-    dispatch(uploadMedia(state.image_file, state.description, state.filename));
+    dispatch(uploadMedia(state.image_file, state.description));
     // uploadMedia(dispatch)(token, state.image_file, state.description);
     closeModal();
   };
@@ -229,11 +238,9 @@ const UploadMediaModal = ({ buttonText = "Upload" }) => {
     const file = e.target.files[0];
 
     const base64 = URL.createObjectURL(file);
-    console.log(file.name);
     setState({
       image_preview: base64,
       image_file: file,
-      filename: file.name,
     });
   };
 

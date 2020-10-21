@@ -118,19 +118,21 @@ export const {
 export const selectMediaSlice = state => state.media;
 
 // create a new artifact
-export const uploadMedia = (file, description, type = "image") => (
+export const uploadMedia = (file, description, filename, type = "image") => (
   dispatch,
   getState
 ) => {
   const token = selectToken(getState());
   let formData = new FormData();
   formData.append("image", file);
-  formData.append("json", JSON.stringify({ description, type }));
+  formData.append(
+    "json",
+    JSON.stringify({ description, type, filename: file.name ? file.name : "" })
+  );
   // const media = {
   //   image: file,
   //   json: { description, type },
   // };
-  console.log(formData);
   return dispatch(
     apiStarted({
       url: endpoints.media,

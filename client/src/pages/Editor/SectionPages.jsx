@@ -60,6 +60,7 @@ const Page = ({ active, setActive, page }) => {
         </Dropdown>
       </List.Content>
       <Loader inline size="large" active={loading} />
+      <Icon name="page" inline />
       <List.Header>{name}</List.Header>
     </List.Item>
   );

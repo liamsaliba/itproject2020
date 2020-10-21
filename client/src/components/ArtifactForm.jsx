@@ -31,17 +31,17 @@ const DisplayForm = () => {
   const { errors } = useFormContext();
 
   const orientationOptions = [
-    { key: "l", text: "Align left", value: "Align left", icon: "align left" },
+    { key: "l", text: "Align left", value: "left", icon: "align left" },
     {
       key: "c",
       text: "Align center",
-      value: "Align center",
+      value: "center",
       icon: "align center",
     },
     {
       key: "r",
       text: "Align right",
-      value: "Align right",
+      value: "right",
       icon: "align right",
     },
   ];
@@ -72,7 +72,18 @@ const DisplayForm = () => {
       />
       <Form.Field>
         <label>Attached Media</label>
-        <ChooseMedia />
+        <Controller
+          name="media"
+          render={({ onChange, value, name }) => (
+            <ChooseMedia
+              {...{
+                onChange,
+                value,
+                name,
+              }}
+            />
+          )}
+        />
       </Form.Field>
     </Box>
   );
@@ -336,7 +347,7 @@ const forms = {
   display: {
     content: <DisplayForm />,
     title: "Display",
-    defaultValues: { header: "", body: "", media: [] },
+    defaultValues: { header: "", body: "", media: [], orientation: "center" },
     validate: (data, setError) => {
       if (data.header === "" && data.body === "") {
         setError("body", {

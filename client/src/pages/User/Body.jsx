@@ -115,7 +115,9 @@ const Page = ({ pageId: id, name, userId }) => {
 
   const newbtn = (
     <NewArtifactForm
-      action={body => dispatch(createArtifact(id, { type, contents: body }))}
+      action={({ media = [], ...contents }) =>
+        dispatch(createArtifact(id, { type, media, contents }))
+      }
       type={type}
     />
   );
