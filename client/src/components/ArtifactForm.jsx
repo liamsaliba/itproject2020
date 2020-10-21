@@ -103,9 +103,11 @@ const EducationForm = () => {
           <label>Start Date</label>
           <Controller
             name="startDate"
+            required
             render={props => (
               <ReactDatePicker
                 // sx={datePickerStyle}
+                required
                 className="input"
                 placeholderText="Choose start date"
                 dateFormat="MM/yyy"
@@ -117,13 +119,15 @@ const EducationForm = () => {
           />
         </Form.Field>
         <Form.Field>
-          <label>End Date (or expected end date)</label>
+          <label>End Date (or expected)</label>
           <Controller
             name="endDate"
+            required
             render={props => (
               <ReactDatePicker
                 // sx={datePickerStyle}
                 className="input"
+                required
                 placeholderText="Choose end date"
                 dateFormat="MM/yyy"
                 showMonthYearPicker
@@ -228,6 +232,7 @@ const ExperienceForm = () => {
           <label>Start Date</label>
           <Controller
             name="startDate"
+            required
             render={props => (
               <ReactDatePicker
                 // sx={datePickerStyle}
@@ -242,7 +247,7 @@ const ExperienceForm = () => {
           />
         </Form.Field>
         <Form.Field>
-          <label>End Date (or ongoing)</label>
+          <label>End Date (leave empty for ongoing)</label>
           <Controller
             name="endDate"
             render={props => (
@@ -253,7 +258,10 @@ const ExperienceForm = () => {
                 isClearable
                 dateFormat="MM/yyy"
                 showMonthYearPicker
-                onChange={e => props.onChange(e)}
+                onChange={e => {
+                  props.onChange(e);
+                  console.log(e);
+                }}
                 selected={props.value}
               />
             )}
@@ -288,8 +296,8 @@ const forms = {
       location: "",
       grade: "",
       isVoluntary: false,
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
       media: [],
       details: "",
     },
@@ -305,8 +313,8 @@ const forms = {
       location: "",
       employmentType: "",
       isVoluntary: false,
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
       media: [],
       details: "",
     },
