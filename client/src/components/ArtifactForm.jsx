@@ -347,7 +347,6 @@ const forms = {
       degree: "",
       location: "",
       grade: "",
-      isVoluntary: false,
       startDate: null,
       endDate: null,
       media: [],
@@ -430,12 +429,7 @@ const NewArtifactForm = ({ open, closeModal, currentlyEditing }) => {
 
   // TODO: dirty check
   const closeButton = (
-    <Button
-      icon
-      color="red"
-      labelPosition="left"
-      onClick={() => closeModal(false)}
-    >
+    <Button icon color="red" labelPosition="left" onClick={closeModal}>
       <Icon name="cancel" />
       Cancel
     </Button>
@@ -500,7 +494,10 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
         icon
         color="red"
         labelPosition="left"
-        onClick={() => dispatch(deleteArtifact(id))}
+        onClick={() => {
+          dispatch(deleteArtifact(id));
+          closeModal();
+        }}
       >
         <Icon name="trash" />
         Delete
@@ -567,17 +564,22 @@ const FormModal = ({
         size="small"
         closeIcon
         closeOnDimmerClick={false}
-        onClose={() => closeModal()}
         open={open}
-        as={Form}
-        onSubmit={data => handleSubmit(onSubmit)(data)}
         dimmer={{ inverted: true }}
       >
         <Modal.Header>{title}</Modal.Header>
-        <Modal.Content>{content}</Modal.Content>
+        <Modal.Content>
+          <Form onSubmit={data => handleSubmit(onSubmit)(data)}>{content}</Form>
+        </Modal.Content>
         <Modal.Actions>
           {altAction}
-          <Button icon color="blue" type="submit" labelPosition="left">
+          <Button
+            icon
+            color="blue"
+            type="submit"
+            labelPosition="left"
+            onClick={handleSubmit(onSubmit)}
+          >
             <Icon name="checkmark" />
             Submit
           </Button>

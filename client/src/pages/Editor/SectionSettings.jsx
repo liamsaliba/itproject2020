@@ -16,7 +16,8 @@ const ContactSwitch = () => {
   const dispatch = useDispatch();
 
   const onChange = (e, { checked }) => {
-    dispatch(updateUser({ allowContact: checked }));
+    console.log("checked", checked);
+    dispatch(updateUser({ allowContact: !checked }));
   };
 
   return <Checkbox toggle onChange={onChange} checked={contact} />;
@@ -38,11 +39,6 @@ const SectionSettings = () => {
         <Icon name="address book" />
         Contact form
         <ContactSwitch />
-      </div>
-      <div>
-        <Icon name="paint brush" />
-        Theme
-        <ThemeSelector theme={portfolio.theme} setTheme={setTheme} />
       </div>
     </Section>
   );

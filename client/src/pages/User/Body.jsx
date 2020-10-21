@@ -193,6 +193,8 @@ const SinglePagePortfolio = props => {
   useEffect(() => {
     if (artifactEditing) {
       setEditOpen(true);
+    } else {
+      setEditOpen(false);
     }
   }, [artifactEditing]);
 
@@ -213,8 +215,8 @@ const SinglePagePortfolio = props => {
       <ArtifactForm
         open={editOpen}
         closeModal={() => {
-          setEditOpen(false);
-          dispatch(editArtifactFinished);
+          console.log("edit artifact");
+          dispatch(editArtifactFinished());
         }}
         currentlyEditing={artifactEditing}
       />

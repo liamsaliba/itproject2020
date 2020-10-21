@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Flex, Box, Container, Image, Styled } from "theme-ui";
+import { jsx, Flex, Box, Container, Image, Styled, Button } from "theme-ui";
 import React from "react";
 import { Link } from "../components";
 import { useEffect } from "react";
@@ -225,13 +225,13 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
     actionUrl === undefined ||
     actionText === "" ||
     actionText === undefined ? null : (
-      <button
+      <Button
         as={Link}
         href={actionUrl}
         sx={{ bg: "primary", color: "background", p: 2, alignSelf: "center" }}
       >
         {actionText}
-      </button>
+      </Button>
     );
 
   const bodyComponent =
