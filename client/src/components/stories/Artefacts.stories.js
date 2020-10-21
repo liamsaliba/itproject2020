@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 
 import Artefact from "../Artifact";
 
@@ -49,3 +49,4 @@ LeftFeature.args = {
   },
   // onAddDocument:
 };
+ */

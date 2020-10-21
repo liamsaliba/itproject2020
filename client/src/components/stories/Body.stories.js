@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 
 import Body from "../Body";
 
@@ -67,3 +67,4 @@ BottomLeft.args = {
     vAlign: "bottom",
   },
 };
+ */
