@@ -12,6 +12,7 @@ import { uploadMedia } from "../store";
 import { useSelector } from "react-redux";
 import { selectUserMedia } from "../store/combinedSelectors";
 import { selectMediaByUsername } from "../store/combinedSelectors";
+import { selectUsername } from "../store/slices/auth";
 import PreviewModal from "./DocumentPreview";
 
 export const NewMedia = () => {
@@ -58,7 +59,8 @@ export const MediaItem = ({
 };
 
 export const MediaList = () => {
-  const media = useSelector(state => selectMediaByUsername(state, "liam"));
+  const username = useSelector(state => selectUsername(state));
+  const media = useSelector(state => selectMediaByUsername(state, username));
   const [preview, setPreview] = useState({ open: false, src: "" });
 
   return (
