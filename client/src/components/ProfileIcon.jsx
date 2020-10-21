@@ -187,8 +187,8 @@ const ChooseProfileModal = ({ username, profile }) => {
           }}
         >
           <ProfileImage userId={username} profile={profile} />
-          <Box sx={{ transform: "translate(40%,-100%)", opacity: 0.9 }}>
-            <Icon circular inverted name="edit" size="big" />
+          <Box sx={{ transform: "translate(40%,-150%)" }}>
+            <Button circular primary icon="edit" size="massive" />
           </Box>
         </Box>
       }
