@@ -90,11 +90,17 @@ export const MediaItem = ({
   const src = url;
 
   return (
-    <List.Item key={id.toString()} fluid>
-      <List.Icon
+    <List.Item key={id.toString()} verticalAlign="middle" fluid>
+      <List.Content floated="right">
+        <DeleteConfirmationModal
+          action={() => dispatch(deleteMedia(id))}
+          name={description}
+          src={src}
+        />
+      </List.Content>
+      <Icon
         name={icon}
         size="large"
-        verticalAlign="middle"
         onClick={() => showPreview(src, setPreview)}
       />
       <List.Content key={id} onClick={() => showPreview(src, setPreview)}>
@@ -104,13 +110,6 @@ export const MediaItem = ({
         {filename === "" ? null : (
           <List.Description as="a">{description}</List.Description>
         )}
-      </List.Content>
-      <List.Content floated="right">
-        <DeleteConfirmationModal
-          action={() => dispatch(deleteMedia(id))}
-          name={description}
-          src={src}
-        />
       </List.Content>
     </List.Item>
   );
