@@ -141,7 +141,13 @@ export const MediaSelector = ({ url, description, type, filename, id }) => {
   );
 };
 
-export const ChooseMedia = ({ onChange, value, name }) => {
+export const ChooseMedia = ({
+  onChange,
+  value,
+  name,
+  placeholder = "add media...",
+  multiple = false,
+}) => {
   const media = useSelector(selectUserMedia);
   const [preview, setPreview] = useState(previewDefault);
 
@@ -175,13 +181,13 @@ export const ChooseMedia = ({ onChange, value, name }) => {
               icon: "copy",
               content: "Copy",
             }}
-            multiple
+            multiple={multiple}
             selection
             search
             fluid
             options={options}
             onChange={(e, { value }) => onChange(value)}
-            placeholder="Add media"
+            placeholder={placeholder}
             renderLabel={renderLabel}
             divided
             relaxed
@@ -204,7 +210,7 @@ const mediaEmpty = {
   description: "",
 };
 
-const UploadMediaModal = ({ buttonText = "Upload" }) => {
+export const UploadMediaModal = ({ buttonText = "Upload" }) => {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState(mediaEmpty);
   const dispatch = useDispatch();
@@ -255,7 +261,7 @@ const UploadMediaModal = ({ buttonText = "Upload" }) => {
       dimmer={{ inverted: true }}
       open={open}
       trigger={
-        <Button icon small labelPosition="left">
+        <Button icon labelPosition="left">
           <Icon name="upload" />
           {buttonText}
         </Button>

@@ -1,27 +1,31 @@
 /** @jsx jsx */
-import { jsx, Flex, Box, Image, Styled } from "theme-ui";
-import profileExample from "../../svg/Profile_example.png";
+import { jsx, Flex, Box, Styled } from "theme-ui";
 
 import {
   selectArtifactsByPageId,
   selectPageById,
   selectPortfolioIsEditing,
   selectPortfolioPages,
+  selectPortfolioProfile,
+  selectPortfolioBio,
+  changePortfolioBio,
+  createArtifact,
 } from "../../store";
-import { useSelector } from "react-redux";
 import { Section, Artifact } from "../../components";
-import { selectPortfolioBio } from "../../store/slices/portfolios";
-
-import { Button, Form, Icon, TextArea } from "semantic-ui-react";
-import { Modal } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Icon,
+  TextArea,
+  Segment,
+  Header,
+  Modal,
+} from "semantic-ui-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { changePortfolioBio } from "../../store/slices/portfolios";
+import { useDispatch, useSelector } from "react-redux";
 import { NewArtifactForm } from "../../components/ArtifactForm";
-import { createArtifact } from "../../store/slices/artifacts";
-import { Segment } from "semantic-ui-react";
 import { NewPageModal } from "../Editor/SectionPages";
-import { Header } from "semantic-ui-react";
+import { EditableUserProfile } from "../../components/ProfileIcon";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -47,7 +51,7 @@ const EditBioModal = ({ bio }) => {
       dimmer={{ inverted: true }}
       open={open}
       trigger={
-        <Button icon small labelPosition="left">
+        <Button icon labelPosition="left">
           <Icon inline name="pencil" />
           Edit bio
         </Button>
@@ -82,11 +86,7 @@ const EditBioModal = ({ bio }) => {
 const MainHeader = ({ username, bio, editing }) => {
   return (
     <Box mb={5}>
-      <Image
-        src={profileExample}
-        sx={{ borderRadius: "50%", width: "30%" }}
-        margin={2}
-      />
+      <EditableUserProfile editing={editing} username={username} />
       {/* TODO: put first name + last name here instead! */}
       <Styled.h1> {username} </Styled.h1>
       <Styled.p> {bio} </Styled.p>
@@ -152,7 +152,7 @@ const SinglePagePortfolio = props => {
   const bio = useSelector(state => selectPortfolioBio(state, userId));
   const pages = useSelector(state => selectPortfolioPages(state, userId));
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
-
+  const profile = useSelector(state => selectPortfolioProfile(state, userId));
   // userId will be given with the pages selector, so no need to pass it to children (...page)
   const pageContainers = pages.map(page => (
     <Page {...page} key={page.pageId.toString()} userId={userId} />
@@ -166,7 +166,12 @@ const SinglePagePortfolio = props => {
 
   return (
     <Flex as="main" sx={styling}>
-      <MainHeader username={userId} bio={bio} editing={editing} />
+      <MainHeader
+        username={userId}
+        bio={bio}
+        editing={editing}
+        profile={profile}
+      />
       {editing && pages.length === 0 ? (
         <NewPlaceholder tagline="No pages yet!  Would you like to create a new one?">
           <NewPageModal />

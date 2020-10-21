@@ -147,31 +147,6 @@ export const uploadMedia = (file, description, filename, type = "image") => (
   );
 };
 
-// upload an avatar
-export const uploadAvatar = file => (dispatch, getState) => {
-  const token = selectToken(getState());
-  let formData = new FormData();
-  formData.append("image", file);
-  formData.append("json", JSON.stringify({}));
-  // const media = {
-  //   image: file,
-  //   json: { description, type },
-  // };
-  console.log(formData);
-  return dispatch(
-    apiStarted({
-      url: endpoints.avatar,
-      method: "post",
-      multipart: true,
-      data: formData,
-      token,
-      onStart: mediaLoading.type,
-      onFailure: mediaUploadFailed.type,
-      onSuccess: avatarUploaded.type,
-    })
-  );
-};
-
 // delete a artifact by id
 export const getMedia = () => (dispatch, getState, cache = true) => {
   const token = selectToken(getState());

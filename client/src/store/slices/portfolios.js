@@ -65,6 +65,7 @@ const slice = createSlice({
     portfolioCreated: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
       portfolios.error = null;
+      portfolios.loading = false;
     },
     portfolioUpdateRequested: (portfolios, action) => {
       portfolios.loading = true;
@@ -202,6 +203,10 @@ export const selectPortfolioTheme = createSelector(
 export const selectPortfolioBio = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.bio || "" : undefined)
+);
+export const selectPortfolioProfile = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.profile || "" : undefined)
 );
 
 export const selectPortfolioPages = createSelector(
@@ -371,6 +376,7 @@ const changePortfolioOptions = data => (dispatch, getState) => {
 
 export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
+export const updateAvatar = avatar => changePortfolioOptions({ avatar });
 
 // create portfolio with theme, bio
 export const deletePortfolio = (username, password) =>

@@ -44,6 +44,7 @@ export {
   changePortfolioBio,
   changePortfolioTheme,
   deletePortfolio,
+  updateAvatar,
   // selectors (custom)
   selectPortfolioPages,
   selectPortfolioPageNames,
@@ -52,6 +53,7 @@ export {
   selectPortfolioIsEditing,
   selectPortfolioTheme,
   selectPortfolioBio,
+  selectPortfolioProfile,
   selectPortfoliosSlice,
   // Selectors
   selectPortfolioByUsername,

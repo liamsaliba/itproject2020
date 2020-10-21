@@ -76,6 +76,7 @@ const DisplayForm = () => {
           name="media"
           render={({ onChange, value, name }) => (
             <ChooseMedia
+              multiple
               {...{
                 onChange,
                 value,
