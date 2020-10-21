@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { jsx, Box, Flex, Styled } from "theme-ui";
 import { Segment, Header, Icon } from "semantic-ui-react";
+import { Dimmer } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 
 export const Dot = () => (
   <Icon color="red" name="circle" size="mini" sx={{ verticalAlign: "top" }} />
@@ -46,7 +48,15 @@ const EmptySectionPlaceholder = ({ children }) => (
   </Segment>
 );
 
-export const Section = ({ id, name, editing, type, content, newbtn }) => {
+export const Section = ({
+  id,
+  name,
+  editing,
+  type,
+  content,
+  newbtn,
+  loading,
+}) => {
   return (
     <Flex
       sx={{
@@ -61,6 +71,9 @@ export const Section = ({ id, name, editing, type, content, newbtn }) => {
       }}
       id={name}
     >
+      <Dimmer inverted active={loading}>
+        <Loader size="large">Loading</Loader>
+      </Dimmer>
       <Heading id={id} name={name} editing={editing} newbtn={newbtn} />
       {editing && content.length === 0 ? (
         <EmptySectionPlaceholder>{newbtn}</EmptySectionPlaceholder>
