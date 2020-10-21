@@ -3,11 +3,15 @@ import { jsx, Flex, Image, Box } from "theme-ui";
 // import PropTypes from "prop-types";
 import React, { useState } from "react";
 import Body from "./Body";
+import { useEffect } from "react";
 
 // Orientation refers to that of the artefact/feature, it is one of - left, right and center
 // For now media is URL -> i.e. an image's url.
-const Display = ({ openEditor, contents, id, media }) => {
-  console.log(media);
+const Display = ({ openEditor, contents, id, media, editing }) => {
+  useEffect(() => {
+    console.log(media);
+  });
+
   const { orientation = "right", body, header } = contents;
 
   var bodyOrientation = {};
@@ -61,6 +65,15 @@ const Display = ({ openEditor, contents, id, media }) => {
     mr: "5em",
     ml: "5em",
     mb: "2em",
+    transition: "0.5 ease",
+    "&:hover": editing
+      ? {
+          transform: "scale(1.1)",
+          cursor: "pointer",
+          // boxShadow:
+          // "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        }
+      : undefined,
   };
 
   const bodyComponent = (

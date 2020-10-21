@@ -1,4 +1,8 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createEntityAdapter,
+  createSelector,
+} from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
 import { actions as artifactActions } from "./artifacts";
@@ -116,6 +120,10 @@ export const {
   selectTotal: selectTotalMedia,
 } = adapter.getSelectors(state => state.media);
 export const selectMediaSlice = state => state.media;
+
+export const selectMediaUrl = createSelector(selectMediaById, media =>
+  media ? media.url || "" : undefined
+);
 
 // create a new artifact
 export const uploadMedia = (file, description, filename, type = "image") => (

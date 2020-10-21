@@ -16,6 +16,7 @@ import {
 } from "semantic-ui-react";
 import { ChooseMedia, UploadMediaModal } from "./Media";
 import { selectMediaByUsername } from "../store/combinedSelectors";
+import { selectMediaUrl } from "../store/slices/media";
 // from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 const hashCode = s =>
   s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
@@ -136,9 +137,7 @@ export const EditableUserProfile = ({ editing, username, profile }) => {
 const ChooseProfileModal = ({ username, profile }) => {
   const [open, setOpen] = useState(false);
   const [profileId, setProfileId] = useState(profile);
-  const profileSrc = useSelector(
-    state => selectMediaById(state, profileId).url
-  );
+  const profileSrc = useSelector(state => selectMediaUrl(state, profileId));
 
   const dispatch = useDispatch();
   const onChange = value => {

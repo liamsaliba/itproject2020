@@ -111,8 +111,10 @@ const Page = ({ pageId: id, name, userId }) => {
   if (page === undefined) return null;
   const { type, loading } = page;
   const artifacts = content.map(artifact => (
+    // TODO: add loader
     <Artifact
       {...artifact}
+      editing={editing}
       openEditor={() =>
         editing ? dispatch(editArtifactStarted(artifact)) : null
       }

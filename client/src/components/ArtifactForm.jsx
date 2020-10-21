@@ -14,7 +14,13 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ChooseMedia } from "./Media";
 
-import { Button, Form, Modal, Icon } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Modal,
+  Icon,
+  TransitionablePortal,
+} from "semantic-ui-react";
 
 import ReactDatePicker from "react-datepicker";
 import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
@@ -463,12 +469,24 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
   if (!thisForm) return null;
 
   const deleteButton = (
-    <DeleteConfirmationModal
-      setParentOpen={() => closeModal(false)}
-      action={() => dispatch(deleteArtifact(id))}
-      name="this artifact"
-      button="true"
-    />
+    // <DeleteConfirmationModal
+    //   setParentOpen={() => closeModal(false)}
+    //   action={() => {
+    //     dispatch(deleteArtifact(id));
+    //     return false;
+    //   }}
+    //   name="this artifact"
+    //   button
+    // />
+    <Button
+      icon
+      color="red"
+      labelPosition="left"
+      onClick={() => dispatch(deleteArtifact(id))}
+    >
+      <Icon name="trash" />
+      Delete
+    </Button>
   );
 
   return (
@@ -480,6 +498,7 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
       altAction={deleteButton}
       open={open}
       closeModal={closeModal}
+      id={id}
     />
   );
 };
@@ -492,24 +511,23 @@ const FormModal = ({
   defaultValues = {},
   action,
   content,
-  type,
   validate = (data, setError) => true,
   altAction,
+  id,
 }) => {
   // eslint-disable-next-line
   const form = useForm({ defaultValues });
+  const dispatch = useDispatch();
   const { handleSubmit, setValue, triggerValidation, setError, reset } = form;
 
   useEffect(() => {
     reset(defaultValues);
-    console.log(defaultValues);
   }, [defaultValues]);
 
-  const onSubmit = (data, e) => {
+  const onSubmit = data => {
     if (validate(data, setError)) {
-      // e.preventDefault();
-      console.log("Submit event", e);
-      console.log(data);
+      // const { media, ...contents } = data;
+      // if (action) action({ media, contents });
       if (action) action(data);
       closeModal();
     }
@@ -529,7 +547,7 @@ const FormModal = ({
         onClose={() => closeModal()}
         open={open}
         as={Form}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={data => handleSubmit(onSubmit)(data)}
         dimmer={{ inverted: true }}
       >
         <Modal.Header>{title}</Modal.Header>
