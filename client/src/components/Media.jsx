@@ -215,18 +215,21 @@ const UploadMediaModal = () => {
       // todo: display error
       return;
     }
-    dispatch(uploadMedia(state.image_file, state.description));
+    dispatch(uploadMedia(state.image_file, state.description, state.filename));
     // uploadMedia(dispatch)(token, state.image_file, state.description);
     closeModal();
   };
 
   const handleImagePreview = e => {
+    if (e.target.files.length === 0) return;
     const file = e.target.files[0];
-    const base64 = URL.createObjectURL(file);
 
+    const base64 = URL.createObjectURL(file);
+    console.log(file.name);
     setState({
       image_preview: base64,
       image_file: file,
+      filename: file.name,
     });
   };
 
@@ -249,6 +252,15 @@ const UploadMediaModal = () => {
     >
       <Modal.Header>Upload Media</Modal.Header>
       <Modal.Content>
+        <p>Only .jpg, .bmp, .png files are currently supported.</p>
+        <Form.Input
+          label="Upload File"
+          name="file"
+          onChange={handleImagePreview}
+          required
+          type="file"
+          accept="image/jpg,image/bmp,image/png"
+        />
         {state.image_preview ? (
           <img
             src={state.image_preview}
@@ -264,14 +276,6 @@ const UploadMediaModal = () => {
           onChange={handleChange}
           defaultValue={""}
           required
-        />
-        <Form.Input
-          label="Upload File"
-          name="file"
-          onChange={handleImagePreview}
-          required
-          type="file"
-          accept="image/jpg,image/bmp,image/png"
         />
       </Modal.Content>
       <Modal.Actions>
