@@ -79,7 +79,7 @@ const deleteMediaById = async (req, res) => {
       throw Error("User not found.");
     }
     const mediaId = req.params.mediaId;
-    const media = await Media.findById(mediaId);
+    const media = await Media.findByIdAndRemove(mediaId);
     if (!media) {
       throw Error(`Media ${mediaId} not found.`);
     }
