@@ -136,84 +136,84 @@ const SetAvatarModal = ({ user }) => {
   );
 };
 
-const ChangePasswordModal = () => {
-  const [open, setOpen] = useState(false);
-  // const dispatch = useDispatch();
+// const ChangePasswordModal = () => {
+//   const [open, setOpen] = useState(false);
+//   // const dispatch = useDispatch();
 
-  const handleSubmit = e => {
-    // e.preventDefault();
-    // const formData = new FormData(e.target);
-    // const oldPassword = formData.get("oldPassword");
-    // const newPassword = formData.get("newPassword");
-    // const confirmNewPassword = formData.get("confirmNewPassword");
-    // if (confirmNewPassword === newPassword) {
-    //   toast.error("Password does not match.");
-    //   setOpen(true)
-    //   return;
-    // }
-    // dispatch(renamePage(pageId, state.name));
-    // setOpen(false);
-  };
+//   const handleSubmit = e => {
+//     // e.preventDefault();
+//     // const formData = new FormData(e.target);
+//     // const oldPassword = formData.get("oldPassword");
+//     // const newPassword = formData.get("newPassword");
+//     // const confirmNewPassword = formData.get("confirmNewPassword");
+//     // if (confirmNewPassword === newPassword) {
+//     //   toast.error("Password does not match.");
+//     //   setOpen(true)
+//     //   return;
+//     // }
+//     // dispatch(renamePage(pageId, state.name));
+//     // setOpen(false);
+//   };
 
-  return (
-    <Modal
-      size="small"
-      closeOnDimmerClick={false}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      as={Form}
-      onSubmit={handleSubmit()}
-      dimmer={{ inverted: true }}
-      trigger={
-        <Button icon primary labelPosition="left">
-          <Icon name="lock" />
-          Change Password
-        </Button>
-      }
-    >
-      <Modal.Header>Change Password</Modal.Header>
-      <Modal.Content>
-        <Form>
-          <Form.Input
-            name="oldPassword"
-            fluid
-            icon="lock"
-            iconPosition="left"
-            placeholder="Old Password"
-            type="password"
-          />
-          <Form.Input
-            name="newPassword"
-            fluid
-            icon="lock"
-            iconPosition="left"
-            placeholder="New Password"
-            type="password"
-          />
-          <Form.Input
-            name="confirmNewPassword"
-            fluid
-            icon="lock"
-            iconPosition="left"
-            placeholder="Confirm New Password"
-            type="password"
-          />
-        </Form>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button basic primary onClick={() => setOpen(false)}>
-          <Icon name="remove" />
-          Cancel
-        </Button>
-        <Button positive type="submit">
-          <Icon name="checkmark" />
-          Save
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
-};
+//   return (
+//     <Modal
+//       size="small"
+//       closeOnDimmerClick={false}
+//       onClose={() => setOpen(false)}
+//       onOpen={() => setOpen(true)}
+//       open={open}
+//       as={Form}
+//       onSubmit={handleSubmit()}
+//       dimmer={{ inverted: true }}
+//       trigger={
+//         <Button icon primary labelPosition="left">
+//           <Icon name="lock" />
+//           Change Password
+//         </Button>
+//       }
+//     >
+//       <Modal.Header>Change Password</Modal.Header>
+//       <Modal.Content>
+//         <Form>
+//           <Form.Input
+//             name="oldPassword"
+//             fluid
+//             icon="lock"
+//             iconPosition="left"
+//             placeholder="Old Password"
+//             type="password"
+//           />
+//           <Form.Input
+//             name="newPassword"
+//             fluid
+//             icon="lock"
+//             iconPosition="left"
+//             placeholder="New Password"
+//             type="password"
+//           />
+//           <Form.Input
+//             name="confirmNewPassword"
+//             fluid
+//             icon="lock"
+//             iconPosition="left"
+//             placeholder="Confirm New Password"
+//             type="password"
+//           />
+//         </Form>
+//       </Modal.Content>
+//       <Modal.Actions>
+//         <Button basic primary onClick={() => setOpen(false)}>
+//           <Icon name="remove" />
+//           Cancel
+//         </Button>
+//         <Button positive type="submit">
+//           <Icon name="checkmark" />
+//           Save
+//         </Button>
+//       </Modal.Actions>
+//     </Modal>
+//   );
+// };
 
 const DeleteAccountModal = () => {
   const [open, setOpen] = useState(false);
@@ -369,7 +369,6 @@ export default () => {
             />
             {Edit({ editing, setEditing })}
             <Button
-              icon
               primary
               icon="lock"
               labelPosition="left"
