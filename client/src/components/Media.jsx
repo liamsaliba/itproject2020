@@ -54,6 +54,9 @@ export const MediaItem = ({
         <List.Header as="a">{description}</List.Header>
         <List.Description as="a">{url}</List.Description>
       </List.Content>
+      <List.Content floated="right" verticalAlign="middle">
+        <Button size="mini" icon="trash"/>
+      </List.Content>
     </List.Item>
   );
 };
