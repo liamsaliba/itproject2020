@@ -15,13 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ChooseMedia } from "./Media";
 
-import {
-  Button,
-  Form,
-  Modal,
-  Icon,
-  TransitionablePortal,
-} from "semantic-ui-react";
+import { Button, Form, Modal, Icon } from "semantic-ui-react";
 
 import ReactDatePicker from "react-datepicker";
 import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
@@ -178,7 +172,10 @@ const EducationForm = () => {
                 placeholderText="Choose start date"
                 dateFormat="MM/yyyy"
                 showMonthYearPicker
-                onChange={e => props.onChange(e)}
+                onChange={e => {
+                  console.log(e);
+                  props.onChange(e);
+                }}
                 selected={props.value}
               />
             )}
@@ -286,17 +283,20 @@ const ExperienceForm = () => {
           <Controller
             name="startDate"
             required
-            render={props => (
-              <ReactDatePicker
-                // sx={datePickerStyle}
-                className="input"
-                placeholderText="Choose start date"
-                dateFormat="MM/yyy"
-                showMonthYearPicker
-                onChange={e => props.onChange(e)}
-                selected={props.value}
-              />
-            )}
+            render={props => {
+              console.log(props);
+              return (
+                <ReactDatePicker
+                  // sx={datePickerStyle}
+                  className="input"
+                  placeholderText="Choose start date"
+                  dateFormat="MM/yyy"
+                  showMonthYearPicker
+                  onChange={e => props.onChange(e)}
+                  selected={props.value}
+                />
+              );
+            }}
           />
         </Form.Field>
         <Form.Field>
@@ -457,6 +457,21 @@ const NewArtifactForm = ({ open, closeModal, currentlyEditing }) => {
   );
 };
 
+const fixDate = date => {
+  if (date) {
+    if (date === "") return null;
+    return Date.parse(date);
+  }
+  return undefined;
+};
+
+const fixDates = contents => {
+  return {
+    startDate: fixDate(contents.startDate),
+    endDate: fixDate(contents.endDate),
+  };
+};
+
 const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
   const dispatch = useDispatch();
 
@@ -464,6 +479,7 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
   const contents = {
     ...currentlyEditing.contents,
     media,
+    ...fixDates(currentlyEditing.contents),
   };
 
   const thisForm = forms[type];

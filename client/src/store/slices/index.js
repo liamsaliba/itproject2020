@@ -57,6 +57,7 @@ export {
   selectPortfolioPageIds,
   selectCurrentUserPortfolio,
   selectPortfolioIsEditing,
+  selectSocialIcons,
   selectPortfolioTheme,
   selectPortfolioBio,
   selectPortfolioProfile,

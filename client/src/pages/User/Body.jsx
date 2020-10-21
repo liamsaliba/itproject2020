@@ -9,6 +9,7 @@ import {
   selectPortfolioProfile,
   selectPortfolioBio,
   changePortfolioBio,
+  selectSocialIcons,
 } from "../../store";
 import { Section, Artifact } from "../../components";
 import {
@@ -32,6 +33,7 @@ import {
   selectArtifactCurrentlyEditing,
 } from "../../store/slices/ui";
 import { useEffect } from "react";
+import { SocialIcon } from "react-social-icons";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -89,6 +91,18 @@ const EditBioModal = ({ bio }) => {
   );
 };
 
+const SocialIcons = id => {
+  const socials = useSelector(state => selectSocialIcons(state, id));
+
+  return (
+    <Box>
+      {/* {socials.map(social => (
+        <SocialIcon key={social} url={social} />
+      ))} */}
+    </Box>
+  );
+};
+
 const MainHeader = ({ username, bio, editing }) => {
   return (
     <Box mb={5}>
@@ -97,6 +111,7 @@ const MainHeader = ({ username, bio, editing }) => {
       <Styled.h1> {username} </Styled.h1>
       <Styled.p> {bio} </Styled.p>
       {editing ? <EditBioModal bio={bio} /> : null}
+      <SocialIcons />
     </Box>
   );
 };

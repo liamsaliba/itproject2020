@@ -214,6 +214,11 @@ export const selectPortfolioPages = createSelector(
   portfolio => (portfolio ? portfolio.pages || [] : undefined)
 );
 
+export const selectSocialIcons = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.socials || [] : undefined)
+);
+
 export const selectPortfolioPageIds = createSelector(
   selectPortfolioPages,
   pages => (pages ? pages.map(page => page.pageId) || [] : undefined)
@@ -377,6 +382,7 @@ const changePortfolioOptions = data => (dispatch, getState) => {
 export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
 export const updateAvatar = avatar => changePortfolioOptions({ avatar });
+export const updateSocials = socials => changePortfolioOptions({ socials });
 
 // create portfolio with theme, bio
 export const deletePortfolio = (username, password) =>

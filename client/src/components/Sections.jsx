@@ -3,12 +3,17 @@ import { jsx, Flex, Box, Container, Image, Styled } from "theme-ui";
 import React from "react";
 import { Link } from "../components";
 import { useEffect } from "react";
+import moment from "moment";
 
-const IsVolunteering = ({ isVoluntary }) =>
-  isVoluntary ? "Is Volunteering" : "";
+const parseDate = date => {
+  return moment(date).format("MMM YYYY");
+};
 
 const IsOngoing = ({ isOngoing, startDate, endDate }) => {
-  return startDate.concat(" - ", !isOngoing ? endDate : "Present");
+  return parseDate(startDate).concat(
+    " - ",
+    !isOngoing ? parseDate(endDate) : "Present"
+  );
 };
 
 const addGrade = grade => {
@@ -71,7 +76,9 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
     <Row {...{ editing, openEditor, id }}>
       <Styled.h3 sx={styling}>{school}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
-        {degree.concat(" \u00B7 ", fieldOfStudy, addGrade(grade))}
+        {[degree, fieldOfStudy, grade ? "Grade: ".concat(grade) : ""].join(
+          " \u00B7 "
+        )}
       </Styled.h4>
 
       <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
@@ -104,15 +111,16 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
     <Row {...{ editing, openEditor, id }}>
       <Styled.h3 sx={styling}>{jobTitle}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
-        {" "}
-        {organisation.concat(" \u00B7 ", department)}{" "}
+        {[organisation, department].join(" \u00B7 ")}
       </Styled.h4>
 
       <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
         <IsOngoing {...{ isOngoing, startDate, endDate }} />
       </Styled.p>
       <Styled.p sx={{ ...styling, ...greyedOut }}>
-        {employmentType} {"\u00B7"} <IsVolunteering isVoluntary={isVoluntary} />
+        {[employmentType, isVoluntary ? "Is Volunteering" : ""].join(
+          " \u00B7 "
+        )}
       </Styled.p>
       <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
         {location}
