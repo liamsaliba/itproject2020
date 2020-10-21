@@ -23,6 +23,7 @@ const slice = createSlice({
   reducers: {
     pageRequestedMany: (pages, action) => {
       pages.loading = true;
+      pages.error = null;
     },
     pageReceivedMany: (pages, action) => {
       adapter.upsertMany(
@@ -31,6 +32,7 @@ const slice = createSlice({
       );
       pages.lastFetch = Date.now();
       pages.loading = false;
+      pages.error = null;
     },
     pageRequestManyFailed: (pages, action) => {
       pages.loading = false;
@@ -38,30 +40,52 @@ const slice = createSlice({
     },
     pageRequestedOne: (pages, action) => {
       pages.loading = true;
+      pages.error = null;
     },
     pageReceivedOne: (pages, action) => {
       adapter.upsertOne(pages, addLastFetch(action.payload));
       pages.loading = false;
+      pages.error = null;
     },
     pageRequestOneFailed: (pages, action) => {
       pages.loading = false;
       pages.error = action.payload;
     },
+    pagesUpdating: (pages, action) => {
+      pages.loading = true;
+      pages.error = null;
+    },
+    pageUpdating: (pages, action) => {
+      const pageId = action.request.data.id;
+      if (pages.entities[pageId]) {
+        pages.entities[pageId].loading = true;
+      }
+      pages.error = null;
+    },
+    pagesFailed: (pages, action) => {
+      pages.loading = false;
+      pages.error = action.payload;
+    },
     pageCreated: (pages, action) => {
       const page = addLastFetch(action.payload);
-      adapter.upsertOne(pages, page);
+      adapter.upsertOne(pages, { ...page, loading: false });
+      pages.loading = false;
+      pages.error = null;
     },
     pageUpdated: (pages, action) => {
       const page = addLastFetch(action.payload);
-      adapter.upsertOne(pages, page);
+      adapter.upsertOne(pages, { ...page, loading: false });
+      pages.error = null;
     },
     pageDeleted: (pages, action) => {
       const pageId = action.request.data.id;
       adapter.removeOne(pages, pageId);
+      pages.error = null;
     },
     pageReceivedOneAll: (pages, action) => {
       const { page } = addLastFetch(action.payload);
       adapter.upsertOne(pages, page);
+      pages.error = null;
     },
   },
   extraReducers: {
@@ -124,8 +148,11 @@ const {
   pageReceivedOne,
   pageRequestOneFailed,
   pageCreated,
+  pageUpdating,
   pageUpdated,
   pageDeleted,
+  pagesUpdating,
+  pagesFailed,
 } = slice.actions;
 export const actions = slice.actions;
 
@@ -226,6 +253,8 @@ export const createPage = (page = {}) => (dispatch, getState) => {
       method: "post",
       data: page,
       token,
+      onStart: pagesUpdating.type,
+      onFailure: pagesFailed.type,
       onSuccess: pageCreated.type,
     })
   );
@@ -240,6 +269,8 @@ export const changePageOptions = (id, data) => (dispatch, getState) => {
       method: "patch",
       data,
       token,
+      onStart: pageUpdating.type,
+      onFailure: pagesFailed.type,
       onSuccess: pageUpdated.type,
     })
   );
@@ -259,6 +290,8 @@ export const deletePage = id => (dispatch, getState) => {
       data: { id },
       req: { username, pageId: id },
       token,
+      onStart: pageUpdating.type,
+      onFailure: pagesFailed.type,
       onSuccess: pageDeleted.type,
     })
   );
