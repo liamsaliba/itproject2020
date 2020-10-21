@@ -42,10 +42,12 @@ const changeUserDetails = async (req, res) => {
       const lastName = req.body.lastName;
       const email = req.body.email;
       const user = req.user;
+      const allowContact = req.body.allowContact;
       user.local.firstName = firstName ? firstName : user.local.firstName;
       user.local.middleName = middleName ? middleName : user.local.middleName;
       user.local.lastName = lastName ? lastName : user.local.lastName;
       user.local.email = email ? email : user.local.email;
+      user.allowContact = allowContact ? allowContact : user.allowContact;
       let changeItems = [];
       if (user.isModified("local.firstName"))
         changeItems = changeItems.concat("First Name");
@@ -55,6 +57,8 @@ const changeUserDetails = async (req, res) => {
         changeItems = changeItems.concat("Last Name");
       if (user.isModified("local.email"))
         changeItems = changeItems.concat("Email");
+      if (user.isModified("allowContact"))
+        changeItems = changeItems.concat("allowContact");
       if (user.local && user.local.email) {
         emailBot.sendAccountChangeNotification(
           user.local.email,
@@ -139,6 +143,7 @@ const createUser = async (req, res) => {
     const middleName = req.body.middleName;
     const lastName = req.body.lastName;
     const email = req.body.email;
+    const allowContact = req.body.allowContact;
 
     const newUser = new User({
       method: ["local"],
@@ -150,6 +155,7 @@ const createUser = async (req, res) => {
         lastName,
         email,
       },
+      allowContact,
     });
 
     // Save the new User to the database
