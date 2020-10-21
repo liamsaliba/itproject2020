@@ -23,6 +23,7 @@ const slice = createSlice({
         ui.loading = true;
         ui.loadingText = `Loading ${userId}'s portfolio`;
       }
+      ui.accordion = null; // if log in as a different user, shouldn't have settings saved!
     },
     setLoading: (ui, action) => {
       ui.loading = true;
