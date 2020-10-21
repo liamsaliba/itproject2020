@@ -2,8 +2,7 @@
 import { jsx } from "theme-ui";
 import React from "react";
 
-import { Button, Form, Icon, List, Popup } from "semantic-ui-react";
-import { Modal } from "semantic-ui-react";
+import { Button, Form, Icon, List, Popup, Modal, Image } from "semantic-ui-react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { Dropdown } from "semantic-ui-react";
@@ -13,7 +12,50 @@ import { useSelector } from "react-redux";
 import { selectUserMedia } from "../store/combinedSelectors";
 import { selectMediaByUsername } from "../store/combinedSelectors";
 import { selectUsername } from "../store/slices/auth";
+import { deleteMedia } from "../store/slices/media";
 import PreviewModal from "./DocumentPreview";
+
+const DeleteConfirmationModal = ({ setParentOpen, action, name = "this", src}) => {
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    action();
+    setOpen(false);
+    if (setParentOpen) setParentOpen(false);
+  };
+
+  return (
+    <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
+      closeOnDimmerClick={false}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
+      open={open}
+      trigger={
+        <Button size="mini" icon="trash"/>
+      }
+    >
+      <Modal.Header>
+        Are you sure you want to delete {name}? This process is irreversible.
+      </Modal.Header>
+      <Modal.Content>
+        <Image src={src} fluid />
+      </Modal.Content>
+      <Modal.Actions>
+        <Button basic onClick={() => setOpen(false)} type="button">
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="red" type="submit">
+          <Icon name="trash" /> Delete
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  );
+};
 
 export const NewMedia = () => {
   return (
@@ -44,18 +86,23 @@ export const MediaItem = ({
   id,
   setPreview,
 }) => {
+  const dispatch = useDispatch();
   const icon = filetypes[type] || "file";
   const src = url;
 
   return (
-    <List.Item key={id} onClick={() => showPreview(src, setPreview)}>
+    <List.Item>
       <List.Icon name={icon} size="large" verticalAlign="middle" />
-      <List.Content>
+      <List.Content key={id} onClick={() => showPreview(src, setPreview)}>
         <List.Header as="a">{description}</List.Header>
         <List.Description as="a">{url}</List.Description>
       </List.Content>
-      <List.Content floated="right" verticalAlign="middle">
-        <Button size="mini" icon="trash"/>
+      <List.Content>
+        <DeleteConfirmationModal
+          action={() => dispatch(deleteMedia(id))}
+          name={description}
+          src={src}
+        /> 
       </List.Content>
     </List.Item>
   );
