@@ -71,10 +71,10 @@ export const Section = ({
       }}
       id={name}
     >
-      <Dimmer inverted active={loading}>
-        <Loader size="large">Loading</Loader>
-      </Dimmer>
       <Heading id={id} name={name} editing={editing} newbtn={newbtn} />
+      <Loader inline size="large" active={loading}>
+        Loading
+      </Loader>
       {editing && content.length === 0 ? (
         <EmptySectionPlaceholder>{newbtn}</EmptySectionPlaceholder>
       ) : (

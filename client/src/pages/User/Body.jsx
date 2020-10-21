@@ -99,10 +99,11 @@ const Page = ({ pageId: id, name, userId }) => {
   const page = useSelector(state => selectPageById(state, id));
   const content = useSelector(state => selectArtifactsByPageId(state, id));
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
+
   const dispatch = useDispatch();
   // TODO: display a toast saying unable to fetch page.
   if (page === undefined) return null;
-  const { type } = page;
+  const { type, loading } = page;
   const artifacts = content.map(artifact => (
     <Artifact
       {...artifact}
@@ -122,6 +123,7 @@ const Page = ({ pageId: id, name, userId }) => {
   const pageProps = {
     id,
     name,
+    loading,
     content: artifacts,
     editing,
     type,
