@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx, Box, Flex, Styled } from "theme-ui";
 import { Segment, Header, Icon } from "semantic-ui-react";
-import { Dimmer } from "semantic-ui-react";
 import { Loader } from "semantic-ui-react";
 
 export const Dot = () => (
