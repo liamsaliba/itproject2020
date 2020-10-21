@@ -120,7 +120,7 @@ const slice = createSlice({
       }
     },
     [pageActions.pageDeleted]: (portfolios, action) => {
-      const pageId = action.request.data.id;
+      const pageId = action.request.id;
       const username = action.request.username;
       if (
         !portfolios.entities[username] ||
