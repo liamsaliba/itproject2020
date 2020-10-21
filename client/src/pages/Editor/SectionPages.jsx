@@ -66,7 +66,12 @@ const Page = ({ active, setActive, page }) => {
   );
 };
 
-const DeleteConfirmationModal = ({ setParentOpen, action, name = "this" }) => {
+export const DeleteConfirmationModal = ({
+  setParentOpen,
+  action,
+  name = "this",
+  button = false,
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = e => {
@@ -87,10 +92,22 @@ const DeleteConfirmationModal = ({ setParentOpen, action, name = "this" }) => {
       dimmer={{ inverted: true }}
       open={open}
       trigger={
-        <Dropdown.Item>
-          <Icon name="trash" />
-          Delete
-        </Dropdown.Item>
+        button ? (
+          <Button
+            icon
+            color="red"
+            labelPosition="left"
+            onClick={() => setOpen(false)}
+          >
+            <Icon name="trash" />
+            Delete
+          </Button>
+        ) : (
+          <Dropdown.Item onClick={() => setOpen(false)}>
+            <Icon name="trash" />
+            Delete
+          </Dropdown.Item>
+        )
       }
     >
       <Modal.Header>

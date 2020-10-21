@@ -21,12 +21,18 @@ export {
   changePortfolio,
   setLoading,
   setLoadingFinished,
+  editArtifactStarted,
+  editArtifactFinished,
+  createArtifactStarted,
+  createArtifactFinished,
   // selectors
   selectAccordion,
   selectCurrentPortfolio,
   selectLoadingStatus,
   selectLoadingText,
   selectLoading,
+  selectArtifactCurrentlyCreating,
+  selectArtifactCurrentlyEditing,
   // reducer
   default as uiReducer,
 } from "./ui";

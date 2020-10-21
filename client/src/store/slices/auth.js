@@ -176,7 +176,7 @@ export const logoutAll = () => (dispatch, getState) => {
 
 export const updateUser = props =>
   apiStarted({
-    url: endpoints.user(),
+    url: endpoints.user,
     method: "patch",
     data: props,
     onSuccess: userUpdated.type,
@@ -184,7 +184,7 @@ export const updateUser = props =>
 
 export const deleteUser = (username, password) =>
   apiStarted({
-    url: endpoints.user(),
+    url: endpoints.user,
     method: "delete",
     data: { username, password },
     onSuccess: userDeleted.type,

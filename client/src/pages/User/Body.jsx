@@ -9,7 +9,6 @@ import {
   selectPortfolioProfile,
   selectPortfolioBio,
   changePortfolioBio,
-  createArtifact,
 } from "../../store";
 import { Section, Artifact } from "../../components";
 import {
@@ -23,9 +22,15 @@ import {
 } from "semantic-ui-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NewArtifactForm } from "../../components/ArtifactForm";
+import { ArtifactForm } from "../../components/ArtifactForm";
 import { NewPageModal } from "../Editor/SectionPages";
 import { EditableUserProfile } from "../../components/ProfileIcon";
+import {
+  createArtifactStarted,
+  editArtifactFinished,
+  editArtifactStarted,
+  selectArtifactCurrentlyEditing,
+} from "../../store/slices/ui";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -107,19 +112,23 @@ const Page = ({ pageId: id, name, userId }) => {
   const artifacts = content.map(artifact => (
     <Artifact
       {...artifact}
-      editing={editing}
+      openEditor={() =>
+        editing ? dispatch(editArtifactStarted(artifact)) : null
+      }
       // temporarily, while we wait for a backend fix...
       type={type}
     />
   ));
 
   const newbtn = (
-    <NewArtifactForm
-      action={({ media = [], ...contents }) =>
-        dispatch(createArtifact(id, { type, media, contents }))
-      }
-      type={type}
-    />
+    <Button
+      icon
+      labelPosition="left"
+      onClick={() => dispatch(createArtifactStarted({ type, pageId: id }))}
+    >
+      <Icon name="add" />
+      Add {type}
+    </Button>
   );
 
   const pageProps = {
@@ -153,6 +162,11 @@ const SinglePagePortfolio = props => {
   const pages = useSelector(state => selectPortfolioPages(state, userId));
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
   const profile = useSelector(state => selectPortfolioProfile(state, userId));
+  const [editOpen, setEditOpen] = useState(false);
+  const dispatch = useDispatch();
+  const artifactEditing = useSelector(state =>
+    selectArtifactCurrentlyEditing(state)
+  );
   // userId will be given with the pages selector, so no need to pass it to children (...page)
   const pageContainers = pages.map(page => (
     <Page {...page} key={page.pageId.toString()} userId={userId} />
@@ -171,6 +185,14 @@ const SinglePagePortfolio = props => {
         bio={bio}
         editing={editing}
         profile={profile}
+      />
+      <ArtifactForm
+        open={editOpen}
+        closeModal={() => {
+          setEditOpen(false);
+          dispatch(editArtifactFinished);
+        }}
+        currentlyEditing={artifactEditing}
       />
       {editing && pages.length === 0 ? (
         <NewPlaceholder tagline="No pages yet!  Would you like to create a new one?">

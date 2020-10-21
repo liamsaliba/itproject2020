@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx, Box } from "theme-ui";
-import { useState, useEffect } from "react";
 import {
   useForm,
   FormProvider,
@@ -18,6 +17,9 @@ import { ChooseMedia } from "./Media";
 import { Button, Form, Modal, Icon } from "semantic-ui-react";
 
 import ReactDatePicker from "react-datepicker";
+import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
+import { createArtifact, deleteArtifact, editArtifact } from "../store";
+import { useDispatch } from "react-redux";
 
 const getErrors = (errors, field) =>
   errors[field]
@@ -245,13 +247,13 @@ const ExperienceForm = () => {
         name="employmentType"
         // sx={{ zIndex: "999999 !important" }}
       />
+      import {useDispatch} from 'react-redux';
       <Controller
         as={Form.Checkbox}
         error={getErrors(errors, "isVoluntary")}
         name="isVoluntary"
         label="This a volunteering role"
       />
-
       <Form.Group widths="equal">
         <Form.Field required>
           <label>Start Date</label>
@@ -293,7 +295,6 @@ const ExperienceForm = () => {
           />
         </Form.Field>
       </Form.Group>
-
       <Form.Field>
         <label>Attached Media</label>
         <ChooseMedia />
@@ -367,37 +368,89 @@ const forms = {
   },
 };
 
-export const NewArtifactForm = ({ type, action }) => {
-  const thisForm = forms[type];
-  if (!thisForm) return null;
-  const header = "Create new ".concat(thisForm.title);
-
-  return <FormModal {...thisForm} action={action} title={header} type={type} />;
+export const ArtifactForm = ({ open, closeModal, currentlyEditing }) => {
+  const { isNew, ...others } = currentlyEditing;
+  return isNew ? (
+    <NewArtifactForm open={open} closeModal={closeModal} currentlyEditing />
+  ) : (
+    <EditArtifactForm open={open} closeModal={closeModal} currentlyEditing />
+  );
 };
 
-export const EditArtifactForm = ({
-  type,
-  action,
-  defaultValues,
-  altAction,
-}) => {
+const NewArtifactForm = ({ open, closeModal, currentlyEditing }) => {
+  const dispatch = useDispatch();
+  const { type, pageId } = currentlyEditing;
+
   const thisForm = forms[type];
-  if (!thisForm) return null;
-  const header = "Edit ".concat(thisForm.title);
+  if (!thisForm) return null; // invalid type! (no form yet...)
+
+  // TODO: dirty check
+  const closeButton = (
+    <Button
+      icon
+      color="red"
+      labelPosition="left"
+      onClick={() => closeModal(false)}
+    >
+      <Icon name="cancel" />
+      Cancel
+    </Button>
+  );
+
+  const action = ({ media = [], ...contents }) =>
+    dispatch(createArtifact(pageId, { type, media, contents }));
 
   return (
     <FormModal
       {...thisForm}
       action={action}
-      title={header}
-      defaultValues={defaultValues}
-      altAction={altAction}
+      title={"Create new ".concat(thisForm.title)}
+      type={type}
+      open={open}
+      closeModal={closeModal}
+      altAction={closeButton}
+    />
+  );
+};
+
+const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
+  const dispatch = useDispatch();
+
+  const { type, id, media } = currentlyEditing;
+  const contents = {
+    ...currentlyEditing.contents,
+    media,
+  };
+
+  const thisForm = forms[type];
+  if (!thisForm) return null;
+
+  const deleteButton = (
+    <DeleteConfirmationModal
+      setParentOpen={() => closeModal(false)}
+      action={() => dispatch(deleteArtifact(id))}
+      name="this artifact"
+      button="true"
+    />
+  );
+
+  return (
+    <FormModal
+      {...thisForm}
+      action={data => dispatch(editArtifact(id, data))}
+      title={"Edit ".concat(thisForm.title)}
+      defaultValues={contents}
+      altAction={deleteButton}
+      open={open}
+      closeModal={closeModal}
     />
   );
 };
 
 // content: the actual form
 const FormModal = ({
+  open,
+  closeModal,
   title,
   defaultValues = {},
   action,
@@ -406,7 +459,6 @@ const FormModal = ({
   validate = (data, setError) => true,
   altAction,
 }) => {
-  const [open, setOpen] = useState(false);
   // eslint-disable-next-line
   const form = useForm({ defaultValues });
   const { handleSubmit, setValue, triggerValidation, setError } = form;
@@ -417,7 +469,7 @@ const FormModal = ({
       console.log("Submit event", e);
       console.log(data);
       if (action) action(data);
-      setOpen(false);
+      closeModal();
     }
   };
 
@@ -426,41 +478,22 @@ const FormModal = ({
     await triggerValidation({ name });
   };
 
-  const removeButton = (
-    <Button
-      icon
-      color="red"
-      labelPosition="left"
-      onClick={() => setOpen(false)}
-    >
-      <Icon name="cancel" />
-      Cancel
-    </Button>
-  );
-
   return (
     <FormProvider {...form} onChange={onChange}>
       <Modal
         size="small"
         closeIcon
         closeOnDimmerClick={false}
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
+        onClose={() => closeModal()}
         open={open}
         as={Form}
         onSubmit={handleSubmit(onSubmit)}
         dimmer={{ inverted: true }}
-        trigger={
-          <Button icon labelPosition="left">
-            <Icon name="add" />
-            Add {type}
-          </Button>
-        }
       >
         <Modal.Header>{title}</Modal.Header>
         <Modal.Content>{content}</Modal.Content>
         <Modal.Actions>
-          {altAction ? altAction : removeButton}
+          {altAction}
           <Button icon color="blue" type="submit" labelPosition="left">
             <Icon name="checkmark" />
             Submit
@@ -481,3 +514,5 @@ const FormModal = ({
 //     type: PropTypes.string, // {"Education", "Experience"}
 //   }),
 // };
+
+export default ArtifactForm;
