@@ -30,6 +30,22 @@ const getErrors = (errors, field) =>
 const DisplayForm = () => {
   const { errors } = useFormContext();
 
+  const orientationOptions = [
+    { key: "l", text: "Align left", value: "Align left", icon: "align left" },
+    {
+      key: "c",
+      text: "Align center",
+      value: "Align center",
+      icon: "align center",
+    },
+    {
+      key: "r",
+      text: "Align right",
+      value: "Align right",
+      icon: "align right",
+    },
+  ];
+
   return (
     <Box>
       <Controller
@@ -44,6 +60,15 @@ const DisplayForm = () => {
         name="body"
         label="Body"
         error={getErrors(errors, "body")}
+      />
+      <Controller
+        as={Form.Select}
+        error={getErrors(errors, "orientationOptions")}
+        fluid
+        required
+        label="Alignment"
+        options={orientationOptions}
+        name="orientation"
       />
       <Form.Field>
         <label>Attached Media</label>
@@ -156,19 +181,7 @@ const EducationForm = () => {
 };
 
 const ExperienceForm = () => {
-  const { errors, register } = useFormContext();
-
-  useEffect(() => {
-    register({ name: "jobTitle" }, { required: true });
-    register({ name: "organisation" }, { required: true });
-    register({ name: "department" });
-    register({ name: "location" });
-    register({ name: "employmentType" }, { required: true });
-    register({ name: "grade" });
-    // TODO: add date picker
-    // TODO: add media upload
-    register({ name: "details" });
-  });
+  const { errors } = useFormContext();
 
   const employmentOptions = [
     { key: "f", text: "Full Time", value: "Full Time" },
