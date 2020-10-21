@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import Display from "./Display";
 import TextEditor from "./TextEditor";
+import { Education, Experience, Display } from "./Sections";
 
 export const artifactTypeToName = type => {
   switch (type) {
@@ -26,10 +26,10 @@ const Artifact = props => {
       return <Display {...props} />;
     case "custom":
       return <TextEditor {...props} />;
-    // case "education":
-    //   return <Education {...props} />;
-    // case "experience":
-    //   return <Experience {...props} />;
+    case "education":
+      return <Education {...props} />;
+    case "experience":
+      return <Experience {...props} />;
     default:
       return <p>{JSON.stringify(props)}</p>;
   }

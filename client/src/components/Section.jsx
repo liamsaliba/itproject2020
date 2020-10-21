@@ -28,7 +28,7 @@ const ContentBox = ({ type, children }) => {
     display: "flex",
     flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "stretch",
     justifyContent: "center",
   };
   // type of page determines what will be displayed

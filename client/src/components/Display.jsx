@@ -65,13 +65,17 @@ const Display = ({ openEditor, contents, id, media, editing }) => {
     mr: "5em",
     ml: "5em",
     mb: "2em",
-    transition: "0.5 ease",
+    boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
+    border: "2px solid #aaa",
+    borderRadius: "5px",
+    p: "1em",
+    transition: "0.3s all ease",
     "&:hover": editing
       ? {
-          transform: "scale(1.1)",
+          transform: "scale(1.05)",
           cursor: "pointer",
-          // boxShadow:
-          // "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          boxShadow:
+            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)",
         }
       : undefined,
   };
@@ -109,11 +113,9 @@ const Display = ({ openEditor, contents, id, media, editing }) => {
     ) : null;
 
   return (
-    <React.Fragment>
-      <Flex key={id.toString()} sx={artefactStyle} onClick={handleClick}>
-        {children}
-      </Flex>
-    </React.Fragment>
+    <Flex key={id.toString()} sx={artefactStyle} onClick={handleClick}>
+      {children}
+    </Flex>
   );
 };
 

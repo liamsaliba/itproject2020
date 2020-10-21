@@ -11,6 +11,7 @@ const styles = {
 
 const GenericLink = (LinkComponent, { href, ...props }) => {
   const isExternal = isAbsoluteURL(href || "");
+  console.log(href, isExternal);
   if (isExternal) {
     return (
       <a {...props} href={href} sx={styles}>

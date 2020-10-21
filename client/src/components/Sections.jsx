@@ -1,9 +1,8 @@
 /** @jsx jsx */
-import { jsx, Divider, Box, Container, Styled } from "theme-ui";
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-
-import SectionField from "./ArtifactForm";
+import { jsx, Flex, Box, Container, Image, Styled } from "theme-ui";
+import React from "react";
+import { Link } from "../components";
+import { useEffect } from "react";
 
 const IsVolunteering = ({ isVoluntary }) =>
   isVoluntary ? "Is Volunteering" : "";
@@ -12,146 +11,248 @@ const IsOngoing = ({ isOngoing, startDate, endDate }) => {
   return startDate.concat(" - ", !isOngoing ? endDate : "Present");
 };
 
-const addGrade = ({ grade }) => {
+const addGrade = grade => {
   return grade ? " \u00B7 Grade: ".concat(grade) : null;
 };
 
-export const Education = () => {};
-
-export function Section({
-  isEditing,
-  section: {
-    type,
-    title,
-    field_1,
-    field_2,
-    location,
-    grade,
-    isVoluntary,
-    isOngoing,
-    startDate,
-    endDate,
-    description,
-  },
-}) {
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    if (isEditing) {
-      setOpen(!open);
-    }
-  };
-
-  const sectionFieldArgs = {
-    state: {
-      open: open,
-      setOpen: setOpen,
-    },
-    sectionField: {
-      // TODO: isNew as variable!
-      isNew: true,
-      type: type,
-    },
-  };
-
-  const styling = {
-    mt: 0,
-    mb: 0,
-  };
-
-  const greyedOut = {
-    color: "rgb(104, 104, 104)",
-  };
-
-  const SubHeader = () => {
-    if (type === "education") {
-      return (
-        <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
-          {field_1.concat(" \u00B7 ", field_2, addGrade())}
-        </Styled.h4>
-      );
-    } else if (type === "experience") {
-      return (
-        <React.Fragment>
-          <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
-            {" "}
-            {field_1.concat(" \u00B7 ", field_2)}{" "}
-          </Styled.h4>
-        </React.Fragment>
-      );
-    }
-    return;
-  };
-
-  return (
-    <React.Fragment>
-      <SectionField {...sectionFieldArgs} />
-      <Container sx={{ textAlign: "left" }} onClick={handleClick}>
-        <Styled.h3 sx={styling}>{title}</Styled.h3>
-        <SubHeader />
-
-        <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
-          <IsOngoing />
-        </Styled.p>
-        <Styled.p sx={{ ...styling, ...greyedOut }}>
-          <IsVolunteering />
-        </Styled.p>
-        <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
-          {location}
-        </Styled.p>
-
-        <Styled.p sx={{ ...styling, mb: "1em" }}>{description}</Styled.p>
-      </Container>
-    </React.Fragment>
-  );
-}
-
-Section.propTypes = {
-  isEditing: PropTypes.bool,
-  section: PropTypes.shape({
-    title: PropTypes.string, // Job Title or School
-    type: PropTypes.string, // "education" or "experience"
-    field_1: PropTypes.string, // Organisation Type or Degree
-    field_2: PropTypes.string, // EmploymentType or FieldOfStudy
-    location: PropTypes.string, // Location or Location
-    grade: PropTypes.string, // For Education ONLY
-    isVoluntary: PropTypes.bool, // For Experience ONLY
-    isOngoing: PropTypes.bool, // Both Experience and Education
-    startDate: PropTypes.string, // Both Experience and Education
-    endDate: PropTypes.string, // Both Experience and Education
-    description: PropTypes.string, // Both Experience and Education
-  }),
+const styling = {
+  mt: 0,
+  mb: 0,
 };
 
-const GetBreakLine = ({ i, len }) => {
-  if (i < len - 1) {
-    return (
-      <Divider sx={{ border: "0.5px solid #aaa", mt: "1em", mb: "1em" }} />
-    );
-  }
-  return null;
+const greyedOut = {
+  color: "rgb(104, 104, 104)",
 };
 
-export function Sections({ isEditing, sections }) {
+export const Row = ({ editing, openEditor, id, children }) => {
   const sectionStyling = {
     boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
     border: "2px solid #aaa",
     borderRadius: "5px",
     p: "1em",
-    m: "5em",
+    flex: "1 1 auto",
+    transition: "0.3s all ease",
+    flexDirection: "column",
+    "&:hover": editing
+      ? {
+          transform: "scale(1.05)",
+          cursor: "pointer",
+          boxShadow:
+            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)",
+        }
+      : undefined,
   };
 
-  const SubSections = sections.map((section, i) => (
-    <Box sx={{ pl: "1em", pr: "1em" }}>
-      <Section isEditing={isEditing} section={section} />
-      <GetBreakLine i={i} len={sections.length} />
-    </Box>
-  ));
+  const handleClick = () => {
+    openEditor();
+  };
 
-  return <Box sx={sectionStyling}>{SubSections}</Box>;
-}
+  return (
+    <Flex key={id.toString()} sx={sectionStyling} onClick={handleClick}>
+      {children}
+    </Flex>
+  );
+};
 
-Sections.propTypes = {
-  isEditing: PropTypes.bool,
-  sections: PropTypes.array,
+export const Education = ({ editing, openEditor, contents, media, id }) => {
+  const {
+    school,
+    degree,
+    fieldOfStudy,
+    location,
+    grade,
+    isOngoing,
+    startDate,
+    endDate,
+    description,
+  } = contents;
+
+  return (
+    <Row {...{ editing, openEditor, id }}>
+      <Styled.h3 sx={styling}>{school}</Styled.h3>
+      <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
+        {degree.concat(" \u00B7 ", fieldOfStudy, addGrade(grade))}
+      </Styled.h4>
+
+      <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
+        <IsOngoing {...{ isOngoing, startDate, endDate }} />
+      </Styled.p>
+      <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
+        {location}
+      </Styled.p>
+
+      <Styled.p sx={{ ...styling, mb: "1em" }}>{description}</Styled.p>
+    </Row>
+  );
+};
+
+export const Experience = ({ editing, openEditor, contents, media, id }) => {
+  const {
+    jobTitle,
+    organisation,
+    department,
+    location,
+    employmentType,
+    isVoluntary,
+    isOngoing,
+    startDate,
+    endDate,
+    description,
+  } = contents;
+
+  return (
+    <Row {...{ editing, openEditor, id }}>
+      <Styled.h3 sx={styling}>{jobTitle}</Styled.h3>
+      <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
+        {" "}
+        {organisation.concat(" \u00B7 ", department)}{" "}
+      </Styled.h4>
+
+      <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
+        <IsOngoing {...{ isOngoing, startDate, endDate }} />
+      </Styled.p>
+      <Styled.p sx={{ ...styling, ...greyedOut }}>
+        {employmentType} {"\u00B7"} <IsVolunteering isVoluntary={isVoluntary} />
+      </Styled.p>
+      <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
+        {location}
+      </Styled.p>
+
+      <Styled.p sx={{ ...styling, mb: "1em" }}>{description}</Styled.p>
+    </Row>
+  );
+};
+
+// Orientation refers to that of the artefact/feature, it is one of - left, right and center
+// For now media is URL -> i.e. an image's url.
+export const Display = ({ openEditor, contents, id, media, editing }) => {
+  useEffect(() => {
+    console.log(media);
+  });
+
+  const {
+    orientation = "right",
+    body,
+    header,
+    actionText,
+    actionUrl,
+  } = contents;
+
+  var bodyOrientation = {};
+  if (orientation === "right") {
+    bodyOrientation = {
+      hPos: "left",
+      vPos: "center",
+    };
+  } else if (orientation === "left") {
+    bodyOrientation = {
+      hPos: "right",
+      vPos: "center",
+    };
+  } else if (orientation === "center") {
+    bodyOrientation = {
+      hPos: "center",
+      vPos: "center",
+    };
+  }
+
+  const MediaCollection = () => {
+    const mediaStyle = {
+      boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
+    };
+
+    const mediaCollectionStyle = {
+      display: "flex",
+      flex: 1,
+      justifyContent: "center",
+      backgroundColor: "muted",
+      borderRadius: "5px",
+    };
+
+    const Media = ({ url, description, type, filename, id, setPreview }) => {
+      if (type === "image") {
+        return <Image key={id.toString()} sx={mediaStyle} src={url} />;
+      }
+    };
+
+    return (
+      <Box sx={mediaCollectionStyle}>
+        {media.map(item => (
+          <Media {...item} key={item.id} />
+        ))}
+      </Box>
+    );
+  };
+
+  // const artefactStyle = {
+  //   mr: "5em",
+  //   ml: "5em",
+  //   mb: "2em",
+  //   boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
+  //   border: "2px solid #aaa",
+  //   borderRadius: "5px",
+  //   p: "1em",
+  //   transition: "0.3s all ease",
+  //   "&:hover": editing
+  //     ? {
+  //         transform: "scale(1.05)",
+  //         cursor: "pointer",
+  //         boxShadow:
+  //           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)",
+  //       }
+  //     : undefined,
+  // };
+
+  // const bodyComponent = (
+  //   <Body
+  //     hPos={bodyOrientation.hPos}
+  //     vPos={bodyOrientation.vPos}
+  //     body={body}
+  //     header={header}
+  //   />
+  // );
+
+  const action =
+    actionUrl === "" ||
+    actionUrl === undefined ||
+    actionText === "" ||
+    actionText === undefined ? null : (
+      <button
+        as={Link}
+        href={actionUrl}
+        sx={{ bg: "primary", color: "background", p: 2, alignSelf: "center" }}
+      >
+        {actionText}
+      </button>
+    );
+
+  const bodyComponent =
+    action || header || body ? (
+      <Flex sx={{ flexDirection: "column" }}>
+        {header ? <Styled.h3>{header}</Styled.h3> : null}
+        {body ? <Styled.p>{body}</Styled.p> : null}
+        {action}
+      </Flex>
+    ) : null;
+
+  const children =
+    orientation === "right" ? (
+      <React.Fragment>
+        <MediaCollection />
+        {bodyComponent}
+      </React.Fragment>
+    ) : orientation === "left" ? (
+      <React.Fragment>
+        {bodyComponent}
+        <MediaCollection />
+      </React.Fragment>
+    ) : orientation === "center" ? (
+      <React.Fragment>
+        {bodyComponent}
+        {/* TODO: background media collection */}
+        {/* <MediaCollection onClick={handleClick} /> */}
+      </React.Fragment>
+    ) : null;
+
+  return <Row {...{ editing, openEditor, id }}>{children}</Row>;
 };

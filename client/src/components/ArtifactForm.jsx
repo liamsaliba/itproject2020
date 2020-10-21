@@ -6,6 +6,7 @@ import {
   useFormContext,
   Controller,
 } from "react-hook-form";
+import React from "react";
 
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -37,6 +38,21 @@ const getErrors = (errors, field) =>
       }
     : null;
 
+const ControlledChooseMedia = () => (
+  <Controller
+    name="media"
+    render={({ onChange, value, name }) => (
+      <ChooseMedia
+        multiple
+        {...{
+          onChange,
+          value,
+          name,
+        }}
+      />
+    )}
+  />
+);
 const DisplayForm = () => {
   const { errors } = useFormContext();
 
@@ -82,38 +98,23 @@ const DisplayForm = () => {
       />
       <Form.Field>
         <label>Attached Media</label>
-        <Controller
-          name="media"
-          render={({ onChange, value, name }) => (
-            <ChooseMedia
-              multiple
-              {...{
-                onChange,
-                value,
-                name,
-              }}
-            />
-          )}
-        />
+        <ControlledChooseMedia />
       </Form.Field>
       <label>Button action (optional)</label>
-      <Form.Group>
-        <Controller
-          as={Form.Input}
-          error={getErrors(errors, "actionText")}
-          name="actionText"
-          placeholder="Text"
-          label="Action"
-          size="large"
-        />
-        <Controller
-          as={Form.Input}
-          name="actionUrl"
-          label="Link"
-          placeholder="http://www.google.com"
-          error={getErrors(errors, "actionUrl")}
-        />
-      </Form.Group>
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "actionText")}
+        name="actionText"
+        label="Button text"
+        placeholder="Action text"
+      />
+      <Controller
+        as={Form.Input}
+        error={getErrors(errors, "actionUrl")}
+        name="actionUrl"
+        label="Button link"
+        placeholder="http://..."
+      />
     </Box>
   );
 };
@@ -175,7 +176,7 @@ const EducationForm = () => {
                 required
                 className="input"
                 placeholderText="Choose start date"
-                dateFormat="MM/yyy"
+                dateFormat="MM/yyyy"
                 showMonthYearPicker
                 onChange={e => props.onChange(e)}
                 selected={props.value}
@@ -206,7 +207,7 @@ const EducationForm = () => {
 
       <Form.Field>
         <label>Attached Media</label>
-        <ChooseMedia />
+        <ControlledChooseMedia />
       </Form.Field>
 
       <Controller
@@ -322,7 +323,7 @@ const ExperienceForm = () => {
       </Form.Group>
       <Form.Field>
         <label>Attached Media</label>
-        <ChooseMedia />
+        <ControlledChooseMedia />
       </Form.Field>
       {/* "Tell us about it!" */}
       <Controller
@@ -478,15 +479,21 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
     //   name="this artifact"
     //   button
     // />
-    <Button
-      icon
-      color="red"
-      labelPosition="left"
-      onClick={() => dispatch(deleteArtifact(id))}
-    >
-      <Icon name="trash" />
-      Delete
-    </Button>
+    <React.Fragment>
+      <Button
+        icon
+        color="red"
+        labelPosition="left"
+        onClick={() => dispatch(deleteArtifact(id))}
+      >
+        <Icon name="trash" />
+        Delete
+      </Button>
+      <Button icon labelPosition="left" onClick={() => closeModal()}>
+        <Icon name="cancel" />
+        Discard Changes
+      </Button>
+    </React.Fragment>
   );
 
   return (
