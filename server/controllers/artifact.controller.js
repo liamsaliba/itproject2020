@@ -30,6 +30,7 @@ const createArtifact = async (req, res) => {
     const contents = req.body.contents;
     const type = req.body.type;
     const pageId = req.params.pageId;
+    const media = req.body.media;
     const page = await Page.findById(pageId);
     const portfolio = await Portfolio.findByUsername(username);
     const portfolioId = portfolio._id;
@@ -39,9 +40,17 @@ const createArtifact = async (req, res) => {
       portfolioId,
       pageId,
       type,
+      media,
     });
     await newArtifact.save();
-    res.status(200).send(newArtifact.toObject());
+    aObject = newArtifact.toObject();
+    allMedia = [];
+    for (let i = 0; i < aObject.media.length; i++) {
+      detailedMedia = await Media.findById(aObject.media[i]);
+      allMedia.push(detailedMedia.toObject());
+    }
+    aObject.media = allMedia;
+    res.status(200).send(aObject);
   } catch (err) {
     res.status(400).json(`Page ${req.params.pageId} not found.`);
   }
