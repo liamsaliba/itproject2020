@@ -21,9 +21,6 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     multipart,
   } = action.payload;
 
-  if (onStart) dispatch({ type: onStart });
-  next(action);
-
   axios.defaults.baseURL =
     process.env.REACT_APP_BASE_URL ||
     // || "http://localhost:5000/api";
@@ -39,10 +36,13 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
   const request = {
     url,
     method,
-    data,
+    data: multipart ? null : data, // don't put non-serializable values in the store
     token,
     ...req,
   };
+
+  if (onStart) dispatch({ type: onStart, request });
+  next(action);
 
   // make api call
   try {
@@ -65,10 +65,7 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
       message: error.message,
       data: error.response ? error.response.data : null,
       hideErrorToast,
-      request: {
-        ...request,
-        data: multipart ? null : request.data, // don't put non-serializable values in the store
-      },
+      request,
     };
     console.log(error);
     dispatch(actions.apiErrored(returnedError));
