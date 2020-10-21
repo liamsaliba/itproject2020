@@ -3,9 +3,9 @@ import { Modal } from "semantic-ui-react";
 import { Editor } from "@tinymce/tinymce-react";
 import ReactHTMLParser from "react-html-parser";
 
-export default function TextEditor({ isEditing, textEditor: { defaultText } }) {
+export default function TextEditor({ editing, contents, id, media }) {
   const [open, setOpen] = useState(false);
-  const [text, setText] = useState(defaultText);
+  const [text, setText] = useState(contents.text || "");
 
   const handleChange = (content, editor) => {
     setText(content);
@@ -17,7 +17,7 @@ export default function TextEditor({ isEditing, textEditor: { defaultText } }) {
       size="large"
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
-      open={open ? isEditing : false}
+      open={open ? editing : false}
       trigger={<p>{ReactHTMLParser(text)}</p>}
     >
       <Editor

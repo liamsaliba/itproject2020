@@ -2,7 +2,15 @@
 import { jsx } from "theme-ui";
 import React from "react";
 
-import { Button, Form, Icon, List, Popup, Modal, Image } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Icon,
+  List,
+  Popup,
+  Modal,
+  Image,
+} from "semantic-ui-react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { Dropdown } from "semantic-ui-react";
@@ -14,8 +22,14 @@ import { selectMediaByUsername } from "../store/combinedSelectors";
 import { selectUsername } from "../store/slices/auth";
 import { deleteMedia } from "../store/slices/media";
 import PreviewModal from "./DocumentPreview";
+import { Divider } from "semantic-ui-react";
 
-const DeleteConfirmationModal = ({ setParentOpen, action, name = "this", src}) => {
+const DeleteConfirmationModal = ({
+  setParentOpen,
+  action,
+  name = "this",
+  src,
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = e => {
@@ -35,9 +49,7 @@ const DeleteConfirmationModal = ({ setParentOpen, action, name = "this", src}) =
       onOpen={() => setOpen(true)}
       dimmer={{ inverted: true }}
       open={open}
-      trigger={
-        <Button size="mini" icon="trash"/>
-      }
+      trigger={<Button size="mini" icon="trash" />}
     >
       <Modal.Header>
         Are you sure you want to delete {name}? This process is irreversible.
@@ -54,19 +66,6 @@ const DeleteConfirmationModal = ({ setParentOpen, action, name = "this", src}) =
         </Button>
       </Modal.Actions>
     </Modal>
-  );
-};
-
-export const NewMedia = () => {
-  return (
-    <React.Fragment>
-      <Form.Input label="Upload Media" type="file" name="media" />
-      <Form.Input
-        label="Media Description"
-        name="description"
-        control="textarea"
-      />
-    </React.Fragment>
   );
 };
 
@@ -91,18 +90,23 @@ export const MediaItem = ({
   const src = url;
 
   return (
-    <List.Item>
-      <List.Icon name={icon} size="large" verticalAlign="middle" />
+    <List.Item key={id.toString()} fluid>
+      <List.Icon
+        name={icon}
+        size="large"
+        verticalAlign="middle"
+        onClick={() => showPreview(src, setPreview)}
+      />
       <List.Content key={id} onClick={() => showPreview(src, setPreview)}>
         <List.Header as="a">{description}</List.Header>
         <List.Description as="a">{url}</List.Description>
       </List.Content>
-      <List.Content>
+      <List.Content floated="right">
         <DeleteConfirmationModal
           action={() => dispatch(deleteMedia(id))}
           name={description}
           src={src}
-        /> 
+        />
       </List.Content>
     </List.Item>
   );
@@ -191,7 +195,7 @@ const mediaEmpty = {
   description: "",
 };
 
-const UploadMediaModal = () => {
+const UploadMediaModal = ({ buttonText = "Upload" }) => {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState(mediaEmpty);
   const dispatch = useDispatch();
@@ -246,7 +250,7 @@ const UploadMediaModal = () => {
       trigger={
         <Button icon small labelPosition="left">
           <Icon name="upload" />
-          Upload
+          {buttonText}
         </Button>
       }
     >
@@ -293,7 +297,11 @@ const UploadMediaModal = () => {
 export const Media = () => {
   return (
     <React.Fragment>
-      <UploadMediaModal />
+      <UploadMediaModal buttonText="Upload new media" />
+      <Divider horizontal>Or</Divider>
+      <p>
+        View your uploaded media here. <Icon name="hand point down" inline />
+      </p>
       <MediaList />
     </React.Fragment>
   );

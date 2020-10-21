@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import Display from "./Display";
+import TextEditor from "./TextEditor";
 
 export const artifactTypeToName = type => {
   switch (type) {
@@ -10,6 +11,8 @@ export const artifactTypeToName = type => {
       return "Education";
     case "experience":
       return "Experience";
+    case "custom":
+      return "Custom";
     default:
       return null;
   }
@@ -21,6 +24,8 @@ const Artifact = props => {
   switch (type) {
     case "display":
       return <Display {...props} />;
+    case "custom":
+      return <TextEditor {...props} />;
     // case "education":
     //   return <Education {...props} />;
     // case "experience":

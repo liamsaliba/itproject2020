@@ -12,8 +12,11 @@ export const Dot = () => (
 const Heading = ({ name, id, editing, newbtn }) => {
   return (
     <Flex sx={{ alignItems: "center" }}>
-      <Box sx={{ flex:1 }}></Box>
-      <Styled.h2 id={id} sx={{ flex: 1, justifyContent: "center" }}>
+      <Box sx={{ flex: 1 }}></Box>
+      <Styled.h2
+        id={id}
+        sx={{ flex: 4, justifyContent: "center", wordBreak: "break-all" }}
+      >
         {name}
       </Styled.h2>
       <Box sx={{ flex: 1, float: "right" }}>{editing ? newbtn : null}</Box>

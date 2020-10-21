@@ -56,7 +56,7 @@ const slice = createSlice({
       pages.error = null;
     },
     pageUpdating: (pages, action) => {
-      const pageId = action.request.data.id;
+      const pageId = action.request.id;
       if (pages.entities[pageId]) {
         pages.entities[pageId].loading = true;
       }
@@ -78,7 +78,7 @@ const slice = createSlice({
       pages.error = null;
     },
     pageDeleted: (pages, action) => {
-      const pageId = action.request.data.id;
+      const pageId = action.request.id;
       adapter.removeOne(pages, pageId);
       pages.error = null;
     },
@@ -269,6 +269,7 @@ export const changePageOptions = (id, data) => (dispatch, getState) => {
       method: "patch",
       data,
       token,
+      req: { id },
       onStart: pageUpdating.type,
       onFailure: pagesFailed.type,
       onSuccess: pageUpdated.type,
@@ -287,8 +288,7 @@ export const deletePage = id => (dispatch, getState) => {
     apiStarted({
       url: endpoints.pagesById(id),
       method: "delete",
-      data: { id },
-      req: { username, pageId: id },
+      req: { username, id },
       token,
       onStart: pageUpdating.type,
       onFailure: pagesFailed.type,

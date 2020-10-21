@@ -48,7 +48,7 @@ const EditBioModal = ({ bio }) => {
       open={open}
       trigger={
         <Button icon small labelPosition="left">
-          <Icon name="pencil" />
+          <Icon inline name="pencil" />
           Edit bio
         </Button>
       }

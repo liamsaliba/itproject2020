@@ -11,6 +11,8 @@ import {
   Dropdown,
   Form,
   Input,
+  Divider,
+  Loader,
 } from "semantic-ui-react";
 import {
   selectUsername,
@@ -23,45 +25,41 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { artifactTypeToName } from "../../components/Artifact";
 
-const PageDropdown = ({ pageState }) => {
+const Page = ({ active, setActive, page }) => {
   const dispatch = useDispatch();
 
-  return (
-    <Dropdown
-      floating
-      inline
-      direction="left"
-      icon="caret square down"
-      sx={{ p: "0.2em" }}
-    >
-      <Dropdown.Menu>
-        <RenamePageModal pageState={pageState} />
-        <DeleteConfirmationModal
-          action={() => dispatch(deletePage(pageState.pageId))}
-          name={pageState.name}
-        />
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-};
-
-const Page = ({ active, setActive, page }) => {
-  const { name, pageId } = page;
+  const { name, pageId, loading } = page;
 
   const handlePageClick = e => {
     setActive(page);
   };
 
   return (
-    <List.Item 
+    <List.Item
       name={name}
       key={pageId.toString()}
       onClick={handlePageClick}
       fluid
+      sx={{ overflowWrap: "break-word" }}
     >
-      <List.Content floated='right'>
-        <PageDropdown pageState={{ name, pageId }} />
+      <List.Content floated="right">
+        <Dropdown
+          floating
+          inline
+          direction="left"
+          icon="caret square down"
+          sx={{ p: "0.2em" }}
+        >
+          <Dropdown.Menu>
+            <RenamePageModal pageState={{ name, pageId }} />
+            <DeleteConfirmationModal
+              action={() => dispatch(deletePage(pageId))}
+              name={name}
+            />
+          </Dropdown.Menu>
+        </Dropdown>
       </List.Content>
+      <Loader inline size="large" active={loading} />
       <List.Header>{name}</List.Header>
     </List.Item>
   );
@@ -89,7 +87,7 @@ const DeleteConfirmationModal = ({ setParentOpen, action, name = "this" }) => {
       open={open}
       trigger={
         <Dropdown.Item>
-          <Icon name="trash"/> 
+          <Icon name="trash" />
           Delete
         </Dropdown.Item>
       }
@@ -135,7 +133,8 @@ const RenamePageModal = ({ pageState }) => {
       open={open}
       trigger={
         <Dropdown.Item>
-          <Icon name="i cursor"/> Rename
+          <Icon name="i cursor" />
+          Rename
         </Dropdown.Item>
       }
     >
@@ -173,13 +172,14 @@ export const NewPageModal = () => {
     { key: "x", text: "Experience", value: "experience" },
     { key: "e", text: "Education", value: "education" },
     { key: "d", text: "Display", value: "display" },
+    { key: "d", text: "Custom", value: "custom" },
   ];
   const dispatch = useDispatch();
 
   const handleChange = (e, { name, value }) => {
     if (
       name === "type" &&
-      ["Experience", "Education", "Display", ""].includes(state.name)
+      ["Experience", "Education", "Display", "Custom", ""].includes(state.name)
     ) {
       setState({ ...state, name: artifactTypeToName(value), type: value });
     } else {
@@ -206,8 +206,8 @@ export const NewPageModal = () => {
       dimmer={{ inverted: true }}
       open={open}
       trigger={
-        <Button primary>
-          <Icon corner name="add" />
+        <Button icon primary labelPosition="left">
+          <Icon name="add" />
           Create Page
         </Button>
       }
@@ -261,6 +261,9 @@ const SectionPages = () => {
 
   return (
     <Section name="Pages" icon="file text">
+      <NewPageModal />
+      <Divider />
+      <p>Manage your pages...</p>
       <Flex sx={{ justifyContent: "center", flexDirection: "column" }}>
         {pages.length === 0 ? (
           "No pages, care to make a new one?"
@@ -278,7 +281,6 @@ const SectionPages = () => {
           </List>
         )}
       </Flex>
-      <NewPageModal />
     </Section>
   );
 };

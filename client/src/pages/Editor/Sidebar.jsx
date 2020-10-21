@@ -5,7 +5,7 @@ import React from "react";
 import Navbar from "./Navbar";
 
 // import SectionTextEditor from "./SectionTextEditor";
-import SectionArtifacts from "./SectionArtifacts";
+import SectionMedia from "./SectionMedia";
 import SectionSettings from "./SectionSettings";
 import SectionPages from "./SectionPages";
 import SectionMenu from "./SectionMenu";
@@ -37,7 +37,7 @@ export default props => {
       >
         <SectionSettings />
         <SectionPages />
-        <SectionArtifacts />
+        <SectionMedia />
         {/* <SectionTextEditor /> */}
       </Flex>
     </React.Fragment>
