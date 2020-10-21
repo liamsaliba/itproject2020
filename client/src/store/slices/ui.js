@@ -36,18 +36,18 @@ const slice = createSlice({
       ui.loadingText = null;
     },
     editArtifactStarted: (ui, action) => {
-      ui.editingArtifact = action.payload;
+      ui.editingArtifact = { ...action.payload };
       ui.editingArtifact.isNew = false;
     },
     editArtifactFinished: (ui, action) => {
       ui.editingArtifact = null;
     },
     createArtifactStarted: (ui, action) => {
-      ui.creatingArtifact = action.payload;
+      ui.editingArtifact = { ...action.payload };
       ui.editingArtifact.isNew = true;
     },
     createArtifactFinished: (ui, action) => {
-      ui.creatingArtifact = null;
+      ui.editingArtifact = null;
     },
   },
   extraReducers: {

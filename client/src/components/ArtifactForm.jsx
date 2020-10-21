@@ -20,6 +20,8 @@ import ReactDatePicker from "react-datepicker";
 import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
 import { createArtifact, deleteArtifact, editArtifact } from "../store";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const getErrors = (errors, field) =>
   errors[field]
@@ -88,6 +90,24 @@ const DisplayForm = () => {
           )}
         />
       </Form.Field>
+      <label>Button action (optional)</label>
+      <Form.Group>
+        <Controller
+          as={Form.Input}
+          error={getErrors(errors, "actionText")}
+          name="actionText"
+          placeholder="Text"
+          label="Action"
+          size="large"
+        />
+        <Controller
+          as={Form.Input}
+          name="actionUrl"
+          label="Link"
+          placeholder="http://www.google.com"
+          error={getErrors(errors, "actionUrl")}
+        />
+      </Form.Group>
     </Box>
   );
 };
@@ -247,7 +267,6 @@ const ExperienceForm = () => {
         name="employmentType"
         // sx={{ zIndex: "999999 !important" }}
       />
-      import {useDispatch} from 'react-redux';
       <Controller
         as={Form.Checkbox}
         error={getErrors(errors, "isVoluntary")}
@@ -349,7 +368,14 @@ const forms = {
   display: {
     content: <DisplayForm />,
     title: "Display",
-    defaultValues: { header: "", body: "", media: [], orientation: "center" },
+    defaultValues: {
+      header: "",
+      body: "",
+      media: [],
+      orientation: "center",
+      actionText: "",
+      actionUrl: "",
+    },
     validate: (data, setError) => {
       if (data.header === "" && data.body === "") {
         setError("body", {
@@ -369,17 +395,28 @@ const forms = {
 };
 
 export const ArtifactForm = ({ open, closeModal, currentlyEditing }) => {
+  if (currentlyEditing === null) return null;
+
   const { isNew, ...others } = currentlyEditing;
   return isNew ? (
-    <NewArtifactForm open={open} closeModal={closeModal} currentlyEditing />
+    <NewArtifactForm
+      open={open}
+      closeModal={closeModal}
+      currentlyEditing={others}
+    />
   ) : (
-    <EditArtifactForm open={open} closeModal={closeModal} currentlyEditing />
+    <EditArtifactForm
+      open={open}
+      closeModal={closeModal}
+      currentlyEditing={others}
+    />
   );
 };
 
 const NewArtifactForm = ({ open, closeModal, currentlyEditing }) => {
   const dispatch = useDispatch();
   const { type, pageId } = currentlyEditing;
+  console.log(currentlyEditing, type, pageId);
 
   const thisForm = forms[type];
   if (!thisForm) return null; // invalid type! (no form yet...)
@@ -461,7 +498,12 @@ const FormModal = ({
 }) => {
   // eslint-disable-next-line
   const form = useForm({ defaultValues });
-  const { handleSubmit, setValue, triggerValidation, setError } = form;
+  const { handleSubmit, setValue, triggerValidation, setError, reset } = form;
+
+  useEffect(() => {
+    reset(defaultValues);
+    console.log(defaultValues);
+  }, [defaultValues]);
 
   const onSubmit = (data, e) => {
     if (validate(data, setError)) {

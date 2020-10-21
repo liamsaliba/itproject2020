@@ -31,6 +31,7 @@ import {
   editArtifactStarted,
   selectArtifactCurrentlyEditing,
 } from "../../store/slices/ui";
+import { useEffect } from "react";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -171,6 +172,12 @@ const SinglePagePortfolio = props => {
   const pageContainers = pages.map(page => (
     <Page {...page} key={page.pageId.toString()} userId={userId} />
   ));
+
+  useEffect(() => {
+    if (artifactEditing) {
+      setEditOpen(true);
+    }
+  }, [artifactEditing]);
 
   const styling = {
     textAlign: "center",
