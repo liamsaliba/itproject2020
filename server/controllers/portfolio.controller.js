@@ -24,12 +24,16 @@ const createPortfolio = async (req, res) => {
       const theme = req.body.theme;
       const font = req.body.font;
       const colour = req.body.colour;
+      const singlePage = req.body.singlePage;
+      const social = req.body.social;
       const newPortfolio = new Portfolio({
         username,
         bio,
         theme,
         font,
         colour,
+        singlePage,
+        social,
       });
       const returnedPortfolio = newPortfolio.toObject();
       returnedPortfolio.pages = [];
@@ -148,15 +152,21 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const { bio, theme, font, colour } = req.body;
+    const { bio, theme, font, colour, singlePage, social } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
     portfolio.font = font ? font : portfolio.font;
     portfolio.colour = colour ? colour : portfolio.colour;
+    portfolio.singlePage = singlePage ? singlePage : portfolio.singlePage;
+    portfolio.social = social ? social : portfolio.social;
     let changeItems = [];
     if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
+    if (portfolio.isModified("social"))
+      changeItems = changeItems.concat("social");
     if (portfolio.isModified("theme"))
       changeItems = changeItems.concat("Theme");
+    if (portfolio.isModified("singlePage"))
+      changeItems = changeItems.concat("singlePage");
     if (req.user.local && req.user.local.email) {
       emailBot.sendPortfolioChangeNotification(
         req.user.local.email,
@@ -226,8 +236,9 @@ const findAllDetails = async (req, res) => {
       portfolio,
       pages: pages.map(p => {
         const pObject = p.toObject();
-        pObject.artifacts = aObjects.filter(a => a.pageId == pObject.id)
-                                    .map(a => a.id);
+        pObject.artifacts = aObjects
+          .filter(a => a.pageId == pObject.id)
+          .map(a => a.id);
         return pObject;
       }),
       artifacts: aObjects,
