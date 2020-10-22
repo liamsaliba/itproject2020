@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+/* import { jsx } from "theme-ui";
 
 import documentPreview from "../../svg/DocumentPreview.png";
 
@@ -59,3 +59,4 @@ CollectionOfCards.args = {
     DefaultCard.args,
   ],
 };
+ */

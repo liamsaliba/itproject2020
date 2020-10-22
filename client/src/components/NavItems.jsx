@@ -25,8 +25,13 @@ const GenericLink = (LinkComponent, { href, ...props }) => {
 export const NavLink = props => GenericLink(NavHashLink, props);
 export const Link = props => GenericLink(HashLink, props);
 
-export const Dot = (
-  <Icon color="red" name="circle" size="small" sx={{ pl: "4px" }} />
+export const Dot = () => (
+  <Icon
+    color="red"
+    name="circle"
+    size="mini"
+    sx={{ top: "28px", position: "fixed", verticalAlign: "top" }}
+  />
 );
 
 export const MenuItem = props => (

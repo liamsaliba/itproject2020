@@ -4,10 +4,11 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import { Provider } from "react-redux";
 
-import 'react-datepicker/dist/react-datepicker.css';
-
+import { configureStore } from "./store";
+import "react-datepicker/dist/react-datepicker.css";
 
 // import {
 //   configureStore,
@@ -59,10 +60,14 @@ store.dispatch(
 store.dispatch(pagesActions.addOne({ _id: "p123", contents: ["123"] }));
 */
 
+const store = configureStore();
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

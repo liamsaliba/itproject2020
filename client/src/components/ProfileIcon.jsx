@@ -1,30 +1,43 @@
 /** @jsx jsx */
-import { jsx, Image, IconButton } from "theme-ui";
+import { jsx, Image, IconButton, Box } from "theme-ui";
 import { Link } from "./index";
 import profileImg from "../svg/profile.webp";
-import { useSelector } from "react-redux";
-import { selectUser } from "../store";
-import { Dropdown } from "semantic-ui-react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, updateAvatar } from "../store";
 import React from "react";
-
+import { useState } from "react";
+import {
+  Modal,
+  Button,
+  Icon,
+  Dropdown,
+  Form,
+} from "semantic-ui-react";
+import { ChooseMedia } from "./Media";
+// import { selectMediaByUsername } from "../store/combinedSelectors";
+import { selectMediaUrl } from "../store/slices/media";
 // from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 const hashCode = s =>
   s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
 
-export const ProfileIcon = props => {
-  const tint = props.userId ? hashCode(props.userId) : 0;
-  const w = props.width ? props.width : 40;
-  const h = props.height ? props.height : 40;
+export const ProfileImage = ({ userId, profile }) => {
+  const tint = profile ? 0 : userId ? hashCode(userId) : 0;
   return (
-    <IconButton {...props} sx={{ width: w, height: h }}>
-      <Image
-        src={profileImg}
-        // variant="avatar"
-        sx={{
-          ...props.sx,
-          filter: `hue-rotate(${tint}deg)`,
-        }}
-      />
+    <Image
+      src={profile ? profile : profileImg}
+      // variant="avatar"
+      sx={{
+        filter: `hue-rotate(${tint}deg)`,
+        borderRadius: "50%",
+      }}
+    />
+  );
+};
+
+export const ProfileIcon = props => {
+  return (
+    <IconButton {...props} as={Link} sx={{ width: 40, height: 40 }}>
+      <ProfileImage />
     </IconButton>
   );
 };
@@ -61,6 +74,7 @@ export const ProfileDropdown = props => {
             text: "Editor",
             as: Link,
             to: "/editor",
+            selected: false,
           },
           {
             key: "portfolio",
@@ -99,5 +113,103 @@ export const ProfileDropdown = props => {
         sx={{ display: "inline-flex !important", alignItems: "center" }}
       />
     </span>
+  );
+};
+
+export const EditableUserProfile = ({ editing, username, profile }) => {
+  if (!editing)
+    return (
+      <Box
+        sx={{
+          margin: "auto",
+          width: "30%",
+          borderRadius: "50%",
+        }}
+      >
+        <ProfileImage userId={username} profile={profile} />
+      </Box>
+    );
+
+  return <ChooseProfileModal username={username} profile={profile} />;
+};
+
+const ChooseProfileModal = ({ username, profile }) => {
+  const [open, setOpen] = useState(false);
+  const [profileId, setProfileId] = useState(profile);
+  const profileSrc = useSelector(state => selectMediaUrl(state, profileId));
+
+  const dispatch = useDispatch();
+  const onChange = value => {
+    setProfileId(value);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    setProfileId(profile);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (profile === profileId) {
+      return;
+    }
+    dispatch(updateAvatar(profileId));
+    closeModal();
+  };
+
+  return (
+    <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
+      closeOnDimmerClick={false}
+      onClose={() => closeModal()}
+      onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
+      open={open}
+      trigger={
+        <Box
+          onClick={() => setOpen(true)}
+          sx={{
+            margin: "auto",
+            transition: ".3s ease",
+            width: "30%",
+            borderRadius: "50%",
+            marginBottom: "-3em",
+            "&:hover": {
+              filter: "brightness(120%)",
+            },
+            "&:active": {
+              filter: "brightness(100%)",
+              transform: "scale(0.9)",
+            },
+          }}
+        >
+          <ProfileImage userId={username} profile={profile} />
+          <Box sx={{ transform: "translate(40%,-150%)" }}>
+            <Button circular primary icon="edit" size="massive" />
+          </Box>
+        </Box>
+      }
+    >
+      <Modal.Header>Choose Avatar</Modal.Header>
+      <Modal.Content>
+        <ProfileImage userId={username} profile={profileSrc} />
+        <ChooseMedia
+          onChange={onChange}
+          value={profileId}
+          placeholder="choose new profile picture"
+          name="profile"
+        />
+      </Modal.Content>
+      <Modal.Actions>
+        <Button basic color="red" onClick={() => closeModal()} type="button">
+          <Icon name="cancel" /> Cancel
+        </Button>
+        <Button color="green" type="submit">
+          <Icon name="checkmark" /> Save
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 };

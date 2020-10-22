@@ -7,7 +7,7 @@ import {
   selectPortfolioPages,
   selectToken,
   selectUsername,
-  selectPortfolioEditing,
+  selectPortfolioIsEditing,
 } from "../../store";
 import { Icon } from "semantic-ui-react";
 
@@ -20,7 +20,9 @@ const NavItem = ({ page }) => (
 export default props => {
   const token = useSelector(selectToken);
   const username = useSelector(selectUsername);
-  const editing = useSelector(state => selectPortfolioEditing(state, username));
+  const editing = useSelector(state =>
+    selectPortfolioIsEditing(state, username)
+  );
   const { userId } = props;
   const pages = useSelector(state => selectPortfolioPages(state, userId));
 
@@ -28,9 +30,9 @@ export default props => {
     pages.length > 10
       ? pages
           .slice(0, 10)
-          .map(page => <NavItem page={page} />)
+          .map(page => <NavItem key={page.pageId.toString()} page={page} />)
           .concat([<Navbar.Item>...</Navbar.Item>])
-      : pages.map(page => <NavItem page={page} />);
+      : pages.map(page => <NavItem key={page.pageId.toString()} page={page} />);
 
   return (
     <Navbar>

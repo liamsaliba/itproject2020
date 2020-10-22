@@ -39,6 +39,10 @@ const slice = createSlice({
           token: "",
         },
   reducers: {
+    resetErrors: (auth, action) => {
+      auth.loading = false;
+      auth.error = null;
+    },
     loginRequested: (auth, action) => {
       auth.loading = true;
       auth.error = null;
@@ -52,6 +56,7 @@ const slice = createSlice({
     },
     signUpRequested: (auth, action) => {
       auth.loading = true;
+      auth.error = null;
     },
     signUpSucceeded: (auth, action) => finishLogin(auth, action),
     signUpFailed: (auth, action) => {
@@ -62,6 +67,7 @@ const slice = createSlice({
     },
     logoutRequested: (auth, action) => {
       auth.user = {};
+      auth.error = null;
       auth.token = "";
       localStorage.removeItem(userKey);
       localStorage.removeItem(tokenKey);
@@ -170,7 +176,7 @@ export const logoutAll = () => (dispatch, getState) => {
 
 export const updateUser = props =>
   apiStarted({
-    url: endpoints.user(),
+    url: endpoints.user,
     method: "patch",
     data: props,
     onSuccess: userUpdated.type,
@@ -178,7 +184,7 @@ export const updateUser = props =>
 
 export const deleteUser = (username, password) =>
   apiStarted({
-    url: endpoints.user(),
+    url: endpoints.user,
     method: "delete",
     data: { username, password },
     onSuccess: userDeleted.type,

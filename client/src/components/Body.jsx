@@ -1,37 +1,39 @@
 /** @jsx jsx */
-import { jsx, Button, Container } from "theme-ui";
+import { jsx, Container } from "theme-ui";
 import PropTypes from "prop-types";
 import React from "react";
-import TextEditor from "./TextEditor";
+// import TextEditor from "./TextEditor";
 
 export default function Body({
-  body: { isEditing, style, hAlign, vAlign, text, actionString, onAction },
+  // body: { isEditing, style, hAlign, vAlign, text, actionString, onAction },
+  body,
+  header,
+  hPos = "right",
+  vPos = "center",
 }) {
   const styling = {
-    ...style,
+    // ...style,
     padding: "5px",
-    textAlign: hAlign,
-    verticalAlign: vAlign,
+    textAlign: hPos,
+    verticalAlign: vPos,
   };
 
-  const textEditorArgs = {
-    isEditing: false,
-    textEditor: {
-      defaultText: text,
-    },
-  };
-
-  /* const Text = () => (
-    <Styled.p>{text}</Styled.p>
-  ); */
+  // const textEditorArgs = {
+  //   isEditing: false,
+  //   textEditor: {
+  //     defaultText: text,
+  //   },
+  // };
 
   const out = (
     <React.Fragment>
       <Container sx={styling}>
-        <TextEditor {...textEditorArgs} />
+        <h3>{header}</h3>
+        <p>{body}</p>
+        {/* <TextEditor {...textEditorArgs} />
         {actionString && (
           <Button onClick={() => onAction}>{actionString}</Button>
-        )}
+        )} */}
       </Container>
     </React.Fragment>
   );

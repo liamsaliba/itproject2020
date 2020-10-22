@@ -24,14 +24,17 @@ const slice = createSlice({
   reducers: {
     portfolioEditingStart: (portfolios, action) => {
       const { username } = action.payload;
+      portfolios.error = null;
       adapter.upsertOne(portfolios, { username, editing: true });
     },
     portfolioEditingFinish: (portfolios, action) => {
       const { username } = action.payload;
+      portfolios.error = null;
       adapter.upsertOne(portfolios, { username, editing: false });
     },
     portfolioRequestedMany: (portfolios, action) => {
       portfolios.loading = true;
+      portfolios.error = null;
     },
     portfolioReceivedMany: (portfolios, action) => {
       if (action.payload.length !== 0) {
@@ -39,6 +42,7 @@ const slice = createSlice({
         // adapter.upsertMany(portfolios, action.payload.map(addCacheProps));
       }
       portfolios.loading = false;
+      portfolios.error = null;
       portfolios.lastFetch = Date.now();
     },
     portfolioRequestManyFailed: (portfolios, action) => {
@@ -47,10 +51,12 @@ const slice = createSlice({
     },
     portfolioRequestedOne: (portfolios, action) => {
       portfolios.loading = true;
+      portfolios.error = null;
     },
     portfolioReceivedOne: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
       portfolios.loading = false;
+      portfolios.error = null;
     },
     portfolioRequestOneFailed: (portfolios, action) => {
       portfolios.loading = false;
@@ -58,9 +64,16 @@ const slice = createSlice({
     },
     portfolioCreated: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
+      portfolios.error = null;
+      portfolios.loading = false;
+    },
+    portfolioUpdateRequested: (portfolios, action) => {
+      portfolios.loading = true;
     },
     portfolioUpdated: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
+      portfolios.error = null;
+      portfolios.loading = false;
     },
     portfolioDeleted: (portfolios, action) => {
       const username = action.request.data.username;
@@ -76,12 +89,13 @@ const slice = createSlice({
         !portfolios.entities[username] ||
         !portfolios.entities[username].pages
       ) {
-        adapter.upsertOne({
+        adapter.upsertOne(portfolios, {
           username,
           pages: [newPage],
         });
+      } else {
+        portfolios.entities[username].pages.push(newPage);
       }
-      portfolios.entities[username].pages.push(newPage);
     },
     [pageActions.pageUpdated]: (portfolios, action) => {
       const { username, id: pageId, name } = action.payload;
@@ -90,18 +104,37 @@ const slice = createSlice({
         !portfolios.entities[username] ||
         !portfolios.entities[username].pages
       ) {
-        adapter.upsertOne({
+        adapter.upsertOne(portfolios, {
           username,
           pages: [newPage],
         });
-      }
-      for (let i = 0; i < portfolios.entities[username].pages.length; i++) {
-        if (portfolios.entities[username].pages[i].pageId === pageId) {
-          portfolios.entities[username].pages[i] = {
-            ...portfolios.entities[username].pages[i],
-            name,
-          };
+      } else {
+        // update the name
+        for (let i = 0; i < portfolios.entities[username].pages.length; i++) {
+          if (portfolios.entities[username].pages[i].pageId === pageId) {
+            portfolios.entities[username].pages[i] = {
+              ...portfolios.entities[username].pages[i],
+              name,
+            };
+          }
         }
+      }
+    },
+    [pageActions.pageDeleted]: (portfolios, action) => {
+      const pageId = action.request.id;
+      const username = action.request.username;
+      if (
+        !portfolios.entities[username] ||
+        !portfolios.entities[username].pages
+      ) {
+        adapter.upsertOne(portfolios, {
+          username,
+          pages: [],
+        });
+      } else {
+        portfolios.entities[username].pages = portfolios.entities[
+          username
+        ].pages.filter(page => page.pageId !== pageId);
       }
     },
     [portfolioFetchedAll]: (portfolios, action) => {
@@ -141,6 +174,7 @@ const {
   portfolioReceivedOne,
   portfolioRequestOneFailed,
   portfolioCreated,
+  portfolioUpdateRequested,
   portfolioUpdated,
   portfolioDeleted,
 } = slice.actions;
@@ -170,15 +204,19 @@ export const selectPortfolioBio = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.bio || "" : undefined)
 );
-
-export const selectPortfolioEditing = createSelector(
+export const selectPortfolioProfile = createSelector(
   selectPortfolioByUsername,
-  portfolio => (portfolio ? portfolio.editing || false : undefined)
+  portfolio => (portfolio ? portfolio.profile || "" : undefined)
 );
 
 export const selectPortfolioPages = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.pages || [] : undefined)
+);
+
+export const selectSocialIcons = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.socials || [] : undefined)
 );
 
 export const selectPortfolioPageIds = createSelector(
@@ -191,33 +229,17 @@ export const selectPortfolioPageNames = createSelector(
   pages => (pages ? pages.map(page => page.name) || [] : undefined)
 );
 
+export const selectPortfolioIsEditing = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.editing || false : false)
+);
+
+export const selectPortfolioIsLoading = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio ? portfolio.loading : false)
+);
+
 export const selectPortfoliosSlice = state => state.portfolios;
-
-export const selectPagesByUsername = username =>
-  createSelector(
-    [
-      state => selectPortfolioPageIds(state, username), // select the current portfolio
-      state => Object.values(state.pages.entities), // this is the same as selectAllPages
-    ],
-    (portfolioPages, pages) => {
-      // return the pages for the given portfolio only
-      return pages.filter(page => portfolioPages.includes(page.id));
-    }
-  );
-
-export const selectTotalPagesByUsername = username =>
-  createSelector(
-    [
-      state => selectPortfolioByUsername(state, username), // select the current portfolio
-      state => state.pages.ids.map(id => state.pages.entities[id]), // this is the same as selectAllPages
-    ],
-    (portfolio, pages) => {
-      // return the pages for the given portfolio only
-      return Object.keys(pages)
-        .map(c => pages[c])
-        .filter(page => portfolio.pages.includes(page.id)).length;
-    }
-  );
 
 // Action Creators
 
@@ -333,7 +355,7 @@ export const createPortfolio = (portfolio = {}) => (dispatch, getState) => {
 
   return dispatch(
     apiStarted({
-      url: endpoints.portfolios,
+      url: endpoints.createPortfolio,
       method: "post",
       data: portfolio,
       token,
@@ -351,6 +373,7 @@ const changePortfolioOptions = data => (dispatch, getState) => {
       method: "patch",
       data,
       token,
+      onStart: portfolioUpdateRequested.type,
       onSuccess: portfolioUpdated.type,
     })
   );
@@ -358,6 +381,8 @@ const changePortfolioOptions = data => (dispatch, getState) => {
 
 export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
+export const updateAvatar = avatar => changePortfolioOptions({ avatar });
+export const updateSocials = socials => changePortfolioOptions({ socials });
 
 // create portfolio with theme, bio
 export const deletePortfolio = (username, password) =>

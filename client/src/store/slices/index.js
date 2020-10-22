@@ -18,8 +18,21 @@ export {
 export {
   // action creators
   changeAccordion,
+  changePortfolio,
+  setLoading,
+  setLoadingFinished,
+  editArtifactStarted,
+  editArtifactFinished,
+  createArtifactStarted,
+  createArtifactFinished,
   // selectors
   selectAccordion,
+  selectCurrentPortfolio,
+  selectLoadingStatus,
+  selectLoadingText,
+  selectLoading,
+  selectArtifactCurrentlyCreating,
+  selectArtifactCurrentlyEditing,
   // reducer
   default as uiReducer,
 } from "./ui";
@@ -37,20 +50,24 @@ export {
   changePortfolioBio,
   changePortfolioTheme,
   deletePortfolio,
-  // selectors
+  updateAvatar,
+  // selectors (custom)
   selectPortfolioPages,
-  selectPortfolioEditing,
+  selectPortfolioPageNames,
+  selectPortfolioPageIds,
   selectCurrentUserPortfolio,
+  selectPortfolioIsEditing,
+  selectSocialIcons,
   selectPortfolioTheme,
   selectPortfolioBio,
+  selectPortfolioProfile,
   selectPortfoliosSlice,
+  // Selectors
   selectPortfolioByUsername,
   selectPortfolioUsernames,
   selectPortfolioEntities,
   selectAllPortfolios,
   selectTotalPortfolios,
-  selectPagesByUsername,
-  selectTotalPagesByUsername,
   // reducer
   default as portfoliosReducer,
 } from "./portfolios";
@@ -71,8 +88,10 @@ export {
   selectPageEntities,
   selectAllPages,
   selectTotalPages,
-  selectArtifactsByPageId,
-  selectTotalArtifactsByPageId,
+  selectPageArtifacts,
+  selectPageName,
+  selectPageType,
+  selectPageArtifactIds,
   // reducer
   default as pagesReducer,
 } from "./pages";
@@ -93,3 +112,19 @@ export {
   // reducer
   default as artifactsReducer,
 } from "./artifacts";
+
+export {
+  // action creators
+  uploadMedia,
+  getMedia,
+  deleteMedia,
+  // selectors
+  selectMediaSlice,
+  selectMediaById,
+  selectMediaIds,
+  selectMediaEntities,
+  selectAllMedia,
+  selectTotalMedia,
+  // reducer
+  default as mediaReducer,
+} from "./media";

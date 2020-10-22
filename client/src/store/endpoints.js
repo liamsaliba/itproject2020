@@ -4,7 +4,13 @@ export const login = user + "/login";
 export const logout = user + "/logout";
 export const logoutAll = logout + "/all";
 
+export const avatar = "/avatar";
+
+export const media = "/media";
+export const mediaById = id => media + "/" + id;
+
 export const portfolios = "/portfolios";
+export const createPortfolio = "/portfolios/default";
 export const portfoliosByUsername = username => portfolios + "/" + username;
 export const fullPortfolioByUsername = username =>
   portfoliosByUsername(username) + "/all";

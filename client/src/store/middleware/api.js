@@ -15,13 +15,11 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     onStart,
     onSuccess,
     onFailure,
-    hideErrorToast,
+    hideErrorToast = false,
     headers,
     req,
+    multipart,
   } = action.payload;
-
-  if (onStart) dispatch({ type: onStart });
-  next(action);
 
   axios.defaults.baseURL =
     process.env.REACT_APP_BASE_URL ||
@@ -30,16 +28,21 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
 
   const dataOrParams = ["get"].includes(method) ? "params" : "data";
 
-  axios.defaults.headers.common["Content-Type"] = "application/json";
+  axios.defaults.headers.common["Content-Type"] = multipart
+    ? "multipart/form-data"
+    : "application/json";
   if (token) axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   const request = {
     url,
     method,
-    data,
+    data: multipart ? null : data, // don't put non-serializable values in the store
     token,
     ...req,
   };
+
+  if (onStart) dispatch({ type: onStart, request });
+  next(action);
 
   // make api call
   try {
@@ -64,10 +67,14 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
       hideErrorToast,
       request,
     };
-
+    console.log(error);
     dispatch(actions.apiErrored(returnedError));
     // Specific
-    if (onFailure) dispatch({ type: onFailure, payload: returnedError });
+    if (onFailure)
+      dispatch({
+        type: onFailure,
+        payload: { ...returnedError, hideErrorToast: true },
+      });
 
     if (error.response && error.response.status === 403) {
       dispatch(actions.accessDenied(window.location.pathname));

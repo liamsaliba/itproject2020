@@ -190,7 +190,7 @@ describe("portfoliosSlice", () => {
 
     describe("create portfolio", () => {
       it("should happen if it's saved to the server", async () => {
-        fakeAxios.onPost(endpoints.portfolios).reply(200, savedPortfolio);
+        fakeAxios.onPost(endpoints.createPortfolio).reply(200, savedPortfolio);
 
         await store.dispatch(createPortfolio());
 
@@ -199,7 +199,7 @@ describe("portfoliosSlice", () => {
       });
 
       it("should not happen if it's not saved to the server, and save error message", async () => {
-        fakeAxios.onPost(endpoints.portfolios).reply(500);
+        fakeAxios.onPost(endpoints.createPortfolio).reply(500);
 
         await store.dispatch(createPortfolio());
 

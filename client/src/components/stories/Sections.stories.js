@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { Section, Sections } from "./../Sections";
 
 export default {
@@ -78,3 +78,4 @@ EducationSections.args = {
     Education.args.section,
   ],
 };
+ */

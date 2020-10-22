@@ -7,65 +7,121 @@ import {
   Button,
   Icon,
   Modal,
-  Menu,
-  Grid,
+  List,
   Dropdown,
   Form,
   Input,
+  Divider,
+  Loader,
 } from "semantic-ui-react";
 import {
   selectUsername,
   selectPortfolioPages,
   createPage,
   renamePage,
+  deletePage,
 } from "../../store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
-const PageDropdown = ({ pageState }) => {
-  return (
-    <Dropdown
-      right
-      aligned
-      floating
-      inline
-      direction="left"
-      sx={{ p: "0.2em" }}
-    >
-      <Dropdown.Menu>
-        <RenamePageModal pageState={pageState} />
-        <Dropdown.Item>
-          <Icon name="trash" fitted /> Delete
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-};
+import { artifactTypeToName } from "../../components/Artifact";
 
 const Page = ({ active, setActive, page }) => {
-  const { name, pageId } = page;
+  const dispatch = useDispatch();
+
+  const { name, pageId, loading } = page;
 
   const handlePageClick = e => {
     setActive(page);
   };
 
   return (
-    <Menu.Item
+    <List.Item
       name={name}
-      active={active}
-      key={pageId}
+      key={pageId.toString()}
       onClick={handlePageClick}
       fluid
+      sx={{ overflowWrap: "break-word" }}
     >
-      <Grid>
-        <Grid.Column floated="left" width={2} sx={{ verticalAlign: "middle" }}>
-          <span>{name}</span>
-        </Grid.Column>
-        <Grid.Column floated="right">
-          <PageDropdown pageState={{ name, pageId }} />
-        </Grid.Column>
-      </Grid>
-    </Menu.Item>
+      <List.Content floated="right">
+        <Dropdown
+          floating
+          inline
+          direction="left"
+          icon="caret square down"
+          sx={{ p: "0.2em" }}
+        >
+          <Dropdown.Menu>
+            <RenamePageModal pageState={{ name, pageId }} />
+            <DeleteConfirmationModal
+              action={() => dispatch(deletePage(pageId))}
+              name={name}
+            />
+          </Dropdown.Menu>
+        </Dropdown>
+      </List.Content>
+      <Loader inline size="large" active={loading} />
+      <Icon name="page" inline />
+      <List.Header>{name}</List.Header>
+    </List.Item>
+  );
+};
+
+export const DeleteConfirmationModal = ({
+  setParentOpen,
+  action,
+  name = "this",
+  button = false,
+}) => {
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    action();
+    setOpen(false);
+    if (setParentOpen) setParentOpen(false);
+  };
+
+  return (
+    <Modal
+      as={Form}
+      onSubmit={handleSubmit}
+      size="tiny"
+      closeOnDimmerClick={false}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      dimmer={{ inverted: true }}
+      open={open}
+      trigger={
+        button ? (
+          <Button
+            icon
+            color="red"
+            labelPosition="left"
+            onClick={() => setOpen(false)}
+          >
+            <Icon name="trash" />
+            Delete
+          </Button>
+        ) : (
+          <Dropdown.Item onClick={() => setOpen(false)}>
+            <Icon name="trash" />
+            Delete
+          </Dropdown.Item>
+        )
+      }
+    >
+      <Modal.Header>
+        Are you sure you want to delete {name}? This process is irreversible.
+      </Modal.Header>
+      <Modal.Actions>
+        <Button basic onClick={() => setOpen(false)} type="button">
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button color="red" type="submit">
+          <Icon name="trash" /> Delete
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 };
 
@@ -95,11 +151,13 @@ const RenamePageModal = ({ pageState }) => {
       open={open}
       trigger={
         <Dropdown.Item>
-          <Icon name="i cursor" fitted /> Rename
+          <Icon name="i cursor" />
+          Rename
         </Dropdown.Item>
       }
     >
-      <Modal.Header>
+      <Modal.Header>Edit page name</Modal.Header>
+      <Modal.Content>
         <Input
           transparent
           fluid
@@ -111,7 +169,7 @@ const RenamePageModal = ({ pageState }) => {
           defaultValue={name}
           required
         />
-      </Modal.Header>
+      </Modal.Content>
       <Modal.Actions>
         <Button basic color="red" onClick={() => setOpen(false)} type="button">
           <Icon name="remove" /> Cancel
@@ -124,22 +182,32 @@ const RenamePageModal = ({ pageState }) => {
   );
 };
 
-const NewPageModal = () => {
+export const NewPageModal = () => {
   const [open, setOpen] = useState(false);
-  const [state, setState] = useState(false);
+  // eslint-disable-next-line
+  const [state, setState] = useState({ name: "", type: "display" });
   const options = [
     { key: "x", text: "Experience", value: "experience" },
     { key: "e", text: "Education", value: "education" },
     { key: "d", text: "Display", value: "display" },
+    { key: "d", text: "Custom", value: "custom" },
   ];
   const dispatch = useDispatch();
 
-  const handleChange = (e, { name, value }) =>
-    setState({ ...state, [name]: value });
+  const handleChange = (e, { name, value }) => {
+    if (
+      name === "type" &&
+      ["Experience", "Education", "Display", "Custom", ""].includes(state.name)
+    ) {
+      setState({ ...state, name: artifactTypeToName(value), type: value });
+    } else {
+      // do it this way -- setState is async
+      setState({ ...state, [name]: value });
+    }
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(state);
     dispatch(createPage(state));
     setOpen(false);
   };
@@ -155,26 +223,27 @@ const NewPageModal = () => {
       dimmer={{ inverted: true }}
       open={open}
       trigger={
-        <Button primary>
-          <Icon corner name="add" />
+        <Button icon primary labelPosition="left">
+          <Icon name="add" />
           Create Page
         </Button>
       }
     >
-      <Modal.Header>
-        <Form.Input
-          transparent
-          fluid
-          iconPosition="left"
-          icon="file"
-          placeholder="Page Name"
-          name="name"
-          onChange={handleChange}
-          required
-        />
-      </Modal.Header>
-      <Modal.Content scrolling>
-        <Modal.Description sx={{ minHeight: "150px" }}>
+      <Modal.Header>Create new page</Modal.Header>
+      <Modal.Content>
+        <Modal.Description sx={{ minHeight: "150px", overflow: "visible" }}>
+          <Form.Input
+            fluid
+            iconPosition="left"
+            icon="file"
+            label="Page Name"
+            placeholder="Page Name"
+            name="name"
+            onChange={handleChange}
+            value={state.name}
+            size="big"
+            required
+          />
           <Form.Select
             fluid
             required
@@ -182,6 +251,7 @@ const NewPageModal = () => {
             options={options}
             placeholder="Type"
             onChange={handleChange}
+            value={state.type}
             name="type"
             // sx={{ zIndex: "999999 !important" }}
           />
@@ -208,23 +278,26 @@ const SectionPages = () => {
 
   return (
     <Section name="Pages" icon="file text">
+      <NewPageModal />
+      <Divider />
+      <p>Manage your pages...</p>
       <Flex sx={{ justifyContent: "center", flexDirection: "column" }}>
         {pages.length === 0 ? (
           "No pages, care to make a new one?"
         ) : (
-          <Menu secondary vertical fluid>
+          // replace with https://react.semantic-ui.com/elements/list/#types-divided
+          <List divided relaxed selection sx={{ textAlign: "left" }}>
             {pages.map(page => (
               <Page
-                key={page}
+                key={page.pageId.toString()}
                 page={page}
-                active={false}
+                active={true}
                 setActive={setActive}
               />
             ))}
-          </Menu>
+          </List>
         )}
       </Flex>
-      <NewPageModal />
     </Section>
   );
 };

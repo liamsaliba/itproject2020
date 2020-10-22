@@ -23,13 +23,16 @@ const slice = createSlice({
   reducers: {
     pageRequestedMany: (pages, action) => {
       pages.loading = true;
+      pages.error = null;
     },
     pageReceivedMany: (pages, action) => {
       adapter.upsertMany(
         pages,
         action.payload.map(page => addLastFetch(page))
       );
+      pages.lastFetch = Date.now();
       pages.loading = false;
+      pages.error = null;
     },
     pageRequestManyFailed: (pages, action) => {
       pages.loading = false;
@@ -37,36 +40,68 @@ const slice = createSlice({
     },
     pageRequestedOne: (pages, action) => {
       pages.loading = true;
+      pages.error = null;
     },
     pageReceivedOne: (pages, action) => {
       adapter.upsertOne(pages, addLastFetch(action.payload));
       pages.loading = false;
+      pages.error = null;
     },
     pageRequestOneFailed: (pages, action) => {
       pages.loading = false;
       pages.error = action.payload;
     },
+    pagesUpdating: (pages, action) => {
+      pages.loading = true;
+      pages.error = null;
+    },
+    pageUpdating: (pages, action) => {
+      const pageId = action.request.id;
+      if (pages.entities[pageId]) {
+        pages.entities[pageId].loading = true;
+      }
+      pages.error = null;
+    },
+    pagesFailed: (pages, action) => {
+      pages.loading = false;
+      pages.error = action.payload;
+    },
     pageCreated: (pages, action) => {
       const page = addLastFetch(action.payload);
-      adapter.upsertOne(pages, page);
+      adapter.upsertOne(pages, { ...page, loading: false });
+      pages.loading = false;
+      pages.error = null;
     },
     pageUpdated: (pages, action) => {
       const page = addLastFetch(action.payload);
-      adapter.upsertOne(pages, page);
+      adapter.upsertOne(pages, { ...page, loading: false });
+      pages.error = null;
     },
     pageDeleted: (pages, action) => {
-      const pageId = action.request.data.id;
+      const pageId = action.request.id;
       adapter.removeOne(pages, pageId);
+      pages.error = null;
     },
     pageReceivedOneAll: (pages, action) => {
       const { page } = addLastFetch(action.payload);
       adapter.upsertOne(pages, page);
+      pages.error = null;
     },
   },
   extraReducers: {
     [artifactActions.artifactCreated]: (pages, action) => {
       const { pageId, id } = action.payload;
-      pages.entities[pageId].artifacts.push({ id });
+      if (!pages.entities[pageId] || !pages.entities[pageId].pages) {
+        adapter.upsertOne(pages, {
+          id: pageId,
+          artifacts: [{ id }],
+        });
+      } else {
+        pages.entities[pageId].artifacts.push({ id });
+      }
+    },
+    [artifactActions.artifactDeleted]: (pages, action) => {
+      // TODO
     },
     [portfolioFetchedAll]: (pages, action) => {
       const { pages: receivedPages } = action.payload;
@@ -113,8 +148,11 @@ const {
   pageReceivedOne,
   pageRequestOneFailed,
   pageCreated,
+  pageUpdating,
   pageUpdated,
   pageDeleted,
+  pagesUpdating,
+  pagesFailed,
 } = slice.actions;
 export const actions = slice.actions;
 
@@ -128,33 +166,23 @@ export const {
 } = adapter.getSelectors(state => state.pages);
 export const selectPagesSlice = state => state.pages;
 
-export const selectArtifactsByPageId = pageId =>
-  createSelector(
-    [
-      state => selectPageById(state, pageId), // select the current page
-      state => state.artifacts.ids.map(id => state.artifacts.entities[id]), // this is the same as selectAllArtifacts
-    ],
-    (page, artifacts) => {
-      // return the artifacts for the given page only
-      return Object.keys(artifacts)
-        .map(c => artifacts[c])
-        .filter(artifact => page.contents.includes(artifact.id));
-    }
-  );
+export const selectPageArtifacts = createSelector(selectPageById, page =>
+  page ? page.artifacts || [] : undefined
+);
 
-export const selectTotalArtifactsByPageId = pageId =>
-  createSelector(
-    [
-      state => selectPageById(state, pageId), // select the current page
-      state => state.artifacts.ids.map(id => state.artifacts.entities[id]), // this is the same as selectAllArtifacts
-    ],
-    (page, artifacts) => {
-      // return the artifacts for the given page only
-      return Object.keys(artifacts)
-        .map(c => artifacts[c])
-        .filter(artifact => page.contents.includes(artifact.id)).length;
-    }
-  );
+export const selectPageName = createSelector(selectPageById, page =>
+  page ? page.name || "" : undefined
+);
+
+export const selectPageType = createSelector(selectPageById, page =>
+  page ? page.type || "" : undefined
+);
+
+export const selectPageArtifactIds = createSelector(
+  selectPageArtifacts,
+  artifacts =>
+    artifacts ? artifacts.map(artifact => artifact.artifactId) || [] : undefined
+);
 
 // Action Creators
 // load a page by id, with _all_ properties
@@ -225,6 +253,8 @@ export const createPage = (page = {}) => (dispatch, getState) => {
       method: "post",
       data: page,
       token,
+      onStart: pagesUpdating.type,
+      onFailure: pagesFailed.type,
       onSuccess: pageCreated.type,
     })
   );
@@ -239,6 +269,9 @@ export const changePageOptions = (id, data) => (dispatch, getState) => {
       method: "patch",
       data,
       token,
+      req: { id },
+      onStart: pageUpdating.type,
+      onFailure: pagesFailed.type,
       onSuccess: pageUpdated.type,
     })
   );
@@ -249,13 +282,16 @@ export const renamePage = (id, name) => changePageOptions(id, { name });
 // delete a page by id
 export const deletePage = id => (dispatch, getState) => {
   const token = selectToken(getState());
+  const username = selectUsername(getState());
 
   return dispatch(
     apiStarted({
       url: endpoints.pagesById(id),
       method: "delete",
-      data: { id },
+      req: { username, id },
       token,
+      onStart: pageUpdating.type,
+      onFailure: pagesFailed.type,
       onSuccess: pageDeleted.type,
     })
   );
