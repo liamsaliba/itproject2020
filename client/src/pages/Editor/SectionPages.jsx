@@ -208,7 +208,6 @@ export const NewPageModal = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(state);
     dispatch(createPage(state));
     setOpen(false);
   };

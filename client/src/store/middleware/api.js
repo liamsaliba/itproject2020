@@ -46,7 +46,6 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
 
   // make api call
   try {
-    console.log(JSON.stringify(data));
     const response = await axios.request({
       url,
       method,

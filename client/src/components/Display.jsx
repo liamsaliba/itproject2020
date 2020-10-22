@@ -8,10 +8,6 @@ import { useEffect } from "react";
 // Orientation refers to that of the artefact/feature, it is one of - left, right and center
 // For now media is URL -> i.e. an image's url.
 const Display = ({ openEditor, contents, id, media, editing }) => {
-  useEffect(() => {
-    console.log(media);
-  });
-
   const { orientation = "right", body, header } = contents;
 
   var bodyOrientation = {};

@@ -16,7 +16,6 @@ const ContactSwitch = () => {
   const dispatch = useDispatch();
 
   const onChange = (e, { checked }) => {
-    console.log("checked", checked);
     dispatch(updateUser({ allowContact: !checked }));
   };
 

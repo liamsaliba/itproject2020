@@ -9,7 +9,6 @@ export default function TextEditor({ editing, contents, id, media }) {
 
   const handleChange = (content, editor) => {
     setText(content);
-    // console.log("Content was updated:", setText(content));
   };
 
   return (

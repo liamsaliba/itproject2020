@@ -215,7 +215,6 @@ const SinglePagePortfolio = props => {
       <ArtifactForm
         open={editOpen}
         closeModal={() => {
-          console.log("edit artifact");
           dispatch(editArtifactFinished());
         }}
         currentlyEditing={artifactEditing}

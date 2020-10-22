@@ -173,7 +173,6 @@ const EducationForm = () => {
                 dateFormat="MM/yyyy"
                 showMonthYearPicker
                 onChange={e => {
-                  console.log(e);
                   props.onChange(e);
                 }}
                 selected={props.value}
@@ -284,7 +283,6 @@ const ExperienceForm = () => {
             name="startDate"
             required
             render={props => {
-              console.log(props);
               return (
                 <ReactDatePicker
                   // sx={datePickerStyle}
@@ -313,7 +311,6 @@ const ExperienceForm = () => {
                 showMonthYearPicker
                 onChange={e => {
                   props.onChange(e);
-                  console.log(e);
                 }}
                 selected={props.value}
               />
@@ -422,7 +419,6 @@ export const ArtifactForm = ({ open, closeModal, currentlyEditing }) => {
 const NewArtifactForm = ({ open, closeModal, currentlyEditing }) => {
   const dispatch = useDispatch();
   const { type, pageId } = currentlyEditing;
-  console.log(currentlyEditing, type, pageId);
 
   const thisForm = forms[type];
   if (!thisForm) return null; // invalid type! (no form yet...)
