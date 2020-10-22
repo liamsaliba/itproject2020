@@ -13,8 +13,10 @@ const hashCode = s =>
 
 export const ProfileIcon = props => {
   const tint = props.userId ? hashCode(props.userId) : 0;
+  const w = props.width ? props.width : 40;
+  const h = props.height ? props.height : 40;
   return (
-    <IconButton {...props} as={Link} sx={{ width: 40, height: 40 }}>
+    <IconButton {...props} sx={{ width: w, height: h }}>
       <Image
         src={profileImg}
         // variant="avatar"
