@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { actions as portfolioActions } from "./portfolios";
 import { portfolioFetchedAll } from "./actions";
-import { editArtifact } from "./artifacts";
+// import { editArtifact } from "./artifacts";
 // Slices   (Actions and Reducers)
 const slice = createSlice({
   name: "ui",

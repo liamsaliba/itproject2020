@@ -15,7 +15,7 @@ import {
 } from "../helpers";
 import { selectToken } from "./auth";
 
-import { portfolioFetchedAll, pageFetchedAll, avatarUploaded } from "./actions";
+import { portfolioFetchedAll, pageFetchedAll } from "./actions";
 
 export const adapter = createEntityAdapter();
 

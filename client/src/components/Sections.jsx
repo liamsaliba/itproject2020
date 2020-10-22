@@ -1,8 +1,8 @@
 /** @jsx jsx */
-import { jsx, Flex, Box, Container, Image, Styled, Button } from "theme-ui";
+import { jsx, Flex, Box, Image, Styled, Button } from "theme-ui";
 import React from "react";
 import { Link } from "../components";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import moment from "moment";
 
 const parseDate = date => {
@@ -16,9 +16,9 @@ const IsOngoing = ({ isOngoing, startDate, endDate }) => {
   );
 };
 
-const addGrade = grade => {
-  return grade ? " \u00B7 Grade: ".concat(grade) : null;
-};
+// const addGrade = grade => {
+//   return grade ? " \u00B7 Grade: ".concat(grade) : null;
+// };
 
 const styling = {
   mt: 0,
@@ -142,23 +142,23 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
     actionUrl,
   } = contents;
 
-  var bodyOrientation = {};
-  if (orientation === "right") {
-    bodyOrientation = {
-      hPos: "left",
-      vPos: "center",
-    };
-  } else if (orientation === "left") {
-    bodyOrientation = {
-      hPos: "right",
-      vPos: "center",
-    };
-  } else if (orientation === "center") {
-    bodyOrientation = {
-      hPos: "center",
-      vPos: "center",
-    };
-  }
+  // var bodyOrientation = {};
+  // if (orientation === "right") {
+  //   bodyOrientation = {
+  //     hPos: "left",
+  //     vPos: "center",
+  //   };
+  // } else if (orientation === "left") {
+  //   bodyOrientation = {
+  //     hPos: "right",
+  //     vPos: "center",
+  //   };
+  // } else if (orientation === "center") {
+  //   bodyOrientation = {
+  //     hPos: "center",
+  //     vPos: "center",
+  //   };
+  // }
 
   const MediaCollection = () => {
     const mediaStyle = {

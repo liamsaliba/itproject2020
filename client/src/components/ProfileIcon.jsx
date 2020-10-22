@@ -3,7 +3,7 @@ import { jsx, Image, IconButton, Box } from "theme-ui";
 import { Link } from "./index";
 import profileImg from "../svg/profile.webp";
 import { useDispatch, useSelector } from "react-redux";
-import { selectMediaById, selectUser, updateAvatar } from "../store";
+import { selectUser, updateAvatar } from "../store";
 import React from "react";
 import { useState } from "react";
 import {
@@ -12,10 +12,9 @@ import {
   Icon,
   Dropdown,
   Form,
-  Divider,
 } from "semantic-ui-react";
-import { ChooseMedia, UploadMediaModal } from "./Media";
-import { selectMediaByUsername } from "../store/combinedSelectors";
+import { ChooseMedia } from "./Media";
+// import { selectMediaByUsername } from "../store/combinedSelectors";
 import { selectMediaUrl } from "../store/slices/media";
 // from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 const hashCode = s =>

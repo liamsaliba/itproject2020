@@ -18,11 +18,10 @@ import { ChooseMedia } from "./Media";
 import { Button, Form, Modal, Icon, Header } from "semantic-ui-react";
 
 import ReactDatePicker from "react-datepicker";
-import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
+// import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
 import { createArtifact, deleteArtifact, editArtifact } from "../store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useState } from "react";
 
 const getErrors = (errors, field) =>
   errors[field]
@@ -533,11 +532,12 @@ const FormModal = ({
 }) => {
   // eslint-disable-next-line
   const form = useForm({ defaultValues });
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { handleSubmit, setValue, triggerValidation, setError, reset } = form;
 
   useEffect(() => {
     reset(defaultValues);
+    // eslint-disable-next-line
   }, [defaultValues]);
 
   const onSubmit = data => {
