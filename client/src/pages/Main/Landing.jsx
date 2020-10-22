@@ -3,7 +3,15 @@ import { jsx, Flex } from "theme-ui";
 import Search from "./Search";
 import React from "react";
 
-import { Button, Grid, Header, Icon, Image, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  Segment,
+  Divider,
+} from "semantic-ui-react";
 import camel from "../../svg/camel.svg";
 import { Link } from "react-router-dom";
 
@@ -33,8 +41,10 @@ const HomepageHeading = () => (
         </Flex>
       </Grid.Row>
       <Grid.Row>
-        <Grid.Column>
+        <Grid.Column width={6}>
           <Search />
+          <br />
+          <Divider horizontal>Or</Divider>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>

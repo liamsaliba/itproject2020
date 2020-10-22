@@ -24,10 +24,11 @@ export default () => {
           <Form.Input
             name="un"
             fluid
-            icon="search"
-            iconPosition="left"
             placeholder="Finding a particular Portfolio?"
             inline
+            action={{
+              icon: "search",
+            }}
           />
         </Form>
       </Grid.Column>
