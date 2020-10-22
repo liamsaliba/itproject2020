@@ -10,6 +10,7 @@ import {
   Popup,
   Modal,
   Image,
+  Header,
 } from "semantic-ui-react";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
@@ -268,7 +269,7 @@ export const UploadMediaModal = ({ buttonText = "Upload" }) => {
     >
       <Modal.Header>Upload Media</Modal.Header>
       <Modal.Content>
-        <p>Only .jpg, .bmp, .png files are currently supported.</p>
+        <Header>Only .jpg, .bmp, .png files are currently supported.</Header>
         <Form.Input
           label="Upload File"
           name="file"

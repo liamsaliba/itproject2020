@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ChooseMedia } from "./Media";
 
-import { Button, Form, Modal, Icon } from "semantic-ui-react";
+import { Button, Form, Modal, Icon, Header } from "semantic-ui-react";
 
 import ReactDatePicker from "react-datepicker";
 import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
@@ -94,7 +94,7 @@ const DisplayForm = () => {
         <label>Attached Media</label>
         <ControlledChooseMedia />
       </Form.Field>
-      <label>Button action (optional)</label>
+      <Header>Button action (optional)</Header>
       <Controller
         as={Form.Input}
         error={getErrors(errors, "actionText")}
