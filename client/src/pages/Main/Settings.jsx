@@ -2,7 +2,6 @@
 import { jsx } from "theme-ui";
 import {
   Form,
-  Input,
   Button,
   Modal,
   Grid,
