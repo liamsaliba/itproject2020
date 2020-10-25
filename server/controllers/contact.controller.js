@@ -2,8 +2,10 @@ const User = require("../models/user.model");
 const Contact = require("../models/contact.model");
 const nodemailer = require("nodemailer");
 //require('dotenv').config();
-const nodemailerMock = require("nodemailer-mock");
+//const nodemailerMock = require("nodemailer-mock");
 //const transport = nodemailerMock.createTransport();
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
 const contact = async (req, res) => {
   try {
@@ -20,19 +22,30 @@ const contact = async (req, res) => {
       message,
     });
 
+    const oauth2Client = new OAuth2(
+      process.env.MAILER_CLIENT_ID, // ClientID
+      process.env.MAILER_CLIENT_SECRET, // Client Secret
+      "https://developers.google.com/oauthplayground" // Redirect URL
+    );
+    oauth2Client.setCredentials({
+      refresh_token: process.env.MAILER_REFRESH_TOKEN
+    });
+    const accessToken = oauth2Client.getAccessToken()
+
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465, // secure port
       secure: true,
-      service: "Gmail",
+      service: "gmail",
       auth: {
-        //type: 'OAuth2',
+        type: 'OAuth2',
         user: process.env.EMAIL_ACCOUNT,
-        //clientId: process.env.MAILER_CLIENT_ID,
-        //clientSecret: process.env.MAILER_CLIENT_SECRET,
-        //refreshToken: process.env.MAILER_REFRESH_TOKEN,
+        clientId: process.env.MAILER_CLIENT_ID,
+        clientSecret: process.env.MAILER_CLIENT_SECRET,
+        refreshToken: process.env.MAILER_REFRESH_TOKEN,
+        accessToken: accessToken,
         //accessToken: process.env.MAILER_ACCESS_TOKEN
-        pass: process.env.EMAIL_PASSWORD
+        //pass: process.env.EMAIL_PASSWORD
       }
     });
     var textBody = `FROM: ${name}; EMAIL: ${email} MESSAGE: ${message}`;
