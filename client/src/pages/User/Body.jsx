@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Flex, Box, Styled } from "theme-ui";
-
+import React from "react";
 import {
   selectArtifactsByPageId,
   selectPageById,
@@ -34,6 +34,8 @@ import {
 } from "../../store/slices/ui";
 import { useEffect } from "react";
 // import { SocialIcon } from "react-social-icons";
+import { ContactForm } from "./Contact";
+import { MenuButton } from "../../components/NavItems";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -105,7 +107,7 @@ const SocialIcons = id => {
 
 const MainHeader = ({ username, bio, editing }) => {
   return (
-    <Box mb={5}>
+    <Box mb={5} as="header">
       <EditableUserProfile editing={editing} username={username} />
       {/* TODO: put first name + last name here instead! */}
       <Styled.h1> {username} </Styled.h1>
@@ -143,6 +145,7 @@ const Page = ({ pageId: id, name, userId }) => {
       icon
       labelPosition="left"
       onClick={() => dispatch(createArtifactStarted({ type, pageId: id }))}
+      sx={{ float: "right" }}
     >
       <Icon name="add" />
       Add {type}
@@ -174,21 +177,14 @@ const NewPlaceholder = ({ children, tagline }) => (
   </Box>
 );
 
-const SinglePagePortfolio = props => {
-  const { userId } = props;
-  const bio = useSelector(state => selectPortfolioBio(state, userId));
-  const pages = useSelector(state => selectPortfolioPages(state, userId));
-  const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
-  const profile = useSelector(state => selectPortfolioProfile(state, userId));
-  const [editOpen, setEditOpen] = useState(false);
+// pop the edit form
+const ArtifactFormController = () => {
   const dispatch = useDispatch();
   const artifactEditing = useSelector(state =>
     selectArtifactCurrentlyEditing(state)
   );
-  // userId will be given with the pages selector, so no need to pass it to children (...page)
-  const pageContainers = pages.map(page => (
-    <Page {...page} key={page.pageId.toString()} userId={userId} />
-  ));
+
+  const [editOpen, setEditOpen] = useState(false);
 
   useEffect(() => {
     if (artifactEditing) {
@@ -198,10 +194,74 @@ const SinglePagePortfolio = props => {
     }
   }, [artifactEditing]);
 
+  return (
+    <ArtifactForm
+      open={editOpen}
+      closeModal={() => {
+        dispatch(editArtifactFinished());
+      }}
+      currentlyEditing={artifactEditing}
+    />
+  );
+};
+
+const PageNotFound = ({ path, homeBtn }) => {
+  return (
+    <Box sx={{ margin: "2em" }}>
+      <Header as="h2">
+        <Icon name="question circle" />
+        <Header.Content>Page doesn't exist.</Header.Content>
+        {homeBtn}
+      </Header>
+    </Box>
+  );
+};
+
+const Body = props => {
+  const { userId, selectedPage } = props;
+  const bio = useSelector(state => selectPortfolioBio(state, userId));
+  const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
+  const profile = useSelector(state => selectPortfolioProfile(state, userId));
+  const pages = useSelector(state => selectPortfolioPages(state, userId));
+
+  const path = editing ? "/editor" : `/u/${userId}`;
+
   const styling = {
     textAlign: "center",
     justifyContent: "center",
     flexDirection: "column",
+    "*": {
+      transition: "all .2s ease-out",
+    },
+  };
+
+  const homeBtn = (
+    <MenuButton primary to={path}>
+      <Icon name="home" />
+      Home
+    </MenuButton>
+  );
+
+  const children = () => {
+    console.log("selectedPage", selectedPage);
+    if (selectedPage === "contact") {
+      return <ContactForm userId={userId} homeBtn={homeBtn} />;
+    }
+    if (selectedPage === undefined) {
+      return (
+        <SinglePagePortfolio userId={userId} editing={editing} pages={pages} />
+      );
+    }
+    console.log("pages", pages);
+    const page = pages.filter(page => page.name === selectedPage)[0];
+    // TODO: if in edit mode, ask if a page should be created
+    if (page === undefined) return <PageNotFound homeBtn={homeBtn} />;
+    return (
+      <React.Fragment>
+        <ArtifactFormController />
+        <Page {...page} key={page.pageId.toString()} userId={userId} />
+      </React.Fragment>
+    );
   };
 
   return (
@@ -212,13 +272,21 @@ const SinglePagePortfolio = props => {
         editing={editing}
         profile={profile}
       />
-      <ArtifactForm
-        open={editOpen}
-        closeModal={() => {
-          dispatch(editArtifactFinished());
-        }}
-        currentlyEditing={artifactEditing}
-      />
+      {children()}
+    </Flex>
+  );
+};
+
+const SinglePagePortfolio = props => {
+  const { userId, editing, pages } = props;
+  // userId will be given with the pages selector, so no need to pass it to children (...page)
+  const pageContainers = pages.map(page => (
+    <Page {...page} key={page.pageId.toString()} userId={userId} />
+  ));
+
+  return (
+    <React.Fragment>
+      <ArtifactFormController />
       {editing && pages.length === 0 ? (
         <NewPlaceholder tagline="No pages yet!  Would you like to create a new one?">
           <NewPageModal />
@@ -230,10 +298,10 @@ const SinglePagePortfolio = props => {
           <NewPageModal />
         </NewPlaceholder>
       ) : null}
-    </Flex>
+    </React.Fragment>
   );
 };
 
 // TODO: implement Multi Page Portfolio
 
-export default SinglePagePortfolio;
+export default Body;
