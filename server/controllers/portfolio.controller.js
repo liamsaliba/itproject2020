@@ -4,6 +4,7 @@ const Page = require("../models/page.model");
 const Artifact = require("../models/artifact.model");
 const Media = require("../models/media.model");
 const User = require("../models/user.model");
+const { use } = require("passport");
 
 // Return an array of all portfolios on the server
 const getAllPortfolios = async (_req, res) => {
@@ -28,6 +29,7 @@ const createPortfolio = async (req, res) => {
       const social = req.body.social;
       const header = req.body.header;
       const avatar = req.user.avatar;
+      const useSinglePages = req.body.useSinglePages;
       const newPortfolio = new Portfolio({
         username,
         bio,
@@ -38,6 +40,7 @@ const createPortfolio = async (req, res) => {
         social,
         header,
         avatar,
+        useSinglePages,
       });
       const returnedPortfolio = newPortfolio.toObject();
       if (returnedPortfolio.header) {
@@ -92,11 +95,14 @@ const createDefaultPortfolio = async (req, res) => {
       await experiencePage.save();
 
       const returnedPortfolio = newPortfolio.toObject();
-      returnedPortfolio.pages = [
-        aboutPage._id,
-        educationpage._id,
-        experiencePage._id,
-      ];
+      returnedPortfolio.pages = [aboutPage, educationpage, experiencePage].map(
+        p => {
+          return {
+            pageId: p._id,
+            name: p.name,
+          };
+        }
+      );
       returnedPortfolio.firstName = req.user.local.firstName;
       returnedPortfolio.lastName = req.user.local.lastName;
       returnedPortfolio.email = req.user.local.email;
@@ -164,7 +170,16 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const { bio, theme, font, colour, singlePage, social, header } = req.body;
+    const {
+      bio,
+      theme,
+      font,
+      colour,
+      singlePage,
+      social,
+      header,
+      useSinglePages,
+    } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
     portfolio.font = font ? font : portfolio.font;
@@ -172,6 +187,7 @@ const changePortfolio = async (req, res) => {
     portfolio.singlePage = singlePage ? singlePage : portfolio.singlePage;
     portfolio.social = social ? social : portfolio.social;
     portfolio.header = header ? header : portfolio.header;
+    portfolio.useSinglePages = useSinglePages ? useSinglePages : useSinglePages;
     let changeItems = [];
     if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
     if (portfolio.isModified("social"))
