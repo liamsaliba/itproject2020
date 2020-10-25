@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 
 // import SectionTextEditor from "./SectionTextEditor";
 import SectionMedia from "./SectionMedia";
+import SectionThemes from "./SectionThemes";
 import SectionSettings from "./SectionSettings";
 import SectionPages from "./SectionPages";
 import SectionMenu from "./SectionMenu";
@@ -36,6 +37,7 @@ export default props => {
         }}
       >
         <SectionSettings />
+        <SectionThemes />
         <SectionPages />
         <SectionMedia />
         {/* <SectionTextEditor /> */}
