@@ -201,9 +201,9 @@ export default () => {
 
   useEffect(() => {
     if (token && portfolio) {
-      history.push("/editor");
+      history.push("/u/" + username);
     }
-  }, [token, history, portfolio]);
+  }, [token, history, portfolio, username]);
 
   useEffect(() => {
     if (portfolioError) {
