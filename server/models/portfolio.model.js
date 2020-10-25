@@ -39,13 +39,17 @@ const portfolioSchema = new Schema(
       type: String, // ID of avatar media document
       required: false,
     },
+    header: {
+      type: String, // ID of media
+      required: false,
+    },
     singlePage: {
       type: Boolean,
       default: true,
     },
     social: {
-      type: Object,
-      default: {},
+      type: [String],
+      default: [],
     },
   },
   {

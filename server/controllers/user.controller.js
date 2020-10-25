@@ -43,11 +43,21 @@ const changeUserDetails = async (req, res) => {
       const email = req.body.email;
       const user = req.user;
       const allowContact = req.body.allowContact;
+      const avatar = req.body.avatar;
       user.local.firstName = firstName ? firstName : user.local.firstName;
       user.local.middleName = middleName ? middleName : user.local.middleName;
       user.local.lastName = lastName ? lastName : user.local.lastName;
       user.local.email = email ? email : user.local.email;
       user.allowContact = allowContact ? allowContact : user.allowContact;
+
+      if (avatar) {
+        const avatarObject = await Media.findById(avatar);
+        if (!avatarObject) {
+          throw Error(`Avatar ${avatar} not found.`);
+        }
+        user.avatar = avatarObject.url;
+      }
+
       let changeItems = [];
       if (user.isModified("local.firstName"))
         changeItems = changeItems.concat("First Name");

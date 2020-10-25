@@ -26,6 +26,8 @@ const createPortfolio = async (req, res) => {
       const colour = req.body.colour;
       const singlePage = req.body.singlePage;
       const social = req.body.social;
+      const header = req.body.header;
+      const avatar = req.user.avatar;
       const newPortfolio = new Portfolio({
         username,
         bio,
@@ -34,8 +36,14 @@ const createPortfolio = async (req, res) => {
         colour,
         singlePage,
         social,
+        header,
+        avatar,
       });
       const returnedPortfolio = newPortfolio.toObject();
+      if (returnedPortfolio.header) {
+        headerObject = await Media.findById(returnedPortfolio.header);
+        returnedPortfolio.header = headerObject.url;
+      }
       returnedPortfolio.pages = [];
       await newPortfolio.save();
       if (req.user.local && req.user.local.email) {
@@ -136,6 +144,10 @@ const findPortfolioByUsername = async (req, res) => {
     }
     const username = req.params.username;
     const portfolio = await findPortfolio(username);
+    if (portfolio.header) {
+      header = await Media.findById(portfolio.header);
+      portfolio.header = header.url;
+    }
     res.status(200).json(portfolio);
   } catch (err) {
     res
@@ -152,13 +164,14 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const { bio, theme, font, colour, singlePage, social } = req.body;
+    const { bio, theme, font, colour, singlePage, social, header } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
     portfolio.font = font ? font : portfolio.font;
     portfolio.colour = colour ? colour : portfolio.colour;
     portfolio.singlePage = singlePage ? singlePage : portfolio.singlePage;
     portfolio.social = social ? social : portfolio.social;
+    portfolio.header = header ? header : portfolio.header;
     let changeItems = [];
     if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
     if (portfolio.isModified("social"))
@@ -178,7 +191,12 @@ const changePortfolio = async (req, res) => {
     if (!portfolio) {
       throw Error("Portfolio not found!");
     }
-    res.status(200).send(portfolio.toObject());
+    pObject = portfolio.toObject();
+    if (header) {
+      headerObject = await Media.findById(header);
+      pObject.header = headerObject.url;
+    }
+    res.status(200).send(pObject);
   } catch (err) {
     res.status(400).json(err.message);
   }
@@ -231,6 +249,12 @@ const findAllDetails = async (req, res) => {
       }
       aObject.media = media;
       aObjects.push(aObject);
+    }
+    header = null;
+    if (portfolio.header) {
+      header = await Media.findById(portfolio.header);
+      header = header.url;
+      portfolio.header = header;
     }
     res.status(200).send({
       portfolio,
