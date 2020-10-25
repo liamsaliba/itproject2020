@@ -38,8 +38,8 @@ export const ContactForm = ({ userId, homeBtn }) => {
 
     // lazy
     axios.post(endpoints.contact, payload).then(res => {
-      console.log(res);
-      console.log(res.data);
+      // console.log(res);
+      // console.log(res.data);
       setSubmitted(true);
     });
   };

@@ -243,7 +243,6 @@ const Body = props => {
   );
 
   const children = () => {
-    console.log("selectedPage", selectedPage);
     if (selectedPage === "contact") {
       return <ContactForm userId={userId} homeBtn={homeBtn} />;
     }
@@ -252,7 +251,6 @@ const Body = props => {
         <SinglePagePortfolio userId={userId} editing={editing} pages={pages} />
       );
     }
-    console.log("pages", pages);
     const page = pages.filter(page => page.name === selectedPage)[0];
     // TODO: if in edit mode, ask if a page should be created
     if (page === undefined) return <PageNotFound homeBtn={homeBtn} />;
