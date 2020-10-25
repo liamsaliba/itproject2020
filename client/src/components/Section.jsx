@@ -32,12 +32,18 @@ export const ContentBox = ({ type, children }) => {
     justifyContent: "center",
   };
   // type of page determines what will be displayed
+  // eslint-disable-next-line no-unused-vars
   const listTypes = ["display", "experience", "education"];
   // eslint-disable-next-line no-unused-vars
   const cardTypes = ["cards"];
-  if (listTypes.includes(type)) {
-    return <Box sx={listStyling}>{children}</Box>;
-  }
+  // if (listTypes.includes(type)) {
+  // return <Box sx={listStyling}>{children}</Box>;
+  // }
+  return (
+    // <Box sx={{ maxWidth: "800px", mx: "auto" }}>
+    <Box sx={listStyling}>{children}</Box>
+    // </Box>
+  );
 };
 
 const EmptySectionPlaceholder = ({ children }) => (
@@ -61,6 +67,7 @@ export const Section = ({
 }) => {
   return (
     <Flex
+      as="section"
       sx={{
         textAlign: "center",
         m: "0em 2em",
