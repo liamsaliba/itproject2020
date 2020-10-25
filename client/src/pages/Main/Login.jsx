@@ -71,7 +71,7 @@ export default () => {
             fluid
             icon="at"
             iconPosition="left"
-            placeholder="Username / Email address"
+            placeholder="Username"
             defaultValue={userId}
           />
           <Form.Input
