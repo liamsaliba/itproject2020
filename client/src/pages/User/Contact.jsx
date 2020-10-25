@@ -34,14 +34,20 @@ export const ContactForm = ({ userId, homeBtn }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = data => {
-    const payload = { ...data, username: userId };
+    const payload = { ...data, username: "angel" }; // userId
 
     // lazy
-    axios.post(endpoints.contact, payload).then(res => {
-      // console.log(res);
-      // console.log(res.data);
-      setSubmitted(true);
-    });
+    axios
+      .post(endpoints.contact, payload)
+      .then(res => {
+        // console.log(res);
+        // console.log(res.data);
+        setSubmitted(true);
+      })
+      .catch(err => {
+        console.log(err.message);
+        console.log(err.response);
+      });
   };
 
   return (
