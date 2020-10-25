@@ -8,7 +8,7 @@ export const Dot = () => (
 );
 
 // TODO: on click of heading in edit mode - enable editing the heading.
-const Heading = ({ name, id, editing, newbtn }) => {
+export const Heading = ({ name, id, editing, newbtn }) => {
   return (
     <Flex sx={{ alignItems: "center" }}>
       <Box sx={{ flex: 1 }}></Box>
@@ -23,7 +23,7 @@ const Heading = ({ name, id, editing, newbtn }) => {
   );
 };
 
-const ContentBox = ({ type, children }) => {
+export const ContentBox = ({ type, children }) => {
   const listStyling = {
     display: "flex",
     flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
