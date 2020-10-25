@@ -61,7 +61,7 @@ export default () => {
       <Grid.Column style={{ maxWidth: 450 }}>
         <Title>Login</Title>
         <Header as="h2" textAlign="center">
-          <Image src={camel} />
+          <Icon name="sign in" />
           Log in to your account
         </Header>
         <br />
