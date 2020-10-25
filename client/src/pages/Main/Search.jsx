@@ -12,6 +12,8 @@ import { endpoints } from "../../store";
 export default () => {
   // const dispatch = useDispatch();
   const history = useHistory();
+  // TODO: loading
+  // eslint-disable-next-line no-unused-vars
   const [results, setResults] = useState([]);
 
   useEffect(() => {

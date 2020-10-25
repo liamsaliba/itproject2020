@@ -6,13 +6,11 @@ import {
   Form,
   Grid,
   Header,
-  Image,
   Message,
   Dimmer,
   Loader,
   Icon,
 } from "semantic-ui-react";
-import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 import {

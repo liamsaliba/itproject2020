@@ -10,7 +10,6 @@ import {
   selectPortfolioBio,
   changePortfolioBio,
   selectFullName,
-  selectAvatar,
   selectSocialIcons,
   // selectSocialIcons,
 } from "../../store";

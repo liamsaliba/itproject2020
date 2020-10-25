@@ -1,14 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import {
-  Form,
-  Button,
-  Modal,
-  Grid,
-  Icon,
-  Header,
-  ButtonGroup,
-} from "semantic-ui-react";
+import { Form, Button, Modal, Grid, Icon, Header } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import { ChooseProfileModal } from "../../components/ProfileIcon";
 
@@ -174,7 +166,7 @@ const DeleteAccountModal = () => {
       }
       dispatch(resetErrors());
     }
-  }, [loading, status, setStatus]);
+  }, [loading, status, setStatus, dispatch, error, history]);
 
   const handleSubmit = e => {
     e.preventDefault();
