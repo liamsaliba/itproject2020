@@ -8,7 +8,7 @@ import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
 import { selectPortfolioPages, selectToken, selectUser } from "../store";
 import Scroller from "./Scroller";
 
-export default props => {
+const Hamburger = props => {
   const { landing, children, userId } = props;
   const [open, setOpen] = useState(false);
   const token = useSelector(selectToken);
@@ -126,6 +126,7 @@ export default props => {
           onHide={() => setOpen(false)}
           vertical
           visible={open}
+          sx={{ overflowX: "hidden" }}
         >
           <Menu.Item
             style={{ fontSize: "1.8em", fontWeight: "bold" }}
@@ -164,3 +165,5 @@ export default props => {
     </React.Fragment>
   );
 };
+
+export default Hamburger;
