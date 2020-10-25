@@ -19,7 +19,6 @@ const contact = async (req, res) => {
       message,
     });
 
-    
     const oauth2Client = new OAuth2(
       process.env.MAILER_CLIENT_ID, // ClientID
       process.env.MAILER_CLIENT_SECRET, // Client Secret
