@@ -1,9 +1,6 @@
 const User = require("../models/user.model");
 const Contact = require("../models/contact.model");
 const nodemailer = require("nodemailer");
-//require('dotenv').config();
-//const nodemailerMock = require("nodemailer-mock");
-//const transport = nodemailerMock.createTransport();
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
@@ -44,7 +41,6 @@ const contact = async (req, res) => {
         clientSecret: process.env.MAILER_CLIENT_SECRET,
         refreshToken: process.env.MAILER_REFRESH_TOKEN,
         accessToken: accessToken,
-        //accessToken: process.env.MAILER_ACCESS_TOKEN
         //pass: process.env.EMAIL_PASSWORD
       }
     });
@@ -72,18 +68,8 @@ const contact = async (req, res) => {
         });
       } else {
         res.json({ message: `message sent: ${info.messageId}` });
-        //console.log("success");
       }
     });
-    //transporter.sendMail(mail);
-    /*transporter.verify(function(err, success) {
-      if (err) {
-        res.json({
-          message: "message not sent: an error occured; check the server's console log"
-        });
-      }
-      res.json({ message: `message sent: ${info.messageId}` });
-    });*/
 
     await newContact.save();
     res.status(200).send(newContact.toObject());
