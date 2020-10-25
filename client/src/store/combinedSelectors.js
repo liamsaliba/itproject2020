@@ -44,6 +44,15 @@ export const selectArtifactsByPageId = createSelector(
   }
 );
 
+export const selectNumArtifactsByPageId = createSelector(
+  // need the 2nd dependency to get the pageId argument.
+  [state => selectAllArtifacts(state), (_, pageId) => pageId],
+  (artifacts, pageId) => {
+    // return the pages for the given portfolio only
+    return artifacts.filter(artifact => artifact.pageId === pageId).length;
+  }
+);
+
 export const selectMediaByUsername = createSelector(
   [state => selectAllMedia(state), (_, username) => username],
   (media, username) => {
