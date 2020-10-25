@@ -1,18 +1,12 @@
 /** @jsx jsx */
 import { jsx, Image, IconButton, Box } from "theme-ui";
 import { Link } from "./index";
-import profileImg from "../svg/profile.webp";
+import profileImg from "../svg/profile.png";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, updateAvatar } from "../store";
 import React from "react";
 import { useState } from "react";
-import {
-  Modal,
-  Button,
-  Icon,
-  Dropdown,
-  Form,
-} from "semantic-ui-react";
+import { Modal, Button, Icon, Dropdown, Form } from "semantic-ui-react";
 import { ChooseMedia } from "./Media";
 // import { selectMediaByUsername } from "../store/combinedSelectors";
 import { selectMediaUrl } from "../store/slices/media";
@@ -123,6 +117,7 @@ export const EditableUserProfile = ({ editing, username, profile }) => {
         sx={{
           margin: "auto",
           width: "30%",
+          maxWidth: "250px",
           borderRadius: "50%",
         }}
       >
@@ -133,7 +128,7 @@ export const EditableUserProfile = ({ editing, username, profile }) => {
   return <ChooseProfileModal username={username} profile={profile} />;
 };
 
-const ChooseProfileModal = ({ username, profile }) => {
+export const ChooseProfileModal = ({ username, profile }) => {
   const [open, setOpen] = useState(false);
   const [profileId, setProfileId] = useState(profile);
   const profileSrc = useSelector(state => selectMediaUrl(state, profileId));
@@ -160,6 +155,7 @@ const ChooseProfileModal = ({ username, profile }) => {
   return (
     <Modal
       as={Form}
+      closeIcon
       onSubmit={handleSubmit}
       size="tiny"
       closeOnDimmerClick={false}
@@ -174,6 +170,7 @@ const ChooseProfileModal = ({ username, profile }) => {
             margin: "auto",
             transition: ".3s ease",
             width: "30%",
+            maxWidth: "250px",
             borderRadius: "50%",
             marginBottom: "-3em",
             "&:hover": {
