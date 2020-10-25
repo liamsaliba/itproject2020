@@ -51,6 +51,10 @@ const portfolioSchema = new Schema(
       type: [String],
       default: [],
     },
+    useSinglePages: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     toObject: {
