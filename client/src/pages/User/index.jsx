@@ -3,7 +3,6 @@
 import { jsx } from "theme-ui";
 import { NotExist } from "./NotExist";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
@@ -16,15 +15,9 @@ import UserPage from "./UserPage";
 
 import { useDispatch } from "react-redux";
 import { selectLoadingStatus } from "../../store/slices/ui";
-
-export const RouteUser = () => {
-  const { userId } = useParams();
-  return <User userId={userId} />;
-};
-
 const User = props => {
   const dispatch = useDispatch();
-  const { userId } = props;
+  const { userId, selectedPage } = props;
   // eslint-disable-next-line
   const username = useSelector(selectCurrentPortfolio);
   // eslint-disable-next-line
@@ -44,7 +37,7 @@ const User = props => {
   );
 
   return portfolio ? (
-    <UserPage userId={userId} />
+    <UserPage userId={userId} selectedPage={selectedPage} />
   ) : loading ? null : (
     <NotExist userId={userId} />
   );
