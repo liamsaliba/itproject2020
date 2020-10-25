@@ -95,11 +95,14 @@ const createDefaultPortfolio = async (req, res) => {
       await experiencePage.save();
 
       const returnedPortfolio = newPortfolio.toObject();
-      returnedPortfolio.pages = [
-        aboutPage._id,
-        educationpage._id,
-        experiencePage._id,
-      ];
+      returnedPortfolio.pages = [aboutPage, educationpage, experiencePage].map(
+        p => {
+          return {
+            pageId: p._id,
+            name: p.name,
+          };
+        }
+      );
       returnedPortfolio.firstName = req.user.local.firstName;
       returnedPortfolio.lastName = req.user.local.lastName;
       returnedPortfolio.email = req.user.local.email;
