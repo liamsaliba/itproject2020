@@ -1,39 +1,62 @@
 /** @jsx jsx */
-import { jsx, Box, Flex } from "theme-ui";
+import { jsx, Flex, Box } from "theme-ui";
 import React from "react";
 
-import camel from "../../svg/camel.svg";
-
-import { MenuItem, MenuButton, MenuImage, Profile } from "../../components";
+import {
+  MenuItem,
+  MenuButton,
+  MenuCamel,
+  Navbar,
+  ProfileDropdown,
+} from "../../components";
 import { useSelector } from "react-redux";
+
+import { Button, Icon } from "semantic-ui-react";
 
 export default () => {
   const auth = useSelector(state => state.auth);
 
   return (
-    <Box p={2}>
-      <Flex sx={{ alignItems: "center" }}>
-        <MenuImage src={camel} to="/" />
-        <MenuItem to="/">Camel Pages</MenuItem>
-        <MenuItem to="themes">Themes</MenuItem>
-        <Box mx="auto" />
+    <Navbar>
+      <Navbar.Left>
+        <Flex sx={{ alignItems: "center" }}>
+          <MenuCamel />
+          <MenuItem style={{ fontSize: "1.2em" }} to="/">
+            Camel Pages
+          </MenuItem>
+          <MenuItem style={{ fontSize: "1.2em" }} to="themes">
+            Themes
+          </MenuItem>
+          <Box mx="auto" />
+        </Flex>
+      </Navbar.Left>
+      <Navbar.Right>
         {auth.token && (
           <React.Fragment>
-            <MenuItem to="editor">Editor</MenuItem>
-            <MenuItem to={`u/${auth.user.username}`}>Portfolio</MenuItem>
-            <MenuItem to="logout">Logout</MenuItem>
-            <MenuItem to="profile">{auth.user.username}</MenuItem>
-            <Profile userId={auth.user.username} to="/profile" p={2} />
+            <MenuItem style={{ fontSize: "1.2em" }} to="/editor">
+              <Icon name="edit" />
+              Editor
+            </MenuItem>
+            <ProfileDropdown items="default" />
           </React.Fragment>
         )}
         {!auth.token && (
           <React.Fragment>
-            {/*will be user.profile */}
-            <MenuItem to="login">Login</MenuItem>
-            <MenuButton to="signup">Sign up</MenuButton>
+            <MenuButton animated to="login" primary>
+              <Button.Content visible>Login</Button.Content>
+              <Button.Content hidden>
+                <Icon name="sign in" />
+              </Button.Content>
+            </MenuButton>
+            <MenuButton animated to="signup" basic primary>
+              <Button.Content visible>Sign up</Button.Content>
+              <Button.Content hidden>
+                <Icon name="signup" />
+              </Button.Content>
+            </MenuButton>
           </React.Fragment>
         )}
-      </Flex>
-    </Box>
+      </Navbar.Right>
+    </Navbar>
   );
 };

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const httpMocks = require("node-mocks-http");
 const path = require("path");
 const userController = require("../user.controller");
+jest.setTimeout(10000);
 
 require("dotenv").config({
   path: path.resolve(__dirname, "../../../.env"),

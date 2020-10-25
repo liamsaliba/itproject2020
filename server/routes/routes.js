@@ -9,7 +9,7 @@ const contactRouter = require("./contact.route");
 const mediaRouter = require("./media.route");
 
 router.use("/user", userRouter);
-router.use("/users", require("../controllers/user.controller").getAllUsers);
+// router.use("/users", require("../controllers/user.controller").getAllUsers);
 
 router.get("/", (req, res) => {
   res.set("Content-Type", "application/json");
@@ -29,4 +29,3 @@ router.use("/contact", contactRouter);
 router.use("/media", mediaRouter);
 
 module.exports = router;
-

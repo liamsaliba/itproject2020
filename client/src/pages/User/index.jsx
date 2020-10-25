@@ -1,11 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /** @jsx jsx */
-import { jsx, Flex, ThemeProvider } from "theme-ui";
-import Navbar from "./Navbar";
-import { useState, useEffect } from "react";
-import themes from "../../themes";
-import Body from "./Body";
-import { Title } from "./../../components/index";
+import { jsx } from "theme-ui";
+import { NotExist } from "./NotExist";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  fetchEntirePortfolio,
+  selectPortfolioByUsername,
+  selectPortfolioIsEditing,
+  changePortfolio,
+  selectCurrentPortfolio,
+} from "../../store";
+import UserPage from "./UserPage";
+
+import { useDispatch } from "react-redux";
+import { selectLoadingStatus } from "../../store/slices/ui";
 
 export const RouteUser = () => {
   const { userId } = useParams();
@@ -13,35 +23,30 @@ export const RouteUser = () => {
 };
 
 const User = props => {
-  const id = props.userId;
-  const [theme, setTheme] = useState("base");
-  const [preset, setPreset] = useState(themes[theme]);
-
-  const pages = ["Publications", "Experience", "Articles", "About"];
+  const dispatch = useDispatch();
+  const { userId } = props;
+  // eslint-disable-next-line
+  const username = useSelector(selectCurrentPortfolio);
+  // eslint-disable-next-line
+  const editing = useSelector(selectPortfolioIsEditing);
+  const loading = useSelector(selectLoadingStatus);
+  // const editing = props.editing || false;
 
   useEffect(() => {
-    setPreset(themes[theme]);
-  }, [theme]);
+    if (username !== userId) {
+      dispatch(changePortfolio(userId));
+      dispatch(fetchEntirePortfolio(userId));
+    }
+  }, [userId]);
 
-  return (
-    <ThemeProvider theme={preset}>
-      <Title>{id}</Title>
+  const portfolio = useSelector(state =>
+    selectPortfolioByUsername(state, userId)
+  );
 
-      <Flex
-        sx={{
-          flexDirection: "column",
-          minHeight: "100vh",
-          bg: "background",
-          color: "text",
-        }}
-      >
-        <header>
-          <Navbar userId={id} theme={theme} setTheme={setTheme} pages={pages} />
-        </header>
-
-        <Body userId={id} pages={pages} />
-      </Flex>
-    </ThemeProvider>
+  return portfolio ? (
+    <UserPage userId={userId} />
+  ) : loading ? null : (
+    <NotExist userId={userId} />
   );
 };
 

@@ -1,96 +1,230 @@
 /** @jsx jsx */
-import {
-  jsx,
-  Label,
-  Input,
-  Box,
-  Checkbox,
-  Button,
-  Styled,
-  Spinner,
-} from "theme-ui";
+import { jsx, Box } from "theme-ui";
 import { toast } from "react-toastify";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Dimmer,
+  Loader,
+  Icon,
+} from "semantic-ui-react";
+import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../../store/auth";
+import {
+  createPortfolio,
+  selectAuthSlice,
+  selectPortfoliosSlice,
+  selectToken,
+  selectUsername,
+  signup,
+  selectPortfolioByUsername,
+} from "../../store";
+import { Title, Toast } from "../../components";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
-import { Link, Title } from "../../components";
-import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-
-export default () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const auth = useSelector(state => state.auth);
-
-  useEffect(() => {
-    if (auth.error) {
-      toast.error("Unable to create user account. " + auth.error);
-    }
-  }, [auth.error]);
-
-  useEffect(() => {
-    if (auth.token) {
-      history.push("/editor");
-      toast("Created new account!");
-    }
-  }, [auth.token, history]);
+const SignUpForm = ({ userId, setForm }) => {
+  const [useCookie, setCookie] = useState(true);
 
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    if (formData.get("confirmPassword") !== formData.get("password")) {
-      toast.error("Password does not match.");
-      return;
-    }
-    dispatch(
-      signup(
-        formData.get("firstName"),
-        formData.get("lastName"),
-        formData.get("email"),
-        formData.get("username"),
-        formData.get("password")
-      )
-    );
+    const confirmPassword = formData.get("confirmPassword");
+    const password = formData.get("password");
+    const firstName = formData.get("firstName");
+    const lastName = formData.get("lastName");
+    const email = formData.get("email");
+    const username = formData.get("username");
 
-    // dispatch(signup(firstName, lastName, email, username, password));
+    setForm({
+      confirmPassword,
+      password,
+      firstName,
+      lastName,
+      email,
+      username,
+      useCookie,
+    });
   };
 
   return (
-    <Box as="form" pb={3} onSubmit={handleSubmit}>
-      <Title>Login</Title>
+    <Grid verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Title>Signup</Title>
 
-      <Styled.h2>Sign up</Styled.h2>
-      <br />
-      <Label htmlFor="firstName">First Name</Label>
-      <Input name="firstName" mb={1} />
+        <Header as="h2" textAlign="center">
+          <Image src={camel} />
+          Sign up for a new account
+        </Header>
+        <br />
+        <Form size="large" onSubmit={handleSubmit}>
+          <Form.Input
+            name="firstName"
+            fluid
+            icon="user"
+            iconPosition="left"
+            placeholder="First Name"
+          />
+          <Form.Input
+            name="lastName"
+            fluid
+            icon="user"
+            iconPosition="left"
+            placeholder="Last Name"
+          />
+          <Form.Input
+            name="email"
+            fluid
+            icon="mail"
+            iconPosition="left"
+            placeholder="Email"
+          />
+          <Form.Input
+            name="username"
+            fluid
+            icon="at"
+            iconPosition="left"
+            placeholder="Username"
+            defaultValue={userId || ""}
+          />
+          <Form.Input
+            name="password"
+            fluid
+            icon="lock"
+            iconPosition="left"
+            placeholder="Password"
+            type="password"
+          />
+          <Form.Input
+            name="confirmPassword"
+            fluid
+            icon="lock"
+            iconPosition="left"
+            placeholder="Confirm Password"
+            type="password"
+          />
+          <Form.Checkbox
+            label="Remember me"
+            defaultChecked
+            onClick={() => setCookie(!useCookie)}
+          />
+          <Button animated fluid primary size="large" type="submit">
+            <Button.Content visible>Sign Up</Button.Content>
+            <Button.Content hidden>
+              <Icon name="signup" />
+            </Button.Content>
+          </Button>
+        </Form>
+        <Message positive>
+          Already have an account? <a href="/login">Log in</a> now!
+        </Message>
+      </Grid.Column>
+    </Grid>
+  );
+};
 
-      <Label htmlFor="lastName">Last Name</Label>
-      <Input name="lastName" mb={1} />
+export default () => {
+  const userId = useParams().userId;
+  const dispatch = useDispatch();
+  const [form, setForm] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+  const history = useHistory();
 
-      <Label htmlFor="email">Email</Label>
-      <Input name="email" mb={1} />
+  const token = useSelector(selectToken);
+  const authLoading = useSelector(state => selectAuthSlice(state).loading);
+  const username = useSelector(selectUsername);
+  const portfolio = useSelector(state =>
+    selectPortfolioByUsername(state, username)
+  );
+  const authError = useSelector(state => selectAuthSlice(state).error);
+  const portfolioError = useSelector(
+    state => selectPortfoliosSlice(state).error
+  );
+  useEffect(() => {
+    if (form !== null) {
+      const {
+        confirmPassword,
+        password,
+        firstName,
+        lastName,
+        email,
+        username,
+        useCookie,
+      } = form;
+      if (confirmPassword !== password) {
+        toast.error("Password does not match.");
+        return;
+      }
+      if (
+        password === "" ||
+        username === "" ||
+        email === "" ||
+        firstName === "" ||
+        lastName === ""
+      ) {
+        toast.error("Required fields are empty.");
+        return;
+      }
+      dispatch(
+        signup(firstName, lastName, email, username, password, useCookie)
+      );
+      setSubmitted(true);
+    }
+  }, [form, dispatch]);
 
-      <Label htmlFor="username">Username</Label>
-      <Input name="username" mb={1} />
+  useEffect(() => {
+    if (authError) {
+      toast.error(
+        <Toast
+          title="Couldn't create user account."
+          message={authError.data}
+          technical={authError.message}
+        />
+      );
+    }
+  }, [authError]);
 
-      <Label htmlFor="password">Password</Label>
-      <Input type="password" name="password" mb={1} />
+  useEffect(() => {
+    if (token) {
+      if (submitted) {
+        toast("Created new account!");
+        dispatch(createPortfolio());
+      }
+    }
+  }, [token, submitted, dispatch]);
 
-      <Label htmlFor="confirm password">Confirm Password</Label>
-      <Input type="password" name="confirmPassword" mb={3} />
+  useEffect(() => {
+    if (token && portfolio) {
+      history.push("/editor");
+    }
+  }, [token, history, portfolio]);
 
-      <Box>
-        <Label mb={3}>
-          <Checkbox />
-          Remember me
-        </Label>
-      </Box>
-      <Button>Submit</Button>
-      {auth.loading ? <Spinner /> : null}
-      <Link to="/login" sx={{ ml: 4 }}>
-        {"Have an account? Log in"}
-      </Link>
+  useEffect(() => {
+    if (portfolioError) {
+      toast.error(
+        <Toast
+          title="Couldn't create portfolio."
+          message={portfolioError.data}
+          technical={portfolioError.message}
+        />
+      );
+    }
+  }, [portfolioError]);
+
+  return (
+    <Box>
+      <SignUpForm userId={userId} setForm={setForm} />
+      <Dimmer inverted active={authLoading}>
+        <Loader inverted>Signing up...</Loader>
+      </Dimmer>
+      <Dimmer inverted active={token && submitted}>
+        <Loader inverted>Creating {username}'s new portfolio...</Loader>
+      </Dimmer>
     </Box>
   );
 };

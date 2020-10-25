@@ -1,16 +1,54 @@
 /** @jsx jsx */
-import { jsx, Styled, Flex, Container, ThemeProvider } from "theme-ui";
+import { jsx, Flex, ThemeProvider } from "theme-ui";
 import User from "../User";
-import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
-import { Title } from "./../../components/index";
-import * as Sidebar from "./Sidebar";
+import { Toast } from "./../../components/index";
+import Sidebar from "./Sidebar";
 
 import themes from "../../themes";
+import {
+  getMedia,
+  selectAuthSlice,
+  selectCurrentUserPortfolio,
+  selectUsername,
+} from "../../store";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export default props => {
-  const theme = themes.custom;
-  const id = useSelector(state => state.auth.user.username);
+  const portfolio = useSelector(selectCurrentUserPortfolio);
+  const authError = useSelector(state => selectAuthSlice(state).error);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const id = useSelector(selectUsername);
+
+  useEffect(() => {
+    dispatch(getMedia());
+    setTimeout(() => setOpen(true), 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (authError) {
+      history.push("/logout");
+      toast.info(
+        <Toast
+          title="You've been logged out."
+          message={authError.data}
+          technical={authError.message}
+        />
+      );
+    }
+    if (id === undefined) {
+      history.push("/login");
+      toast.error(<Toast title="You need to login to edit a portfolio." />);
+    }
+  });
 
   return (
     <Flex
@@ -18,30 +56,35 @@ export default props => {
         display: "flex",
         flexWrap: "wrap",
         height: "100vh",
+        color: "black",
       }}
     >
-      <ThemeProvider theme={theme}>
-        <Title>Editor: {id}</Title>
-        <aside
+      <ThemeProvider theme={themes.base}>
+        <Flex
           sx={{
-            width: "sidebar",
-            borderRight: "1px black solid",
+            width: "250px",
             overflowY: "auto",
             overflowX: "hidden",
-            height: "100%",
+            height: "100vh",
+            flexDirection: "column",
+            boxShadow: "1px 0 6px 0px #999",
+            position: "absolute",
+            transition: "0.2s",
+            zIndex: "999",
+            background: "white",
+            fontFamily: "sans-serif",
+            transform: `translate(${open && portfolio ? 0 : -250}px, 0px)`,
           }}
         >
-          {/* <Sidebar/> */}
-          <Navbar userId={id} />
-          <Container
-            sx={{
-              overflow: "auto",
-            }}
-          >
-            <Styled.p>This is the editor page of user {id}.</Styled.p>
-            <Sidebar.Sections />
-          </Container>
-        </aside>
+          {portfolio ? (
+            <Sidebar
+              closeEditor={() => {
+                setOpen(false);
+                setTimeout(() => history.push(`/u/${id}`), 200);
+              }}
+            />
+          ) : null}
+        </Flex>
       </ThemeProvider>
       <main
         sx={{
@@ -50,8 +93,10 @@ export default props => {
           minWidth: 320,
           overflowY: "auto",
           overflowX: "hidden",
-
           height: "100%",
+          transition: "0.2s",
+          marginLeft: `${open && portfolio ? 250 : 0}px`,
+          opacity: `${open && portfolio ? 100 : 20}%`,
         }}
       >
         <User userId={id} />

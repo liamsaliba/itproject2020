@@ -4,64 +4,51 @@ import Body from "../Body";
 
 export default {
   component: Body,
-  title: "Components/Body",
+  title: "Components/UserPages/Body",
 };
 
 const Template = args => <Body {...args} />;
 
 const Default = {
-  body: {
-    hAlign: "center",  
-    vAlign: "middle", 
-    heading: "Display Title", 
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias" +
-          " officiis quam et iste ratione earum illo aliquid neque, quis quas" +
-          " accusamus voluptatum provident dolorum aspernatur nostrum quo similique" +
-          " odit!",
-    actionString: "Optional Action", 
-    onAction: null,
-  }
-}
+  hPos: "center",
+  vPos: "middle",
+  header:"Header",
+  body:
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora alias" +
+    " officiis quam et iste ratione earum illo aliquid neque, quis quas" +
+    " accusamus voluptatum provident dolorum aspernatur nostrum quo similique" +
+    " odit!",
+};
 
 export const Centered = Template.bind({});
 Centered.args = {
-  body: {
-    ...Default.body
-  },
+  ...Default.body,
 };
 
 export const TopRight = Template.bind({});
 TopRight.args = {
-  body: {
-    ...Default.body,
-    hAlign: "right",
-    vAlign: "top",
-  },
+  ...Default.body,
+  hPos: "right",
+  vPos: "top",
 };
 
 export const TopLeft = Template.bind({});
 TopLeft.args = {
-  body: {
-    ...Default.body,
-    hAlign: "left",
-    vAlign: "top",
-  },
+  ...Default.body,
+  hPos: "left",
+  vPos: "top",
 };
 
 export const BottomRight = Template.bind({});
 BottomRight.args = {
-  body: {
-    ...Default.body,
-    hAlign: "right",
-    vAlign: "bottom",
-  },
+  ...Default.body,
+  hPos: "right",
+  vPos: "bottom",
 };
 
 export const BottomLeft = Template.bind({});
 BottomLeft.args = {
-  body: {
-    ...Default.body,
-    hAlign: "left",
-    vAlign: "bottom",
-  },
+  ...Default.body,
+  hPos: "left",
+  vPos: "bottom",
 };

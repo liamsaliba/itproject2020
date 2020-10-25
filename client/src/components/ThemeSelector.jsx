@@ -16,12 +16,16 @@ export default function ThemeSelector({ theme, setTheme, size = 100 }) {
         Preset: */}
       <Select
         id="theme"
-        value={theme}
+        value={theme === "default" ? "base" : theme}
         onChange={e => setTheme(e.target.value)}
         sx={{ width: size }}
       >
         {Object.keys(themes).map(key => (
-          <option key={key} children={key} />
+          <option
+            key={key}
+            children={key}
+            sx={{ background: "white", color: "black" }}
+          />
         ))}
       </Select>
       {/* </label> */}

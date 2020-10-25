@@ -1,37 +1,89 @@
 /** @jsx jsx */
-import { jsx, Container, Styled, Divider, Box } from "theme-ui";
-import PropTypes from "prop-types";
+import { jsx, Box, Flex, Styled } from "theme-ui";
+import { Segment, Header, Icon } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 
-import SubSection from './SubSection';
+export const Dot = () => (
+  <Icon color="red" name="circle" size="mini" sx={{ verticalAlign: "top" }} />
+);
 
-export default function Section({ section:{ type }, subSections }) {
-  const GetBreak = ({i, len, sx}) => {
-    if (i<(len-1)) {
-      return( <Divider sx={{color:"var(--warm-grey-30,#e6e9ec)", mt:"1em", mb:"1em"}}/> );
-    } return(null);
-  }
-
-  const SubSections = subSections.map((subSection, i) => (
-    <Box sx={{ pl:"1em", pr:"1em" }}>
-      <SubSection  subSection={subSection} />
-      <GetBreak i={i} len={subSections.length} />
-    </Box>
-  ))
-
+// TODO: on click of heading in edit mode - enable editing the heading.
+const Heading = ({ name, id, editing, newbtn }) => {
   return (
-    <Container sx={{ boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)", border: "1px solid #aaa", borderRadius:"5px", p:"3" }}>
-      <Styled.h2>{type}</Styled.h2>
-      {SubSections}
-    </Container>
+    <Flex sx={{ alignItems: "center" }}>
+      <Box sx={{ flex: 1 }}></Box>
+      <Styled.h2
+        id={id}
+        sx={{ flex: 4, justifyContent: "center", wordBreak: "break-all" }}
+      >
+        {name}
+      </Styled.h2>
+      <Box sx={{ flex: 1, float: "right" }}>{editing ? newbtn : null}</Box>
+    </Flex>
   );
 };
 
-Section.propTypes = {
-  /** Composition of the page */
-  section: PropTypes.shape({ 
-    type: PropTypes.string // 
-  }), 
-  subSections: PropTypes.array
+const ContentBox = ({ type, children }) => {
+  const listStyling = {
+    display: "flex",
+    flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "center",
+  };
+  // type of page determines what will be displayed
+  const listTypes = ["display", "experience", "education"];
+  // eslint-disable-next-line no-unused-vars
+  const cardTypes = ["cards"];
+  if (listTypes.includes(type)) {
+    return <Box sx={listStyling}>{children}</Box>;
+  }
 };
 
+const EmptySectionPlaceholder = ({ children }) => (
+  <Segment placeholder fluid>
+    <Header icon>
+      <Icon name="file outline" />
+      Nothing on this page yet.
+    </Header>
+    {children}
+  </Segment>
+);
 
+export const Section = ({
+  id,
+  name,
+  editing,
+  type,
+  content,
+  newbtn,
+  loading,
+}) => {
+  return (
+    <Flex
+      sx={{
+        textAlign: "center",
+        m: "0em 2em",
+        mb: "3em", // space between sections
+        transition: "all 0.3s",
+        minHeight: "10em",
+        flex: 1,
+        justifyContent: "flex-start",
+        flexDirection: "column",
+      }}
+      id={name}
+    >
+      <Heading id={id} name={name} editing={editing} newbtn={newbtn} />
+      <Loader inline size="large" active={loading}>
+        Loading
+      </Loader>
+      {editing && content.length === 0 ? (
+        <EmptySectionPlaceholder>{newbtn}</EmptySectionPlaceholder>
+      ) : (
+        <ContentBox type={type}>{content}</ContentBox>
+      )}
+    </Flex>
+  );
+};
+
+export default Section;

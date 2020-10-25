@@ -25,6 +25,36 @@ const portfolioSchema = new Schema(
       default: "default",
       required: false,
     },
+    font: {
+      type: String,
+      default: "default",
+      required: false,
+    },
+    colour: {
+      type: String,
+      default: "default",
+      required: false,
+    },
+    avatar: {
+      type: String, // ID of avatar media document
+      required: false,
+    },
+    header: {
+      type: String, // ID of media
+      required: false,
+    },
+    singlePage: {
+      type: Boolean,
+      default: true,
+    },
+    social: {
+      type: [String],
+      default: [],
+    },
+    useSinglePages: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     toObject: {

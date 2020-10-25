@@ -42,10 +42,22 @@ const changeUserDetails = async (req, res) => {
       const lastName = req.body.lastName;
       const email = req.body.email;
       const user = req.user;
+      const allowContact = req.body.allowContact;
+      const avatar = req.body.avatar;
       user.local.firstName = firstName ? firstName : user.local.firstName;
       user.local.middleName = middleName ? middleName : user.local.middleName;
       user.local.lastName = lastName ? lastName : user.local.lastName;
       user.local.email = email ? email : user.local.email;
+      user.allowContact = allowContact ? allowContact : user.allowContact;
+
+      if (avatar) {
+        const avatarObject = await Media.findById(avatar);
+        if (!avatarObject) {
+          throw Error(`Avatar ${avatar} not found.`);
+        }
+        user.avatar = avatarObject.url;
+      }
+
       let changeItems = [];
       if (user.isModified("local.firstName"))
         changeItems = changeItems.concat("First Name");
@@ -55,6 +67,8 @@ const changeUserDetails = async (req, res) => {
         changeItems = changeItems.concat("Last Name");
       if (user.isModified("local.email"))
         changeItems = changeItems.concat("Email");
+      if (user.isModified("allowContact"))
+        changeItems = changeItems.concat("allowContact");
       if (user.local && user.local.email) {
         emailBot.sendAccountChangeNotification(
           user.local.email,
@@ -65,6 +79,35 @@ const changeUserDetails = async (req, res) => {
       await user.save();
       res.status(200).send(user.toObject());
     }
+  } catch (err) {
+    res.status(400).json(err.message ? err.message : err);
+  }
+};
+
+// Add an avatar to a user (or change it if it already exists)
+const addAvatar = async (req, res) => {
+  try {
+    // Delete the current avatar of the user
+    await Media.findOneAndDelete({
+      username: req.user.username,
+      description: "avatar",
+    });
+
+    // Create a new media
+    const newMedia = new Media({
+      username: req.user.username,
+      url: req.file.path,
+      type: "image",
+      description: "avatar",
+      public_id: req.file.public_id,
+    });
+    await newMedia.save();
+
+    // Also update the avatar's URL of the user
+    req.user.avatar = req.file.path;
+    await req.user.save();
+
+    res.status(200).send(newMedia.toObject());
   } catch (err) {
     res.status(400).json(err.message ? err.message : err);
   }
@@ -110,6 +153,7 @@ const createUser = async (req, res) => {
     const middleName = req.body.middleName;
     const lastName = req.body.lastName;
     const email = req.body.email;
+    const allowContact = req.body.allowContact;
 
     const newUser = new User({
       method: ["local"],
@@ -121,6 +165,7 @@ const createUser = async (req, res) => {
         lastName,
         email,
       },
+      allowContact,
     });
 
     // Save the new User to the database
@@ -218,4 +263,5 @@ module.exports = {
   logoutUserAllDevices,
   googleOAuth,
   facebookOAuth,
+  addAvatar,
 };

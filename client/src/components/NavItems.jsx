@@ -1,13 +1,9 @@
 /** @jsx jsx */
-import {
-  jsx,
-  Button,
-  Image,
-  IconButton,
-  NavLink as StyledNavLink,
-} from "theme-ui";
+import { jsx, Image, IconButton, NavLink as StyledNavLink } from "theme-ui";
+import { Button, Icon } from "semantic-ui-react";
 import { NavHashLink, HashLink } from "react-router-hash-link";
 import isAbsoluteURL from "is-absolute-url";
+import camel from "../svg/camel.svg";
 
 const styles = {
   variant: "links.nav",
@@ -29,6 +25,15 @@ const GenericLink = (LinkComponent, { href, ...props }) => {
 export const NavLink = props => GenericLink(NavHashLink, props);
 export const Link = props => GenericLink(HashLink, props);
 
+export const Dot = () => (
+  <Icon
+    color="red"
+    name="circle"
+    size="mini"
+    sx={{ top: "28px", position: "fixed", verticalAlign: "top" }}
+  />
+);
+
 export const MenuItem = props => (
   <StyledNavLink
     {...props}
@@ -42,6 +47,7 @@ export const MenuItem = props => (
     p={2}
   >
     {props.children}
+    {props.important && <Dot />}
   </StyledNavLink>
 );
 
@@ -64,3 +70,20 @@ export const MenuImage = props => {
     </IconButton>
   );
 };
+
+export const MenuCamel = () => <MenuImage src={camel} to="/" />;
+
+export const SidebarImage = props => {
+  const imageCircle = props.round ? { borderRadius: "50%" } : {};
+
+  return (
+    <IconButton {...props} sx={{ width: 48, height: 48 }}>
+      <Image
+        src={props.src}
+        sx={{ ...props.sx, ...imageCircle, width: 48, height: 48 }}
+      />
+    </IconButton>
+  );
+};
+
+export const SidebarCamel = () => <SidebarImage src={camel} />;

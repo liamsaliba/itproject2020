@@ -22,6 +22,10 @@ const userSchema = new Schema(
       enum: ["local", "google", "facebook"],
       required: true,
     },
+    allowContact: {
+      type: Boolean,
+      default: false,
+    },
     username: {
       type: String, // type of username
       required: true, // username must always be given
@@ -63,6 +67,10 @@ const userSchema = new Schema(
       email: {
         type: mongoose.SchemaTypes.Email,
       },
+    },
+    avatar: {
+      type: String, // URL of the avatar
+      required: false,
     },
     google: {
       id: {

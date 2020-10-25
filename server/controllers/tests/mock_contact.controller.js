@@ -1,6 +1,5 @@
 const User = require("../../models/user.model");
 const Contact = require("../../models/contact.model");
-//const nodemailer = require("nodemailer");
 const nodemailerMock = require("nodemailer-mock");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -19,6 +18,7 @@ const contact = async (req, res) => {
       email,
       message,
     });
+
     
     const oauth2Client = new OAuth2(
       process.env.MAILER_CLIENT_ID, // ClientID
@@ -30,11 +30,12 @@ const contact = async (req, res) => {
     });
     const accessToken = oauth2Client.getAccessToken()
 
+
     let transporter = nodemailerMock.createTransport({
       host: "smtp.gmail.com",
       port: 465, // secure port
       secure: true,
-      service: "Gmail",
+      service: "gmail",
       auth: {
         type: 'OAuth2',
         user: process.env.EMAIL_ACCOUNT,
@@ -42,6 +43,7 @@ const contact = async (req, res) => {
         clientSecret: process.env.MAILER_CLIENT_SECRET,
         refreshToken: process.env.MAILER_REFRESH_TOKEN,
         accessToken: accessToken,
+
       }
     });
     var textBody = `FROM: ${name}; EMAIL: ${email} MESSAGE: ${message}`;

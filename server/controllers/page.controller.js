@@ -1,6 +1,7 @@
 const Artifact = require("../models/artifact.model");
 const Page = require("../models/page.model");
 const portfolioModel = require("../models/portfolio.model");
+const Media = require("../models/media.model");
 
 // Get all pages of a user
 const findPagesByUsername = async (req, res) => {
@@ -121,13 +122,27 @@ const findAllDetails = async (req, res) => {
     }
     let artifacts = await Artifact.findByPageId(page.id);
     artifacts = artifacts ? artifacts : [];
+    let aObjects = [];
+
+    for (let i = 0; i < artifacts.length; i++) {
+      artifact = artifacts[i];
+      const aObject = artifact.toObject();
+      let media = [];
+      for (let i = 0; i < aObject.media.length; i++) {
+        const detailedMedia = await Media.findById(aObject.media[i]);
+        if (!detailedMedia) {
+          continue;
+        }
+        media.push(detailedMedia.toObject());
+      }
+      aObject.media = media;
+    }
+
     const p = page.toObject();
+    p.artifacts = artifacts.map(a => a._id);
     res.status(200).send({
       page: p,
-      artifacts: artifacts.map(a => {
-        const aObject = a.toObject();
-        return aObject;
-      }),
+      artifacts: aObjects,
     });
   } catch (err) {
     res.status(404).json(err.message ? err.message : err);

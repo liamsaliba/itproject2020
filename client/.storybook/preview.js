@@ -5,6 +5,10 @@ import themes from "../src/themes";
 
 import { withThemeProvider } from 'storybook-addon-theme-ui'
 import 'semantic-ui-css/semantic.min.css'
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 addDecorator(withThemeProvider)
 

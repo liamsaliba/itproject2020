@@ -7,6 +7,7 @@ const passport = require("passport");
 const passportConf = require("../passport");
 const userController = require("../controllers/user.controller");
 const userMiddleware = require("../middleware/authentication.middleware");
+const uploadMiddleware = require("../middleware/upload.middleware");
 
 // Create a new user
 router.post("/signup", userController.createUser);
@@ -40,6 +41,15 @@ router.delete(
   "/",
   userMiddleware.authenticatePassword,
   userController.deleteUser
+);
+
+// Add or change a user's avatar
+router.post(
+  "/avatar",
+  userMiddleware.authenticateToken,
+  uploadMiddleware.uploadFile.single("image"),
+  uploadMiddleware.getPublicId,
+  userController.addAvatar
 );
 
 // Log out from all devices

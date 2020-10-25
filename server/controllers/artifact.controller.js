@@ -2,6 +2,7 @@ const Artifact = require("../models/artifact.model");
 const Media = require("../models/media.model");
 const Page = require("../models/page.model");
 const Portfolio = require("../models/portfolio.model");
+const mongoose = require("mongoose");
 
 // Find an artifact given its owner's username
 const findArtifactsByUsername = async (req, res) => {
@@ -28,20 +29,43 @@ const createArtifact = async (req, res) => {
     }
     const username = req.user.username;
     const contents = req.body.contents;
+    const type = req.body.type;
     const pageId = req.params.pageId;
+    const media = req.body.media;
+    if (!mongoose.Types.ObjectId.isValid(pageId)) {
+      throw Error(`Page ${req.params.pageId} not found.`);
+    }
     const page = await Page.findById(pageId);
+    if (!page) {
+      throw Error(`Page ${req.params.pageId} not found.`);
+    }
     const portfolio = await Portfolio.findByUsername(username);
+    if (!portfolio) {
+      throw Error(`Portfolio of user ${username} not found.`);
+    }
     const portfolioId = portfolio._id;
     const newArtifact = new Artifact({
       username,
       contents,
       portfolioId,
       pageId,
+      type,
+      media,
     });
     await newArtifact.save();
-    res.status(200).send(newArtifact.toObject());
+    aObject = newArtifact.toObject();
+    allMedia = [];
+    for (let i = 0; i < aObject.media.length; i++) {
+      detailedMedia = await Media.findById(aObject.media[i]);
+      if (!detailedMedia) {
+        throw Error(`Media ${aObject.media[i]} not found.`);
+      }
+      allMedia.push(detailedMedia.toObject());
+    }
+    aObject.media = allMedia;
+    res.status(200).send(aObject);
   } catch (err) {
-    res.status(400).json(`Page ${req.params.pageId} not found.`);
+    res.status(400).json(err.message);
   }
 };
 
@@ -119,10 +143,23 @@ const changeArtifact = async (req, res) => {
     const artifact = await Artifact.findById(artifactId);
     const contents = req.body.contents;
     const type = req.body.type;
+    const media = req.body.media;
     artifact.contents = contents ? contents : artifact.contents;
     artifact.type = type ? type : artifact.type;
+    artifact.media = media ? media : artifact.media;
     await artifact.save();
-    res.status(200).send(artifact.toObject());
+
+    const aObject = artifact.toObject();
+    allMedia = [];
+    for (let i = 0; i < aObject.media.length; i++) {
+      detailedMedia = await Media.findById(aObject.media[i]);
+      if (!detailedMedia) {
+        throw Error(`Media ${aObject.media[i]} not found.`);
+      }
+      allMedia.push(detailedMedia.toObject());
+    }
+    aObject.media = allMedia;
+    res.status(200).send(aObject);
   } catch (err) {
     res.status(400).json(`Artifact ${req.params.artifactId} not found.`);
   }
