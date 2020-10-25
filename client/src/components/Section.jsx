@@ -61,6 +61,8 @@ export const Section = ({
   newbtn,
   loading,
 }) => {
+  const empty = content.length === 0;
+
   return (
     <Flex
       as="section"
@@ -69,7 +71,7 @@ export const Section = ({
         m: "0em 2em",
         mb: "3em", // space between sections
         transition: "all 0.3s",
-        minHeight: "10em",
+        // minHeight: "10em",
         flex: 1,
         justifyContent: "flex-start",
         flexDirection: "column",
@@ -80,8 +82,12 @@ export const Section = ({
       <Loader inline size="large" active={loading}>
         Loading
       </Loader>
-      {editing && content.length === 0 ? (
-        <EmptySectionPlaceholder>{newbtn}</EmptySectionPlaceholder>
+      {empty ? (
+        editing ? (
+          <EmptySectionPlaceholder>{newbtn}</EmptySectionPlaceholder>
+        ) : (
+          <p>Coming soon!</p>
+        )
       ) : (
         <ContentBox type={type}>{content}</ContentBox>
       )}
