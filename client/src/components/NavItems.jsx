@@ -36,7 +36,7 @@ export const Dot = () => (
     color="red"
     name="circle"
     size="mini"
-    sx={{ top: "28px", position: "fixed", verticalAlign: "top" }}
+    sx={{ top: "5px", position: "relative", verticalAlign: "top" }}
   />
 );
 
