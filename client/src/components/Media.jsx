@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Button,
@@ -12,18 +12,19 @@ import {
   Image,
   Header,
 } from "semantic-ui-react";
-import { useState } from "react";
 import { Controller } from "react-hook-form";
-import { Dropdown } from "semantic-ui-react";
-import { useDispatch } from "react-redux";
-import { uploadMedia } from "../store";
-import { useSelector } from "react-redux";
-import { selectUserMedia } from "../store/combinedSelectors";
-import { selectMediaByUsername } from "../store/combinedSelectors";
-import { selectUsername } from "../store/slices/auth";
-import { deleteMedia } from "../store/slices/media";
+import { Dropdown, Divider } from "semantic-ui-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  uploadMedia,
+  selectUserMedia,
+  selectMediaByUsername,
+  selectUsername,
+  deleteMedia,
+  getMedia,
+  selectMediaLoading,
+} from "../store";
 import PreviewModal from "./DocumentPreview";
-import { Divider } from "semantic-ui-react";
 
 const DeleteConfirmationModal = ({
   setParentOpen,
@@ -45,7 +46,7 @@ const DeleteConfirmationModal = ({
       as={Form}
       onSubmit={handleSubmit}
       size="tiny"
-      closeOnDimmerClick={false}
+      // closeOnDimmerClick={false}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       dimmer={{ inverted: true }}
@@ -90,21 +91,20 @@ export const MediaItem = ({
   const icon = filetypes[type] || "file";
   const src = url;
 
+  const show = () => showPreview(src, setPreview);
+
   return (
     <List.Item key={id.toString()} verticalAlign="middle" fluid>
       <List.Content floated="right">
+        <Button size="mini" icon="eye" onClick={show} />
         <DeleteConfirmationModal
           action={() => dispatch(deleteMedia(id))}
           name={description}
           src={src}
         />
       </List.Content>
-      <Icon
-        name={icon}
-        size="large"
-        onClick={() => showPreview(src, setPreview)}
-      />
-      <List.Content key={id} onClick={() => showPreview(src, setPreview)}>
+      <Icon name={icon} size="large" onClick={show} />
+      <List.Content key={id} onClick={show}>
         <List.Header as="a">
           {filename === "" ? description : filename}
         </List.Header>
@@ -149,6 +149,7 @@ export const ChooseMedia = ({
   multiple = false,
 }) => {
   const media = useSelector(selectUserMedia);
+  const loading = useSelector(selectMediaLoading);
   const [preview, setPreview] = useState(previewDefault);
 
   const options = media.map(item => {
@@ -182,6 +183,7 @@ export const ChooseMedia = ({
               content: "Copy",
             }}
             multiple={multiple}
+            loading={loading}
             selection
             search
             fluid
@@ -210,22 +212,44 @@ const mediaEmpty = {
   description: "",
 };
 
-export const UploadMediaModal = ({ buttonText = "Upload" }) => {
-  const [open, setOpen] = useState(false);
+export const UploadMediaModal = ({
+  buttonText = "Upload",
+  description = "",
+}) => {
+  const [status, setStatus] = useState("closed");
   const [state, setState] = useState(mediaEmpty);
   const dispatch = useDispatch();
+  const loading = useSelector(selectMediaLoading);
+
+  useEffect(() => {
+    dispatch(getMedia());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (loading && status === "startUploading") {
+      setStatus("uploading");
+    }
+  }, [loading, status, setStatus]);
+
+  useEffect(() => {
+    if (!loading && status === "uploading") {
+      setStatus("closed");
+    }
+  }, [loading, status, setStatus]);
+
   const handleChange = (e, values) => {
     const { name, value } = values;
     setState({ ...state, [name]: value });
   };
 
   const closeModal = () => {
-    setOpen(false);
+    setStatus("closed");
     setState(mediaEmpty);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (status !== "open") return;
     if (state.image_file === null) {
       // todo: display error
       return;
@@ -234,9 +258,9 @@ export const UploadMediaModal = ({ buttonText = "Upload" }) => {
       // todo: display error
       return;
     }
+    setStatus("startUploading");
     dispatch(uploadMedia(state.image_file, state.description));
     // uploadMedia(dispatch)(token, state.image_file, state.description);
-    closeModal();
   };
 
   const handleImagePreview = e => {
@@ -256,10 +280,10 @@ export const UploadMediaModal = ({ buttonText = "Upload" }) => {
       onSubmit={handleSubmit}
       size="tiny"
       closeOnDimmerClick={false}
-      onClose={() => closeModal()}
-      onOpen={() => setOpen(true)}
+      onClose={closeModal}
+      onOpen={() => setStatus("open")}
       dimmer={{ inverted: true }}
-      open={open}
+      open={status !== "closed"}
       trigger={
         <Button icon labelPosition="left">
           <Icon name="upload" />
@@ -291,15 +315,20 @@ export const UploadMediaModal = ({ buttonText = "Upload" }) => {
           label="Description"
           name="description"
           onChange={handleChange}
-          defaultValue={""}
+          defaultValue={description}
           required
         />
       </Modal.Content>
       <Modal.Actions>
-        <Button basic color="red" onClick={() => closeModal()} type="button">
+        <Button basic color="red" onClick={closeModal} type="button">
           <Icon name="cancel" /> Cancel
         </Button>
-        <Button color="green" type="submit">
+        <Button
+          color="green"
+          type="button"
+          loading={loading}
+          onClick={handleSubmit}
+        >
           <Icon name="upload" /> Upload
         </Button>
       </Modal.Actions>
