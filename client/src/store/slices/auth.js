@@ -81,7 +81,16 @@ const slice = createSlice({
     userUpdated: (auth, action) => {
       auth.user = action.payload;
       localStorage.setItem(userKey, JSON.stringify(user));
-      localStorage.removeItem(userKey);
+    },
+    userUpdateFailed: (auth, action) => {
+      auth.user = { ...auth.olduser };
+      auth.loading = false;
+      auth.error = action.payload;
+    },
+    userUpdating: (auth, action) => {
+      auth.loading = true;
+      auth.olduser = { ...auth.user };
+      auth.user = { ...auth.user, ...action.request.data };
     },
   },
 });
@@ -99,6 +108,8 @@ const {
   logoutRequested,
   userDeleted,
   userUpdated,
+  userUpdating,
+  userUpdateFailed,
 } = slice.actions;
 
 // Selectors
@@ -179,7 +190,9 @@ export const updateUser = props =>
     url: endpoints.user,
     method: "patch",
     data: props,
+    onStart: userUpdating.type,
     onSuccess: userUpdated.type,
+    onFailure: userUpdateFailed.type,
   });
 
 export const deleteUser = (username, password) =>
