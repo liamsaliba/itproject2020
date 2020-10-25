@@ -45,7 +45,6 @@ const Page = ({ active, setActive, page }) => {
       <List.Content floated="right">
         <Dropdown
           floating
-          inline
           direction="left"
           icon="caret square down"
           sx={{ p: "0.2em" }}
@@ -59,9 +58,11 @@ const Page = ({ active, setActive, page }) => {
           </Dropdown.Menu>
         </Dropdown>
       </List.Content>
-      <Loader inline size="large" active={loading} />
-      <Icon name="page" inline />
-      <List.Header>{name}</List.Header>
+      <List.Icon name="file outline" />
+      <List.Content>
+        <Loader inline size="large" active={loading} />
+        <List.Header>{name}</List.Header>
+      </List.Content>
     </List.Item>
   );
 };
