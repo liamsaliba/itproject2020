@@ -20,7 +20,7 @@ const { MediaContextProvider, Media } = createMedia({
 });
 
 const UserPage = props => {
-  const { userId } = props;
+  const { userId, selectedPage } = props;
   const [preset, setPreset] = useState(themes["base"]);
   const theme = useSelector(state => selectPortfolioTheme(state, userId));
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
@@ -32,7 +32,7 @@ const UserPage = props => {
   return (
     <MediaContextProvider>
       <ThemeProvider theme={preset}>
-      <Title>{(editing ? "Editing " : "").concat(userId)}</Title>
+        <Title>{(editing ? "Editing " : "").concat(userId)}</Title>
         <Flex
           sx={{
             flexDirection: "column",
@@ -44,12 +44,12 @@ const UserPage = props => {
           <header>
             <Media greaterThan="mobile">
               <Navbar userId={userId} />
-              <Body userId={userId} />
+              <Body userId={userId} selectedPage={selectedPage} />
             </Media>
           </header>
           <Media at="mobile">
             <Hamburger landing={false} userId={userId}>
-              <Body userId={userId} />
+              <Body userId={userId} selectedPage={selectedPage} />
             </Hamburger>
           </Media>
         </Flex>
