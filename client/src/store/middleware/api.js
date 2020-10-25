@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as actions from "../api";
+import * as endpoints from "../endpoints";
 
 // Inspired by https://github.com/ohansemmanuel/fake-medium/
 
@@ -21,10 +22,7 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
     multipart,
   } = action.payload;
 
-  axios.defaults.baseURL =
-    process.env.REACT_APP_BASE_URL ||
-    // || "http://localhost:5000/api";
-    "https://camelcase-itproject.herokuapp.com/api";
+  axios.defaults.baseURL = endpoints.baseURL;
 
   const dataOrParams = ["get"].includes(method) ? "params" : "data";
 
