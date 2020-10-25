@@ -16,14 +16,13 @@ export default () => {
 
   useEffect(() => {
     axios
-      .get(endpoints.portfolios)
+      .get(endpoints.portfolios, { baseURL: endpoints.baseURL })
       .then(res => {
         setResults(res.data);
-        console.log(results);
+        console.log("search", res.data);
       })
       .catch(err => {
-        console.log(err.message);
-        console.log(err.response);
+        console.log("search err", err.message, err.response);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -43,7 +42,7 @@ export default () => {
           <Form.Input
             name="un"
             fluid
-            placeholder="Find someone's portfolio..."
+            placeholder="Find a portfolio..."
             inline
             action={{
               icon: "search",
