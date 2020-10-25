@@ -15,7 +15,7 @@ import {
 import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store";
+import { login, resetErrors } from "../../store";
 import { useEffect, useState } from "react";
 import { Title, Toast } from "../../components";
 import { useHistory, useParams } from "react-router-dom";
@@ -26,6 +26,10 @@ export default () => {
   const history = useHistory();
   const auth = useSelector(state => state.auth);
   const [useCookie, setCookie] = useState(true);
+
+  useEffect(() => {
+    dispatch(resetErrors());
+  }, [dispatch]);
 
   useEffect(() => {
     if (auth.error) {

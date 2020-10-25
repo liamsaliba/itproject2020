@@ -23,6 +23,7 @@ import {
   selectUsername,
   signup,
   selectPortfolioByUsername,
+  resetErrors,
 } from "../../store";
 import { Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
@@ -62,21 +63,27 @@ const SignUpForm = ({ userId, setForm }) => {
           Sign up for a new account
         </Header>
         <br />
+        <p>
+          Your username and full name will be displayed publicly. You can choose
+          to show more details later.
+        </p>
         <Form size="large" onSubmit={handleSubmit}>
-          <Form.Input
-            name="firstName"
-            fluid
-            icon="user"
-            iconPosition="left"
-            placeholder="First Name"
-          />
-          <Form.Input
-            name="lastName"
-            fluid
-            icon="user"
-            iconPosition="left"
-            placeholder="Last Name"
-          />
+          <Form.Group widths="equal">
+            <Form.Input
+              name="firstName"
+              fluid
+              icon="user"
+              iconPosition="left"
+              placeholder="First Name"
+            />
+            <Form.Input
+              name="lastName"
+              fluid
+              icon="user"
+              iconPosition="left"
+              placeholder="Last Name"
+            />
+          </Form.Group>
           <Form.Input
             name="email"
             type="email"
@@ -146,6 +153,11 @@ export default () => {
   const portfolioError = useSelector(
     state => selectPortfoliosSlice(state).error
   );
+
+  useEffect(() => {
+    dispatch(resetErrors());
+  }, [dispatch]);
+
   useEffect(() => {
     if (form !== null) {
       const {

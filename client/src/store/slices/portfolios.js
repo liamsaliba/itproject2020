@@ -70,6 +70,7 @@ const slice = createSlice({
     },
     portfolioUpdateRequested: (portfolios, action) => {
       portfolios.loading = true;
+      portfolios.error = null;
     },
     portfolioUpdated: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
@@ -79,10 +80,15 @@ const slice = createSlice({
     portfolioDeleted: (portfolios, action) => {
       const username = action.request.data.username;
       adapter.removeOne(portfolios, username);
+      portfolios.error = null;
     },
     portfolioReceivedOneAll: (portfolios, action) => {},
   },
   extraReducers: {
+    [authActions.userDeleted]: (portfolios, action) => {
+      const { username } = action.request.username;
+      adapter.removeOne(portfolios, username);
+    },
     [authActions.userUpdated]: (portfolios, action) => {
       const {
         firstName,
@@ -233,7 +239,7 @@ export const selectFullName = createSelector(
 
 export const selectPortfolioAvatar = createSelector(
   selectPortfolioByUsername,
-  portfolio => (portfolio !== undefined ? portfolio.avatar || "" : undefined)
+  portfolio => (portfolio !== undefined ? portfolio.avatar : undefined)
 );
 
 export const selectPortfolioPages = createSelector(

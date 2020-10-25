@@ -8,7 +8,10 @@ export {
   updateUser,
   updateAvatar,
   updateAllowContact,
+  resetErrors,
   // selectors
+  selectAuthLoading,
+  selectAuthError,
   selectAvatar,
   selectAuthSlice,
   selectToken,
@@ -129,6 +132,7 @@ export {
   selectMediaEntities,
   selectAllMedia,
   selectTotalMedia,
+  selectMediaLoading,
   // reducer
   default as mediaReducer,
 } from "./media";

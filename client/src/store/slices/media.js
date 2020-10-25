@@ -120,6 +120,7 @@ export const {
   selectTotal: selectTotalMedia,
 } = adapter.getSelectors(state => state.media);
 export const selectMediaSlice = state => state.media;
+export const selectMediaLoading = state => state.media.loading;
 
 export const selectMediaUrl = createSelector(selectMediaById, media =>
   media ? media.url || "" : undefined

@@ -73,6 +73,7 @@ const slice = createSlice({
       localStorage.removeItem(tokenKey);
     },
     userDeleted: (auth, action) => {
+      auth.loading = false;
       auth.user = {};
       auth.token = "";
       auth.error = null;
@@ -120,6 +121,14 @@ export const actions = slice.actions;
 // Selectors
 export const selectAuthSlice = state => state.auth;
 
+export const selectAuthLoading = createSelector(
+  selectAuthSlice,
+  auth => auth.loading
+);
+export const selectAuthError = createSelector(
+  selectAuthSlice,
+  auth => auth.error
+);
 export const selectToken = createSelector(selectAuthSlice, auth => auth.token);
 export const selectUser = createSelector(selectAuthSlice, auth => auth.user);
 export const selectUsername = createSelector(selectUser, user =>
@@ -211,4 +220,8 @@ export const deleteUser = (username, password) =>
     method: "delete",
     data: { username, password },
     onSuccess: userDeleted.type,
+    onStart: userUpdating.type,
+    onFailure: userUpdateFailed.type,
   });
+
+export const resetErrors = () => dispatch => dispatch(resetErrors);
