@@ -3,21 +3,6 @@ import { jsx } from "theme-ui";
 import TextEditor from "./TextEditor";
 import { Education, Experience, Display } from "./Sections";
 
-export const artifactTypeToName = type => {
-  switch (type) {
-    case "display":
-      return "Display";
-    case "education":
-      return "Education";
-    case "experience":
-      return "Experience";
-    case "custom":
-      return "Custom";
-    default:
-      return null;
-  }
-};
-
 const Artifact = props => {
   const { type } = props;
 
