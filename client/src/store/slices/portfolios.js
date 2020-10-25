@@ -409,8 +409,8 @@ const changePortfolioOptions = data => (dispatch, getState) => {
 export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
 export const updateSocials = socials => changePortfolioOptions({ socials });
-export const updateUseSinglePages = useSinglePages =>
-  changePortfolioOptions({ useSinglePages });
+export const updateSinglePage = singlePage =>
+  changePortfolioOptions({ singlePage });
 
 // create portfolio with theme, bio
 export const deletePortfolio = (username, password) =>

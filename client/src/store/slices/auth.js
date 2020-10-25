@@ -75,11 +75,13 @@ const slice = createSlice({
     userDeleted: (auth, action) => {
       auth.user = {};
       auth.token = "";
+      auth.error = null;
       localStorage.removeItem(userKey);
       localStorage.removeItem(tokenKey);
     },
     userUpdated: (auth, action) => {
       auth.loading = false;
+      auth.error = null;
       auth.user = action.payload;
       localStorage.setItem(userKey, JSON.stringify(user));
     },
@@ -90,6 +92,7 @@ const slice = createSlice({
     },
     userUpdating: (auth, action) => {
       auth.loading = true;
+      auth.error = null;
       auth.olduser = { ...auth.user };
       auth.user = { ...auth.user, ...action.request.data };
     },
@@ -123,7 +126,7 @@ export const selectUsername = createSelector(selectUser, user =>
   user !== undefined ? user.username : undefined
 );
 export const selectAvatar = createSelector(selectUser, user =>
-  user !== undefined && user.avatar !== undefined ? user.avatar : undefined
+  user !== undefined ? user.avatar : undefined
 );
 // Action Creators
 

@@ -30,7 +30,6 @@ export {
   createArtifactFinished,
   // selectors
   selectAccordion,
-  selectCurrentPortfolio,
   selectLoadingStatus,
   selectLoadingText,
   selectLoading,
@@ -53,7 +52,7 @@ export {
   changePortfolioBio,
   changePortfolioTheme,
   deletePortfolio,
-  updateUseSinglePages,
+  updateSinglePage,
   updateSocials,
   // selectors (custom)
   selectPortfolioPages,
