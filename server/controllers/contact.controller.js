@@ -29,7 +29,6 @@ const contact = async (req, res) => {
     });
     const accessToken = oauth2Client.getAccessToken()
 
-
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465, // secure port
