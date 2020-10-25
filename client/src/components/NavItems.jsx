@@ -1,6 +1,12 @@
 /** @jsx jsx */
-import { jsx, Image, IconButton, NavLink as StyledNavLink } from "theme-ui";
-import { Button, Icon } from "semantic-ui-react";
+import {
+  jsx,
+  Image,
+  IconButton,
+  NavLink as StyledNavLink,
+  Button as TButton,
+} from "theme-ui";
+import { Button as SButton, Icon } from "semantic-ui-react";
 import { NavHashLink, HashLink } from "react-router-hash-link";
 import isAbsoluteURL from "is-absolute-url";
 import camel from "../svg/camel.svg";
@@ -51,11 +57,18 @@ export const MenuItem = props => (
   </StyledNavLink>
 );
 
-export const MenuButton = props => (
-  <Button {...props} as={Link} variant="nav" m={2} p={2}>
+export const SemanticButton = props => (
+  <SButton {...props} as={Link} variant="nav" m={2} p={2}>
     {props.children}
-  </Button>
+  </SButton>
 );
+
+export const ThemeButton = props => (
+  <TButton {...props} as={Link} variant="nav" m={2} p={2}>
+    {props.children}
+  </TButton>
+);
+export const MenuButton = SemanticButton;
 
 export const MenuImage = props => {
   // Add default value for props.round!
