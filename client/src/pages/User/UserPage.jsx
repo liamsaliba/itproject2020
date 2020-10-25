@@ -7,6 +7,7 @@ import Body from "./Body";
 import { Title } from "./../../components";
 import { selectPortfolioTheme } from "../../store";
 import { useSelector } from "react-redux";
+import Footer from "./Footer";
 import { selectPortfolioIsEditing } from "../../store/slices/portfolios";
 
 import { createMedia } from "@artsy/fresnel";
@@ -45,11 +46,13 @@ const UserPage = props => {
             <Media greaterThan="mobile">
               <UserNavbar userId={userId} editing={editing} />
               <Body userId={userId} selectedPage={selectedPage} />
+              <Footer userId={userId} />
             </Media>
           </header>
           <Media at="mobile">
             <UserHamburger userId={userId} editing={editing}>
               <Body userId={userId} selectedPage={selectedPage} />
+              <Footer userId={userId} />
             </UserHamburger>
           </Media>
         </Flex>

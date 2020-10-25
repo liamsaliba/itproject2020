@@ -126,7 +126,7 @@ const SignUpForm = ({ userId, setForm }) => {
             </Button.Content>
           </Button>
         </Form>
-        <Message positive>
+        <Message info>
           Already have an account? <a href="/login">Log in</a> now!
         </Message>
       </Grid.Column>

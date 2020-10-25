@@ -96,7 +96,7 @@ export default () => {
             </Button.Content>
           </Button>
         </Form>
-        <Message positive>
+        <Message info>
           Don't have an account? <a href="/signup">Sign up</a> now!
         </Message>
         <Dimmer inverted active={auth.loading}>
