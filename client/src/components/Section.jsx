@@ -3,10 +3,6 @@ import { jsx, Box, Flex, Styled } from "theme-ui";
 import { Segment, Header, Icon } from "semantic-ui-react";
 import { Loader } from "semantic-ui-react";
 
-export const Dot = () => (
-  <Icon color="red" name="circle" size="mini" sx={{ verticalAlign: "top" }} />
-);
-
 // TODO: on click of heading in edit mode - enable editing the heading.
 export const Heading = ({ name, id, editing, newbtn }) => {
   return (
