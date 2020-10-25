@@ -79,6 +79,7 @@ const SignUpForm = ({ userId, setForm }) => {
           />
           <Form.Input
             name="email"
+            type="email"
             fluid
             icon="mail"
             iconPosition="left"
