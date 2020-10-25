@@ -7,7 +7,7 @@ import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
 import { cacheProps, addLastFetch, cacheNotExpired } from "../helpers";
 import { actions as pageActions } from "./pages";
-import { selectToken, selectUsername } from "./auth";
+import { selectToken, selectUsername, actions as authActions } from "./auth";
 import {
   portfolioFetchedAll,
   portfolioFetchedPages,
@@ -63,7 +63,8 @@ const slice = createSlice({
       portfolios.error = action.payload;
     },
     portfolioCreated: (portfolios, action) => {
-      adapter.upsertOne(portfolios, addLastFetch(action.payload));
+      // adapter.upsertOne(portfolios, addLastFetch(action.payload));
+      adapter.upsertOne(portfolios, action.payload);
       portfolios.error = null;
       portfolios.loading = false;
     },
@@ -82,6 +83,23 @@ const slice = createSlice({
     portfolioReceivedOneAll: (portfolios, action) => {},
   },
   extraReducers: {
+    [authActions.userUpdated]: (portfolios, action) => {
+      const {
+        firstName,
+        lastName,
+        avatar,
+        allowContact,
+        username,
+      } = action.payload;
+
+      adapter.upsertOne(portfolios, {
+        username,
+        firstName,
+        lastName,
+        avatar,
+        allowContact,
+      });
+    },
     [pageActions.pageCreated]: (portfolios, action) => {
       const { username, id: pageId, name } = action.payload;
       const newPage = { pageId, name };
@@ -204,9 +222,18 @@ export const selectPortfolioBio = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.bio || "" : undefined)
 );
-export const selectPortfolioProfile = createSelector(
+
+export const selectFullName = createSelector(
   selectPortfolioByUsername,
-  portfolio => (portfolio ? portfolio.profile || "" : undefined)
+  portfolio =>
+    portfolio && portfolio.firstName
+      ? [portfolio.firstName || "", portfolio.lastName || ""].join(" ")
+      : undefined
+);
+
+export const selectPortfolioAvatar = createSelector(
+  selectPortfolioByUsername,
+  portfolio => (portfolio !== undefined ? portfolio.avatar || "" : undefined)
 );
 
 export const selectPortfolioPages = createSelector(
@@ -381,8 +408,9 @@ const changePortfolioOptions = data => (dispatch, getState) => {
 
 export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
-export const updateAvatar = avatar => changePortfolioOptions({ avatar });
 export const updateSocials = socials => changePortfolioOptions({ socials });
+export const updateUseSinglePages = useSinglePages =>
+  changePortfolioOptions({ useSinglePages });
 
 // create portfolio with theme, bio
 export const deletePortfolio = (username, password) =>

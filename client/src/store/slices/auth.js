@@ -79,6 +79,7 @@ const slice = createSlice({
       localStorage.removeItem(tokenKey);
     },
     userUpdated: (auth, action) => {
+      auth.loading = false;
       auth.user = action.payload;
       localStorage.setItem(userKey, JSON.stringify(user));
     },
@@ -111,6 +112,7 @@ const {
   userUpdating,
   userUpdateFailed,
 } = slice.actions;
+export const actions = slice.actions;
 
 // Selectors
 export const selectAuthSlice = state => state.auth;
@@ -118,9 +120,11 @@ export const selectAuthSlice = state => state.auth;
 export const selectToken = createSelector(selectAuthSlice, auth => auth.token);
 export const selectUser = createSelector(selectAuthSlice, auth => auth.user);
 export const selectUsername = createSelector(selectUser, user =>
-  user === undefined ? undefined : user.username
+  user !== undefined ? user.username : undefined
 );
-
+export const selectAvatar = createSelector(selectUser, user =>
+  user !== undefined && user.avatar !== undefined ? user.avatar : undefined
+);
 // Action Creators
 
 export const signup = (
@@ -194,6 +198,9 @@ export const updateUser = props =>
     onSuccess: userUpdated.type,
     onFailure: userUpdateFailed.type,
   });
+
+export const updateAvatar = avatar => updateUser({ avatar });
+export const updateAllowContact = allowContact => updateUser({ allowContact });
 
 export const deleteUser = (username, password) =>
   apiStarted({

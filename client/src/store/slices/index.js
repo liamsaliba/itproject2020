@@ -6,7 +6,10 @@ export {
   logoutAll,
   deleteUser,
   updateUser,
+  updateAvatar,
+  updateAllowContact,
   // selectors
+  selectAvatar,
   selectAuthSlice,
   selectToken,
   selectUser,
@@ -50,7 +53,8 @@ export {
   changePortfolioBio,
   changePortfolioTheme,
   deletePortfolio,
-  updateAvatar,
+  updateUseSinglePages,
+  updateSocials,
   // selectors (custom)
   selectPortfolioPages,
   selectPortfolioPageNames,
@@ -58,10 +62,11 @@ export {
   selectCurrentUserPortfolio,
   selectPortfolioIsEditing,
   selectSocialIcons,
+  selectPortfolioAvatar,
   selectPortfolioTheme,
   selectPortfolioBio,
-  selectPortfolioProfile,
   selectPortfoliosSlice,
+  selectFullName,
   // Selectors
   selectPortfolioByUsername,
   selectPortfolioUsernames,
