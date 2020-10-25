@@ -5,9 +5,28 @@ import { Title } from "../../components";
 
 import { useHistory } from "react-router-dom";
 
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { endpoints } from "../../store";
+
 export default () => {
   // const dispatch = useDispatch();
   const history = useHistory();
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(endpoints.portfolios)
+      .then(res => {
+        setResults(res.data);
+        console.log(results);
+      })
+      .catch(err => {
+        console.log(err.message);
+        console.log(err.response);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -18,13 +37,13 @@ export default () => {
   };
   return (
     <Grid textAlign="center" verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
+      <Grid.Column style={{ maxWidth: "600px" }}>
         <Title>Search</Title>
         <Form size="huge" onSubmit={handleSubmit}>
           <Form.Input
             name="un"
             fluid
-            placeholder="Finding a particular Portfolio?"
+            placeholder="Find someone's portfolio..."
             inline
             action={{
               icon: "search",
