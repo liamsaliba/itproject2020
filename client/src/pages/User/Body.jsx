@@ -6,9 +6,12 @@ import {
   selectPageById,
   selectPortfolioIsEditing,
   selectPortfolioPages,
-  selectPortfolioProfile,
+  selectPortfolioAvatar,
   selectPortfolioBio,
   changePortfolioBio,
+  selectFullName,
+  selectAvatar,
+  selectSocialIcons,
   // selectSocialIcons,
 } from "../../store";
 import { Section, Artifact } from "../../components";
@@ -36,6 +39,7 @@ import { useEffect } from "react";
 // import { SocialIcon } from "react-social-icons";
 import { ContactForm } from "./Contact";
 import { MenuButton } from "../../components/NavItems";
+import { SocialIcon } from "react-social-icons";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -94,23 +98,42 @@ const EditBioModal = ({ bio }) => {
 };
 
 const SocialIcons = id => {
-  // const socials = useSelector(state => selectSocialIcons(state, id));
+  const socials = useSelector(state => selectSocialIcons(state, id));
+
+  useEffect(() => {
+    console.log(socials);
+  });
 
   return (
     <Box>
-      {/* {socials.map(social => (
-        <SocialIcon key={social} url={social} />
-      ))} */}
+      {socials
+        ? socials.map(social => <SocialIcon key={social} url={social} />)
+        : null}
     </Box>
   );
 };
 
 const MainHeader = ({ username, bio, editing }) => {
+  const fullName = useSelector(state => selectFullName(state, username));
+  const profile = useSelector(state => selectPortfolioAvatar(state, username));
+
   return (
-    <Box mb={5} as="header">
-      <EditableUserProfile editing={editing} username={username} />
+    <Box mb={2} as="header">
+      <EditableUserProfile
+        editing={editing}
+        username={username}
+        profile={profile}
+      />
       {/* TODO: put first name + last name here instead! */}
-      <Styled.h1> {username} </Styled.h1>
+      <Styled.h1>
+        {" "}
+        {fullName}{" "}
+        <Styled.h2 sx={{ mt: 0, fontWeight: "400", fontFamily: "monospace" }}>
+          {" "}
+          {username}{" "}
+        </Styled.h2>
+      </Styled.h1>
+
       <Styled.p> {bio} </Styled.p>
       {editing ? <EditBioModal bio={bio} /> : null}
       <SocialIcons />
@@ -221,7 +244,7 @@ const Body = props => {
   const { userId, selectedPage } = props;
   const bio = useSelector(state => selectPortfolioBio(state, userId));
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
-  const profile = useSelector(state => selectPortfolioProfile(state, userId));
+  const profile = useSelector(state => selectPortfolioAvatar(state, userId));
   const pages = useSelector(state => selectPortfolioPages(state, userId));
 
   const path = editing ? "/editor" : `/u/${userId}`;

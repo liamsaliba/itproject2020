@@ -55,5 +55,6 @@ Navbar.Center = Center;
 Navbar.Image = MenuItems.MenuImage;
 Navbar.Button = MenuItems.MenuButton;
 Navbar.Item = MenuItems.MenuItem;
+Navbar.Link = MenuItems.Link;
 
 export default Navbar;

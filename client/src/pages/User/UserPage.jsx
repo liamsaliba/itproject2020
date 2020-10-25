@@ -1,16 +1,16 @@
 /** @jsx jsx */
 import { jsx, Flex, ThemeProvider } from "theme-ui";
-import Navbar from "./Navbar";
+import { UserNavbar, UserHamburger } from "./Navbar";
 import { useState, useEffect } from "react";
 import themes from "../../themes";
 import Body from "./Body";
 import { Title } from "./../../components";
 import { selectPortfolioTheme } from "../../store";
 import { useSelector } from "react-redux";
-import Hamburger from "../../components/Hamburger";
 import { selectPortfolioIsEditing } from "../../store/slices/portfolios";
 
 import { createMedia } from "@artsy/fresnel";
+
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
     mobile: 0,
@@ -43,14 +43,14 @@ const UserPage = props => {
         >
           <header>
             <Media greaterThan="mobile">
-              <Navbar userId={userId} />
+              <UserNavbar userId={userId} editing={editing} />
               <Body userId={userId} selectedPage={selectedPage} />
             </Media>
           </header>
           <Media at="mobile">
-            <Hamburger landing={false} userId={userId}>
+            <UserHamburger userId={userId} editing={editing}>
               <Body userId={userId} selectedPage={selectedPage} />
-            </Hamburger>
+            </UserHamburger>
           </Media>
         </Flex>
       </ThemeProvider>

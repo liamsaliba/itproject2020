@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+import { jsx, Styled } from "theme-ui";
 import {
   ProfileDropdown,
   MenuItem,
@@ -14,56 +14,62 @@ import {
   selectPortfolioPages,
   selectToken,
   selectUsername,
-  selectUser,
   selectNumArtifactsByPageId,
-  selectCurrentUserPortfolio,
+  selectPortfolioByUsername,
+  selectFullName,
 } from "../../store";
 import { Icon, Menu } from "semantic-ui-react";
-import { isTrue } from "../../helpers";
+import { isTrue, usePath } from "../../helpers";
 
 export const UserHamburger = props => {
-  const { userId, editing, children } = props;
+  const { userId, children } = props;
   const [open, setOpen] = useState(false);
+  const path = usePath(userId);
+
   const close = () => setOpen(false);
 
+  const fullName = useSelector(state => selectFullName(state, userId));
+
   const allowContact = useSelector(
-    state => selectCurrentUserPortfolio(state).allowContact
+    state => selectPortfolioByUsername(state, userId).allowContact
   );
-  const useSinglePages = useSelector(
-    state => selectCurrentUserPortfolio(state).singlePages
-  );
+
   const pages = useSelector(state => selectPortfolioPages(state, userId));
-  // I know it's hard coded, w/e
-  const path = editing ? "/editor" : `/u/${userId}`;
-  const getPath = name =>
-    useSinglePages ? `${path}/#${name}` : `${path}/${name}`;
 
   const menuProps = {
     activeClassName: "nactive",
     onClick: close,
-    sx: {
-      variant: "links.nav",
-    },
+    // sx: {
+    //   variant: "links.nav",
+    // },
     smooth: true, // smooth scroll to element
     p: 2,
     as: Link,
   };
 
   const sidebarItems = pages.map(page => (
-    <Menu.Item key={page.pageId} to={getPath(page.name)} {...menuProps}>
+    <Menu.Item key={page.pageId} to={path(page.name)} {...menuProps}>
       {page.name}
     </Menu.Item>
   ));
 
   const portfolioMenu = (
     <Menu.Item>
-      <Menu.Header style={{ fontSize: "2em", fontWeight: "bold" }}>
-        {userId}
+      <Menu.Header
+        to={path()}
+        size="huge"
+        {...menuProps}
+        // style={{ fontSize: "2em", fontWeight: "bold" }}
+      >
+        <Styled.h2 sx={{ m: 0, color: "background", fontFamily: "monospace" }}>
+          {userId}
+        </Styled.h2>
+        <Styled.h3 sx={{ m: 0 }}>{fullName}</Styled.h3>
       </Menu.Header>
       <Menu.Menu style={{ fontSize: "1.5em" }}>
         {sidebarItems}
         {allowContact ? (
-          <Menu.Item to={path + "/contact"} {...menuProps} />
+          <Menu.Item to={path("contact")} {...menuProps} />
         ) : null}
       </Menu.Menu>
     </Menu.Item>
@@ -86,18 +92,12 @@ export const UserNavbar = props => {
   const { userId, editing } = props;
   const token = useSelector(selectToken);
   const username = useSelector(selectUsername);
+  const path = usePath(userId);
 
   const allowContact = useSelector(
-    state => selectCurrentUserPortfolio(state).allowContact
-  );
-  const useSinglePages = useSelector(
-    state => selectCurrentUserPortfolio(state).singlePages
+    state => selectPortfolioByUsername(state, userId).allowContact
   );
   const pages = useSelector(state => selectPortfolioPages(state, userId));
-  // I know it's hard coded, w/e
-  const path = editing ? "/editor" : `/u/${userId}`;
-  const getPath = name =>
-    useSinglePages ? `${path}/#${name}` : `${path}/${name}`;
 
   const NavItem = ({ page }) => {
     const numPages = useSelector(state =>
@@ -107,7 +107,7 @@ export const UserNavbar = props => {
     return (
       <Navbar.Item
         key={page.pageId}
-        to={getPath(page.name)}
+        to={path(page.name)}
         important={editing && numPages === 0}
       >
         {page.name}
@@ -134,13 +134,13 @@ export const UserNavbar = props => {
         <MenuCamel />
       </Navbar.Left>
       <Navbar.Center>
-        <Navbar.Item to={path}>{userId}</Navbar.Item>
+        <Navbar.Item to={path()}>{userId}</Navbar.Item>
         <span sx={{ p: "0.4em" }}>|</span>
         {menuItems}
         {isTrue(allowContact) ? (
           <React.Fragment>
             <span sx={{ p: "0.4em" }}>|</span>
-            <Navbar.Item key="nav-contact" to={path + "/contact"}>
+            <Navbar.Item key="nav-contact" to={path("contact")}>
               Contact
             </Navbar.Item>
           </React.Fragment>
