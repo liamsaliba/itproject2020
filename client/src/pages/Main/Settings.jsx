@@ -11,7 +11,7 @@ import {
   Image,
 } from "semantic-ui-react";
 import { toast } from "react-toastify";
-import { ProfileIcon } from "../../components/ProfileIcon";
+import { ChooseProfileModal } from "../../components/ProfileIcon";
 import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -61,81 +61,6 @@ const Edit = ({ editing, setEditing }) => {
     );
   }
 };
-
-const SetAvatarModal = ({ user }) => {
-  const [open, setOpen] = useState(false);
-  // const [state, setState] = useState({ name });
-  // const dispatch = useDispatch();
-  // const handleChange = (e, { name, value }) =>
-  //   setState({ ...state, [name]: value });
-
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   dispatch(renamePage(pageId, state.name));
-  //   setOpen(false);
-  // };
-
-  return (
-    <Modal
-      size="small"
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      as={Form}
-      // onSubmit={handleSubmit(onSubmit)}
-      dimmer={{ inverted: true }}
-      trigger={
-        <Button circular inverted animated="fade">
-          <Button.Content visible>
-            <ProfileIcon userId={user.userId} width={150} height={150} />
-          </Button.Content>
-          <Button.Content hidden verticalAlign="middle" textAlign="center">
-            <Icon name="edit" size="huge" />
-          </Button.Content>
-        </Button>
-      }
-    >
-      <Modal.Header>Set Avatar</Modal.Header>
-      <Modal.Content>
-        <Grid centered>
-          <Grid.Row>
-            <ProfileIcon
-              userId={user.userId}
-              width={250}
-              height={250}
-              to="#"
-              sx={{ mr: "5px" }}
-            />
-          </Grid.Row>
-          <Grid.Row>
-            <Input
-              sx={{ mb: "1em" }}
-              type="file"
-              name="MediaDescription"
-              transparent
-            />
-          </Grid.Row>
-        </Grid>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button
-          icon
-          negative
-          labelPosition="left"
-          onClick={() => setOpen(false)}
-        >
-          <Icon name="remove" />
-          Cancel
-        </Button>
-        <Button icon primary type="submit" labelPosition="left">
-          <Icon name="checkmark" />
-          Save
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
-};
-
 // const ChangePasswordModal = () => {
 //   const [open, setOpen] = useState(false);
 //   // const dispatch = useDispatch();
@@ -316,9 +241,7 @@ export default () => {
             <Image src={camel} /> User Settings
           </Header>
           <br />
-          <Grid.Row verticalAlign="middle" centered>
-            <SetAvatarModal user={user} />
-          </Grid.Row>
+          <ChooseProfileModal username={user.username} profile={user.profile} />
         </Grid.Column>
       </Grid.Row>
 
