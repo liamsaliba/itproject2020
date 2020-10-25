@@ -7,3 +7,4 @@ export { default as Toast } from "./Toast";
 export { default as CenterFlex } from "./CenterFlex";
 export { default as Artifact } from "./Artifact";
 export { default as Section } from "./Section";
+export { default as Hamburger } from "./Hamburger";

@@ -1,45 +1,113 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { ProfileDropdown, MenuItem, Navbar, MenuCamel } from "../../components";
+import {
+  ProfileDropdown,
+  MenuItem,
+  Navbar,
+  MenuCamel,
+  Hamburger,
+  Link,
+} from "../../components";
 import { useSelector } from "react-redux";
-import React from "react";
+import React, { useState } from "react";
 import {
   selectPortfolioPages,
   selectToken,
   selectUsername,
-  selectPortfolioIsEditing,
   selectUser,
   selectNumArtifactsByPageId,
+  selectCurrentUserPortfolio,
 } from "../../store";
-import { Icon } from "semantic-ui-react";
+import { Icon, Menu } from "semantic-ui-react";
 import { isTrue } from "../../helpers";
 
-export default props => {
-  const token = useSelector(selectToken);
-  const username = useSelector(selectUsername);
-  const allowContact = useSelector(state => selectUser(state).allowContact);
-  const useSinglePages = useSelector(state => selectUser(state).allowContact);
-  const editing = useSelector(state =>
-    selectPortfolioIsEditing(state, username)
+export const UserHamburger = props => {
+  const { userId, editing, children } = props;
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+
+  const allowContact = useSelector(
+    state => selectCurrentUserPortfolio(state).allowContact
   );
-  const { userId } = props;
+  const useSinglePages = useSelector(
+    state => selectCurrentUserPortfolio(state).singlePages
+  );
   const pages = useSelector(state => selectPortfolioPages(state, userId));
   // I know it's hard coded, w/e
   const path = editing ? "/editor" : `/u/${userId}`;
+  const getPath = name =>
+    useSinglePages ? `${path}/#${name}` : `${path}/${name}`;
+
+  const menuProps = {
+    activeClassName: "nactive",
+    onClick: close,
+    sx: {
+      variant: "links.nav",
+    },
+    smooth: true, // smooth scroll to element
+    p: 2,
+    as: Link,
+  };
+
+  const sidebarItems = pages.map(page => (
+    <Menu.Item key={page.pageId} to={getPath(page.name)} {...menuProps}>
+      {page.name}
+    </Menu.Item>
+  ));
+
+  const portfolioMenu = (
+    <Menu.Item>
+      <Menu.Header style={{ fontSize: "2em", fontWeight: "bold" }}>
+        {userId}
+      </Menu.Header>
+      <Menu.Menu style={{ fontSize: "1.5em" }}>
+        {sidebarItems}
+        {allowContact ? (
+          <Menu.Item to={path + "/contact"} {...menuProps} />
+        ) : null}
+      </Menu.Menu>
+    </Menu.Item>
+  );
+
+  return (
+    <Hamburger
+      close={close}
+      open={() => setOpen(true)}
+      isOpen={open}
+      userId={userId}
+      menu={portfolioMenu}
+    >
+      {children}
+    </Hamburger>
+  );
+};
+
+export const UserNavbar = props => {
+  const { userId, editing } = props;
+  const token = useSelector(selectToken);
+  const username = useSelector(selectUsername);
+
+  const allowContact = useSelector(
+    state => selectCurrentUserPortfolio(state).allowContact
+  );
+  const useSinglePages = useSelector(
+    state => selectCurrentUserPortfolio(state).singlePages
+  );
+  const pages = useSelector(state => selectPortfolioPages(state, userId));
+  // I know it's hard coded, w/e
+  const path = editing ? "/editor" : `/u/${userId}`;
+  const getPath = name =>
+    useSinglePages ? `${path}/#${name}` : `${path}/${name}`;
 
   const NavItem = ({ page }) => {
     const numPages = useSelector(state =>
       selectNumArtifactsByPageId(state, page.pageId)
     );
 
-    const thisPath = useSinglePages
-      ? `${path}/#${page.name}`
-      : `${path}/${page.name}`;
-
     return (
       <Navbar.Item
         key={page.pageId}
-        to={thisPath}
+        to={getPath(page.name)}
         important={editing && numPages === 0}
       >
         {page.name}
@@ -94,3 +162,5 @@ export default props => {
     </Navbar>
   );
 };
+
+export default UserNavbar;

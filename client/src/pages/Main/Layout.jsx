@@ -1,11 +1,10 @@
 /** @jsx jsx */
 
-import Navbar from "./Navbar";
+import { MainNavbar, MainHamburger } from "./Navbar";
 import Footer from "./Footer";
 import { jsx, Flex, ThemeProvider } from "theme-ui";
 import themes from "../../themes";
 import { createMedia } from "@artsy/fresnel";
-import Hamburger from "../../components/Hamburger";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -29,17 +28,17 @@ export default props => {
       <ThemeProvider theme={theme}>
         <Media greaterThan="mobile">
           <Flex sx={flexProps}>
-            <Navbar as="header" />
+            <MainNavbar as="header" />
             <Flex variant="layout.centerflex">{props.children}</Flex>
             <Footer as="footer" />
           </Flex>
         </Media>
         <Media at="mobile">
           <Flex sx={flexProps}>
-            <Hamburger landing={true}>
+            <MainHamburger>
               {props.children}
-              <Footer as="footer" />
-            </Hamburger>
+              <Footer as="footer" sx={{ mt: "3em" }} />
+            </MainHamburger>
           </Flex>
         </Media>
       </ThemeProvider>
