@@ -2,8 +2,9 @@
 import { jsx, Image, IconButton, Box } from "theme-ui";
 import { Link } from "./index";
 import profileImg from "../svg/profile.png";
+// import profileImg from "../svg/DocumentPreview.png";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, updateAvatar } from "../store";
+import { selectUser, selectAvatar, updateAvatar } from "../store";
 import React from "react";
 import { useState } from "react";
 import { Modal, Button, Icon, Dropdown, Form } from "semantic-ui-react";
@@ -11,27 +12,35 @@ import { ChooseMedia } from "./Media";
 // import { selectMediaByUsername } from "../store/combinedSelectors";
 import { selectMediaUrl } from "../store/slices/media";
 // from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
+
 const hashCode = s =>
   s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
 
 export const ProfileImage = ({ userId, profile }) => {
-  const tint = profile ? 0 : userId ? hashCode(userId) : 0;
+  console.log("profile", userId, profile);
+  const tint =
+    profile === undefined && userId !== undefined ? hashCode(userId) : 0;
   return (
+    // <AspectRatio ratio={1 / 1}>
     <Image
       src={profile ? profile : profileImg}
       // variant="avatar"
       sx={{
         filter: `hue-rotate(${tint}deg)`,
         borderRadius: "50%",
+        clipPath: "circle(100%)",
+        objectFit: "cover",
       }}
     />
+    // </AspectRatio>
   );
 };
 
 export const ProfileIcon = props => {
+  const { userId, profile } = props;
   return (
     <IconButton {...props} as={Link} sx={{ width: 40, height: 40 }}>
-      <ProfileImage />
+      <ProfileImage userId={userId} profile={profile} />
     </IconButton>
   );
 };
@@ -39,7 +48,7 @@ export const ProfileIcon = props => {
 export const ProfileWithName = props => {
   return (
     <React.Fragment>
-      <ProfileIcon userId={props.userId} to="#" sx={{ mr: "5px" }} />
+      <ProfileIcon {...props} to="#" sx={{ mr: "5px" }} />
       {props.userId}
     </React.Fragment>
   );
@@ -47,6 +56,7 @@ export const ProfileWithName = props => {
 
 export const ProfileDropdown = props => {
   const user = useSelector(selectUser);
+  const avatar = useSelector(selectAvatar);
   const options = [
     {
       key: "user",
@@ -98,7 +108,7 @@ export const ProfileDropdown = props => {
   return (
     <span>
       <Dropdown
-        trigger={<ProfileWithName userId={user.username} />}
+        trigger={<ProfileWithName userId={user.username} profile={avatar} />}
         pointing="top left"
         direction="left"
         floating
@@ -116,9 +126,13 @@ export const EditableUserProfile = ({ editing, username, profile }) => {
       <Box
         sx={{
           margin: "auto",
+          // marginBottom: "-3em",
           width: "30%",
           maxWidth: "250px",
-          borderRadius: "50%",
+          maxHeight: "250px",
+          // height: "30vw",
+          // maxWidth: "250px",
+          // borderRadius: "50%",
         }}
       >
         <ProfileImage userId={username} profile={profile} />
@@ -130,7 +144,7 @@ export const EditableUserProfile = ({ editing, username, profile }) => {
 
 export const ChooseProfileModal = ({ username, profile }) => {
   const [open, setOpen] = useState(false);
-  const [profileId, setProfileId] = useState(profile);
+  const [profileId, setProfileId] = useState(null);
   const profileSrc = useSelector(state => selectMediaUrl(state, profileId));
 
   const dispatch = useDispatch();
@@ -169,10 +183,10 @@ export const ChooseProfileModal = ({ username, profile }) => {
           sx={{
             margin: "auto",
             transition: ".3s ease",
-            width: "30%",
-            maxWidth: "250px",
             borderRadius: "50%",
-            marginBottom: "-3em",
+            width: "calc(30% + 250px)",
+            maxWidth: "250px",
+            maxHeight: "250px",
             "&:hover": {
               filter: "brightness(120%)",
             },
@@ -191,12 +205,13 @@ export const ChooseProfileModal = ({ username, profile }) => {
     >
       <Modal.Header>Choose Avatar</Modal.Header>
       <Modal.Content>
-        <ProfileImage userId={username} profile={profileSrc} />
+        <ProfileImage userId={username} profile={profileSrc || profile} />
         <ChooseMedia
           onChange={onChange}
           value={profileId}
           placeholder="choose new profile picture"
           name="profile"
+          description="Profile pic"
         />
       </Modal.Content>
       <Modal.Actions>
