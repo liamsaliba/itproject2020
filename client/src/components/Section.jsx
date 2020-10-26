@@ -70,7 +70,6 @@ export const Section = ({
   loading,
 }) => {
   const empty = content.length === 0;
-  console.log(content)
   return (
     <Flex
       as="section"
