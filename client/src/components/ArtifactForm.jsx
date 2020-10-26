@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Box } from "theme-ui";
+import { jsx, Box, Container } from "theme-ui";
 import {
   useForm,
   FormProvider,
@@ -518,10 +518,13 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
     </React.Fragment>
   );
 
+  const action = ({ media = [], ...contents }) =>
+    dispatch(editArtifact(id, { type, media, contents }));
+
   return (
     <FormModal
       {...thisForm}
-      action={data => dispatch(editArtifact(id, data))}
+      action={action}
       title={"Edit ".concat(thisForm.title)}
       defaultValues={contents}
       altAction={deleteButton}
@@ -593,7 +596,14 @@ const FormModal = ({
       >
         <Modal.Header>{title}</Modal.Header>
         <Modal.Content>
-          <Form onSubmit={data => handleSubmit(onSubmit)(data)}>{content}</Form>
+          <Form
+            onSubmit={data => handleSubmit(onSubmit)(data)}
+            sx={{
+              fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
+            }}
+          >
+            {content}
+          </Form>
         </Modal.Content>
         <Modal.Actions>
           {altAction}
