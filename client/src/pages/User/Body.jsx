@@ -11,6 +11,7 @@ import {
   changePortfolioBio,
   selectFullName,
   selectSocialIcons,
+  selectArtifactsLoading,
   // selectSocialIcons,
 } from "../../store";
 import { Section, Artifact } from "../../components";
@@ -39,6 +40,7 @@ import { useEffect } from "react";
 import { ContactForm } from "./Contact";
 import { MenuButton } from "../../components/NavItems";
 import { SocialIcon } from "react-social-icons";
+import { selectArtifactsError } from "../../store/slices/artifacts";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -65,7 +67,7 @@ const EditBioModal = ({ bio }) => {
       open={open}
       trigger={
         <Button icon labelPosition="left">
-          <Icon inline name="pencil" />
+          <Icon name="pencil" />
           Edit bio
         </Button>
       }
@@ -124,15 +126,10 @@ const MainHeader = ({ username, bio, editing }) => {
         profile={profile}
       />
       {/* TODO: put first name + last name here instead! */}
-      <Styled.h1>
-        {" "}
-        {fullName}{" "}
-        <Styled.h2 sx={{ mt: 0, fontWeight: "400", fontFamily: "monospace" }}>
-          {" "}
-          {username}{" "}
-        </Styled.h2>
-      </Styled.h1>
-
+      <Styled.h1 sx={{ mb: 0 }}> {fullName} </Styled.h1>
+      <Styled.h2 sx={{ mt: 0, fontWeight: "400", fontFamily: "monospace" }}>
+        {username}
+      </Styled.h2>
       <Styled.p> {bio} </Styled.p>
       {editing ? <EditBioModal bio={bio} /> : null}
       <SocialIcons />
@@ -153,6 +150,7 @@ const Page = ({ pageId: id, name, userId }) => {
     // TODO: add loader
     <Artifact
       {...artifact}
+      key={artifact.id}
       editing={editing}
       openEditor={() =>
         editing ? dispatch(editArtifactStarted(artifact)) : null
@@ -189,7 +187,7 @@ const Page = ({ pageId: id, name, userId }) => {
 
 const NewPlaceholder = ({ children, tagline }) => (
   <Box sx={{ margin: "2em" }}>
-    <Segment placeholder fluid>
+    <Segment placeholder>
       <Header icon>
         <Icon name="file outline" />
         {tagline}
@@ -202,9 +200,9 @@ const NewPlaceholder = ({ children, tagline }) => (
 // pop the edit form
 const ArtifactFormController = () => {
   const dispatch = useDispatch();
-  const artifactEditing = useSelector(state =>
-    selectArtifactCurrentlyEditing(state)
-  );
+  const artifactEditing = useSelector(selectArtifactCurrentlyEditing);
+  const artifactsLoading = useSelector(selectArtifactsLoading);
+  const artifactsError = useSelector(selectArtifactsError);
 
   const [editOpen, setEditOpen] = useState(false);
 
@@ -223,6 +221,8 @@ const ArtifactFormController = () => {
         dispatch(editArtifactFinished());
       }}
       currentlyEditing={artifactEditing}
+      loading={artifactsLoading}
+      error={artifactsError}
     />
   );
 };

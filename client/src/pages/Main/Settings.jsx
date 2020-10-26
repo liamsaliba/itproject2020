@@ -23,14 +23,15 @@ import {
   selectAuthLoading,
   selectAuthError,
   updateUser,
-  resetErrors,
+  resetAuthErrors,
 } from "../../store";
 import { Link, Title, Toast } from "../../components";
 
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useAsync, useFormState } from "../../components/Modals";
 
-const Edit = ({ editing, setEditing }) => {
+const Edit = ({ editing, setEditing, submit, loading = false }) => {
   if (!editing) {
     return (
       <Form.Button
@@ -39,6 +40,7 @@ const Edit = ({ editing, setEditing }) => {
         primary
         icon="edit"
         content="Edit"
+        type="button"
         onClick={() => setEditing(true)}
       />
     );
@@ -51,6 +53,8 @@ const Edit = ({ editing, setEditing }) => {
           negative
           icon="remove"
           content="Cancel"
+          type="button"
+          disabled={loading}
           onClick={() => setEditing(false)}
         />
         <Form.Button
@@ -58,8 +62,9 @@ const Edit = ({ editing, setEditing }) => {
           positive
           icon="check"
           content="Save"
-          type="submit"
-          onClick={() => setEditing(false)}
+          loading={loading}
+          type="button"
+          onClick={submit}
         />
       </Form.Group>
     );
@@ -172,7 +177,7 @@ const DeleteAccountModal = () => {
         toast.info("Account deleted.");
         setStatus("closed");
       }
-      dispatch(resetErrors());
+      dispatch(resetAuthErrors());
     }
   }, [loading, status, setStatus, dispatch, error, history]);
 
@@ -252,8 +257,28 @@ const DeleteAccountModal = () => {
 
 export default () => {
   const dispatch = useDispatch();
+
   // const [form, setForm] = useState(null);
   const user = useSelector(selectUser);
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+
+  const { state, handleChange, setState } = useFormState({
+    firstName: user.firstName,
+    lastName: user.lastName,
+  });
+
+  const { status, start } = useAsync(
+    loading,
+    error,
+    () =>
+      setState({
+        firstName: user.firstName,
+        lastName: user.lastName,
+      }),
+    () => dispatch(resetAuthErrors)
+  );
+
   const [editing, setEditing] = useState(false);
   const authError = useSelector(state => selectAuthSlice(state).error);
 
@@ -280,14 +305,8 @@ export default () => {
     }
   }, [authError]);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    // const confirmPassword = formData.get("confirmPassword");
-    // const password = formData.get("password");
-    const firstName = formData.get("firstName");
-    const lastName = formData.get("lastName");
-    // const email = formData.get("email");
+  const handleSubmit = () => {
+    const { firstName, lastName } = state;
 
     if (firstName === "" || lastName === "") {
       toast.error("Required fields are empty.");
@@ -295,14 +314,7 @@ export default () => {
     }
 
     dispatch(updateUser({ firstName, lastName }));
-
-    // setForm({
-    //   // confirmPassword,
-    //   // password,
-    //   firstName,
-    //   lastName,
-    //   // email,
-    // });
+    start();
   };
 
   return (
@@ -329,7 +341,8 @@ export default () => {
                 icon="user"
                 iconPosition="left"
                 label="First Name"
-                defaultValue={user.firstName}
+                value={state.firstName}
+                onChange={handleChange}
                 transparent={!editing}
                 readOnly={!editing}
               />
@@ -339,7 +352,8 @@ export default () => {
                 icon="user"
                 iconPosition="left"
                 label="Last Name"
-                defaultValue={user.lastName}
+                value={state.lastName}
+                onChange={handleChange}
                 transparent={!editing}
                 readOnly={!editing}
               />
@@ -364,7 +378,7 @@ export default () => {
               transparent
               readOnly
             />
-            {Edit({ editing, setEditing })}
+            {Edit({ editing, setEditing, submit: handleSubmit, loading })}
             <Divider horizontal>Account Settings</Divider>
             <Button.Group widths="3">
               <Button
@@ -380,11 +394,11 @@ export default () => {
                 basic
                 secondary
                 as={Link}
-                type="button"
                 icon="unlock"
+                type="button"
                 labelPosition="left"
-                content="Log out everywhere"
                 to="/logout/all"
+                content="Log out everywhere"
               />
             </Button.Group>
             <br />
@@ -398,11 +412,6 @@ export default () => {
                 labelPosition="left"
                 content="Change Password"
                 to="/reset-password"
-                // onClick={() =>
-                //   toast.info(
-                //     "A link to change your password has been sent to your email!"
-                //   )
-                // }
               />
               <DeleteAccountModal />
             </Button.Group>

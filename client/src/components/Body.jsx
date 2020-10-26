@@ -28,7 +28,7 @@ export default function Body({
   const out = (
     <React.Fragment>
       <Container sx={styling}>
-        <h3>{header}</h3>
+        {body === "" ? <h1>{header}</h1> : <h3>{header}</h3>}
         <p>{body}</p>
         {/* <TextEditor {...textEditorArgs} />
         {actionString && (
@@ -37,7 +37,7 @@ export default function Body({
       </Container>
     </React.Fragment>
   );
-  return out;
+  return header !== "" && body !== "" ? out : null;
 }
 
 Body.propTypes = {

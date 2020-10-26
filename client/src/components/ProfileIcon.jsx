@@ -10,7 +10,7 @@ import {
   updateAvatar,
   selectAuthLoading,
   selectAuthError,
-  resetErrors,
+  resetAuthErrors,
 } from "../store";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -24,7 +24,6 @@ const hashCode = s =>
   s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
 
 export const ProfileImage = ({ userId, profile }) => {
-  console.log("profile", userId, profile);
   const tint =
     profile === undefined && userId !== undefined ? hashCode(userId) : 0;
   return (
@@ -179,7 +178,7 @@ export const ChooseProfileModal = ({ username, profile }) => {
       if (error === null) {
         setStatus("closed");
       }
-      dispatch(resetErrors());
+      dispatch(resetAuthErrors());
     }
   }, [loading, status, dispatch, error]);
 

@@ -17,7 +17,9 @@ import { selectToken } from "./auth";
 
 import { portfolioFetchedAll, pageFetchedAll } from "./actions";
 
-export const adapter = createEntityAdapter();
+export const adapter = createEntityAdapter({
+  selectId: media => media.id,
+});
 
 const receiveMany = selector => upsertManyFetch(adapter, selector);
 
@@ -36,7 +38,7 @@ const slice = createSlice({
     mediaReceivedMany: (media, action) => {
       adapter.upsertMany(
         media,
-        action.payload.map(media => addLastFetch(media))
+        action.payload.map(item => addLastFetch(item))
       );
       media.lastFetch = Date.now();
       media.loading = false;
@@ -120,14 +122,18 @@ export const {
   selectTotal: selectTotalMedia,
 } = adapter.getSelectors(state => state.media);
 export const selectMediaSlice = state => state.media;
-export const selectMediaLoading = state => state.media.loading;
+
+export const selectMediaLoading = createSelector(
+  selectMediaSlice,
+  media => media.loading
+);
 
 export const selectMediaUrl = createSelector(selectMediaById, media =>
   media ? media.url || "" : undefined
 );
 
-// upload new media with description
-export const uploadMedia = (file, description, type = "image") => (
+// create a new artifact
+export const uploadMedia = (file, description, filename, type = "image") => (
   dispatch,
   getState
 ) => {
@@ -156,7 +162,7 @@ export const uploadMedia = (file, description, type = "image") => (
   );
 };
 
-// get all media
+// delete a artifact by id
 export const getMedia = () => (dispatch, getState, cache = true) => {
   const token = selectToken(getState());
   const media = selectMediaSlice(getState());
@@ -175,7 +181,7 @@ export const getMedia = () => (dispatch, getState, cache = true) => {
   );
 };
 
-// delete a media by id
+// delete a artifact by id
 export const deleteMedia = id => (dispatch, getState) => {
   const token = selectToken(getState());
 

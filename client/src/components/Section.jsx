@@ -30,7 +30,7 @@ export const ContentBox = ({ type, children }) => {
 
   const cardStyling = {
     display: "flex",
-    flexFlow: "row wrap", 
+    flexFlow: "row wrap",
     alignItems: "stretch",
     justifyContent: "center",
   };
@@ -42,7 +42,7 @@ export const ContentBox = ({ type, children }) => {
   if (cardTypes.includes(type)) {
     return <Box sx={cardStyling}>{children}</Box>;
   }
-  
+
   return (
     // <Box sx={{ maxWidth: "800px", mx: "auto" }}>
     <Box sx={listStyling}>{children}</Box>
@@ -51,7 +51,7 @@ export const ContentBox = ({ type, children }) => {
 };
 
 const EmptySectionPlaceholder = ({ children }) => (
-  <Segment placeholder fluid>
+  <Segment placeholder>
     <Header icon>
       <Icon name="file outline" />
       Nothing on this page yet.

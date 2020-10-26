@@ -8,7 +8,7 @@ export {
   updateUser,
   updateAvatar,
   updateAllowContact,
-  resetErrors,
+  resetAuthErrors,
   // selectors
   selectAuthLoading,
   selectAuthError,
@@ -116,6 +116,8 @@ export {
   selectArtifactEntities,
   selectAllArtifacts,
   selectTotalArtifacts,
+  selectArtifactsLoading,
+  selectArtifactsError,
   // reducer
   default as artifactsReducer,
 } from "./artifacts";

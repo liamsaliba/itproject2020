@@ -99,7 +99,6 @@ export default props => {
           height: "100%",
           transition: "0.2s",
           marginLeft: `${open && portfolio ? 250 : 0}px`,
-          opacity: `${open && portfolio ? 100 : 20}%`,
         }}
       >
         <User userId={id} selectedPage={selectedPage} />

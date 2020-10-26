@@ -1,4 +1,8 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createEntityAdapter,
+  createSelector,
+} from "@reduxjs/toolkit";
 import { apiStarted } from "../api";
 import * as endpoints from "../endpoints";
 import {
@@ -25,6 +29,7 @@ const slice = createSlice({
   reducers: {
     artifactRequestedMany: (artifacts, action) => {
       artifacts.loading = true;
+      artifacts.error = null;
     },
     artifactReceivedMany: (artifacts, action) => {
       adapter.upsertMany(
@@ -32,6 +37,7 @@ const slice = createSlice({
         action.payload.map(artifact => addLastFetch(artifact))
       );
       artifacts.loading = false;
+      artifacts.error = null;
     },
     artifactRequestManyFailed: (artifacts, action) => {
       artifacts.loading = false;
@@ -39,22 +45,38 @@ const slice = createSlice({
     },
     artifactRequestedOne: (artifacts, action) => {
       artifacts.loading = true;
+      artifacts.error = null;
     },
     artifactReceivedOne: (artifacts, action) => {
       adapter.upsertOne(artifacts, addLastFetch(action.payload));
       artifacts.loading = false;
+      artifacts.error = null;
     },
     artifactRequestOneFailed: (artifacts, action) => {
       artifacts.loading = false;
       artifacts.error = action.payload;
     },
     artifactCreated: (artifacts, action) => {
+      artifacts.loading = false;
+      artifacts.error = null;
       adapter.upsertOne(artifacts, addLastFetch(action.payload));
     },
+    artifactsUpdating: (artifacts, action) => {
+      artifacts.loading = true;
+      artifacts.error = null;
+    },
+    artifactsFailed: (artifacts, action) => {
+      artifacts.loading = false;
+      artifacts.error = action.payload;
+    },
     artifactUpdated: (artifacts, action) => {
+      artifacts.loading = false;
+      artifacts.error = null;
       adapter.upsertOne(artifacts, addLastFetch(action.payload));
     },
     artifactDeleted: (artifacts, action) => {
+      artifacts.loading = false;
+      artifacts.error = null;
       adapter.removeOne(artifacts, action.request.data.id);
     },
   },
@@ -68,6 +90,8 @@ const slice = createSlice({
 
 // Actions
 const {
+  artifactsUpdating,
+  artifactsFailed,
   artifactRequestedOne,
   artifactReceivedOne,
   artifactRequestOneFailed,
@@ -89,6 +113,15 @@ export const {
   selectTotal: selectTotalArtifacts,
 } = adapter.getSelectors(state => state.artifacts);
 export const selectArtifactsSlice = state => state.artifacts;
+
+export const selectArtifactsLoading = createSelector(
+  selectArtifactsSlice,
+  artifacts => artifacts.loading
+);
+export const selectArtifactsError = createSelector(
+  selectArtifactsSlice,
+  artifacts => artifacts.error
+);
 
 // Action Creators
 
@@ -121,7 +154,9 @@ export const createArtifact = (pageId, artifact = {}) => (
       method: "post",
       data: artifact,
       token,
+      onStart: artifactsUpdating.type,
       onSuccess: artifactCreated.type,
+      onFailure: artifactsFailed.type,
     })
   );
 };
@@ -135,7 +170,9 @@ export const editArtifact = (id, data) => (dispatch, getState) => {
       method: "patch",
       data,
       token,
+      onStart: artifactsUpdating.type,
       onSuccess: artifactUpdated.type,
+      onFailure: artifactsFailed.type,
     })
   );
 };
@@ -150,7 +187,9 @@ export const deleteArtifact = id => (dispatch, getState) => {
       method: "delete",
       data: { id },
       token,
+      onStart: artifactsUpdating.type,
       onSuccess: artifactDeleted.type,
+      onFailure: artifactsFailed.type,
     })
   );
 };

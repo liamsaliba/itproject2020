@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, resetErrors } from "../../store";
+import { login, resetAuthErrors } from "../../store";
 import { useEffect, useState } from "react";
 import { Title, Toast } from "../../components";
 import { useHistory, useParams } from "react-router-dom";
@@ -26,7 +26,7 @@ export default () => {
   const [useCookie, setCookie] = useState(true);
 
   useEffect(() => {
-    dispatch(resetErrors());
+    dispatch(resetAuthErrors());
   }, [dispatch]);
 
   useEffect(() => {
