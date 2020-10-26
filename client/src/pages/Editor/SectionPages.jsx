@@ -2,7 +2,7 @@
 import { jsx, Flex } from "theme-ui";
 import Section from "./Section";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Icon,
@@ -12,56 +12,230 @@ import {
   Form,
   Input,
   Divider,
-  Loader,
+  Header,
+  Checkbox,
 } from "semantic-ui-react";
 import {
   selectUsername,
-  selectPortfolioPages,
+  selectPagesByUsername,
   createPage,
   renamePage,
   deletePage,
+  selectCurrentUserPortfolio,
+  updateAllowContact,
+  updateSinglePage,
 } from "../../store";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { artifactTypeToName } from "../../components/Artifact";
+import { useSelector, useDispatch } from "react-redux";
+
+/** @jsx jsx */
+import { isTrue } from "../../helpers";
+
+const pageTypes = {
+  mixed: { key: "m", text: "Mix", value: "mix", icon: "mix" },
+  experience: {
+    key: "x",
+    text: "Experience",
+    defaultPageName: "Experience",
+    value: "experience",
+    icon: "briefcase",
+  },
+  education: {
+    key: "e",
+    text: "Education",
+    defaultPageName: "Education",
+    value: "education",
+    icon: "graduation",
+  },
+  display: {
+    key: "d",
+    text: "Display",
+    value: "display",
+    icon: "newspaper outline",
+  },
+  gallery: { key: "g", text: "Gallery", value: "gallery", icon: "images" },
+  article: {
+    key: "a",
+    text: "Article",
+    defaultPageName: "Articles",
+    value: "article",
+    icon: "file alternate outline",
+  },
+  publication: {
+    key: "p",
+    text: "Publication",
+    defaultPageName: "Publications",
+    value: "publication",
+    icon: "book",
+  },
+  talk: {
+    key: "t",
+    text: "Talk",
+    defaultPageName: "Talks",
+    value: "talk",
+    icon: "talk",
+  },
+  custom: {
+    key: "c",
+    defaultPageName: "",
+    text: "Custom",
+    value: "custom",
+    icon: "newspaper outline",
+  },
+};
+
+const Toggle = ({ value, setValue, icon, label }) => {
+  const onChange = (_, { checked }) => {
+    // set to the new value of checked
+    setValue(checked.toString());
+  };
+
+  return (
+    <Checkbox
+      toggle
+      onChange={onChange}
+      checked={isTrue(value)}
+      label={
+        <label>
+          {icon ? <Icon name={icon} /> : null}
+          {label}
+        </label>
+      }
+    />
+  );
+};
+
+const PageSettings = () => {
+  const dispatch = useDispatch();
+  const singlePage = useSelector(
+    state => selectCurrentUserPortfolio(state).singlePage
+  );
+  const contact = useSelector(
+    state => selectCurrentUserPortfolio(state).allowContact
+  );
+
+  return (
+    <div
+      sx={{
+        "& div": {
+          mb: "0.5em",
+        },
+      }}
+    >
+      <div sx={{ textAlign: "left" }}>
+        <Toggle
+          label="Contact form"
+          icon="address book"
+          value={contact}
+          setValue={value => dispatch(updateAllowContact(value))}
+        />
+      </div>
+      <div sx={{ textAlign: "left" }}>
+        <Toggle
+          label="Single page portfolio"
+          icon="file"
+          value={singlePage}
+          setValue={value => dispatch(updateSinglePage(value))}
+        />
+      </div>
+    </div>
+  );
+};
 
 const Page = ({ active, setActive, page }) => {
   const dispatch = useDispatch();
+  const { name: oldName, id, loading, type } = page;
+  const [name, setName] = useState(oldName);
 
-  const { name, pageId, loading } = page;
+  const [editing, setEditing] = useState(false);
+  const typeInfo = pageTypes[type];
+  const icon = typeInfo === undefined ? "file outline" : typeInfo.icon;
 
   const handlePageClick = e => {
+    console.log(page);
     setActive(page);
   };
 
   return (
     <List.Item
       name={name}
-      key={pageId.toString()}
+      key={id.toString()}
       onClick={handlePageClick}
       fluid
       sx={{ overflowWrap: "break-word" }}
     >
-      <List.Content floated="right">
+      {/* <List.Content floated="right">
         <Dropdown
           floating
-          inline
           direction="left"
           icon="caret square down"
           sx={{ p: "0.2em" }}
+          open={status === "open"}
+          onClose={() => setStatus("idle")}
+          onClick={() => setStatus("open")}
         >
           <Dropdown.Menu>
-            <RenamePageModal pageState={{ name, pageId }} />
+            <RenamePageModal pageState={{ name, id }} />
             <DeleteConfirmationModal
-              action={() => dispatch(deletePage(pageId))}
+              action={() => dispatch(deletePage(id))}
               name={name}
             />
           </Dropdown.Menu>
         </Dropdown>
+      </List.Content> */}
+      {/* <List.Icon name="file outline" /> */}
+      <List.Content
+      // onClick={() => setStatus("open")}
+      >
+        <Form.Input
+          name={id}
+          loading={loading}
+          maxLength="15"
+          fluid
+          icon={icon}
+          iconPosition="left"
+          onChange={(e, { value }) => setName(value)}
+          value={name}
+          transparent={!editing}
+          readOnly={!editing}
+          action={
+            editing ? (
+              <React.Fragment>
+                <Button
+                  icon="cancel"
+                  type="button"
+                  negative
+                  onClick={() => {
+                    setName(oldName);
+                    setEditing(false);
+                  }}
+                />
+                <Button
+                  icon="checkmark"
+                  type="button"
+                  positive
+                  onClick={() => {
+                    dispatch(renamePage(id, name));
+                    setEditing(false);
+                  }}
+                />
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Button
+                  icon="pencil"
+                  type="button"
+                  onClick={() => setEditing(true)}
+                />
+                <DeleteConfirmationModal
+                  action={() => dispatch(deletePage(id))}
+                  name={name}
+                />
+              </React.Fragment>
+            )
+          }
+        />
+        {/* <List.Header>{name}</List.Header> */}
       </List.Content>
-      <Loader inline size="large" active={loading} />
-      <Icon name="page" inline />
-      <List.Header>{name}</List.Header>
     </List.Item>
   );
 };
@@ -92,22 +266,7 @@ export const DeleteConfirmationModal = ({
       dimmer={{ inverted: true }}
       open={open}
       trigger={
-        button ? (
-          <Button
-            icon
-            color="red"
-            labelPosition="left"
-            onClick={() => setOpen(false)}
-          >
-            <Icon name="trash" />
-            Delete
-          </Button>
-        ) : (
-          <Dropdown.Item onClick={() => setOpen(false)}>
-            <Icon name="trash" />
-            Delete
-          </Dropdown.Item>
-        )
+        <Button basic icon="trash" color="red" onClick={() => setOpen(true)} />
       }
     >
       <Modal.Header>
@@ -125,8 +284,9 @@ export const DeleteConfirmationModal = ({
   );
 };
 
+// eslint-disable-next-line no-unused-vars
 const RenamePageModal = ({ pageState }) => {
-  const { name, pageId } = pageState;
+  const { name, id } = pageState;
   const [open, setOpen] = useState(false);
   const [state, setState] = useState({ name });
   const dispatch = useDispatch();
@@ -135,7 +295,7 @@ const RenamePageModal = ({ pageState }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(renamePage(pageId, state.name));
+    dispatch(renamePage(id, state.name));
     setOpen(false);
   };
 
@@ -186,20 +346,28 @@ export const NewPageModal = () => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
   const [state, setState] = useState({ name: "", type: "display" });
-  const options = [
-    { key: "x", text: "Experience", value: "experience" },
-    { key: "e", text: "Education", value: "education" },
-    { key: "d", text: "Display", value: "display" },
-    { key: "d", text: "Custom", value: "custom" },
-  ];
+
+  const options = Object.values(pageTypes);
   const dispatch = useDispatch();
 
   const handleChange = (e, { name, value }) => {
     if (
       name === "type" &&
-      ["Experience", "Education", "Display", "Custom", ""].includes(state.name)
+      ([
+        "Experience",
+        "Education",
+        "Publications",
+        "Talks",
+        "Articles",
+        "Gallery",
+      ].includes(state.name) ||
+        state.name === "")
     ) {
-      setState({ ...state, name: artifactTypeToName(value), type: value });
+      setState({
+        ...state,
+        name: pageTypes[value] ? pageTypes[value].defaultPageName : "",
+        type: value,
+      });
     } else {
       // do it this way -- setState is async
       setState({ ...state, [name]: value });
@@ -229,29 +397,35 @@ export const NewPageModal = () => {
         </Button>
       }
     >
-      <Modal.Header>Create new page</Modal.Header>
+      <Modal.Header>
+        <Icon name="file" />
+        Create new page
+      </Modal.Header>
       <Modal.Content>
         <Modal.Description sx={{ minHeight: "150px", overflow: "visible" }}>
           <Form.Input
             fluid
+            icon={pageTypes[state.type] ? pageTypes[state.type].icon : "file"}
             iconPosition="left"
-            icon="file"
+            maxLength="15"
             label="Page Name"
             placeholder="Page Name"
             name="name"
             onChange={handleChange}
             value={state.name}
-            size="big"
+            size="large"
             required
           />
           <Form.Select
             fluid
+            icon
             required
             label="Type"
             options={options}
             placeholder="Type"
             onChange={handleChange}
             value={state.type}
+            size="big"
             name="type"
             // sx={{ zIndex: "999999 !important" }}
           />
@@ -271,17 +445,20 @@ export const NewPageModal = () => {
 
 const SectionPages = () => {
   const username = useSelector(selectUsername);
-  const pages = useSelector(state => selectPortfolioPages(state, username));
+  const pages = useSelector(state => selectPagesByUsername(state, username));
   // eslint-disable-next-line
   const [activePage, setActive] = useState("Home");
   // activePage === page
 
   return (
     <Section name="Pages" icon="file text">
-      <NewPageModal />
+      <Header>Manage pages</Header>
+      <PageSettings />
       <Divider />
-      <p>Manage your pages...</p>
-      <Flex sx={{ justifyContent: "center", flexDirection: "column" }}>
+      <NewPageModal />
+      <Flex
+        sx={{ justifyContent: "center", flexDirection: "column", mt: "1em" }}
+      >
         {pages.length === 0 ? (
           "No pages, care to make a new one?"
         ) : (
@@ -289,7 +466,7 @@ const SectionPages = () => {
           <List divided relaxed selection sx={{ textAlign: "left" }}>
             {pages.map(page => (
               <Page
-                key={page.pageId.toString()}
+                key={page.id.toString()}
                 page={page}
                 active={true}
                 setActive={setActive}

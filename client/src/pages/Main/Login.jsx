@@ -6,16 +6,14 @@ import {
   Form,
   Grid,
   Header,
-  Image,
   Message,
   Dimmer,
   Loader,
   Icon,
 } from "semantic-ui-react";
-import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store";
+import { login, resetErrors } from "../../store";
 import { useEffect, useState } from "react";
 import { Title, Toast } from "../../components";
 import { useHistory, useParams } from "react-router-dom";
@@ -26,6 +24,10 @@ export default () => {
   const history = useHistory();
   const auth = useSelector(state => state.auth);
   const [useCookie, setCookie] = useState(true);
+
+  useEffect(() => {
+    dispatch(resetErrors());
+  }, [dispatch]);
 
   useEffect(() => {
     if (auth.error) {
@@ -61,7 +63,7 @@ export default () => {
       <Grid.Column style={{ maxWidth: 450 }}>
         <Title>Login</Title>
         <Header as="h2" textAlign="center">
-          <Image src={camel} />
+          <Icon name="sign in" />
           Log in to your account
         </Header>
         <br />
@@ -71,7 +73,7 @@ export default () => {
             fluid
             icon="at"
             iconPosition="left"
-            placeholder="Username / Email address"
+            placeholder="Username"
             defaultValue={userId}
           />
           <Form.Input

@@ -2,6 +2,8 @@ import axios from "axios";
 import * as endpoints from "../endpoints";
 import { actions as mediaActions } from "../slices/media";
 
+// DEPRECATED don't look here!
+
 export const uploadMedia = dispatch => async (
   token,
   file,

@@ -33,6 +33,7 @@ const HomepageHeading = () => (
               fontWeight: "normal",
               marginTop: "0.5em",
               alignItems: "center",
+              textAlign: "center",
             }}
           >
             <span sx={{ p: "0.2em" }} />
@@ -41,7 +42,7 @@ const HomepageHeading = () => (
         </Flex>
       </Grid.Row>
       <Grid.Row>
-        <Grid.Column width={6}>
+        <Grid.Column width={8}>
           <Search />
           <br />
           <Divider horizontal>Or</Divider>
@@ -50,9 +51,9 @@ const HomepageHeading = () => (
       <Grid.Row>
         <Grid.Column textAlign="center">
           <Button animated primary size="huge" as={Link} to="signup">
-            <Button.Content visible>Get Started!</Button.Content>
+            <Button.Content visible>Create your own!</Button.Content>
             <Button.Content hidden>
-              <Icon name="arrow right" />
+              <Icon name="user plus" />
             </Button.Content>
           </Button>
         </Grid.Column>

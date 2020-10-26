@@ -26,7 +26,7 @@ const styling = {
 };
 
 const greyedOut = {
-  color: "rgb(104, 104, 104)",
+  opacity: "0.9",
 };
 
 export const Row = ({ editing, openEditor, id, children }) => {

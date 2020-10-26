@@ -6,7 +6,13 @@ export {
   logoutAll,
   deleteUser,
   updateUser,
+  updateAvatar,
+  updateAllowContact,
+  resetErrors,
   // selectors
+  selectAuthLoading,
+  selectAuthError,
+  selectAvatar,
   selectAuthSlice,
   selectToken,
   selectUser,
@@ -27,7 +33,6 @@ export {
   createArtifactFinished,
   // selectors
   selectAccordion,
-  selectCurrentPortfolio,
   selectLoadingStatus,
   selectLoadingText,
   selectLoading,
@@ -50,7 +55,8 @@ export {
   changePortfolioBio,
   changePortfolioTheme,
   deletePortfolio,
-  updateAvatar,
+  updateSinglePage,
+  updateSocials,
   // selectors (custom)
   selectPortfolioPages,
   selectPortfolioPageNames,
@@ -58,10 +64,11 @@ export {
   selectCurrentUserPortfolio,
   selectPortfolioIsEditing,
   selectSocialIcons,
+  selectPortfolioAvatar,
   selectPortfolioTheme,
   selectPortfolioBio,
-  selectPortfolioProfile,
   selectPortfoliosSlice,
+  selectFullName,
   // Selectors
   selectPortfolioByUsername,
   selectPortfolioUsernames,
@@ -125,6 +132,7 @@ export {
   selectMediaEntities,
   selectAllMedia,
   selectTotalMedia,
+  selectMediaLoading,
   // reducer
   default as mediaReducer,
 } from "./media";

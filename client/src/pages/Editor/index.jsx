@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 export default props => {
+  const { selectedPage, editing = true } = props;
   const portfolio = useSelector(selectCurrentUserPortfolio);
   const authError = useSelector(state => selectAuthSlice(state).error);
   const history = useHistory();
@@ -28,10 +29,12 @@ export default props => {
   const id = useSelector(selectUsername);
 
   useEffect(() => {
-    dispatch(getMedia());
-    setTimeout(() => setOpen(true), 100);
+    if (editing) {
+      dispatch(getMedia());
+      setTimeout(() => setOpen(true), 100);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [editing]);
 
   useEffect(() => {
     if (authError) {
@@ -99,7 +102,7 @@ export default props => {
           opacity: `${open && portfolio ? 100 : 20}%`,
         }}
       >
-        <User userId={id} />
+        <User userId={id} selectedPage={selectedPage} />
       </main>
     </Flex>
   );

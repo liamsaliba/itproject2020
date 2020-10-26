@@ -7,7 +7,6 @@ const slice = createSlice({
   name: "ui",
   initialState: {
     accordion: null,
-    currentPortfolio: null,
     loading: false,
     loadingPortfolio: false,
     loadingText: null,
@@ -19,12 +18,9 @@ const slice = createSlice({
     },
     changePortfolio: (ui, action) => {
       const userId = action.payload;
-      if (ui.currentPortfolio !== userId) {
-        ui.currentPortfolio = userId;
-        ui.loadingPortfolio = true;
-        ui.loading = true;
-        ui.loadingText = `Loading ${userId}'s portfolio`;
-      }
+      ui.loadingPortfolio = true;
+      ui.loading = true;
+      ui.loadingText = `Loading ${userId}'s portfolio`;
       ui.accordion = null; // if log in as a different user, shouldn't have settings saved!
     },
     setLoading: (ui, action) => {
@@ -84,7 +80,6 @@ export const {
 
 // Selectors
 export const selectAccordion = state => state.ui.accordion;
-export const selectCurrentPortfolio = state => state.ui.currentPortfolio;
 export const selectLoadingStatus = state => state.ui.loading;
 export const selectLoadingText = state => state.ui.loadingText;
 export const selectArtifactCurrentlyEditing = state => state.ui.editingArtifact;

@@ -73,15 +73,29 @@ const slice = createSlice({
       localStorage.removeItem(tokenKey);
     },
     userDeleted: (auth, action) => {
+      auth.loading = false;
       auth.user = {};
       auth.token = "";
+      auth.error = null;
       localStorage.removeItem(userKey);
       localStorage.removeItem(tokenKey);
     },
     userUpdated: (auth, action) => {
+      auth.loading = false;
+      auth.error = null;
       auth.user = action.payload;
       localStorage.setItem(userKey, JSON.stringify(user));
-      localStorage.removeItem(userKey);
+    },
+    userUpdateFailed: (auth, action) => {
+      auth.user = { ...auth.olduser };
+      auth.loading = false;
+      auth.error = action.payload;
+    },
+    userUpdating: (auth, action) => {
+      auth.loading = true;
+      auth.error = null;
+      auth.olduser = { ...auth.user };
+      auth.user = { ...auth.user, ...action.request.data };
     },
   },
 });
@@ -99,17 +113,30 @@ const {
   logoutRequested,
   userDeleted,
   userUpdated,
+  userUpdating,
+  userUpdateFailed,
 } = slice.actions;
+export const actions = slice.actions;
 
 // Selectors
 export const selectAuthSlice = state => state.auth;
 
+export const selectAuthLoading = createSelector(
+  selectAuthSlice,
+  auth => auth.loading
+);
+export const selectAuthError = createSelector(
+  selectAuthSlice,
+  auth => auth.error
+);
 export const selectToken = createSelector(selectAuthSlice, auth => auth.token);
 export const selectUser = createSelector(selectAuthSlice, auth => auth.user);
 export const selectUsername = createSelector(selectUser, user =>
-  user === undefined ? undefined : user.username
+  user !== undefined ? user.username : undefined
 );
-
+export const selectAvatar = createSelector(selectUser, user =>
+  user !== undefined ? user.avatar : undefined
+);
 // Action Creators
 
 export const signup = (
@@ -179,8 +206,13 @@ export const updateUser = props =>
     url: endpoints.user,
     method: "patch",
     data: props,
+    onStart: userUpdating.type,
     onSuccess: userUpdated.type,
+    onFailure: userUpdateFailed.type,
   });
+
+export const updateAvatar = avatar => updateUser({ avatar });
+export const updateAllowContact = allowContact => updateUser({ allowContact });
 
 export const deleteUser = (username, password) =>
   apiStarted({
@@ -188,4 +220,8 @@ export const deleteUser = (username, password) =>
     method: "delete",
     data: { username, password },
     onSuccess: userDeleted.type,
+    onStart: userUpdating.type,
+    onFailure: userUpdateFailed.type,
   });
+
+export const resetErrors = () => dispatch => dispatch(resetErrors);

@@ -46,6 +46,7 @@ const ControlledChooseMedia = () => (
     )}
   />
 );
+
 const DisplayForm = () => {
   const { errors } = useFormContext();
 
@@ -81,13 +82,23 @@ const DisplayForm = () => {
         error={getErrors(errors, "body")}
       />
       <Controller
-        as={Form.Select}
         error={getErrors(errors, "orientationOptions")}
-        fluid
-        required
-        label="Alignment"
-        options={orientationOptions}
+        rules={{ required: true }}
         name="orientation"
+        render={({ onChange, value, name }) => (
+          <Form.Select
+            fluid
+            required
+            label="Alignment"
+            options={orientationOptions}
+            name={name}
+            value={value}
+            onChange={(e, { value }) => {
+              console.log(value);
+              onChange(value);
+            }}
+          />
+        )}
       />
       <Form.Field>
         <label>Attached Media</label>
@@ -465,9 +476,12 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
   const dispatch = useDispatch();
 
   const { type, id, media } = currentlyEditing;
+  useEffect(() => {
+    console.log("currentlyEditing", currentlyEditing);
+  }, [currentlyEditing]);
   const contents = {
     ...currentlyEditing.contents,
-    media,
+    media: media.map(m => m.id),
     ...fixDates(currentlyEditing.contents),
   };
 
@@ -533,12 +547,25 @@ const FormModal = ({
   // eslint-disable-next-line
   const form = useForm({ defaultValues });
   // const dispatch = useDispatch();
-  const { handleSubmit, setValue, triggerValidation, setError, reset } = form;
+  const {
+    handleSubmit,
+    setValue,
+    triggerValidation,
+    setError,
+    reset,
+    watch,
+  } = form;
+  const allFields = watch();
 
   useEffect(() => {
     reset(defaultValues);
+    console.log("form defaults", defaultValues);
     // eslint-disable-next-line
   }, [defaultValues]);
+
+  useEffect(() => {
+    console.log("form fields", allFields);
+  });
 
   const onSubmit = data => {
     if (validate(data, setError)) {
@@ -559,6 +586,7 @@ const FormModal = ({
       <Modal
         size="small"
         closeIcon
+        onClose={closeModal}
         closeOnDimmerClick={false}
         open={open}
         dimmer={{ inverted: true }}

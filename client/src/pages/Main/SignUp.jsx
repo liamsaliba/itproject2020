@@ -6,13 +6,11 @@ import {
   Form,
   Grid,
   Header,
-  Image,
   Message,
   Dimmer,
   Loader,
   Icon,
 } from "semantic-ui-react";
-import camel from "../../svg/camel.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,6 +21,7 @@ import {
   selectUsername,
   signup,
   selectPortfolioByUsername,
+  resetErrors,
 } from "../../store";
 import { Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
@@ -58,27 +57,34 @@ const SignUpForm = ({ userId, setForm }) => {
         <Title>Signup</Title>
 
         <Header as="h2" textAlign="center">
-          <Image src={camel} />
+          <Icon name="user plus" />
           Sign up for a new account
         </Header>
         <br />
+        <p>
+          Your username and full name will be displayed publicly. You can choose
+          to show more details later.
+        </p>
         <Form size="large" onSubmit={handleSubmit}>
-          <Form.Input
-            name="firstName"
-            fluid
-            icon="user"
-            iconPosition="left"
-            placeholder="First Name"
-          />
-          <Form.Input
-            name="lastName"
-            fluid
-            icon="user"
-            iconPosition="left"
-            placeholder="Last Name"
-          />
+          <Form.Group widths="equal">
+            <Form.Input
+              name="firstName"
+              fluid
+              icon="user"
+              iconPosition="left"
+              placeholder="First Name"
+            />
+            <Form.Input
+              name="lastName"
+              fluid
+              icon="user"
+              iconPosition="left"
+              placeholder="Last Name"
+            />
+          </Form.Group>
           <Form.Input
             name="email"
+            type="email"
             fluid
             icon="mail"
             iconPosition="left"
@@ -145,6 +151,11 @@ export default () => {
   const portfolioError = useSelector(
     state => selectPortfoliosSlice(state).error
   );
+
+  useEffect(() => {
+    dispatch(resetErrors());
+  }, [dispatch]);
+
   useEffect(() => {
     if (form !== null) {
       const {
@@ -200,9 +211,9 @@ export default () => {
 
   useEffect(() => {
     if (token && portfolio) {
-      history.push("/editor");
+      history.push("/u/" + username);
     }
-  }, [token, history, portfolio]);
+  }, [token, history, portfolio, username]);
 
   useEffect(() => {
     if (portfolioError) {

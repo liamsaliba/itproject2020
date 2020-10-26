@@ -1,3 +1,8 @@
+export const baseURL =
+  process.env.REACT_APP_BASE_URL ||
+  // || "http://localhost:5000/api";
+  "https://camelcase-itproject.herokuapp.com/api";
+
 export const user = "/user";
 export const signup = user + "/signup";
 export const login = user + "/login";
@@ -26,3 +31,5 @@ export const fullPageById = pageId => pagesById(pageId) + "/all";
 
 export const artifacts = "/artifacts";
 export const artifactsById = artifactId => artifacts + "/" + artifactId;
+
+export const contact = "/contact";

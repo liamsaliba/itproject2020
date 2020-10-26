@@ -1,30 +1,26 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import {
-  Form,
-  Input,
-  Button,
-  Modal,
-  Grid,
-  Icon,
-  Header,
-  Image,
-} from "semantic-ui-react";
+import { Form, Button, Modal, Grid, Icon, Header } from "semantic-ui-react";
 import { toast } from "react-toastify";
-import { ProfileIcon } from "../../components/ProfileIcon";
-import camel from "../../svg/camel.svg";
+import { ChooseProfileModal } from "../../components/ProfileIcon";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteUser,
   selectAuthSlice,
   // selectPortfoliosSlice,
   // selectToken,
   // selectUsername,
   selectUser,
+  selectAuthLoading,
+  selectAuthError,
+  updateUser,
+  resetErrors,
 } from "../../store";
-import { Title, Toast } from "../../components";
+import { Link, Title, Toast } from "../../components";
 
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Edit = ({ editing, setEditing }) => {
   if (!editing) {
@@ -61,81 +57,6 @@ const Edit = ({ editing, setEditing }) => {
     );
   }
 };
-
-const SetAvatarModal = ({ user }) => {
-  const [open, setOpen] = useState(false);
-  // const [state, setState] = useState({ name });
-  // const dispatch = useDispatch();
-  // const handleChange = (e, { name, value }) =>
-  //   setState({ ...state, [name]: value });
-
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   dispatch(renamePage(pageId, state.name));
-  //   setOpen(false);
-  // };
-
-  return (
-    <Modal
-      size="small"
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      as={Form}
-      // onSubmit={handleSubmit(onSubmit)}
-      dimmer={{ inverted: true }}
-      trigger={
-        <Button circular inverted animated="fade">
-          <Button.Content visible>
-            <ProfileIcon userId={user.userId} width={150} height={150} />
-          </Button.Content>
-          <Button.Content hidden verticalAlign="middle" textAlign="center">
-            <Icon name="edit" size="huge" />
-          </Button.Content>
-        </Button>
-      }
-    >
-      <Modal.Header>Set Avatar</Modal.Header>
-      <Modal.Content>
-        <Grid centered>
-          <Grid.Row>
-            <ProfileIcon
-              userId={user.userId}
-              width={250}
-              height={250}
-              to="#"
-              sx={{ mr: "5px" }}
-            />
-          </Grid.Row>
-          <Grid.Row>
-            <Input
-              sx={{ mb: "1em" }}
-              type="file"
-              name="MediaDescription"
-              transparent
-            />
-          </Grid.Row>
-        </Grid>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button
-          icon
-          negative
-          labelPosition="left"
-          onClick={() => setOpen(false)}
-        >
-          <Icon name="remove" />
-          Cancel
-        </Button>
-        <Button icon primary type="submit" labelPosition="left">
-          <Icon name="checkmark" />
-          Save
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
-};
-
 // const ChangePasswordModal = () => {
 //   const [open, setOpen] = useState(false);
 //   // const dispatch = useDispatch();
@@ -216,42 +137,104 @@ const SetAvatarModal = ({ user }) => {
 // };
 
 const DeleteAccountModal = () => {
-  const [open, setOpen] = useState(false);
-  // const dispatch = useDispatch();
+  const [status, setStatus] = useState("closed");
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   dispatch(renamePage(pageId, state.name));
-  //   setOpen(false);
-  // };
+  const [state, setState] = useState({ username: "", password: "" });
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleChange = (e, values) => {
+    const { name, value } = values;
+    setState({ ...state, [name]: value });
+  };
+
+  useEffect(() => {
+    if (loading && status === "sentDelete") {
+      setStatus("deleting");
+    }
+  }, [loading, status, setStatus]);
+
+  useEffect(() => {
+    if (!loading && status === "deleting") {
+      if (error === null) {
+        history.push("/");
+        toast.info("Account deleted.");
+        setStatus("closed");
+      }
+      dispatch(resetErrors());
+    }
+  }, [loading, status, setStatus, dispatch, error, history]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const { username, password } = state;
+    if (password === "" || username === "") {
+      toast.error("Required fields are empty.");
+      return;
+    }
+    dispatch(deleteUser(username, password));
+    setStatus("sentDelete");
+  };
 
   return (
     <Modal
       size="small"
       closeOnDimmerClick={false}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
+      onClose={() => setStatus("closed")}
+      onOpen={() => setStatus("open")}
+      onSubmit={handleSubmit}
+      open={status !== "closed"}
       as={Form}
       // onSubmit={handleSubmit(onSubmit)}
       dimmer={{ inverted: true }}
       trigger={
-        <Button basic icon negative labelPosition="left">
+        <Button basic icon negative labelPosition="left" type="button">
           <Icon name="trash" />
           Delete Account
         </Button>
       }
     >
-      <Modal.Header>Are you sure?</Modal.Header>
+      <Modal.Header>Deleting portfolio and account</Modal.Header>
       <Modal.Content>
-        This process is irreversible and you will not be able to recover your
-        account.
+        <p>
+          This process is irreversible and you will not be able to recover your
+          account or portfolio. To verify that you really want to delete your
+          account, please re-enter your username and password.
+        </p>
+        <Form.Input
+          name="username"
+          fluid
+          icon="at"
+          iconPosition="left"
+          placeholder="Username"
+          autocomplete="off"
+          onChange={handleChange}
+        />
+        <Form.Input
+          name="password"
+          fluid
+          icon="lock"
+          iconPosition="left"
+          placeholder="Password"
+          type="password"
+          autocomplete="off"
+          onChange={handleChange}
+        />
       </Modal.Content>
       <Modal.Actions>
-        <Button primary onClick={() => setOpen(false)} type="button">
+        <Button primary onClick={() => setStatus("closed")} type="button">
           <Icon name="remove" /> Cancel
         </Button>
-        <Button basic negative type="submit">
+        <Button
+          basic
+          negative
+          type="button"
+          loading={loading}
+          onClick={handleSubmit}
+        >
           <Icon name="trash" /> Delete
         </Button>
       </Modal.Actions>
@@ -261,20 +244,20 @@ const DeleteAccountModal = () => {
 
 export default () => {
   const dispatch = useDispatch();
-  const [form, setForm] = useState(null);
+  // const [form, setForm] = useState(null);
   const user = useSelector(selectUser);
   const [editing, setEditing] = useState(false);
   const authError = useSelector(state => selectAuthSlice(state).error);
 
-  useEffect(() => {
-    if (form !== null) {
-      const { firstName, lastName } = form;
-      if (firstName === "" || lastName === "") {
-        toast.error("Required fields are empty.");
-        return;
-      }
-    }
-  }, [form, dispatch]);
+  // useEffect(() => {
+  //   if (form !== null) {
+  //     const { firstName, lastName } = form;
+  //     if (firstName === "" || lastName === "") {
+  //       toast.error("Required fields are empty.");
+  //       return;
+  //     }
+  //   }
+  // }, [form, dispatch]);
 
   useEffect(() => {
     // TODO: fix error handling on store
@@ -298,13 +281,20 @@ export default () => {
     const lastName = formData.get("lastName");
     // const email = formData.get("email");
 
-    setForm({
-      // confirmPassword,
-      // password,
-      firstName,
-      lastName,
-      // email,
-    });
+    if (firstName === "" || lastName === "") {
+      toast.error("Required fields are empty.");
+      return;
+    }
+
+    dispatch(updateUser({ firstName, lastName }));
+
+    // setForm({
+    //   // confirmPassword,
+    //   // password,
+    //   firstName,
+    //   lastName,
+    //   // email,
+    // });
   };
 
   return (
@@ -313,12 +303,10 @@ export default () => {
         <Grid.Column verticalAlign="middle" style={{ minWidth: 400 }}>
           <Title>Settings</Title>
           <Header as="h2" textAlign="center">
-            <Image src={camel} /> User Settings
+            <Icon name="settings" /> User Settings
           </Header>
           <br />
-          <Grid.Row verticalAlign="middle" centered>
-            <SetAvatarModal user={user} />
-          </Grid.Row>
+          <ChooseProfileModal username={user.username} profile={user.avatar} />
         </Grid.Column>
       </Grid.Row>
 
@@ -355,7 +343,7 @@ export default () => {
               label="Email"
               defaultValue={user.email}
               transparent
-              disabled
+              readOnly
             />
             <Form.Input
               name="username"
@@ -365,11 +353,12 @@ export default () => {
               label="Username"
               defaultValue={user.username}
               transparent
-              disabled
+              readOnly
             />
             {Edit({ editing, setEditing })}
             <Button
               primary
+              type="button"
               icon="lock"
               labelPosition="left"
               content="Change Password"
@@ -380,6 +369,24 @@ export default () => {
               }
             />
             <DeleteAccountModal />
+            <Button
+              secondary
+              as={Link}
+              type="button"
+              icon="log out"
+              labelPosition="left"
+              content="Log out"
+              to="/logout"
+            />
+            <Button
+              secondary
+              as={Link}
+              type="button"
+              icon="unlock"
+              labelPosition="left"
+              content="Log out everywhere"
+              to="/logout/all"
+            />
           </Form>
         </Grid.Column>
       </Grid.Row>

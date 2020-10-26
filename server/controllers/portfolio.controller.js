@@ -76,7 +76,7 @@ const createDefaultPortfolio = async (req, res) => {
         username,
         portfolioId: newPortfolio._id,
         name: "About",
-        type: "about",
+        type: "display",
       });
       const educationpage = new Page({
         username,

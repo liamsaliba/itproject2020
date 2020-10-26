@@ -3,12 +3,8 @@ import { jsx, Box, Flex, Styled } from "theme-ui";
 import { Segment, Header, Icon } from "semantic-ui-react";
 import { Loader } from "semantic-ui-react";
 
-export const Dot = () => (
-  <Icon color="red" name="circle" size="mini" sx={{ verticalAlign: "top" }} />
-);
-
 // TODO: on click of heading in edit mode - enable editing the heading.
-const Heading = ({ name, id, editing, newbtn }) => {
+export const Heading = ({ name, id, editing, newbtn }) => {
   return (
     <Flex sx={{ alignItems: "center" }}>
       <Box sx={{ flex: 1 }}></Box>
@@ -23,7 +19,7 @@ const Heading = ({ name, id, editing, newbtn }) => {
   );
 };
 
-const ContentBox = ({ type, children }) => {
+export const ContentBox = ({ type, children }) => {
   const listStyling = {
     display: "flex",
     flexFlow: "row wrap", // the wrap & flexDir makes all the difference here.
@@ -32,12 +28,18 @@ const ContentBox = ({ type, children }) => {
     justifyContent: "center",
   };
   // type of page determines what will be displayed
+  // eslint-disable-next-line no-unused-vars
   const listTypes = ["display", "experience", "education"];
   // eslint-disable-next-line no-unused-vars
   const cardTypes = ["cards"];
-  if (listTypes.includes(type)) {
-    return <Box sx={listStyling}>{children}</Box>;
-  }
+  // if (listTypes.includes(type)) {
+  // return <Box sx={listStyling}>{children}</Box>;
+  // }
+  return (
+    // <Box sx={{ maxWidth: "800px", mx: "auto" }}>
+    <Box sx={listStyling}>{children}</Box>
+    // </Box>
+  );
 };
 
 const EmptySectionPlaceholder = ({ children }) => (
@@ -59,14 +61,17 @@ export const Section = ({
   newbtn,
   loading,
 }) => {
+  const empty = content.length === 0;
+
   return (
     <Flex
+      as="section"
       sx={{
         textAlign: "center",
         m: "0em 2em",
         mb: "3em", // space between sections
         transition: "all 0.3s",
-        minHeight: "10em",
+        // minHeight: "10em",
         flex: 1,
         justifyContent: "flex-start",
         flexDirection: "column",
@@ -77,8 +82,12 @@ export const Section = ({
       <Loader inline size="large" active={loading}>
         Loading
       </Loader>
-      {editing && content.length === 0 ? (
-        <EmptySectionPlaceholder>{newbtn}</EmptySectionPlaceholder>
+      {empty ? (
+        editing ? (
+          <EmptySectionPlaceholder>{newbtn}</EmptySectionPlaceholder>
+        ) : (
+          <p>Coming soon!</p>
+        )
       ) : (
         <ContentBox type={type}>{content}</ContentBox>
       )}

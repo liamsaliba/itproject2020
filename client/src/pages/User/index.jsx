@@ -3,40 +3,30 @@
 import { jsx } from "theme-ui";
 import { NotExist } from "./NotExist";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   fetchEntirePortfolio,
   selectPortfolioByUsername,
   selectPortfolioIsEditing,
+  selectPortfoliosSlice,
   changePortfolio,
-  selectCurrentPortfolio,
 } from "../../store";
 import UserPage from "./UserPage";
 
 import { useDispatch } from "react-redux";
-import { selectLoadingStatus } from "../../store/slices/ui";
-
-export const RouteUser = () => {
-  const { userId } = useParams();
-  return <User userId={userId} />;
-};
+import { Dimmer, Loader } from "semantic-ui-react";
 
 const User = props => {
   const dispatch = useDispatch();
-  const { userId } = props;
-  // eslint-disable-next-line
-  const username = useSelector(selectCurrentPortfolio);
+  const { userId, selectedPage } = props;
   // eslint-disable-next-line
   const editing = useSelector(selectPortfolioIsEditing);
-  const loading = useSelector(selectLoadingStatus);
+  const loading = useSelector(state => selectPortfoliosSlice(state).loading);
   // const editing = props.editing || false;
 
   useEffect(() => {
-    if (username !== userId) {
-      dispatch(changePortfolio(userId));
-      dispatch(fetchEntirePortfolio(userId));
-    }
+    dispatch(fetchEntirePortfolio(userId));
+    dispatch(changePortfolio(userId));
   }, [userId]);
 
   const portfolio = useSelector(state =>
@@ -44,8 +34,12 @@ const User = props => {
   );
 
   return portfolio ? (
-    <UserPage userId={userId} />
-  ) : loading ? null : (
+    <UserPage userId={userId} selectedPage={selectedPage} />
+  ) : loading ? (
+    <Dimmer active={loading} inverted>
+      <Loader inverted>{`Loading ${userId}'s portfolio`}</Loader>
+    </Dimmer>
+  ) : (
     <NotExist userId={userId} />
   );
 };

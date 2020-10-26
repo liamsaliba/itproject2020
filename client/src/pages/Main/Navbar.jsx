@@ -8,12 +8,42 @@ import {
   MenuCamel,
   Navbar,
   ProfileDropdown,
+  Hamburger,
+  Link,
 } from "../../components";
 import { useSelector } from "react-redux";
 
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Icon, Menu } from "semantic-ui-react";
+import { useState } from "react";
 
-export default () => {
+export const MainHamburger = ({ children }) => {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  const menu = (
+    <Menu.Item
+      style={{ fontSize: "1.5em" }}
+      to="themes"
+      as={Link}
+      onClick={() => setOpen(false)}
+    >
+      <Icon name="paint brush" />
+      Themes
+    </Menu.Item>
+  );
+
+  return (
+    <Hamburger
+      open={() => setOpen(true)}
+      close={close}
+      isOpen={open}
+      menu={menu}
+    >
+      {children}
+    </Hamburger>
+  );
+};
+
+export const MainNavbar = () => {
   const auth = useSelector(state => state.auth);
 
   return (
@@ -60,3 +90,5 @@ export default () => {
     </Navbar>
   );
 };
+
+export default MainNavbar;
