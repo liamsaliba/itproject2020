@@ -133,13 +133,7 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
 // Orientation refers to that of the artefact/feature, it is one of - left, right and center
 // For now media is URL -> i.e. an image's url.
 export const Display = ({ openEditor, contents, id, media, editing }) => {
-  const {
-    orientation,
-    body,
-    header,
-    actionText,
-    actionUrl,
-  } = contents;
+  const { orientation, body, header, actionText, actionUrl } = contents;
 
   console.log(orientation);
   // var bodyOrientation = {};
@@ -163,7 +157,7 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
   const MediaCollection = () => {
     const mediaStyle = {
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
-      maxWidth:"390px"
+      maxWidth: "390px",
     };
 
     const mediaCollectionStyle = {
@@ -223,7 +217,7 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
     actionText === "" ||
     actionText === undefined ? null : (
       <Button
-        as={Link}
+        {...(editing ? {} : { as: Link })}
         href={actionUrl}
         sx={{ bg: "primary", color: "background", p: 2, alignSelf: "center" }}
       >
@@ -233,8 +227,8 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
 
   const bodyComponent =
     action || header || body ? (
-      <Flex sx={{ flex:"1", alignItems:"center", justifyContent:"center"}}>
-        <Box sx={{ flexDirection:"column"}}>
+      <Flex sx={{ flex: "1", alignItems: "center", justifyContent: "center" }}>
+        <Box sx={{ flexDirection: "column" }}>
           {header ? <Styled.h3>{header}</Styled.h3> : null}
           {body ? <Styled.p>{body}</Styled.p> : null}
           {action}
@@ -254,12 +248,16 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
         <MediaCollection />
       </Flex>
     ) : orientation === "center" ? (
-      <Flex sx={{position:"relative", alignItems:"center", justifyContent:"center"}}>
-        <Box sx={{position:"relative", zIndex:"100"}}>
-          {bodyComponent}
-        </Box>
-        <Box sx={{position:"absolute", zIndex:"0", height:"auto"}}>
-          <MediaCollection/>
+      <Flex
+        sx={{
+          position: "relative",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box sx={{ position: "relative", zIndex: "100" }}>{bodyComponent}</Box>
+        <Box sx={{ position: "absolute", zIndex: "0", height: "auto" }}>
+          <MediaCollection />
         </Box>
       </Flex>
     ) : null;
