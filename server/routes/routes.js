@@ -7,6 +7,9 @@ const pageRouter = require("./page.route");
 const artifactRouter = require("./artifact.route");
 const contactRouter = require("./contact.route");
 const mediaRouter = require("./media.route");
+const userController = require("../controllers/user.controller");
+
+router.get("/users", userController.getAllUsers);
 
 router.use("/user", userRouter);
 // router.use("/users", require("../controllers/user.controller").getAllUsers);

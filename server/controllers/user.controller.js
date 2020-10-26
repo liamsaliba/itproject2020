@@ -9,16 +9,7 @@ const Media = require("../models/media.model");
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).send(
-      users.map(user => {
-        const uObject = user.toObject();
-        delete uObject.local;
-        delete uObject.facebook;
-        delete uObject.google;
-        delete uObject.method;
-        return uObject;
-      })
-    );
+    res.status(200).send(users.map(user => user.toObject()));
   } catch (err) {
     req.status(400).json(err);
   }
