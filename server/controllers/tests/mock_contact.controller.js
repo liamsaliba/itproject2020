@@ -44,6 +44,7 @@ const contact = async (req, res) => {
         accessToken: accessToken,
       }
     });
+    
     var textBody = `FROM: ${name}; EMAIL: ${email} MESSAGE: ${message}`;
     var htmlBody = `<h2>Mail From camel_case Contact Form</h2><p>from: ${name} <a href="mailto:${email}">${email}</a></p><p>${message}</p>`;
 
