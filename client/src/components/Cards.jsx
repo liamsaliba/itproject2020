@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx, Image, Styled, Card as ThemedCard } from "theme-ui";
-import React from "react";
 import PropTypes from "prop-types";
 import { Section } from "./Section";
 
@@ -67,7 +66,7 @@ Card.propTypes = {
 export const Cards = props => (
   <Section
     {...props}
-    artifacts={props.cards.map((card, index) => (
+    content={props.content.map((card, index) => (
       <Card key={props.key + index} {...card} />
     ))}
   />

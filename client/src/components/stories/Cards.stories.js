@@ -1,13 +1,14 @@
 /** @jsx jsx */
-/* import { jsx } from "theme-ui";
+import { jsx } from "theme-ui";
+// import {Button} from "semantic-ui-react";
 
 import documentPreview from "../../svg/DocumentPreview.png";
 
-import { Card, Cards } from "../Cards";
+import { Cards, Card } from "../Cards";
 
 export default {
   component: Cards,
-  title: "Components/UserPages/Cards",
+  title: "Pages/Cards",
 };
 
 const CardTemplate = args => <Card {...args} />;
@@ -51,12 +52,15 @@ const Template = args => <Cards {...args} />;
 
 export const CollectionOfCards = Template.bind();
 CollectionOfCards.args = {
+  id:"randomID",
   name: "Lawrence's Random Card Collection",
-  cards: [
-    DefaultCard.args,
+  editing:true,
+  type:"cards",
+  content: [
     DefaultCard.args,
     DefaultCard.args,
     DefaultCard.args,
   ],
+  loading:false,
+  
 };
- */
