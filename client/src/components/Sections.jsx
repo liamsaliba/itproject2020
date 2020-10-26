@@ -254,10 +254,13 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
         <MediaCollection />
       </Flex>
     ) : orientation === "center" ? (
-      <Flex>
-        {bodyComponent}
-        {/* TODO: background media collection */}
-        {/* <MediaCollection onClick={handleClick} /> */}
+      <Flex sx={{position:"relative", alignItems:"center", justifyContent:"center"}}>
+        <Box sx={{position:"relative", zIndex:"100"}}>
+          {bodyComponent}
+        </Box>
+        <Box sx={{position:"absolute", zIndex:"0", height:"auto"}}>
+          <MediaCollection/>
+        </Box>
       </Flex>
     ) : null;
 
