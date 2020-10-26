@@ -10,11 +10,13 @@ import {
   selectPortfolioIsEditing,
   selectPortfoliosSlice,
   changePortfolio,
+  selectPortfolioAvatar,
 } from "../../store";
 import UserPage from "./UserPage";
 
 import { useDispatch } from "react-redux";
 import { Dimmer, Loader } from "semantic-ui-react";
+import { Camel } from "../../components/Camel";
 
 const User = props => {
   const dispatch = useDispatch();
@@ -32,12 +34,16 @@ const User = props => {
   const portfolio = useSelector(state =>
     selectPortfolioByUsername(state, userId)
   );
+  const avatar = useSelector(state => selectPortfolioAvatar(state, userId));
 
   return portfolio ? (
     <UserPage userId={userId} selectedPage={selectedPage} />
   ) : loading ? (
     <Dimmer active={loading} inverted>
-      <Loader inverted>{`Loading ${userId}'s portfolio`}</Loader>
+      <Loader inverted>
+        <Camel src={avatar} />
+        {`Loading ${userId}'s portfolio`}
+      </Loader>
     </Dimmer>
   ) : (
     <NotExist userId={userId} />
