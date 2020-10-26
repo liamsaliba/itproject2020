@@ -48,6 +48,9 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          MAILER_CLIENT_ID: ${{ secrets.MAILER_CLIENT_ID }}
+          MAILER_CLIENT_SECRET: ${{ secrets.MAILER_CLIENT_SECRET }}
+          MAILER_REFRESH_TOKEN: ${{ secrets.MAILER_REFRESH_TOKEN }}
         
       - name: Run Chromatic
         run: cd client && npx chromatic --project-token ${{ secrets.CHROMATIC_TOKEN }} --exit-once-uploaded
