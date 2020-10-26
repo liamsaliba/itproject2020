@@ -47,7 +47,7 @@ export const MenuItem = props => (
     activeClassName="nactive"
     sx={{
       ...props.sx,
-      variant: "links.nav",
+      fontFamily: "body",
     }}
     smooth // smooth scroll to element
     p={2}
