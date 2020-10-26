@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx, Flex, Box, Image, Styled, Button } from "theme-ui";
-import React from "react";
 import { Link } from "../components";
 // import { useEffect } from "react";
 import moment from "moment";
@@ -135,13 +134,14 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
 // For now media is URL -> i.e. an image's url.
 export const Display = ({ openEditor, contents, id, media, editing }) => {
   const {
-    orientation = "right",
+    orientation,
     body,
     header,
     actionText,
     actionUrl,
   } = contents;
 
+  console.log(orientation);
   // var bodyOrientation = {};
   // if (orientation === "right") {
   //   bodyOrientation = {
@@ -163,6 +163,7 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
   const MediaCollection = () => {
     const mediaStyle = {
       boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
+      maxWidth:"390px"
     };
 
     const mediaCollectionStyle = {
@@ -232,30 +233,32 @@ export const Display = ({ openEditor, contents, id, media, editing }) => {
 
   const bodyComponent =
     action || header || body ? (
-      <Flex sx={{ flexDirection: "column" }}>
-        {header ? <Styled.h3>{header}</Styled.h3> : null}
-        {body ? <Styled.p>{body}</Styled.p> : null}
-        {action}
+      <Flex sx={{ flex:"1", alignItems:"center", justifyContent:"center"}}>
+        <Box sx={{ flexDirection:"column"}}>
+          {header ? <Styled.h3>{header}</Styled.h3> : null}
+          {body ? <Styled.p>{body}</Styled.p> : null}
+          {action}
+        </Box>
       </Flex>
     ) : null;
 
   const children =
     orientation === "right" ? (
-      <React.Fragment>
+      <Flex>
         <MediaCollection />
         {bodyComponent}
-      </React.Fragment>
+      </Flex>
     ) : orientation === "left" ? (
-      <React.Fragment>
+      <Flex>
         {bodyComponent}
         <MediaCollection />
-      </React.Fragment>
+      </Flex>
     ) : orientation === "center" ? (
-      <React.Fragment>
+      <Flex>
         {bodyComponent}
         {/* TODO: background media collection */}
         {/* <MediaCollection onClick={handleClick} /> */}
-      </React.Fragment>
+      </Flex>
     ) : null;
 
   return <Row {...{ editing, openEditor, id }}>{children}</Row>;
