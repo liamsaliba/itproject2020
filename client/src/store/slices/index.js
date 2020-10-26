@@ -58,6 +58,7 @@ export {
   updateSinglePage,
   updateSocials,
   // selectors (custom)
+  selectPortfoliosLoading,
   selectPortfolioPages,
   selectPortfolioPageNames,
   selectPortfolioPageIds,

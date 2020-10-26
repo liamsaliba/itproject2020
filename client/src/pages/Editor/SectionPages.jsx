@@ -301,7 +301,6 @@ export const NewPageModal = () => {
             value={state.type}
             size="big"
             name="type"
-            // sx={{ zIndex: "999999 !important" }}
           />
         </Modal.Description>
       </Modal.Content>

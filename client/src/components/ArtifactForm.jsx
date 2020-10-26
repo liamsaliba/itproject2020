@@ -357,7 +357,6 @@ const ExperienceForm = () => {
         options={employmentOptions}
         placeholder="Full time, part time, ..."
         name="employmentType"
-        // sx={{ zIndex: "999999 !important" }}
       />
       <Controller
         as={Form.Checkbox}
@@ -724,7 +723,7 @@ const FormModal = ({
         <Modal.Header>{title}</Modal.Header>
         <Modal.Content>
           <Form
-            onSubmit={data => handleSubmit(onSubmit)(data)}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{
               fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
             }}

@@ -274,6 +274,11 @@ export const selectPortfolioIsLoading = createSelector(
 
 export const selectPortfoliosSlice = state => state.portfolios;
 
+export const selectPortfoliosLoading = createSelector(
+  selectPortfoliosSlice,
+  portfolios => (portfolios ? portfolios.loading : false)
+);
+
 // Action Creators
 
 // load a list-level representation of all portfolios
