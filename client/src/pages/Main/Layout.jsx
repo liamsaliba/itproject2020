@@ -36,7 +36,7 @@ export default props => {
         <Media at="mobile">
           <Flex sx={flexProps}>
             <MainHamburger>
-              {props.children}
+              <Flex variant="layout.centerflex">{props.children}</Flex>
               <Footer as="footer" sx={{ mt: "3em" }} />
             </MainHamburger>
           </Flex>

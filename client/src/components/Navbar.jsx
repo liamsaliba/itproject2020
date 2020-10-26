@@ -6,11 +6,14 @@ import { Menu } from "semantic-ui-react";
 const Left = props => (
   <Menu.Menu
     {...props}
+    position="left"
     sx={{
       ...props.sx,
+      alignItems: "center",
       flex: props.size ?? 1,
       justifyContent: "flex-start",
     }}
+    secondary
   />
 );
 
@@ -20,6 +23,7 @@ const Center = props => (
     sx={{
       ...props.sx,
     }}
+    secondary
   />
 );
 
@@ -29,9 +33,11 @@ const Right = props => (
     position="right"
     sx={{
       ...props.sx,
+      alignItems: "center",
       flex: props.size ?? 1,
       justifyContent: "flex-end",
     }}
+    secondary
   />
 );
 
