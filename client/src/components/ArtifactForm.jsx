@@ -743,7 +743,6 @@ const FormModal = ({
       // const { media, ...contents } = data;
       // if (action) action({ media, contents });
       if (action) action(data);
-      console.log("submitted form fields", allFields);
 
       start();
     }
