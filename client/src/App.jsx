@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 // const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+const pageName = match => decodeURI(match.params.pageName);
+
 export default () => {
   return (
     <React.Fragment>
@@ -17,10 +19,7 @@ export default () => {
         <Route
           path="/u/:userId/:pageName"
           render={({ match }) => (
-            <User
-              userId={match.params.userId}
-              selectedPage={match.params.pageName}
-            />
+            <User userId={match.params.userId} selectedPage={pageName(match)} />
           )}
         />
         <Route
@@ -29,9 +28,7 @@ export default () => {
         />
         <Route
           path="/editor/:pageName"
-          render={({ match }) => (
-            <Editor selectedPage={match.params.pageName} />
-          )}
+          render={({ match }) => <Editor selectedPage={pageName(match)} />}
         />
         <Route component={Editor} path="/editor" />
         <Route component={Main} path="*" />
