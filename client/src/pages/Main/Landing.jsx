@@ -21,6 +21,100 @@ import themes from "../../svg/Landing/Themes.png";
 
 import { Link } from "react-router-dom";
 
+import { createMedia } from "@artsy/fresnel";
+
+const { MediaContextProvider, Media } = createMedia({
+  breakpoints: {
+    mobile: 0,
+    tablet: 768,
+    computer: 1024,
+  },
+});
+
+const Left = props => {
+  return (
+    <Segment style={{ padding: "1em 0em" }} vertical>
+      <Grid container centered verticalAlign="middle" stackable>
+        <Grid.Row>
+          <Grid.Column floated="left" width={6}>
+            <Image
+              rounded
+              size="large"
+              src={props.image}
+              href="https://stories.freepik.com/web"
+            />
+          </Grid.Column>
+          <Grid.Column textAlign="right" width={8}>
+            <Header as="h3" style={{ fontSize: "2em" }}>
+              {props.header}
+            </Header>
+            <p style={{ fontSize: "1.33em" }}>{props.subheading}</p>
+            {props.button}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Segment>
+  );
+};
+
+const Right = props => {
+  return (
+    <Segment style={{ padding: "1em 0em" }} vertical>
+      <Grid container centered verticalAlign="middle" stackable>
+        <Grid.Row>
+          <Grid.Column width={8}>
+            <Header as="h3" style={{ fontSize: "2em" }}>
+              {props.header}
+            </Header>
+            <p style={{ fontSize: "1.33em" }}>{props.subheading}</p>
+            {props.button}
+          </Grid.Column>
+          <Grid.Column floated="right" width={6}>
+            <Image
+              rounded
+              size="large"
+              src={props.image}
+              href="https://stories.freepik.com/web"
+            />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Segment>
+  );
+};
+
+const Middle = props => {
+  return (
+    <Segment style={{ padding: "1em 0em" }} vertical>
+      <Grid
+        container
+        style={{ marginTop: "0em", marginBottom: "1em" }}
+        centered
+        verticalAlign="middle"
+        stackable
+      >
+        <Grid.Row>
+          <Image
+            rounded
+            size="large"
+            src={props.image}
+            href="https://stories.freepik.com/web"
+          />
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column textAlign="center" width={8}>
+            <Header as="h3" style={{ fontSize: "2em" }}>
+              {props.header}
+            </Header>
+            <p style={{ fontSize: "1.33em" }}>{props.subheading}</p>
+            {props.button}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Segment>
+  );
+};
+
 // Illustration by Freepik Stories "https://stories.freepik.com/web"
 
 const HomepageHeading = () => (
@@ -70,152 +164,125 @@ const HomepageHeading = () => (
   </Segment>
 );
 
-const HomepageBody = () => (
+const FirstTwo = (
   <React.Fragment>
-    <Segment style={{ padding: "1em 0em" }} vertical>
-      <Grid container centered verticalAlign="middle" stackable>
-        <Grid.Row>
-          <Grid.Column width={8}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              Create and share ePortfolios on the fly
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              Creating your own ePortfolio on the whim and sharing with
-              potential employers or friends have never been easier with a
-              simple, easy-to-use UI.
-            </p>
-          </Grid.Column>
-          <Grid.Column floated="right" width={6}>
-            <Image
-              rounded
-              size="large"
-              src={portfolio}
-              href="https://stories.freepik.com/web"
-            />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-    <Segment style={{ padding: "1em 0em" }} vertical>
-      <Grid container centered verticalAlign="middle" stackable>
-        <Grid.Row>
-          <Grid.Column floated="left" width={6}>
-            <Image
-              rounded
-              size="large"
-              src={customise}
-              href="https://stories.freepik.com/web"
-            />
-          </Grid.Column>
-          <Grid.Column textAlign="right" width={8}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              Hit the ground running
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              Pick a ready-made template without having to worry about complex
-              or complicated features while still being able to customise it
-              enough to call it yours.
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
+    <Right
+      header="Create and share ePortfolios on the fly"
+      subheading="Creating your own ePortfolio on the whim and sharing with
+      potential employers or friends have never been easier with a
+      simple, easy-to-use UI."
+      image={portfolio}
+    />
+    <Left
+      header="Hit the ground running"
+      subheading="Pick a ready-made template without having to worry about complex
+      or complicated features while still being able to customise it
+      enough to call it yours."
+      image={customise}
+    />
+  </React.Fragment>
+);
 
-    <Segment style={{ padding: "1em 0em" }} vertical>
-      <Grid
-        container
-        style={{ marginTop: "0em", marginBottom: "1em" }}
-        centered
-        verticalAlign="middle"
-        stackable
-      >
-        <Grid.Row>
-          <Image
-            rounded
-            size="large"
-            src={themes}
-            href="https://stories.freepik.com/web"
-          />
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column textAlign="center" width={8}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              An eye for aesthetics
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              Add colour and life to your portfolio by choosing one of our
-              favourite themes and colour palettes.
-            </p>
-            <Button animated secondary size="huge" as={Link} to="themes">
-              <Button.Content visible>Check out our themes!</Button.Content>
-              <Button.Content hidden>
-                <Icon name="paint brush" />
-              </Button.Content>
-            </Button>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-    <Segment style={{ padding: "1em 0em" }} vertical>
-      <Grid container centered verticalAlign="middle" stackable>
-        <Grid.Row>
-          <Grid.Column floated="left" width={6}>
-            <Image
-              rounded
-              size="large"
-              src={media}
-              href="https://stories.freepik.com/web"
-            />
-          </Grid.Column>
-          <Grid.Column textAlign="right" width={8}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              Everything you need, all at your fingertips
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              Pick and choose which of your work to show off by easily managing
-              all your media uploads at any time.
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-    <Segment style={{ padding: "1em 0em" }} vertical>
-      <Grid container centered verticalAlign="middle" stackable>
-        <Grid.Row>
-          <Grid.Column width={6}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              Save as you go
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              Now you don't have to worry about whether you saved your work.
-              Leave it to us!
-            </p>
-            <Button animated primary size="huge" as={Link} to="signup">
-              <Button.Content visible>Get Started!</Button.Content>
-              <Button.Content hidden>
-                <Icon name="user plus" />
-              </Button.Content>
-            </Button>
-          </Grid.Column>
-          <Grid.Column floated="right" width={6}>
-            <Image
-              rounded
-              size="large"
-              src={autosave}
-              href="https://stories.freepik.com/web"
-            />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
+const MobileFirst = (
+  <React.Fragment>
+    <Middle
+      header="Create and share ePortfolios on the fly"
+      subheading="Creating your own ePortfolio on the whim and sharing with
+      potential employers or friends have never been easier with a
+      simple, easy-to-use UI."
+      image={portfolio}
+    />
+    <Middle
+      header="Hit the ground running"
+      subheading="Pick a ready-made template without having to worry about complex
+      or complicated features while still being able to customise it
+      enough to call it yours."
+      image={customise}
+    />
+  </React.Fragment>
+);
+
+const LastTwo = (
+  <React.Fragment>
+    <Left
+      header="Everything you need, all at your fingertips"
+      subheading="Pick and choose which of your work to show off by easily managing
+      all your media uploads at any time."
+      image={media}
+    />
+    <Right
+      header="Save as you go"
+      subheading="Now you don't have to worry about whether you saved your work.
+      Leave it to us!"
+      image={autosave}
+      button={
+        <Button animated primary size="huge" as={Link} to="signup">
+          <Button.Content visible>Get Started!</Button.Content>
+          <Button.Content hidden>
+            <Icon name="user plus" />
+          </Button.Content>
+        </Button>
+      }
+    />
+  </React.Fragment>
+);
+
+const MobileLast = (
+  <React.Fragment>
+    <Middle
+      header="Everything you need, all at your fingertips"
+      subheading="Pick and choose which of your work to show off by easily managing
+      all your media uploads at any time."
+      image={media}
+    />
+    <Middle
+      header="Save as you go"
+      subheading="Now you don't have to worry about whether you saved your work.
+      Leave it to us!"
+      image={autosave}
+      button={
+        <Button animated primary size="huge" as={Link} to="signup">
+          <Button.Content visible>Get Started!</Button.Content>
+          <Button.Content hidden>
+            <Icon name="user plus" />
+          </Button.Content>
+        </Button>
+      }
+    />
+  </React.Fragment>
+);
+
+const HomepageBody = props => (
+  <React.Fragment>
+    {props.mobile ? MobileFirst : FirstTwo}
+    <Middle
+      header="An eye for aesthetics"
+      subheading="Add colour and life to your portfolio by choosing one of our
+      favourite themes and colour palettes."
+      image={themes}
+      button={
+        <Button animated secondary size="huge" as={Link} to="themes">
+          <Button.Content visible>Check out our themes!</Button.Content>
+          <Button.Content hidden>
+            <Icon name="paint brush" />
+          </Button.Content>
+        </Button>
+      }
+    />
+    {props.mobile ? MobileLast : LastTwo}
   </React.Fragment>
 );
 
 export default () => {
   return (
-    <React.Fragment>
+    <MediaContextProvider>
       <HomepageHeading />
-      <HomepageBody />
-    </React.Fragment>
+      <Media greaterThan="mobile">
+        <HomepageBody />
+      </Media>
+      <Media at="mobile">
+        <HomepageBody mobile />
+      </Media>
+    </MediaContextProvider>
   );
 };
