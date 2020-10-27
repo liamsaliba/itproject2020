@@ -13,7 +13,6 @@ const Left = props => (
       flex: props.size ?? 1,
       justifyContent: "flex-start",
     }}
-    secondary
   />
 );
 
@@ -23,7 +22,6 @@ const Center = props => (
     sx={{
       ...props.sx,
     }}
-    secondary
   />
 );
 
@@ -37,7 +35,6 @@ const Right = props => (
       flex: props.size ?? 1,
       justifyContent: "flex-end",
     }}
-    secondary
   />
 );
 

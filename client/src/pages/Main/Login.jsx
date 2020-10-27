@@ -11,7 +11,7 @@ import {
   Loader,
   Icon,
 } from "semantic-ui-react";
-
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, resetErrors } from "../../store";
 import { useEffect, useState } from "react";
@@ -59,50 +59,61 @@ export default () => {
     dispatch(login(username, password, useCookie));
   };
   return (
-    <Grid verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Title>Login</Title>
-        <Header as="h2" textAlign="center">
-          <Icon name="sign in" />
-          Log in to your account
-        </Header>
-        <br />
-        <Form size="large" onSubmit={handleSubmit}>
-          <Form.Input
-            name="username"
-            fluid
-            icon="at"
-            iconPosition="left"
-            placeholder="Username"
-            defaultValue={userId}
-          />
-          <Form.Input
-            name="password"
-            fluid
-            icon="lock"
-            iconPosition="left"
-            placeholder="Password"
-            type="password"
-          />
-          <Form.Checkbox
-            label="Remember me"
-            defaultChecked
-            onClick={() => setCookie(!useCookie)}
-          />
-          <Button animated fluid primary size="large" type="submit">
-            <Button.Content visible>Log In</Button.Content>
-            <Button.Content hidden>
-              <Icon name="sign in" />
-            </Button.Content>
-          </Button>
-        </Form>
-        <Message info>
-          Don't have an account? <a href="/signup">Sign up</a> now!
-        </Message>
-        <Dimmer inverted active={auth.loading}>
-          <Loader inverted>Logging in...</Loader>
-        </Dimmer>
-      </Grid.Column>
-    </Grid>
+    <React.Fragment>
+      <Grid verticalAlign="middle">
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Title>Login</Title>
+          <Header as="h2" textAlign="center">
+            <Icon name="sign in" />
+            Log in to your account
+          </Header>
+          <br />
+          <Form size="large" onSubmit={handleSubmit}>
+            <Form.Input
+              name="username"
+              fluid
+              icon="at"
+              iconPosition="left"
+              placeholder="Username"
+              defaultValue={userId}
+            />
+            <Form.Input
+              name="password"
+              fluid
+              icon="lock"
+              iconPosition="left"
+              placeholder="Password"
+              type="password"
+            />
+
+            <Form.Checkbox
+              label="Remember me"
+              defaultChecked
+              textAlign="left"
+              onClick={() => setCookie(!useCookie)}
+            />
+            <Button animated fluid primary size="large" type="submit">
+              <Button.Content visible>Log In</Button.Content>
+              <Button.Content hidden>
+                <Icon name="sign in" />
+              </Button.Content>
+            </Button>
+          </Form>
+          <Message info>
+            Don't have an account? <a href="/signup">Sign up</a> now!
+          </Message>
+          <Dimmer inverted active={auth.loading}>
+            <Loader inverted>Logging in...</Loader>
+          </Dimmer>
+        </Grid.Column>
+      </Grid>
+      <Grid textAlign="right">
+        <Grid.Column style={{ width: 300 }}>
+          <a textAlign="right" href="/reset-password">
+            Forgot password
+          </a>
+        </Grid.Column>
+      </Grid>
+    </React.Fragment>
   );
 };

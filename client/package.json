@@ -33,6 +33,7 @@
     "react-scripts": "3.4.3",
     "react-social-icons": "^4.1.0",
     "react-toastify": "^6.0.8",
+    "react-verification-code-input": "^1.2.6",
     "rebass": "^4.0.7",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",

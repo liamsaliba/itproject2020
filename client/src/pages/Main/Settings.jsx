@@ -1,6 +1,14 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { Form, Button, Modal, Grid, Icon, Header } from "semantic-ui-react";
+import {
+  Form,
+  Button,
+  Modal,
+  Grid,
+  Icon,
+  Header,
+  Divider,
+} from "semantic-ui-react";
 import { toast } from "react-toastify";
 import { ChooseProfileModal } from "../../components/ProfileIcon";
 
@@ -303,7 +311,7 @@ export default () => {
         <Grid.Column verticalAlign="middle" style={{ minWidth: 400 }}>
           <Title>Settings</Title>
           <Header as="h2" textAlign="center">
-            <Icon name="settings" /> User Settings
+            <Icon name="settings" /> Settings
           </Header>
           <br />
           <ChooseProfileModal username={user.username} profile={user.avatar} />
@@ -312,6 +320,7 @@ export default () => {
 
       <Grid.Row>
         <Grid.Column style={{ maxWidth: 400 }}>
+          <Divider horizontal>User Settings</Divider>
           <Form size="large" onSubmit={handleSubmit}>
             <Form.Group widths="equal">
               <Form.Input
@@ -356,38 +365,49 @@ export default () => {
               readOnly
             />
             {Edit({ editing, setEditing })}
-            <Button
-              primary
-              type="button"
-              icon="lock"
-              labelPosition="left"
-              content="Change Password"
-              onClick={() =>
-                toast.info(
-                  "A link to change your password has been sent to your email!"
-                )
-              }
-            />
-            <DeleteAccountModal />
-            <Button
-              secondary
-              as={Link}
-              type="button"
-              icon="log out"
-              labelPosition="left"
-              content="Log out"
-              to="/logout"
-            />
-            <Button
-              secondary
-              as={Link}
-              type="button"
-              icon="unlock"
-              labelPosition="left"
-              content="Log out everywhere"
-              to="/logout/all"
-            />
+            <Divider horizontal>Account Settings</Divider>
+            <Button.Group widths="3">
+              <Button
+                secondary
+                as={Link}
+                type="button"
+                icon="log out"
+                labelPosition="left"
+                content="Log out from device"
+                to="/logout"
+              />
+              <Button
+                basic
+                secondary
+                as={Link}
+                type="button"
+                icon="unlock"
+                labelPosition="left"
+                content="Log out everywhere"
+                to="/logout/all"
+              />
+            </Button.Group>
+            <br />
+            <br />
+            <Button.Group widths="3">
+              <Button
+                primary
+                type="button"
+                icon="lock"
+                as={Link}
+                labelPosition="left"
+                content="Change Password"
+                to="/reset-password"
+                // onClick={() =>
+                //   toast.info(
+                //     "A link to change your password has been sent to your email!"
+                //   )
+                // }
+              />
+              <DeleteAccountModal />
+            </Button.Group>
           </Form>
+          <br />
         </Grid.Column>
       </Grid.Row>
     </Grid>
