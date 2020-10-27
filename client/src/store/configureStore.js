@@ -31,9 +31,10 @@ const getMiddleware = () => {
   }
 };
 
-export default function () {
+export default function (preloadedState = undefined) {
   return configureStore({
     reducer,
     middleware: getMiddleware(),
+    preloadedState,
   });
 }
