@@ -16,6 +16,7 @@ export default () => {
   const [valid, setValid] = useState(false);
   // const authError = useSelector(state => selectAuthSlice(state).error);
 
+  // TODO: change hardcoded value to the code sent to email
   const checkVal = val => {
     if (val === "123456") {
       setValid(true);
