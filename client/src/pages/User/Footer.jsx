@@ -9,9 +9,9 @@ export default props => {
   return (
     <Navbar stackable style={{ border: "none" }} attached="bottom">
       <Navbar.Left>
-        <MenuItem to="/">camel_case</MenuItem>
+        <MenuItem to="/">Camel Pages</MenuItem>
         <div sx={{ p: 2 }}>
-          {fullName} / {props.userId}
+          {fullName} ({props.userId})
         </div>
       </Navbar.Left>
       <Navbar.Right>
