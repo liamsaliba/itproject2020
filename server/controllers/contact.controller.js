@@ -58,6 +58,7 @@ const contact = async (req, res) => {
       text: textBody,
       html: htmlBody,
     };
+    
     // send mail with defined transport object
     transporter.sendMail(mail, function (err, info) {
       if (err) {
