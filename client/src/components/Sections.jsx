@@ -26,11 +26,6 @@ const styling = {
   mb: 0,
 };
 
-const EEstyling = {
-  p: "1em",
-  borderRadius: "5px",
-};
-
 const greyedOut = {
   opacity: "0.9",
 };
@@ -76,10 +71,13 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
     startDate,
     endDate,
     details,
+    orientation,
+    textAlign,
+    displaySize,
   } = contents;
 
-  return (
-    <Row {...{ editing, openEditor, id, style: EEstyling }}>
+  const content = (
+    <Box>
       <Styled.h3 sx={styling}>{school}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
         {[degree, fieldOfStudy, grade ? "Grade: ".concat(grade) : ""].join(
@@ -95,7 +93,23 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
       </Styled.p>
 
       <Styled.p sx={{ ...styling, mb: "1em" }}>{details}</Styled.p>
-    </Row>
+    </Box>
+  );
+
+  return (
+    <StyledArtifact
+      {...{
+        openEditor,
+        id,
+        media,
+        editing,
+        orientation,
+        textAlign,
+        displaySize,
+      }}
+    >
+      {content}
+    </StyledArtifact>
   );
 };
 
@@ -111,10 +125,13 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
     startDate,
     endDate,
     details,
+    orientation,
+    textAlign,
+    displaySize,
   } = contents;
 
-  return (
-    <Row {...{ editing, openEditor, id, style: EEstyling }}>
+  const content = (
+    <Box>
       <Styled.h3 sx={styling}>{jobTitle}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
         {[organisation, department].join(" \u00B7 ")}
@@ -131,7 +148,23 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
       </Styled.p>
 
       <Styled.p sx={{ ...styling, mb: "1em" }}>{details}</Styled.p>
-    </Row>
+    </Box>
+  );
+
+  return (
+    <StyledArtifact
+      {...{
+        openEditor,
+        id,
+        media,
+        editing,
+        orientation,
+        textAlign,
+        displaySize,
+      }}
+    >
+      {content}
+    </StyledArtifact>
   );
 };
 
