@@ -26,12 +26,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { Toggle } from "../../components/Form";
 import { DeleteConfirmationModal } from "../../components/Modals";
 
-const pageTypes = {
-  mixed: { key: "m", text: "Mix", value: "mix", icon: "mix" },
+export const pageTypes = {
+  mixed: {
+    key: "m",
+    text: "Default",
+    value: "mix",
+    icon: "asterisk",
+    description: "All element types supported",
+  },
+  display: {
+    key: "d",
+    text: "Display",
+    description: "Heading, body, action, media",
+    value: "display",
+    icon: "newspaper outline",
+  },
   experience: {
     key: "x",
     text: "Experience",
     defaultPageName: "Experience",
+    description: "Your jobs and positions",
     value: "experience",
     icon: "briefcase",
   },
@@ -39,20 +53,22 @@ const pageTypes = {
     key: "e",
     text: "Education",
     defaultPageName: "Education",
+    description: "Your educational background",
     value: "education",
     icon: "graduation",
   },
-  display: {
-    key: "d",
-    text: "Display",
-    value: "display",
-    icon: "newspaper outline",
+  gallery: {
+    key: "g",
+    text: "Gallery",
+    value: "gallery",
+    icon: "images",
+    description: "Wall of media",
   },
-  gallery: { key: "g", text: "Gallery", value: "gallery", icon: "images" },
   article: {
     key: "a",
     text: "Article",
     defaultPageName: "Articles",
+    description: "Long prose",
     value: "article",
     icon: "file alternate outline",
   },
@@ -60,6 +76,7 @@ const pageTypes = {
     key: "p",
     text: "Publication",
     defaultPageName: "Publications",
+    description: "Published works",
     value: "publication",
     icon: "book",
   },
@@ -218,7 +235,7 @@ const Page = ({ active, setActive, page }) => {
 export const NewPageModal = () => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
-  const [state, setState] = useState({ name: "", type: "display" });
+  const [state, setState] = useState({ name: "", type: "mix" });
 
   const options = Object.values(pageTypes);
   const dispatch = useDispatch();
