@@ -108,7 +108,7 @@ export default props => {
         }}
       >
         <User userId={id} selectedPage={selectedPage} />
-        <Dimmer active={loading} inverted>
+        <Dimmer active={portfolio && loading} inverted>
           <Loader inverted />
         </Dimmer>
       </Dimmer.Dimmable>
