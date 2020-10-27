@@ -263,24 +263,27 @@ export default () => {
   const loading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
 
+  const [editing, setEditing] = useState(false);
+
   const { state, handleChange, setState } = useFormState({
     firstName: user.firstName,
     lastName: user.lastName,
   });
 
   // eslint-disable-next-line no-unused-vars
-  const { status, start } = useAsync(
+  const { start } = useAsync(
     loading,
     error,
-    () =>
+    () => {
       setState({
         firstName: user.firstName,
         lastName: user.lastName,
-      }),
+      });
+      setEditing(false);
+    },
     () => dispatch(resetAuthErrors)
   );
 
-  const [editing, setEditing] = useState(false);
   const authError = useSelector(state => selectAuthSlice(state).error);
   const history = useHistory();
 
