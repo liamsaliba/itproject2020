@@ -41,14 +41,13 @@ export default () => {
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const oldPassword = formData.get("oldPassword");
-    const newPassword = formData.get("newPassword");
-    const confirmNewPassword = formData.get("confirmNewPassword");
-    if (oldPassword === "" || newPassword === "" || confirmNewPassword === "") {
+    const password = formData.get("newPassword");
+    const confirmPassword = formData.get("confirmNewPassword");
+    if (password === "" || confirmPassword === "") {
       toast.error("Required fields are empty.");
       return;
     }
-    if (confirmNewPassword === newPassword) {
+    if (confirmPassword !== password) {
       toast.error("Password does not match.");
       return;
     }
@@ -81,15 +80,7 @@ export default () => {
           ) : (
             <Form size="large" onSubmit={handleSubmit}>
               <Form.Input
-                name="oldPassword"
-                fluid
-                icon="lock"
-                iconPosition="left"
-                placeholder="Old Password"
-                type="password"
-              />
-              <Form.Input
-                name="newPassword"
+                name="password"
                 fluid
                 icon="lock"
                 iconPosition="left"
@@ -97,11 +88,11 @@ export default () => {
                 type="password"
               />
               <Form.Input
-                name="confirmNewPassword"
+                name="confirmPassword"
                 fluid
                 icon="lock"
                 iconPosition="left"
-                placeholder="Confirm New Password"
+                placeholder="Confirm Password"
                 type="password"
               />
               <Form.Group widths="equal">
