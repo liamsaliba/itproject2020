@@ -57,6 +57,13 @@ export const pageTypes = {
     value: "education",
     icon: "graduation",
   },
+  heading: {
+    key: "h",
+    text: "Heading",
+    description: "with background media",
+    value: "heading",
+    icon: "heading",
+  },
   gallery: {
     key: "g",
     text: "Gallery",

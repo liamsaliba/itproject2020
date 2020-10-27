@@ -173,6 +173,32 @@ const DisplayPropertiesForm = ({ media, body, collapsible = false }) => {
   );
 };
 
+const HeadingForm = () => {
+  const { errors, watch } = useFormContext();
+
+  const media = watch("media");
+  const body = watch(["header"]);
+  const bodyText = Object.values(body).join("");
+
+  return (
+    <Box>
+      <Controller
+        as={Form.Input}
+        placeholder="A big headline"
+        error={getErrors(errors, "header")}
+        name="header"
+        label="Header"
+        size="large"
+        icon="heading"
+        iconPosition="left"
+      />
+      <MediaForm />
+      <Divider />
+      <DisplayPropertiesForm media={media} body={bodyText} />
+    </Box>
+  );
+};
+
 const DisplayForm = () => {
   const { errors, watch } = useFormContext();
 
@@ -425,6 +451,21 @@ const ExperienceForm = () => {
   );
 };
 
+const actionDefaults = {
+  actionText: "",
+  actionUrl: "",
+};
+
+const mediaDefaults = {
+  media: [],
+};
+
+const displayDefaults = {
+  orientation: "center",
+  displaySize: "auto",
+  textAlign: "center",
+};
+
 const forms = {
   education: {
     content: <EducationForm />,
@@ -437,13 +478,10 @@ const forms = {
       grade: "",
       startDate: null,
       endDate: null,
-      media: [],
       details: "",
-      orientation: "center",
-      displaySize: "auto",
-      textAlign: "center",
+      ...displayDefaults,
+      ...mediaDefaults,
     },
-    // TODO: callback: ,
   },
   experience: {
     content: <ExperienceForm />,
@@ -457,13 +495,10 @@ const forms = {
       isVoluntary: false,
       startDate: null,
       endDate: null,
-      media: [],
       details: "",
-      orientation: "center",
-      displaySize: "auto",
-      textAlign: "center",
+      ...displayDefaults,
+      ...mediaDefaults,
     },
-    // TODO: callback: ,
   },
   display: {
     content: <DisplayForm />,
@@ -471,12 +506,9 @@ const forms = {
     defaultValues: {
       header: "",
       body: "",
-      media: [],
-      actionText: "",
-      actionUrl: "",
-      orientation: "center",
-      displaySize: "auto",
-      textAlign: "center",
+      ...displayDefaults,
+      ...mediaDefaults,
+      ...actionDefaults,
     },
     validate: (data, setError) => {
       if (data.header === "" && data.body === "" && data.media.length === 0) {
@@ -502,7 +534,15 @@ const forms = {
       }
       return true;
     },
-    // TODO: callback: ,
+  },
+  heading: {
+    content: <HeadingForm />,
+    title: "Heading",
+    defaultValues: {
+      header: "",
+      ...displayDefaults,
+      ...mediaDefaults,
+    },
   },
 };
 
