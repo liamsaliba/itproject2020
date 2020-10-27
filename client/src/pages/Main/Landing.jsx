@@ -149,7 +149,7 @@ const HomepageBody = () => (
             <Button animated secondary size="huge" as={Link} to="themes">
               <Button.Content visible>Check out our themes!</Button.Content>
               <Button.Content hidden>
-                <Icon name="arrow right" />
+                <Icon name="paint brush" />
               </Button.Content>
             </Button>
           </Grid.Column>
