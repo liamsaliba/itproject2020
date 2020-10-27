@@ -150,7 +150,6 @@ const Page = ({ active, setActive, page }) => {
   const icon = typeInfo === undefined ? "file outline" : typeInfo.icon;
 
   const handlePageClick = e => {
-    console.log(page);
     setActive(page);
   };
 

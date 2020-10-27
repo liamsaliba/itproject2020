@@ -37,12 +37,10 @@ import {
   selectArtifactCurrentlyEditing,
 } from "../../store/slices/ui";
 import { useEffect } from "react";
-// import { SocialIcon } from "react-social-icons";
 import { ContactForm } from "./Contact";
 import { MenuButton } from "../../components/NavItems";
 import { SocialIcon } from "react-social-icons";
 import { selectArtifactsError } from "../../store/slices/artifacts";
-import { useFormState } from "../../components/Modals";
 import { pageTypes } from "../Editor/SectionPages";
 
 const EditBioModal = ({ bio }) => {
@@ -105,7 +103,7 @@ const SocialIcons = id => {
   const socials = useSelector(state => selectSocialIcons(state, id));
 
   useEffect(() => {
-    console.log(socials);
+    console.log("socials", socials);
   });
 
   return (
@@ -175,7 +173,6 @@ const Page = ({ pageId: id, name, userId }) => {
       onClick: create(option.value),
       description: undefined,
     }));
-  console.log(options);
   const newbtn =
     type === "mix" ? (
       <Dropdown

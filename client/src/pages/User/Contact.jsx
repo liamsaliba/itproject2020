@@ -45,8 +45,8 @@ export const ContactForm = ({ userId, homeBtn }) => {
         setSubmitted(true);
       })
       .catch(err => {
-        console.log(err.message);
-        console.log(err.response);
+        console.warn(err.message);
+        console.warn(err.response);
       });
   };
 
