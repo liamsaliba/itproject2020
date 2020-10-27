@@ -247,7 +247,7 @@ export const UploadMediaModal = ({
       dimmer={{ inverted: true }}
       open={status !== "closed"}
       trigger={
-        <Button icon labelPosition="left">
+        <Button icon type="button" labelPosition="left">
           <Icon name="upload" />
           {buttonText}
         </Button>
