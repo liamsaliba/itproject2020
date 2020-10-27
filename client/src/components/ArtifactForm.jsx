@@ -348,15 +348,12 @@ const ExperienceForm = () => {
         label="Location"
         placeholder="London Underground, UK"
       />
-      <Controller
-        as={Form.Select}
-        error={getErrors(errors, "employmentOptions")}
-        fluid
-        required
-        label="Employment Type"
-        options={employmentOptions}
-        placeholder="Full time, part time, ..."
+      <ControlledSelect
         name="employmentType"
+        options={employmentOptions}
+        rules={{ required: true }}
+        label="Employment Type"
+        placeholder="Full time, part time, ..."
       />
       <Controller
         as={Form.Checkbox}
