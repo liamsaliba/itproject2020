@@ -9,10 +9,12 @@ const parseDate = date => {
 };
 
 const IsOngoing = ({ isOngoing, startDate, endDate }) => {
-  return parseDate(startDate).concat(
-    " - ",
-    !isOngoing ? parseDate(endDate) : "Present"
-  );
+  return startDate
+    ? parseDate(startDate).concat(
+        " - ",
+        endDate ? parseDate(endDate) : "Present"
+      )
+    : null;
 };
 
 // const addGrade = grade => {
@@ -26,8 +28,8 @@ const styling = {
 
 const EEstyling = {
   p: "1em",
-  borderRadius:"5px",
-}
+  borderRadius: "5px",
+};
 
 const greyedOut = {
   opacity: "0.9",
@@ -73,11 +75,11 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
     isOngoing,
     startDate,
     endDate,
-    description,
+    details,
   } = contents;
 
   return (
-    <Row {...{ editing, openEditor, id, style:EEstyling }}>
+    <Row {...{ editing, openEditor, id, style: EEstyling }}>
       <Styled.h3 sx={styling}>{school}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
         {[degree, fieldOfStudy, grade ? "Grade: ".concat(grade) : ""].join(
@@ -92,7 +94,7 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
         {location}
       </Styled.p>
 
-      <Styled.p sx={{ ...styling, mb: "1em" }}>{description}</Styled.p>
+      <Styled.p sx={{ ...styling, mb: "1em" }}>{details}</Styled.p>
     </Row>
   );
 };
@@ -108,11 +110,11 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
     isOngoing,
     startDate,
     endDate,
-    description,
+    details,
   } = contents;
 
   return (
-    <Row {...{ editing, openEditor, id, style:EEstyling }}>
+    <Row {...{ editing, openEditor, id, style: EEstyling }}>
       <Styled.h3 sx={styling}>{jobTitle}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
         {[organisation, department].join(" \u00B7 ")}
@@ -122,15 +124,13 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
         <IsOngoing {...{ isOngoing, startDate, endDate }} />
       </Styled.p>
       <Styled.p sx={{ ...styling, ...greyedOut }}>
-        {[employmentType, isVoluntary ? "Is Volunteering" : ""].join(
-          " \u00B7 "
-        )}
+        {employmentType} {isVoluntary ? " \u00B7 Volunteer" : null}
       </Styled.p>
       <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
         {location}
       </Styled.p>
 
-      <Styled.p sx={{ ...styling, mb: "1em" }}>{description}</Styled.p>
+      <Styled.p sx={{ ...styling, mb: "1em" }}>{details}</Styled.p>
     </Row>
   );
 };
@@ -239,6 +239,9 @@ export const StyledArtifact = ({
             width: "100%",
             zIndex: "100",
             color: media.length !== 0 ? "white" : undefined,
+            "& h1, & h2, & h3, & p": {
+              color: media.length !== 0 ? "white" : undefined,
+            },
           }}
         >
           {bodyComponent}
@@ -258,6 +261,26 @@ export const StyledArtifact = ({
   return <Row {...{ editing, openEditor, id }}>{children}</Row>;
 };
 
+const Action = ({ actionUrl, actionText, editing }) => {
+  if (
+    actionUrl === "" ||
+    actionUrl === undefined ||
+    actionText === "" ||
+    actionText === undefined
+  )
+    return null;
+
+  return (
+    <Button
+      {...(editing ? {} : { as: Link })}
+      href={actionUrl}
+      sx={{ bg: "primary", color: "background", p: 2, alignSelf: "center" }}
+    >
+      {actionText}
+    </Button>
+  );
+};
+
 // Orientation refers to that of the artefact/feature, it is one of - left, right and center
 // For now media is URL -> i.e. an image's url.
 export const Display = ({ contents, openEditor, id, media, editing }) => {
@@ -270,20 +293,6 @@ export const Display = ({ contents, openEditor, id, media, editing }) => {
     textAlign,
     displaySize,
   } = contents;
-
-  const action =
-    actionUrl === "" ||
-    actionUrl === undefined ||
-    actionText === "" ||
-    actionText === undefined ? null : (
-      <Button
-        {...(editing ? {} : { as: Link })}
-        href={actionUrl}
-        sx={{ bg: "primary", color: "background", p: 2, alignSelf: "center" }}
-      >
-        {actionText}
-      </Button>
-    );
 
   return (
     <StyledArtifact
@@ -306,7 +315,7 @@ export const Display = ({ contents, openEditor, id, media, editing }) => {
           )
         ) : null}
         {body ? <Styled.p>{body}</Styled.p> : null}
-        {action}
+        <Action {...{ actionUrl, actionText, editing }} />
       </Box>
     </StyledArtifact>
   );
