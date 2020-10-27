@@ -205,11 +205,15 @@ const Page = ({ pageId: id, name, userId }) => {
   return <Section {...pageProps} />;
 };
 
-const NewPlaceholder = ({ children, tagline }) => (
+const NewPlaceholder = ({
+  children = null,
+  tagline,
+  icon = "file outline",
+}) => (
   <Box sx={{ margin: "2em" }}>
     <Segment placeholder>
       <Header icon>
-        <Icon name="file outline" />
+        <Icon name={icon} />
         {tagline}
       </Header>
       {children}
@@ -247,15 +251,11 @@ const ArtifactFormController = () => {
   );
 };
 
-const PageNotFound = ({ path, homeBtn }) => {
+const PageNotFound = ({ homeBtn }) => {
   return (
-    <Box sx={{ margin: "2em" }}>
-      <Header as="h2">
-        <Icon name="question circle" />
-        <Header.Content>Page doesn't exist.</Header.Content>
-        {homeBtn}
-      </Header>
-    </Box>
+    <NewPlaceholder tagline="404: Page not found." icon="question circle">
+      {homeBtn}
+    </NewPlaceholder>
   );
 };
 
