@@ -23,6 +23,7 @@ import {
   Segment,
   Header,
   Modal,
+  Dropdown,
 } from "semantic-ui-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,11 +37,11 @@ import {
   selectArtifactCurrentlyEditing,
 } from "../../store/slices/ui";
 import { useEffect } from "react";
-// import { SocialIcon } from "react-social-icons";
 import { ContactForm } from "./Contact";
 import { MenuButton } from "../../components/NavItems";
 import { SocialIcon } from "react-social-icons";
 import { selectArtifactsError } from "../../store/slices/artifacts";
+import { pageTypes } from "../Editor/SectionPages";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -102,7 +103,7 @@ const SocialIcons = id => {
   const socials = useSelector(state => selectSocialIcons(state, id));
 
   useEffect(() => {
-    console.log(socials);
+    console.log("socials", socials);
   });
 
   return (
@@ -160,17 +161,36 @@ const Page = ({ pageId: id, name, userId }) => {
     />
   ));
 
-  const newbtn = (
-    <Button
-      icon
-      labelPosition="left"
-      onClick={() => dispatch(createArtifactStarted({ type, pageId: id }))}
-      sx={{ float: "right" }}
-    >
-      <Icon name="add" />
-      Add {type}
-    </Button>
-  );
+  const create = t => () =>
+    dispatch(createArtifactStarted({ type: t, pageId: id }));
+
+  const buttonStyle = { float: "right", whiteSpace: "nowrap" };
+
+  const options = Object.values(pageTypes)
+    .slice(1)
+    .map(option => ({
+      ...option,
+      onClick: create(option.value),
+      description: undefined,
+    }));
+  const newbtn =
+    type === "mix" ? (
+      <Dropdown
+        pointing="right"
+        button
+        sx={{ float: "right", whiteSpace: "nowrap" }}
+        className="icon"
+        labeled
+        icon="add"
+        text="Add element"
+        options={options}
+      />
+    ) : (
+      <Button icon labelPosition="left" onClick={create(type)} sx={buttonStyle}>
+        <Icon name="add" />
+        Add {type}
+      </Button>
+    );
 
   const pageProps = {
     id,
@@ -185,11 +205,15 @@ const Page = ({ pageId: id, name, userId }) => {
   return <Section {...pageProps} />;
 };
 
-const NewPlaceholder = ({ children, tagline }) => (
+const NewPlaceholder = ({
+  children = null,
+  tagline,
+  icon = "file outline",
+}) => (
   <Box sx={{ margin: "2em" }}>
     <Segment placeholder>
       <Header icon>
-        <Icon name="file outline" />
+        <Icon name={icon} />
         {tagline}
       </Header>
       {children}
@@ -227,15 +251,11 @@ const ArtifactFormController = () => {
   );
 };
 
-const PageNotFound = ({ path, homeBtn }) => {
+const PageNotFound = ({ homeBtn }) => {
   return (
-    <Box sx={{ margin: "2em" }}>
-      <Header as="h2">
-        <Icon name="question circle" />
-        <Header.Content>Page doesn't exist.</Header.Content>
-        {homeBtn}
-      </Header>
-    </Box>
+    <NewPlaceholder tagline="404: Page not found." icon="question circle">
+      {homeBtn}
+    </NewPlaceholder>
   );
 };
 

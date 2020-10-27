@@ -9,6 +9,8 @@ const Artifact = props => {
   switch (type) {
     case "display":
       return <Display {...props} />;
+    case "Heading":
+      return <Display {...props} />;
     case "custom":
       return <TextEditor {...props} />;
     case "education":

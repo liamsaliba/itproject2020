@@ -263,25 +263,36 @@ export default () => {
   const loading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
 
+  const [editing, setEditing] = useState(false);
+
   const { state, handleChange, setState } = useFormState({
     firstName: user.firstName,
     lastName: user.lastName,
   });
-  
+
   // eslint-disable-next-line no-unused-vars
-  const { status, start } = useAsync(
+  const { start } = useAsync(
     loading,
     error,
-    () =>
+    () => {
       setState({
         firstName: user.firstName,
         lastName: user.lastName,
-      }),
+      });
+      setEditing(false);
+    },
     () => dispatch(resetAuthErrors)
   );
 
-  const [editing, setEditing] = useState(false);
   const authError = useSelector(state => selectAuthSlice(state).error);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user === undefined || user.username === undefined) {
+      history.push("/login");
+      toast.error(<Toast title="You need to login to change your settings." />);
+    }
+  });
 
   // useEffect(() => {
   //   if (form !== null) {
@@ -317,6 +328,7 @@ export default () => {
     dispatch(updateUser({ firstName, lastName }));
     start();
   };
+  if (user === undefined || user.username === undefined) return null;
 
   return (
     <Grid centered>

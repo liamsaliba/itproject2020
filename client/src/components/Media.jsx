@@ -84,7 +84,7 @@ export const MediaList = () => {
   );
 
   return (
-    <List divided relaxed selection sx={{ textAlign: "left" }}>
+    <List divided selection sx={{ textAlign: "left" }}>
       {media.length === 0
         ? "No media uploaded."
         : media.map(item => (
@@ -154,7 +154,6 @@ export const ChooseMedia = ({
             placeholder={placeholder}
             renderLabel={renderLabel}
             divided
-            relaxed
             sx={{ textAlign: "left" }}
           />
         }
@@ -247,7 +246,7 @@ export const UploadMediaModal = ({
       dimmer={{ inverted: true }}
       open={status !== "closed"}
       trigger={
-        <Button icon labelPosition="left">
+        <Button icon type="button" labelPosition="left">
           <Icon name="upload" />
           {buttonText}
         </Button>

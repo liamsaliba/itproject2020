@@ -84,7 +84,7 @@ const slice = createSlice({
       auth.loading = false;
       auth.error = null;
       auth.user = action.payload;
-      localStorage.setItem(userKey, JSON.stringify(user));
+      localStorage.setItem(userKey, JSON.stringify(auth.user));
     },
     userUpdateFailed: (auth, action) => {
       auth.user = { ...auth.olduser };
@@ -95,7 +95,9 @@ const slice = createSlice({
       auth.loading = true;
       auth.error = null;
       auth.olduser = { ...auth.user };
-      auth.user = { ...auth.user, ...action.request.data };
+      if (action.request.data.avatar === undefined) {
+        auth.user = { ...auth.user, ...action.request.data };
+      }
     },
   },
 });

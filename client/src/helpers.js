@@ -15,5 +15,5 @@ export const usePath = userId => {
   return pageName =>
     pageName === "" || pageName === undefined
       ? path
-      : `${path}/${sep}${pageName}`;
+      : `${path}/${sep}${encodeURI(pageName)}`;
 };

@@ -27,13 +27,25 @@ import { createArtifact, deleteArtifact, editArtifact } from "../store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-import { ControlledSelect, ControlledChooseMedia, getErrors } from "./Form";
+import {
+  ControlledSelect,
+  ControlledChooseMedia,
+  getErrors,
+  ControlledCheckbox,
+} from "./Form";
 import { DeleteConfirmationModal, useAsync } from "./Modals";
 
-const ActionForm = () => {
-  const { errors } = useFormContext();
+const MediaForm = () => (
+  <Form.Field>
+    <label>Media</label>
+    <ControlledChooseMedia />
+  </Form.Field>
+);
 
-  const [open, setOpen] = useState(false);
+const ActionForm = ({ collapsible = false }) => {
+  const { errors } = useFormContext();
+  const [open, setOpen] = useState(!collapsible);
+
   return (
     <Accordion>
       <Accordion.Title
@@ -42,7 +54,7 @@ const ActionForm = () => {
         index={0}
         onClick={() => setOpen(!open)}
       >
-        <Icon name="dropdown" />
+        <Icon name={collapsible ? "dropdown" : "linkify"} />
         Action button (optional)
       </Accordion.Title>
       <Accordion.Content active={open}>
@@ -161,6 +173,32 @@ const DisplayPropertiesForm = ({ media, body, collapsible = false }) => {
   );
 };
 
+const HeadingForm = () => {
+  const { errors, watch } = useFormContext();
+
+  const media = watch("media");
+  const body = watch(["header"]);
+  const bodyText = Object.values(body).join("");
+
+  return (
+    <Box>
+      <Controller
+        as={Form.Input}
+        placeholder="A big headline"
+        error={getErrors(errors, "header")}
+        name="header"
+        label="Header"
+        size="large"
+        icon="heading"
+        iconPosition="left"
+      />
+      <MediaForm />
+      <Divider />
+      <DisplayPropertiesForm media={media} body={bodyText} />
+    </Box>
+  );
+};
+
 const DisplayForm = () => {
   const { errors, watch } = useFormContext();
 
@@ -189,10 +227,7 @@ const DisplayForm = () => {
         iconPosition="left"
         icon="paragraph"
       />
-      <Form.Field>
-        <label>Media</label>
-        <ControlledChooseMedia />
-      </Form.Field>
+      <MediaForm />
       <Divider />
       <ActionForm />
       <Divider />
@@ -202,7 +237,9 @@ const DisplayForm = () => {
 };
 
 const EducationForm = () => {
-  const { errors } = useFormContext();
+  const { errors, watch } = useFormContext();
+
+  const media = watch("media");
 
   return (
     <Box>
@@ -279,7 +316,7 @@ const EducationForm = () => {
                 className="input"
                 required
                 placeholderText="Choose end date"
-                dateFormat="MM/yyy"
+                dateFormat="MM/yyyy"
                 showMonthYearPicker
                 onChange={e => props.onChange(e)}
                 selected={props.value}
@@ -288,11 +325,7 @@ const EducationForm = () => {
           />
         </Form.Field>
       </Form.Group>
-
-      <Form.Field>
-        <label>Attached Media</label>
-        <ControlledChooseMedia />
-      </Form.Field>
+      <MediaForm />
 
       <Controller
         as={Form.TextArea}
@@ -301,16 +334,22 @@ const EducationForm = () => {
         label="Details"
         placeholder="Quiddich Player of the Season, 2019"
       />
+
+      <Divider />
+      <DisplayPropertiesForm media={media} collapsible />
     </Box>
   );
 };
 
 const ExperienceForm = () => {
-  const { errors } = useFormContext();
+  const { errors, watch } = useFormContext();
+
+  const media = watch("media");
 
   const employmentOptions = [
     { key: "f", text: "Full Time", value: "Full Time" },
     { key: "p", text: "Part Time", value: "Part Time" },
+    { key: "c", text: "Casual", value: "Casual" },
     { key: "s", text: "Self-employed", value: "Self-employed" },
     { key: "fl", text: "Freelance", value: "Freelance" },
     { key: "i", text: "Internship", value: "Internship" },
@@ -348,22 +387,14 @@ const ExperienceForm = () => {
         label="Location"
         placeholder="London Underground, UK"
       />
-      <Controller
-        as={Form.Select}
-        error={getErrors(errors, "employmentOptions")}
-        fluid
-        required
-        label="Employment Type"
-        options={employmentOptions}
-        placeholder="Full time, part time, ..."
+      <ControlledSelect
         name="employmentType"
+        options={employmentOptions}
+        rules={{ required: true }}
+        label="Employment Type"
+        placeholder="Full time, part time, ..."
       />
-      <Controller
-        as={Form.Checkbox}
-        error={getErrors(errors, "isVoluntary")}
-        name="isVoluntary"
-        label="This a volunteering role"
-      />
+      <ControlledCheckbox name="isVoluntary" label="This a volunteering role" />
       <Form.Group widths="equal">
         <Form.Field required>
           <label>Start Date</label>
@@ -406,11 +437,7 @@ const ExperienceForm = () => {
           />
         </Form.Field>
       </Form.Group>
-      <Form.Field>
-        <label>Attached Media</label>
-        <ControlledChooseMedia />
-      </Form.Field>
-      {/* "Tell us about it!" */}
+      <MediaForm />
       <Controller
         as={Form.TextArea}
         error={getErrors(errors, "details")}
@@ -418,8 +445,25 @@ const ExperienceForm = () => {
         label="Details"
         placeholder="Quiddich Player of the Season, 2019"
       />
+      <Divider />
+      <DisplayPropertiesForm media={media} collapsible />
     </Box>
   );
+};
+
+const actionDefaults = {
+  actionText: "",
+  actionUrl: "",
+};
+
+const mediaDefaults = {
+  media: [],
+};
+
+const displayDefaults = {
+  orientation: "center",
+  displaySize: "auto",
+  textAlign: "center",
 };
 
 const forms = {
@@ -434,10 +478,10 @@ const forms = {
       grade: "",
       startDate: null,
       endDate: null,
-      media: [],
       details: "",
+      ...displayDefaults,
+      ...mediaDefaults,
     },
-    // TODO: callback: ,
   },
   experience: {
     content: <ExperienceForm />,
@@ -451,10 +495,10 @@ const forms = {
       isVoluntary: false,
       startDate: null,
       endDate: null,
-      media: [],
       details: "",
+      ...displayDefaults,
+      ...mediaDefaults,
     },
-    // TODO: callback: ,
   },
   display: {
     content: <DisplayForm />,
@@ -462,12 +506,9 @@ const forms = {
     defaultValues: {
       header: "",
       body: "",
-      media: [],
-      orientation: "center",
-      actionText: "",
-      actionUrl: "",
-      displaySize: "auto",
-      textAlign: "center",
+      ...displayDefaults,
+      ...mediaDefaults,
+      ...actionDefaults,
     },
     validate: (data, setError) => {
       if (data.header === "" && data.body === "" && data.media.length === 0) {
@@ -493,7 +534,15 @@ const forms = {
       }
       return true;
     },
-    // TODO: callback: ,
+  },
+  heading: {
+    content: <HeadingForm />,
+    title: "Heading",
+    defaultValues: {
+      header: "",
+      ...displayDefaults,
+      ...mediaDefaults,
+    },
   },
 };
 
@@ -561,6 +610,7 @@ const NewArtifactForm = ({
 const fixDate = date => {
   if (date) {
     if (date === "") return null;
+    if (Number.isInteger(date)) return date;
     return Date.parse(date);
   }
   return undefined;
@@ -596,15 +646,6 @@ const EditArtifactForm = ({
   if (!thisForm) return null;
 
   const deleteButton = (
-    // <DeleteConfirmationModal
-    //   setParentOpen={() => closeModal(false)}
-    //   action={() => {
-    //     dispatch(deleteArtifact(id));
-    //     return false;
-    //   }}
-    //   name="this artifact"
-    //   button
-    // />
     <React.Fragment>
       <DeleteConfirmationModal
         text={"Delete"}
@@ -668,12 +709,7 @@ const FormModal = ({
   size = "small",
 }) => {
   // eslint-disable-next-line
-  const { status, start } = useAsync(
-    loading,
-    error,
-    () => null,
-    () => closeModal()
-  );
+  const { status, start } = useAsync(loading, error, () => null, closeModal);
   const form = useForm({ defaultValues });
   // const dispatch = useDispatch();
   const {
@@ -683,8 +719,10 @@ const FormModal = ({
     setError,
     reset,
     watch,
+    formState,
   } = form;
   const allFields = watch();
+  const { isDirty } = formState;
 
   useEffect(() => {
     reset(defaultValues);
@@ -697,10 +735,15 @@ const FormModal = ({
   });
 
   const onSubmit = data => {
+    if (!isDirty) {
+      closeModal();
+    }
+
     if (validate(data, setError)) {
       // const { media, ...contents } = data;
       // if (action) action({ media, contents });
       if (action) action(data);
+
       start();
     }
   };
@@ -716,7 +759,7 @@ const FormModal = ({
         size={size}
         closeIcon
         onClose={closeModal}
-        closeOnDimmerClick={false}
+        closeOnDimmerClick={!isDirty}
         open={open}
         dimmer={{ inverted: true }}
       >
