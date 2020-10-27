@@ -270,7 +270,7 @@ export const StyledArtifact = ({
           sx={{
             position: "relative",
             width: "100%",
-            zIndex: "100",
+            zIndex: "1",
             color: media.length !== 0 ? "white" : undefined,
             "& h1, & h2, & h3, & p": {
               color: media.length !== 0 ? "white" : undefined,
@@ -279,7 +279,14 @@ export const StyledArtifact = ({
         >
           {bodyComponent}
         </Box>
-        <Box sx={{ position: "absolute", zIndex: "0", height: "auto" }}>
+        <Box
+          sx={{
+            position: "absolute",
+            zIndex: "0",
+            height: "auto",
+            width: "100%",
+          }}
+        >
           <MediaCollection
             darken={bodyComponent !== null}
             media={media}
