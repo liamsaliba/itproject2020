@@ -38,6 +38,34 @@ export const Toggle = ({ value, setValue, icon, label }) => {
   );
 };
 
+export const ControlledCheckbox = ({
+  name,
+  label,
+  rules,
+  disabled = false,
+}) => {
+  return (
+    <Controller
+      rules={rules}
+      name={name}
+      render={({ onChange, value, name }) => (
+        <Form.Checkbox
+          iconPosition="left"
+          fluid
+          required
+          label={label}
+          name={name}
+          disabled={disabled}
+          checked={value}
+          onChange={(e, { checked }) => {
+            onChange(checked);
+          }}
+        />
+      )}
+    />
+  );
+};
+
 export const ControlledSelect = ({
   name,
   options,
