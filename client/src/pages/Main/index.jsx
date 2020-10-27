@@ -11,6 +11,7 @@ import Landing from "./Landing";
 import ThemeTest from "../demo/ThemeTest";
 import NotFound from "./NotFound";
 import Settings from "./Settings";
+import ResetPassword from "./ResetPassword";
 
 import { jsx } from "theme-ui";
 import Layout from "./Layout";
@@ -30,6 +31,7 @@ export default () => {
           path={["/logout/all", "/signout/all"]}
         />
         <Route component={Settings} exact path="/settings" />
+        <Route component={ResetPassword} exact path="/reset-password" />
         <Route component={SignUp} exact path="/signup" />
         <Route component={SignUp} path="/signup/:userId" />
         <Route component={ThemeTest} exact path="/themes" />
