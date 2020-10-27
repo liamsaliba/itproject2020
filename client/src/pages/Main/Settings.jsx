@@ -267,7 +267,7 @@ export default () => {
     firstName: user.firstName,
     lastName: user.lastName,
   });
-  
+
   // eslint-disable-next-line no-unused-vars
   const { status, start } = useAsync(
     loading,
@@ -282,6 +282,14 @@ export default () => {
 
   const [editing, setEditing] = useState(false);
   const authError = useSelector(state => selectAuthSlice(state).error);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user === undefined || user.username === undefined) {
+      history.push("/login");
+      toast.error(<Toast title="You need to login to change your settings." />);
+    }
+  });
 
   // useEffect(() => {
   //   if (form !== null) {
@@ -317,6 +325,7 @@ export default () => {
     dispatch(updateUser({ firstName, lastName }));
     start();
   };
+  if (user === undefined || user.username === undefined) return null;
 
   return (
     <Grid centered>
