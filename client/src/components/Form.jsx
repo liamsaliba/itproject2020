@@ -42,6 +42,7 @@ export const ControlledCheckbox = ({
   name,
   label,
   rules,
+  required,
   disabled = false,
 }) => {
   return (
@@ -52,7 +53,7 @@ export const ControlledCheckbox = ({
         <Form.Checkbox
           iconPosition="left"
           fluid
-          required
+          required={required}
           label={label}
           name={name}
           disabled={disabled}
