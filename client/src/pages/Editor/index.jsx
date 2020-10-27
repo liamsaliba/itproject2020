@@ -8,20 +8,24 @@ import Sidebar from "./Sidebar";
 import themes from "../../themes";
 import {
   getMedia,
-  selectAuthSlice,
   selectCurrentUserPortfolio,
   selectUsername,
+  selectAuthError,
+  selectPortfoliosLoading,
 } from "../../store";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { Dimmer, Loader } from "semantic-ui-react";
 
 export default props => {
   const { selectedPage, editing = true } = props;
   const portfolio = useSelector(selectCurrentUserPortfolio);
-  const authError = useSelector(state => selectAuthSlice(state).error);
+  const authError = useSelector(selectAuthError);
+  const loading = useSelector(selectPortfoliosLoading);
+
   const history = useHistory();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -89,7 +93,9 @@ export default props => {
           ) : null}
         </Flex>
       </ThemeProvider>
-      <main
+      <Dimmer.Dimmable
+        as="main"
+        dimmed={loading}
         sx={{
           flexGrow: 99999,
           flexBasis: 0,
@@ -99,11 +105,13 @@ export default props => {
           height: "100%",
           transition: "0.2s",
           marginLeft: `${open && portfolio ? 250 : 0}px`,
-          opacity: `${open && portfolio ? 100 : 20}%`,
         }}
       >
         <User userId={id} selectedPage={selectedPage} />
-      </main>
+        <Dimmer active={loading} inverted>
+          <Loader inverted />
+        </Dimmer>
+      </Dimmer.Dimmable>
     </Flex>
   );
 };

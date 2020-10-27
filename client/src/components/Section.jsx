@@ -27,14 +27,22 @@ export const ContentBox = ({ type, children }) => {
     alignItems: "stretch",
     justifyContent: "center",
   };
+
+  const cardStyling = {
+    display: "flex",
+    flexFlow: "row wrap",
+    alignItems: "stretch",
+    justifyContent: "center",
+  };
   // type of page determines what will be displayed
   // eslint-disable-next-line no-unused-vars
   const listTypes = ["display", "experience", "education"];
   // eslint-disable-next-line no-unused-vars
   const cardTypes = ["cards"];
-  // if (listTypes.includes(type)) {
-  // return <Box sx={listStyling}>{children}</Box>;
-  // }
+  if (cardTypes.includes(type)) {
+    return <Box sx={cardStyling}>{children}</Box>;
+  }
+
   return (
     // <Box sx={{ maxWidth: "800px", mx: "auto" }}>
     <Box sx={listStyling}>{children}</Box>
@@ -43,7 +51,7 @@ export const ContentBox = ({ type, children }) => {
 };
 
 const EmptySectionPlaceholder = ({ children }) => (
-  <Segment placeholder fluid>
+  <Segment placeholder>
     <Header icon>
       <Icon name="file outline" />
       Nothing on this page yet.
@@ -62,7 +70,6 @@ export const Section = ({
   loading,
 }) => {
   const empty = content.length === 0;
-
   return (
     <Flex
       as="section"

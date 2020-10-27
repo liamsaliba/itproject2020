@@ -8,12 +8,9 @@ import {
   Icon,
   Modal,
   List,
-  Dropdown,
   Form,
-  Input,
   Divider,
   Header,
-  Checkbox,
 } from "semantic-ui-react";
 import {
   selectUsername,
@@ -26,9 +23,8 @@ import {
   updateSinglePage,
 } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
-
-/** @jsx jsx */
-import { isTrue } from "../../helpers";
+import { Toggle } from "../../components/Form";
+import { DeleteConfirmationModal } from "../../components/Modals";
 
 const pageTypes = {
   mixed: { key: "m", text: "Mix", value: "mix", icon: "mix" },
@@ -83,27 +79,6 @@ const pageTypes = {
   },
 };
 
-const Toggle = ({ value, setValue, icon, label }) => {
-  const onChange = (_, { checked }) => {
-    // set to the new value of checked
-    setValue(checked.toString());
-  };
-
-  return (
-    <Checkbox
-      toggle
-      onChange={onChange}
-      checked={isTrue(value)}
-      label={
-        <label>
-          {icon ? <Icon name={icon} /> : null}
-          {label}
-        </label>
-      }
-    />
-  );
-};
-
 const PageSettings = () => {
   const dispatch = useDispatch();
   const singlePage = useSelector(
@@ -117,7 +92,7 @@ const PageSettings = () => {
     <div
       sx={{
         "& div": {
-          mb: "0.5em",
+          m: "0.5em",
         },
       }}
     >
@@ -240,108 +215,6 @@ const Page = ({ active, setActive, page }) => {
   );
 };
 
-export const DeleteConfirmationModal = ({
-  setParentOpen,
-  action,
-  name = "this",
-  button = false,
-}) => {
-  const [open, setOpen] = useState(false);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    action();
-    setOpen(false);
-    if (setParentOpen) setParentOpen(false);
-  };
-
-  return (
-    <Modal
-      as={Form}
-      onSubmit={handleSubmit}
-      size="tiny"
-      closeOnDimmerClick={false}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      dimmer={{ inverted: true }}
-      open={open}
-      trigger={
-        <Button basic icon="trash" color="red" onClick={() => setOpen(true)} />
-      }
-    >
-      <Modal.Header>
-        Are you sure you want to delete {name}? This process is irreversible.
-      </Modal.Header>
-      <Modal.Actions>
-        <Button basic onClick={() => setOpen(false)} type="button">
-          <Icon name="remove" /> Cancel
-        </Button>
-        <Button color="red" type="submit">
-          <Icon name="trash" /> Delete
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
-};
-
-// eslint-disable-next-line no-unused-vars
-const RenamePageModal = ({ pageState }) => {
-  const { name, id } = pageState;
-  const [open, setOpen] = useState(false);
-  const [state, setState] = useState({ name });
-  const dispatch = useDispatch();
-  const handleChange = (e, { name, value }) =>
-    setState({ ...state, [name]: value });
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    dispatch(renamePage(id, state.name));
-    setOpen(false);
-  };
-
-  return (
-    <Modal
-      as={Form}
-      onSubmit={handleSubmit}
-      size="tiny"
-      closeOnDimmerClick={false}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      dimmer={{ inverted: true }}
-      open={open}
-      trigger={
-        <Dropdown.Item>
-          <Icon name="i cursor" />
-          Rename
-        </Dropdown.Item>
-      }
-    >
-      <Modal.Header>Edit page name</Modal.Header>
-      <Modal.Content>
-        <Input
-          transparent
-          fluid
-          iconPosition="left"
-          icon="file"
-          placeholder="Page Name"
-          name="name"
-          onChange={handleChange}
-          defaultValue={name}
-          required
-        />
-      </Modal.Content>
-      <Modal.Actions>
-        <Button basic color="red" onClick={() => setOpen(false)} type="button">
-          <Icon name="remove" /> Cancel
-        </Button>
-        <Button color="green" type="submit">
-          <Icon name="checkmark" /> Rename Page
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
-};
-
 export const NewPageModal = () => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
@@ -350,18 +223,19 @@ export const NewPageModal = () => {
   const options = Object.values(pageTypes);
   const dispatch = useDispatch();
 
+  const namedTypes = [
+    "Experience",
+    "Education",
+    "Publications",
+    "Talks",
+    "Articles",
+    "Gallery",
+  ];
+
   const handleChange = (e, { name, value }) => {
     if (
       name === "type" &&
-      ([
-        "Experience",
-        "Education",
-        "Publications",
-        "Talks",
-        "Articles",
-        "Gallery",
-      ].includes(state.name) ||
-        state.name === "")
+      (namedTypes.includes(state.name) || state.name === "")
     ) {
       setState({
         ...state,
@@ -427,7 +301,6 @@ export const NewPageModal = () => {
             value={state.type}
             size="big"
             name="type"
-            // sx={{ zIndex: "999999 !important" }}
           />
         </Modal.Description>
       </Modal.Content>
@@ -447,28 +320,38 @@ const SectionPages = () => {
   const username = useSelector(selectUsername);
   const pages = useSelector(state => selectPagesByUsername(state, username));
   // eslint-disable-next-line
-  const [activePage, setActive] = useState("Home");
-  // activePage === page
+  const [active, setActive] = useState("Home");
+
+  // useEffect(() => {
+  //   history.push("/logout");
+  // }, [active]);
 
   return (
     <Section name="Pages" icon="file text">
       <Header>Manage pages</Header>
       <PageSettings />
       <Divider />
-      <NewPageModal />
+      {pages.length >= 10 ? (
+        <p>
+          Limited to creating 10 pages. To create a new page, delete another
+          page first.
+        </p>
+      ) : (
+        <NewPageModal />
+      )}
       <Flex
         sx={{ justifyContent: "center", flexDirection: "column", mt: "1em" }}
       >
         {pages.length === 0 ? (
-          "No pages, care to make a new one?"
+          "No pages."
         ) : (
           // replace with https://react.semantic-ui.com/elements/list/#types-divided
-          <List divided relaxed selection sx={{ textAlign: "left" }}>
+          <List divided selection sx={{ textAlign: "left" }}>
             {pages.map(page => (
               <Page
                 key={page.id.toString()}
                 page={page}
-                active={true}
+                active={active}
                 setActive={setActive}
               />
             ))}

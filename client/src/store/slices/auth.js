@@ -39,7 +39,7 @@ const slice = createSlice({
           token: "",
         },
   reducers: {
-    resetErrors: (auth, action) => {
+    resetAuthErrors: (auth, action) => {
       auth.loading = false;
       auth.error = null;
     },
@@ -224,4 +224,4 @@ export const deleteUser = (username, password) =>
     onFailure: userUpdateFailed.type,
   });
 
-export const resetErrors = () => dispatch => dispatch(resetErrors);
+export const resetAuthErrors = () => dispatch => dispatch(resetAuthErrors);

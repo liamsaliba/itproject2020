@@ -16,7 +16,7 @@ export const AccordionSection = props => {
   };
 
   return (
-    <Accordion styled name={name} exclusive={false} fluid sx={{ p: "0.2em" }}>
+    <Accordion styled name={name} exclusive={false} fluid sx={{ pt: "1em" }}>
       <Accordion.Title onClick={handleClick}>
         <Icon name="dropdown" />
         <Icon name={icon} sx={{ pr: "1.5em" }} />
@@ -48,7 +48,7 @@ const Section = ({ name, children }) => {
             flexDirection: "column",
             textAlign: "center",
             minHeight: "200px",
-            p: 2,
+            pt: "1em",
             flex: "1",
           }}
         >

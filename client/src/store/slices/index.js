@@ -8,7 +8,7 @@ export {
   updateUser,
   updateAvatar,
   updateAllowContact,
-  resetErrors,
+  resetAuthErrors,
   // selectors
   selectAuthLoading,
   selectAuthError,
@@ -58,6 +58,7 @@ export {
   updateSinglePage,
   updateSocials,
   // selectors (custom)
+  selectPortfoliosLoading,
   selectPortfolioPages,
   selectPortfolioPageNames,
   selectPortfolioPageIds,
@@ -116,6 +117,8 @@ export {
   selectArtifactEntities,
   selectAllArtifacts,
   selectTotalArtifacts,
+  selectArtifactsLoading,
+  selectArtifactsError,
   // reducer
   default as artifactsReducer,
 } from "./artifacts";

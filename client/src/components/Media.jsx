@@ -9,7 +9,6 @@ import {
   List,
   Popup,
   Modal,
-  Image,
   Header,
 } from "semantic-ui-react";
 import { Controller } from "react-hook-form";
@@ -25,51 +24,8 @@ import {
   selectMediaLoading,
 } from "../store";
 import PreviewModal from "./DocumentPreview";
-
-const DeleteConfirmationModal = ({
-  setParentOpen,
-  action,
-  name = "this",
-  src,
-}) => {
-  const [open, setOpen] = useState(false);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    action();
-    setOpen(false);
-    if (setParentOpen) setParentOpen(false);
-  };
-
-  return (
-    <Modal
-      as={Form}
-      onSubmit={handleSubmit}
-      size="tiny"
-      // closeOnDimmerClick={false}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      dimmer={{ inverted: true }}
-      open={open}
-      trigger={<Button size="mini" icon="trash" />}
-    >
-      <Modal.Header>
-        Are you sure you want to delete {name}? This process is irreversible.
-      </Modal.Header>
-      <Modal.Content>
-        <Image src={src} fluid />
-      </Modal.Content>
-      <Modal.Actions>
-        <Button basic onClick={() => setOpen(false)} type="button">
-          <Icon name="remove" /> Cancel
-        </Button>
-        <Button color="red" type="submit">
-          <Icon name="trash" /> Delete
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
-};
+import { DeleteConfirmationModal } from "./Modals";
+import { Image } from "semantic-ui-react";
 
 const filetypes = {
   pdf: "file pdf",
@@ -94,14 +50,16 @@ export const MediaItem = ({
   const show = () => showPreview(src, setPreview);
 
   return (
-    <List.Item key={id.toString()} verticalAlign="middle" fluid>
+    <List.Item key={id.toString()}>
       <List.Content floated="right">
-        <Button size="mini" icon="eye" onClick={show} />
-        <DeleteConfirmationModal
-          action={() => dispatch(deleteMedia(id))}
-          name={description}
-          src={src}
-        />
+        <Button.Group>
+          <Button icon="eye" onClick={show} />
+          <DeleteConfirmationModal
+            action={() => dispatch(deleteMedia(id))}
+            content={<Image src={src} fluid />}
+            name={description}
+          />
+        </Button.Group>
       </List.Content>
       <Icon name={icon} size="large" onClick={show} />
       <List.Content key={id} onClick={show}>
@@ -121,6 +79,10 @@ export const MediaList = () => {
   const media = useSelector(state => selectMediaByUsername(state, username));
   const [preview, setPreview] = useState({ open: false, src: "" });
 
+  const previewModal = (
+    <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
+  );
+
   return (
     <List divided relaxed selection sx={{ textAlign: "left" }}>
       {media.length === 0
@@ -128,7 +90,7 @@ export const MediaList = () => {
         : media.map(item => (
             <MediaItem {...item} key={item.id} setPreview={setPreview} />
           ))}
-      <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
+      {previewModal}
     </List>
   );
 };
@@ -342,7 +304,7 @@ export const Media = () => {
       <UploadMediaModal buttonText="Upload new media" />
       <Divider horizontal>Or</Divider>
       <p>
-        View your uploaded media here. <Icon name="hand point down" inline />
+        View your uploaded media here. <Icon name="hand point down" />
       </p>
       <MediaList />
     </React.Fragment>

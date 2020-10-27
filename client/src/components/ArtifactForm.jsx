@@ -6,51 +6,101 @@ import {
   useFormContext,
   Controller,
 } from "react-hook-form";
-import React from "react";
+import React, { useState } from "react";
 
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "react-datepicker/dist/react-datepicker.css";
 // used https://codesandbox.io/s/semantic-ui-react-form-hooks-vnyjh?from-embed=&file=/example.js:594-698
 // for react-form-hooks w semantic ui example
 
-import { ChooseMedia } from "./Media";
-
-import { Button, Form, Modal, Icon, Header } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Modal,
+  Icon,
+  Divider,
+  Accordion,
+} from "semantic-ui-react";
 
 import ReactDatePicker from "react-datepicker";
-// import { DeleteConfirmationModal } from "../pages/Editor/SectionPages";
 import { createArtifact, deleteArtifact, editArtifact } from "../store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-const getErrors = (errors, field) =>
-  errors[field]
-    ? {
-        content: errors[field].message,
-        pointing: "below",
-      }
-    : null;
+import { ControlledSelect, ControlledChooseMedia, getErrors } from "./Form";
+import { DeleteConfirmationModal, useAsync } from "./Modals";
 
-const ControlledChooseMedia = () => (
-  <Controller
-    name="media"
-    render={({ onChange, value, name }) => (
-      <ChooseMedia
-        multiple
-        {...{
-          onChange,
-          value,
-          name,
-        }}
-      />
-    )}
-  />
-);
-
-const DisplayForm = () => {
+const ActionForm = () => {
   const { errors } = useFormContext();
 
+  const [open, setOpen] = useState(false);
+  return (
+    <Accordion>
+      <Accordion.Title
+        as="h3"
+        active={open}
+        index={0}
+        onClick={() => setOpen(!open)}
+      >
+        <Icon name="dropdown" />
+        Action button (optional)
+      </Accordion.Title>
+      <Accordion.Content active={open}>
+        <Form.Group widths="equal">
+          <Controller
+            as={Form.Input}
+            error={getErrors(errors, "actionText")}
+            name="actionText"
+            label="Button text"
+            placeholder="Action text"
+            iconPosition="left"
+            icon="text cursor"
+          />
+          <Controller
+            as={Form.Input}
+            error={getErrors(errors, "actionUrl")}
+            name="actionUrl"
+            label="Button link"
+            placeholder="http://..."
+            iconPosition="left"
+            icon="linkify"
+            type="url"
+          />
+        </Form.Group>
+      </Accordion.Content>
+    </Accordion>
+  );
+};
+
+const DisplayPropertiesForm = ({ media, body, collapsible = false }) => {
+  const { setValue } = useFormContext();
+  const [open, setOpen] = useState(!collapsible);
+
+  const sizeOptions = [
+    { key: "a", text: "Automatic", value: "auto" },
+    { key: "s", text: "Short", value: "short" },
+    { key: "m", text: "Medium", value: "medium" },
+    { key: "t", text: "Tall", value: "tall" },
+    { key: "f", text: "Fullscreen", value: "fullscreen" },
+  ];
+
   const orientationOptions = [
+    { key: "l", text: "Media on left", value: "left", icon: "align left" },
+    {
+      key: "c",
+      text: "Media behind",
+      value: "center",
+      icon: "align center",
+    },
+    {
+      key: "r",
+      text: "Media on right",
+      value: "right",
+      icon: "align right",
+    },
+  ];
+
+  const textAlignOptions = [
     { key: "l", text: "Align left", value: "left", icon: "align left" },
     {
       key: "c",
@@ -66,59 +116,87 @@ const DisplayForm = () => {
     },
   ];
 
+  useEffect(() => {
+    if (media.length === 0) {
+      setValue("orientation", "center");
+    }
+  }, [media, setValue]);
+
+  return (
+    <Accordion>
+      <Accordion.Title
+        as="h3"
+        active={open}
+        index={0}
+        onClick={() => (collapsible ? setOpen(!open) : null)}
+      >
+        <Icon name={collapsible ? "dropdown" : "image"} />
+        Display Settings
+      </Accordion.Title>
+      <Accordion.Content active={open}>
+        <Form.Group widths="equal">
+          <ControlledSelect
+            name="orientation"
+            options={orientationOptions}
+            rules={{ required: true }}
+            label="Media Alignment"
+            disabled={media.length === 0}
+          />
+          <ControlledSelect
+            name="textAlign"
+            options={textAlignOptions}
+            rules={{ required: true }}
+            disabled={body === ""}
+            label="Text Alignment"
+          />
+          <ControlledSelect
+            name="displaySize"
+            options={sizeOptions}
+            rules={{ required: true }}
+            label="Display size"
+          />
+        </Form.Group>
+      </Accordion.Content>
+    </Accordion>
+  );
+};
+
+const DisplayForm = () => {
+  const { errors, watch } = useFormContext();
+
+  const media = watch("media");
+  const body = watch(["header", "body", "actionText", "actionUrl"]);
+  const bodyText = Object.values(body).join("");
+
   return (
     <Box>
       <Controller
         as={Form.Input}
+        placeholder="A big headline"
         error={getErrors(errors, "header")}
         name="header"
         label="Header"
         size="large"
+        icon="heading"
+        iconPosition="left"
       />
       <Controller
-        as={Form.Input}
+        as={Form.TextArea}
+        placeholder="Some text that's interesting."
         name="body"
         label="Body"
         error={getErrors(errors, "body")}
-      />
-      <Controller
-        error={getErrors(errors, "orientationOptions")}
-        rules={{ required: true }}
-        name="orientation"
-        render={({ onChange, value, name }) => (
-          <Form.Select
-            fluid
-            required
-            label="Alignment"
-            options={orientationOptions}
-            name={name}
-            value={value}
-            onChange={(e, { value }) => {
-              console.log(value);
-              onChange(value);
-            }}
-          />
-        )}
+        iconPosition="left"
+        icon="paragraph"
       />
       <Form.Field>
-        <label>Attached Media</label>
+        <label>Media</label>
         <ControlledChooseMedia />
       </Form.Field>
-      <Header>Button action (optional)</Header>
-      <Controller
-        as={Form.Input}
-        error={getErrors(errors, "actionText")}
-        name="actionText"
-        label="Button text"
-        placeholder="Action text"
-      />
-      <Controller
-        as={Form.Input}
-        error={getErrors(errors, "actionUrl")}
-        name="actionUrl"
-        label="Button link"
-        placeholder="http://..."
-      />
+      <Divider />
+      <ActionForm />
+      <Divider />
+      <DisplayPropertiesForm media={media} body={bodyText} />
     </Box>
   );
 };
@@ -241,6 +319,7 @@ const ExperienceForm = () => {
     <Box>
       <Controller
         as={Form.Input}
+        clear
         error={getErrors(errors, "jobTitle")}
         name="jobTitle"
         label="Job Title"
@@ -278,7 +357,6 @@ const ExperienceForm = () => {
         options={employmentOptions}
         placeholder="Full time, part time, ..."
         name="employmentType"
-        // sx={{ zIndex: "999999 !important" }}
       />
       <Controller
         as={Form.Checkbox}
@@ -334,7 +412,7 @@ const ExperienceForm = () => {
       </Form.Field>
       {/* "Tell us about it!" */}
       <Controller
-        as={Form.Input}
+        as={Form.TextArea}
         error={getErrors(errors, "details")}
         name="details"
         label="Details"
@@ -388,16 +466,28 @@ const forms = {
       orientation: "center",
       actionText: "",
       actionUrl: "",
+      displaySize: "auto",
+      textAlign: "center",
     },
     validate: (data, setError) => {
-      if (data.header === "" && data.body === "") {
-        setError("body", {
-          type: "manual",
-          message: "At least one field should be filled.",
-        });
+      if (data.header === "" && data.body === "" && data.media.length === 0) {
         setError("header", {
           type: "manual",
           message: "At least one field should be filled.",
+        });
+        return false;
+      }
+      if (data.actionText !== "" && data.actionUrl === "") {
+        setError("buttonURL", {
+          type: "manual",
+          message: "Button with label needs a URL.",
+        });
+        return false;
+      }
+      if (data.actionText === "" && data.actionUrl !== "") {
+        setError("actionText", {
+          type: "manual",
+          message: "Button with URL needs a label.",
         });
         return false;
       }
@@ -426,7 +516,15 @@ export const ArtifactForm = ({ open, closeModal, currentlyEditing }) => {
   );
 };
 
-const NewArtifactForm = ({ open, closeModal, currentlyEditing }) => {
+const modalSize = type => (["markdown"].includes(type) ? "large" : "small");
+
+const NewArtifactForm = ({
+  open,
+  closeModal,
+  currentlyEditing,
+  loading,
+  error,
+}) => {
   const dispatch = useDispatch();
   const { type, pageId } = currentlyEditing;
 
@@ -453,6 +551,9 @@ const NewArtifactForm = ({ open, closeModal, currentlyEditing }) => {
       open={open}
       closeModal={closeModal}
       altAction={closeButton}
+      loading={loading}
+      error={error}
+      size={modalSize(type)}
     />
   );
 };
@@ -472,7 +573,13 @@ const fixDates = contents => {
   };
 };
 
-const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
+const EditArtifactForm = ({
+  currentlyEditing,
+  open,
+  closeModal,
+  loading,
+  error,
+}) => {
   const dispatch = useDispatch();
 
   const { type, id, media } = currentlyEditing;
@@ -499,7 +606,14 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
     //   button
     // />
     <React.Fragment>
-      <Button
+      <DeleteConfirmationModal
+        text={"Delete"}
+        action={() => {
+          dispatch(deleteArtifact(id));
+          closeModal();
+        }}
+      />
+      {/* <Button
         icon
         color="red"
         labelPosition="left"
@@ -510,7 +624,7 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
       >
         <Icon name="trash" />
         Delete
-      </Button>
+      </Button> */}
       <Button icon labelPosition="left" onClick={() => closeModal()}>
         <Icon name="cancel" />
         Discard Changes
@@ -518,16 +632,22 @@ const EditArtifactForm = ({ currentlyEditing, open, closeModal }) => {
     </React.Fragment>
   );
 
+  const action = ({ media = [], ...contents }) =>
+    dispatch(editArtifact(id, { type, media, contents }));
+
   return (
     <FormModal
       {...thisForm}
-      action={data => dispatch(editArtifact(id, data))}
+      action={action}
       title={"Edit ".concat(thisForm.title)}
       defaultValues={contents}
       altAction={deleteButton}
       open={open}
       closeModal={closeModal}
       id={id}
+      loading={loading}
+      error={error}
+      size={modalSize(type)}
     />
   );
 };
@@ -543,8 +663,17 @@ const FormModal = ({
   validate = (data, setError) => true,
   altAction,
   id,
+  loading,
+  error,
+  size = "small",
 }) => {
   // eslint-disable-next-line
+  const { status, start } = useAsync(
+    loading,
+    error,
+    () => null,
+    () => closeModal()
+  );
   const form = useForm({ defaultValues });
   // const dispatch = useDispatch();
   const {
@@ -572,7 +701,7 @@ const FormModal = ({
       // const { media, ...contents } = data;
       // if (action) action({ media, contents });
       if (action) action(data);
-      closeModal();
+      start();
     }
   };
 
@@ -584,7 +713,7 @@ const FormModal = ({
   return (
     <FormProvider {...form} onChange={onChange}>
       <Modal
-        size="small"
+        size={size}
         closeIcon
         onClose={closeModal}
         closeOnDimmerClick={false}
@@ -593,7 +722,14 @@ const FormModal = ({
       >
         <Modal.Header>{title}</Modal.Header>
         <Modal.Content>
-          <Form onSubmit={data => handleSubmit(onSubmit)(data)}>{content}</Form>
+          <Form
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{
+              fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
+            }}
+          >
+            {content}
+          </Form>
         </Modal.Content>
         <Modal.Actions>
           {altAction}
@@ -603,6 +739,7 @@ const FormModal = ({
             type="submit"
             labelPosition="left"
             onClick={handleSubmit(onSubmit)}
+            loading={loading || status !== "idle"}
           >
             <Icon name="checkmark" />
             Submit

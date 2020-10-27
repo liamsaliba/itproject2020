@@ -21,7 +21,7 @@ import {
   selectUsername,
   signup,
   selectPortfolioByUsername,
-  resetErrors,
+  resetAuthErrors,
 } from "../../store";
 import { Title, Toast } from "../../components";
 import { useEffect, useState } from "react";
@@ -153,7 +153,7 @@ export default () => {
   );
 
   useEffect(() => {
-    dispatch(resetErrors());
+    dispatch(resetAuthErrors());
   }, [dispatch]);
 
   useEffect(() => {

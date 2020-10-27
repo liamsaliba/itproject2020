@@ -4,9 +4,16 @@ import { Link } from "./index";
 import profileImg from "../svg/profile.png";
 // import profileImg from "../svg/DocumentPreview.png";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, selectAvatar, updateAvatar } from "../store";
+import {
+  selectUser,
+  selectAvatar,
+  updateAvatar,
+  selectAuthLoading,
+  selectAuthError,
+  resetAuthErrors,
+} from "../store";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button, Icon, Dropdown, Form } from "semantic-ui-react";
 import { ChooseMedia } from "./Media";
 // import { selectMediaByUsername } from "../store/combinedSelectors";
@@ -17,7 +24,6 @@ const hashCode = s =>
   s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
 
 export const ProfileImage = ({ userId, profile }) => {
-  console.log("profile", userId, profile);
   const tint =
     profile === undefined && userId !== undefined ? hashCode(userId) : 0;
   return (
@@ -26,6 +32,7 @@ export const ProfileImage = ({ userId, profile }) => {
       src={profile ? profile : profileImg}
       // variant="avatar"
       sx={{
+        width: "100%",
         filter: `hue-rotate(${tint}deg)`,
         borderRadius: "50%",
         clipPath: "circle(100%)",
@@ -143,9 +150,11 @@ export const EditableUserProfile = ({ editing, username, profile }) => {
 };
 
 export const ChooseProfileModal = ({ username, profile }) => {
-  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState("closed");
   const [profileId, setProfileId] = useState(null);
   const profileSrc = useSelector(state => selectMediaUrl(state, profileId));
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
 
   const dispatch = useDispatch();
   const onChange = value => {
@@ -153,9 +162,25 @@ export const ChooseProfileModal = ({ username, profile }) => {
   };
 
   const closeModal = () => {
-    setOpen(false);
-    setProfileId(profile);
+    setStatus("closed");
+    setProfileId(null);
   };
+
+  // handle loading
+  useEffect(() => {
+    if (loading && status === "sentSubmit") {
+      setStatus("submitting");
+    }
+  }, [loading, status, setStatus]);
+
+  useEffect(() => {
+    if (!loading && status === "submitting") {
+      if (error === null) {
+        setStatus("closed");
+      }
+      dispatch(resetAuthErrors());
+    }
+  }, [loading, status, dispatch, error]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -163,7 +188,8 @@ export const ChooseProfileModal = ({ username, profile }) => {
       return;
     }
     dispatch(updateAvatar(profileId));
-    closeModal();
+    setStatus("sentSubmit");
+    // closeModal();
   };
 
   return (
@@ -174,12 +200,12 @@ export const ChooseProfileModal = ({ username, profile }) => {
       size="tiny"
       closeOnDimmerClick={false}
       onClose={() => closeModal()}
-      onOpen={() => setOpen(true)}
+      onOpen={() => setStatus("open")}
       dimmer={{ inverted: true }}
-      open={open}
+      open={status !== "closed"}
       trigger={
         <Box
-          onClick={() => setOpen(true)}
+          onClick={() => setStatus("open")}
           sx={{
             margin: "auto",
             transition: ".3s ease",
@@ -188,10 +214,9 @@ export const ChooseProfileModal = ({ username, profile }) => {
             maxWidth: "250px",
             maxHeight: "250px",
             "&:hover": {
-              filter: "brightness(120%)",
+              transform: "scale(1.05)",
             },
             "&:active": {
-              filter: "brightness(100%)",
               transform: "scale(0.9)",
             },
           }}
@@ -218,7 +243,7 @@ export const ChooseProfileModal = ({ username, profile }) => {
         <Button basic color="red" onClick={() => closeModal()} type="button">
           <Icon name="cancel" /> Cancel
         </Button>
-        <Button color="green" type="submit">
+        <Button color="green" type="submit" loading={loading}>
           <Icon name="checkmark" /> Save
         </Button>
       </Modal.Actions>
