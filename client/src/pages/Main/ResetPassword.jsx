@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
-import { Form, Grid, Icon, Header } from "semantic-ui-react";
+import { Form, Grid, Icon, Header, Message } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import ReactCodeInput from "react-verification-code-input";
 import React from "react";
@@ -14,6 +14,7 @@ import { useState } from "react";
 
 export default () => {
   const [valid, setValid] = useState(false);
+  const [visible, setVisible] = useState(true);
   // const authError = useSelector(state => selectAuthSlice(state).error);
 
   // TODO: change hardcoded value to the code sent to email
@@ -116,6 +117,27 @@ export default () => {
             </Form>
           )}
         </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        {!visible ? null : (
+          <Flex variant="layout.centerflex">
+            <Message
+              onDismiss={() => setVisible(false)}
+              // header='A link to change your password has been sent to your email!'
+              attached="bottom"
+              content="A link to change your password has been sent to your email!"
+              info
+              fluid
+            />
+          </Flex>
+        )}
       </Grid.Row>
     </Grid>
   );

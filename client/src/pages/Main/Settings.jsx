@@ -398,11 +398,11 @@ export default () => {
                 labelPosition="left"
                 content="Change Password"
                 to="/reset-password"
-                onClick={() =>
-                  toast.info(
-                    "A link to change your password has been sent to your email!"
-                  )
-                }
+                // onClick={() =>
+                //   toast.info(
+                //     "A link to change your password has been sent to your email!"
+                //   )
+                // }
               />
               <DeleteAccountModal />
             </Button.Group>
