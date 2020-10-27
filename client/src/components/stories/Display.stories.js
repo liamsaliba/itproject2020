@@ -4,6 +4,7 @@ import {Display} from "../Sections";
 // import { ArtifactForm } from "../../components/ArtifactForm";
 
 import camelAnatomy from "../../svg/camelAnatomy.png";
+import journeyOnACamel from "../../svg/JourneyOnACamel.jpg";
 
 export default {
   component: Display,
@@ -11,6 +12,12 @@ export default {
 };
 
 const Template = args => <Display {...args} />;
+
+/* image only
+multiple images only
+heading only
+heading and body and action only
+image and heading only */
 
 export const Right = Template.bind({});
 Right.args = {
@@ -54,8 +61,8 @@ Center.args = {
   },
 };
 
-export const RightShort = Template.bind({});
-RightShort.args = {
+export const Short = Template.bind({});
+Short.args = {
   ...Right.args,
   contents: {
     ...Right.args.contents,
@@ -63,8 +70,8 @@ RightShort.args = {
   },
 };
 
-export const RightMedium = Template.bind({});
-RightMedium.args = {
+export const Medium = Template.bind({});
+Medium.args = {
   ...Right.args,
   contents: {
     ...Right.args.contents,
@@ -72,8 +79,8 @@ RightMedium.args = {
   },
 };
 
-export const RightTall = Template.bind({});
-RightTall.args = {
+export const Tall = Template.bind({});
+Tall.args = {
   ...Right.args,
   contents: {
     ...Right.args.contents,
@@ -81,8 +88,8 @@ RightTall.args = {
   },
 };
 
-export const RightFullscreen = Template.bind({});
-RightFullscreen.args = {
+export const Fullscreen = Template.bind({});
+Fullscreen.args = {
   ...Right.args,
   contents: {
     ...Right.args.contents,
@@ -90,6 +97,53 @@ RightFullscreen.args = {
   },
 };
 
+export const ImageOnly = Template.bind({});
+ImageOnly.args = {
+  contents: {
+    orientation:"center",
+    displaySize:"auto",
+  }, 
+  media: [{ type: "image", url: camelAnatomy, id:"5f90276ba6b2bd00423cb618",}], 
+  editing:true,
+  id:"5f90276ba6b2bd00423cb618",
+};
+
+export const MultipleImageOnly = Template.bind({});
+MultipleImageOnly.args = {
+  contents: {
+    orientation:"center",
+    displaySize:"auto",
+  }, 
+  media: [
+    { type: "image", url: camelAnatomy, id:"5f90276ba6b2bd00423cb618",},
+    { type: "image", url: journeyOnACamel, id:"5f90276ba6b2bd00423cb619",},
+  ], 
+  editing:true,
+  id:"5f90276ba6b2bd00423cb618",
+};
+
+export const HeadingOnly = Template.bind({});
+HeadingOnly.args = {
+  contents: {
+    header: "Example Header",
+    textAlign:"center",
+    displaySize:"auto",
+  }, 
+  editing:true,
+  id:"5f90276ba6b2bd00423cb618",
+};
+export const ImageHeadingOnly = Template.bind({});
+ImageHeadingOnly.args = {
+  contents: {
+    orientation:"right",
+    header: "Example Header",
+    textAlign:"center",
+    displaySize:"auto",
+  },   
+  media: [{ type: "image", url: camelAnatomy, id:"5f90276ba6b2bd00423cb618",}], 
+  editing:true,
+  id:"5f90276ba6b2bd00423cb618",
+};
 /* const TemplateForm = args => <ArtifactForm {...args} />;
 export const NewForm = TemplateForm.bind({});
 NewForm.args = {

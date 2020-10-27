@@ -24,14 +24,19 @@ const styling = {
   mb: 0,
 };
 
+const EEstyling = {
+  p: "1em",
+  borderRadius:"5px",
+}
+
 const greyedOut = {
   opacity: "0.9",
 };
 
-export const Row = ({ editing, openEditor, id, children }) => {
+export const Row = ({ editing, openEditor, id, children, style }) => {
   const sectionStyling = {
+    ...style,
     boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
-    // p: "1em",
     flex: "1 1 auto",
     transition: "0.3s all ease",
     flexDirection: "column",
@@ -72,7 +77,7 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
   } = contents;
 
   return (
-    <Row {...{ editing, openEditor, id }}>
+    <Row {...{ editing, openEditor, id, style:EEstyling }}>
       <Styled.h3 sx={styling}>{school}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
         {[degree, fieldOfStudy, grade ? "Grade: ".concat(grade) : ""].join(
@@ -107,7 +112,7 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
   } = contents;
 
   return (
-    <Row {...{ editing, openEditor, id }}>
+    <Row {...{ editing, openEditor, id, style:EEstyling }}>
       <Styled.h3 sx={styling}>{jobTitle}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
         {[organisation, department].join(" \u00B7 ")}
