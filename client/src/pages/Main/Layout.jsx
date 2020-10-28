@@ -23,24 +23,27 @@ export default props => {
     minHeight: "100vh",
   };
 
+  const MobileBody = (
+    <Flex sx={flexProps}>
+      <MainHamburger>
+        <Flex variant="layout.centerflex">{props.children}</Flex>
+        <Footer as="footer" sx={{ mt: "3em" }} />
+      </MainHamburger>
+    </Flex>
+  );
+
   return (
     <MediaContextProvider>
       <ThemeProvider theme={theme}>
-        <Media greaterThan="mobile">
+        <Media greaterThan="tablet">
           <Flex sx={flexProps}>
             <MainNavbar as="header" />
             <Flex variant="layout.centerflex">{props.children}</Flex>
             <Footer as="footer" />
           </Flex>
         </Media>
-        <Media at="mobile">
-          <Flex sx={flexProps}>
-            <MainHamburger>
-              <Flex variant="layout.centerflex">{props.children}</Flex>
-              <Footer as="footer" sx={{ mt: "3em" }} />
-            </MainHamburger>
-          </Flex>
-        </Media>
+        <Media at="tablet">{MobileBody}</Media>
+        <Media lessThan="tablet">{MobileBody}</Media>
       </ThemeProvider>
     </MediaContextProvider>
   );
