@@ -84,49 +84,49 @@ const ActionForm = ({ collapsible = false }) => {
   );
 };
 
+const sizeOptions = [
+  { key: "a", text: "Automatic", value: "auto" },
+  { key: "s", text: "Short", value: "short" },
+  { key: "m", text: "Medium", value: "medium" },
+  { key: "t", text: "Tall", value: "tall" },
+  { key: "f", text: "Fullscreen", value: "fullscreen" },
+];
+
+const orientationOptions = [
+  { key: "l", text: "Media on left", value: "left", icon: "align left" },
+  {
+    key: "c",
+    text: "Media behind",
+    value: "center",
+    icon: "align center",
+  },
+  {
+    key: "r",
+    text: "Media on right",
+    value: "right",
+    icon: "align right",
+  },
+];
+
+const textAlignOptions = [
+  { key: "l", text: "Align left", value: "left", icon: "align left" },
+  {
+    key: "c",
+    text: "Align center",
+    value: "center",
+    icon: "align center",
+  },
+  {
+    key: "r",
+    text: "Align right",
+    value: "right",
+    icon: "align right",
+  },
+];
+
 const DisplayPropertiesForm = ({ media, body, collapsible = false }) => {
   const { setValue } = useFormContext();
   const [open, setOpen] = useState(!collapsible);
-
-  const sizeOptions = [
-    { key: "a", text: "Automatic", value: "auto" },
-    { key: "s", text: "Short", value: "short" },
-    { key: "m", text: "Medium", value: "medium" },
-    { key: "t", text: "Tall", value: "tall" },
-    { key: "f", text: "Fullscreen", value: "fullscreen" },
-  ];
-
-  const orientationOptions = [
-    { key: "l", text: "Media on left", value: "left", icon: "align left" },
-    {
-      key: "c",
-      text: "Media behind",
-      value: "center",
-      icon: "align center",
-    },
-    {
-      key: "r",
-      text: "Media on right",
-      value: "right",
-      icon: "align right",
-    },
-  ];
-
-  const textAlignOptions = [
-    { key: "l", text: "Align left", value: "left", icon: "align left" },
-    {
-      key: "c",
-      text: "Align center",
-      value: "center",
-      icon: "align center",
-    },
-    {
-      key: "r",
-      text: "Align right",
-      value: "right",
-      icon: "align right",
-    },
-  ];
 
   useEffect(() => {
     if (media.length === 0) {
@@ -195,6 +195,34 @@ const HeadingForm = () => {
       <MediaForm />
       <Divider />
       <DisplayPropertiesForm media={media} body={bodyText} />
+    </Box>
+  );
+};
+
+//https://www.youtube.com/embed/e-QFj59PON4
+const EmbedForm = () => {
+  const { errors } = useFormContext();
+
+  return (
+    <Box>
+      <Controller
+        as={Form.Input}
+        rules={{ required: true }}
+        placeholder="https://www.youtube.com/watch?v=e-QFj59PON4"
+        error={getErrors(errors, "url")}
+        name="url"
+        label="Embed code"
+        size="large"
+        icon="video"
+        iconPosition="left"
+      />
+      <Divider />
+      <ControlledSelect
+        name="displaySize"
+        options={sizeOptions}
+        rules={{ required: true }}
+        label="Display size"
+      />
     </Box>
   );
 };
@@ -511,7 +539,13 @@ const forms = {
       ...actionDefaults,
     },
     validate: (data, setError) => {
-      if (data.header === "" && data.body === "" && data.media.length === 0) {
+      if (
+        data.header === "" &&
+        data.body === "" &&
+        data.media.length === 0 &&
+        data.actionText === "" &&
+        data.actionUrl === ""
+      ) {
         setError("header", {
           type: "manual",
           message: "At least one field should be filled.",
@@ -533,6 +567,14 @@ const forms = {
         return false;
       }
       return true;
+    },
+  },
+  embed: {
+    content: <EmbedForm />,
+    title: "Embed",
+    defaultValues: {
+      url: "",
+      displaySize: "auto",
     },
   },
   heading: {

@@ -1,8 +1,10 @@
 /** @jsx jsx */
-import { jsx, Flex, Box, Image, Styled, Button } from "theme-ui";
+import { jsx, Flex, Box, Image, Styled, Button, Embed } from "theme-ui";
+import React from "react";
 import { Link } from "../components";
 // import { useEffect } from "react";
 import moment from "moment";
+import { Icon, Button as SemanticButton } from "semantic-ui-react";
 
 const parseDate = date => {
   return moment(date).format("MMM YYYY");
@@ -80,9 +82,9 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
     <Box>
       <Styled.h3 sx={styling}>{school}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
-        {[degree, fieldOfStudy, grade ? "Grade: ".concat(grade) : ""].join(
-          " \u00B7 "
-        )}
+        {[degree, fieldOfStudy, grade ? "Grade: ".concat(grade) : ""]
+          .filter(Boolean)
+          .join(" \u00B7 ")}
       </Styled.h4>
 
       <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
@@ -136,7 +138,7 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
     <Box>
       <Styled.h3 sx={styling}>{jobTitle}</Styled.h3>
       <Styled.h4 sx={{ ...styling, fontWeight: "normal" }}>
-        {[organisation, department].join(" \u00B7 ")}
+        {[organisation, department].filter(Boolean).join(" \u00B7 ")}
       </Styled.h4>
 
       <Styled.p sx={{ ...styling, ...greyedOut, mt: "1em" }}>
@@ -364,5 +366,29 @@ export const Display = ({ contents, openEditor, id, media, editing }) => {
         <Action {...{ actionUrl, actionText, editing }} />
       </Box>
     </StyledArtifact>
+  );
+};
+
+export const Embedded = ({ contents, openEditor, id, editing }) => {
+  const { url } = contents;
+
+  return (
+    // <StyledArtifact
+    //   {...{
+    //     openEditor,
+    //     id,
+    //     editing,
+    //     displaySize,
+    //   }}
+    // >
+    <React.Fragment>
+      <SemanticButton icon labelPosition="left" onClick={openEditor}>
+        <Icon name="edit" />
+        Edit embed below
+      </SemanticButton>
+      <Embed src={url ? url.replace("watch?v=", "embed/") : ""} />
+    </React.Fragment>
+
+    // </StyledArtifact>
   );
 };

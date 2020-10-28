@@ -64,6 +64,13 @@ export const pageTypes = {
     value: "heading",
     icon: "heading",
   },
+  embed: {
+    key: "v",
+    text: "Embed",
+    description: "eg: YouTube videos",
+    value: "embed",
+    icon: "video",
+  },
   gallery: {
     key: "g",
     text: "Gallery - Coming Soon!",
