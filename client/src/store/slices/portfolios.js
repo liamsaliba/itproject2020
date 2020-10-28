@@ -249,7 +249,7 @@ export const selectPortfolioPages = createSelector(
 
 export const selectSocialIcons = createSelector(
   selectPortfolioByUsername,
-  portfolio => (portfolio ? portfolio.socials || [] : undefined)
+  portfolio => (portfolio ? portfolio.social || [] : undefined)
 );
 
 export const selectPortfolioPageIds = createSelector(

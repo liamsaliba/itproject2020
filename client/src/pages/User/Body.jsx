@@ -12,7 +12,6 @@ import {
   selectFullName,
   selectSocialIcons,
   selectArtifactsLoading,
-  // selectSocialIcons,
 } from "../../store";
 import { Section, Artifact } from "../../components";
 import {
@@ -99,8 +98,8 @@ const EditBioModal = ({ bio }) => {
   );
 };
 
-const SocialIcons = id => {
-  const socials = useSelector(state => selectSocialIcons(state, id));
+const SocialIcons = ({ username }) => {
+  const socials = useSelector(state => selectSocialIcons(state, username));
 
   useEffect(() => {
     console.log("socials", socials);
@@ -133,7 +132,7 @@ const MainHeader = ({ username, bio, editing }) => {
       </Styled.h2>
       <Styled.p> {bio} </Styled.p>
       {editing ? <EditBioModal bio={bio} /> : null}
-      <SocialIcons />
+      <SocialIcons username={username} />
     </Box>
   );
 };
