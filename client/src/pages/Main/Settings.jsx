@@ -218,16 +218,6 @@ export default () => {
     }
   });
 
-  // useEffect(() => {
-  //   if (form !== null) {
-  //     const { firstName, lastName } = form;
-  //     if (firstName === "" || lastName === "") {
-  //       toast.error("Required fields are empty.");
-  //       return;
-  //     }
-  //   }
-  // }, [form, dispatch]);
-
   useEffect(() => {
     // TODO: fix error handling on store
     if (authError) {
