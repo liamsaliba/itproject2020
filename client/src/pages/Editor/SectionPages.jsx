@@ -66,14 +66,14 @@ export const pageTypes = {
   },
   gallery: {
     key: "g",
-    text: "Gallery",
+    text: "Gallery - Coming Soon!",
     value: "gallery",
     icon: "images",
     description: "Wall of media",
   },
   article: {
     key: "a",
-    text: "Article",
+    text: "Article - Coming Soon!",
     defaultPageName: "Articles",
     description: "Long prose",
     value: "article",
@@ -81,7 +81,7 @@ export const pageTypes = {
   },
   publication: {
     key: "p",
-    text: "Publication",
+    text: "Publication - Coming Soon!",
     defaultPageName: "Publications",
     description: "Published works",
     value: "publication",
@@ -89,7 +89,7 @@ export const pageTypes = {
   },
   talk: {
     key: "t",
-    text: "Talk",
+    text: "Talk - Coming Soon!",
     defaultPageName: "Talks",
     value: "talk",
     icon: "talk",
@@ -97,7 +97,7 @@ export const pageTypes = {
   custom: {
     key: "c",
     defaultPageName: "",
-    text: "Custom",
+    text: "Custom - Coming Soon!",
     value: "custom",
     icon: "newspaper outline",
   },

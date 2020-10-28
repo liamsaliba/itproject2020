@@ -128,7 +128,10 @@ HeadingOnly.args = {
     header: "Example Header",
     textAlign:"center",
     displaySize:"auto",
+    orientation:"center",
   }, 
+  media: [
+  ],
   editing:true,
   id:"5f90276ba6b2bd00423cb618",
 };
