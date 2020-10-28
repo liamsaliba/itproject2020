@@ -271,9 +271,7 @@ export const StyledArtifact = ({
             position: "relative",
             width: "100%",
             zIndex: "1",
-            color: media.length !== 0 ? "
-            
-            " : undefined,
+            color: media.length !== 0 ? "white" : undefined,
             "& h1, & h2, & h3, & p": {
               color: media.length !== 0 ? "white" : undefined,
             },
