@@ -4,7 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, SidebarCamel } from "./NavItems";
 import { ProfileIcon } from "./ProfileIcon";
-import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
+import { Menu, Sidebar, Icon } from "semantic-ui-react";
 import { selectToken, selectUser } from "../store";
 import Scroller from "./Scroller";
 
