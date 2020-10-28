@@ -19036,7 +19036,36 @@ exports[`Storyshots Pages/Display Heading Only 1`] = `
       <div
         className="css-lifdea-Row"
         onClick={[Function]}
-      />
+      >
+        <div
+          className="css-1he7ydt-StyledArtifact"
+        >
+          <div
+            className="css-mgowwq-StyledArtifact"
+          >
+            <div
+              className="css-1be8c0h-StyledArtifact"
+            >
+              <div
+                className="css-vurnku"
+              >
+                <h1
+                  className="css-0"
+                >
+                  Example Header
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-ph81yu-StyledArtifact"
+          >
+            <div
+              className="css-1it7ijv-MediaCollection"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
