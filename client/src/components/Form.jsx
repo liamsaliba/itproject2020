@@ -87,7 +87,6 @@ export const ControlledSelect = ({
       name={name}
       render={({ onChange, value, name }) => (
         <Form.Select
-          iconPosition="left"
           fluid
           required
           label={label}
