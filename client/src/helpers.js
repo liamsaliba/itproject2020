@@ -1,3 +1,5 @@
+import { useRef, useEffect } from "react";
+
 import { useSelector } from "react-redux";
 import { selectPortfolioIsEditing, selectPortfolioByUsername } from "./store";
 
@@ -16,4 +18,18 @@ export const usePath = userId => {
     pageName === "" || pageName === undefined
       ? path
       : `${path}/${sep}${encodeURI(pageName)}`;
+};
+
+export const useEffectUpdate = (effect, deps) => {
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      effect();
+    }
+  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
 };

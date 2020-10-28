@@ -12,6 +12,7 @@ import {
   selectFullName,
   selectSocialIcons,
   selectArtifactsLoading,
+  updateSocials,
 } from "../../store";
 import { Section, Artifact } from "../../components";
 import {
@@ -38,9 +39,9 @@ import {
 import { useEffect } from "react";
 import { ContactForm } from "./Contact";
 import { MenuButton } from "../../components/NavItems";
-import { SocialIcon } from "react-social-icons";
 import { selectArtifactsError } from "../../store/slices/artifacts";
 import { pageTypes } from "../Editor/SectionPages";
+import { SocialIcons } from "../../components/Socials";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -98,25 +99,12 @@ const EditBioModal = ({ bio }) => {
   );
 };
 
-const SocialIcons = ({ username }) => {
-  const socials = useSelector(state => selectSocialIcons(state, username));
-
-  useEffect(() => {
-    console.log("socials", socials);
-  });
-
-  return (
-    <Box>
-      {socials
-        ? socials.map(social => <SocialIcon key={social} url={social} />)
-        : null}
-    </Box>
-  );
-};
-
 const MainHeader = ({ username, bio, editing }) => {
   const fullName = useSelector(state => selectFullName(state, username));
   const profile = useSelector(state => selectPortfolioAvatar(state, username));
+  const socials = useSelector(state => selectSocialIcons(state, username));
+
+  const dispatch = useDispatch();
 
   return (
     <Box mb={2} as="header">
@@ -125,14 +113,18 @@ const MainHeader = ({ username, bio, editing }) => {
         username={username}
         profile={profile}
       />
-      {/* TODO: put first name + last name here instead! */}
       <Styled.h1 sx={{ mb: 0 }}> {fullName} </Styled.h1>
       <Styled.h2 sx={{ mt: 0, fontWeight: "400", fontFamily: "monospace" }}>
         {username}
       </Styled.h2>
+      <SocialIcons
+        socials={socials}
+        editing={editing}
+        update={s => dispatch(updateSocials(s))}
+      />
+      <br />
       <Styled.p> {bio} </Styled.p>
       {editing ? <EditBioModal bio={bio} /> : null}
-      <SocialIcons username={username} />
     </Box>
   );
 };
@@ -143,7 +135,7 @@ const Page = ({ pageId: id, name, userId }) => {
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
 
   const dispatch = useDispatch();
-  // TODO: display a toast saying unable to fetch page.
+
   if (page === undefined) return null;
   const { type, loading } = page;
   const artifacts = content.map(artifact => (
