@@ -14253,7 +14253,7 @@ exports[`Storyshots Pages/Display Center 1`] = `
           className="css-1he7ydt-StyledArtifact"
         >
           <div
-            className="css-6adv39-StyledArtifact"
+            className="css-d1kzms-StyledArtifact"
           >
             <div
               className="css-1be8c0h-StyledArtifact"
@@ -14272,7 +14272,7 @@ exports[`Storyshots Pages/Display Center 1`] = `
                   Example Body
                 </p>
                 <button
-                  className="css-3px1qo-Display"
+                  className="css-b5pl8h-Action"
                   href="https://www.messenger.com/"
                 >
                   Example Action
@@ -14281,7 +14281,7 @@ exports[`Storyshots Pages/Display Center 1`] = `
             </div>
           </div>
           <div
-            className="css-1ech9g0-StyledArtifact"
+            className="css-ph81yu-StyledArtifact"
           >
             <div
               className="css-1it7ijv-MediaCollection"
@@ -16667,7 +16667,7 @@ exports[`Storyshots Pages/Display Fullscreen 1`] = `
                 Example Body
               </p>
               <button
-                className="css-3px1qo-Display"
+                className="css-b5pl8h-Action"
                 href="https://www.messenger.com/"
               >
                 Example Action
@@ -23773,7 +23773,7 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
           className="css-1he7ydt-StyledArtifact"
         >
           <div
-            className="css-6adv39-StyledArtifact"
+            className="css-d1kzms-StyledArtifact"
           >
             <div
               className="css-khpuus-StyledArtifact"
@@ -23784,7 +23784,7 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
             </div>
           </div>
           <div
-            className="css-1ech9g0-StyledArtifact"
+            className="css-ph81yu-StyledArtifact"
           >
             <div
               className="css-1it7ijv-MediaCollection"
@@ -26178,7 +26178,7 @@ exports[`Storyshots Pages/Display Left 1`] = `
                 Example Body
               </p>
               <button
-                className="css-3px1qo-Display"
+                className="css-b5pl8h-Action"
                 href="https://www.messenger.com/"
               >
                 Example Action
@@ -28560,7 +28560,7 @@ exports[`Storyshots Pages/Display Medium 1`] = `
                 Example Body
               </p>
               <button
-                className="css-3px1qo-Display"
+                className="css-b5pl8h-Action"
                 href="https://www.messenger.com/"
               >
                 Example Action
@@ -30934,7 +30934,7 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
           className="css-1he7ydt-StyledArtifact"
         >
           <div
-            className="css-6adv39-StyledArtifact"
+            className="css-d1kzms-StyledArtifact"
           >
             <div
               className="css-khpuus-StyledArtifact"
@@ -30945,7 +30945,7 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
             </div>
           </div>
           <div
-            className="css-1ech9g0-StyledArtifact"
+            className="css-ph81yu-StyledArtifact"
           >
             <div
               className="css-1it7ijv-MediaCollection"
@@ -33335,7 +33335,7 @@ exports[`Storyshots Pages/Display Right 1`] = `
                 Example Body
               </p>
               <button
-                className="css-3px1qo-Display"
+                className="css-b5pl8h-Action"
                 href="https://www.messenger.com/"
               >
                 Example Action
@@ -35725,7 +35725,7 @@ exports[`Storyshots Pages/Display Short 1`] = `
                 Example Body
               </p>
               <button
-                className="css-3px1qo-Display"
+                className="css-b5pl8h-Action"
                 href="https://www.messenger.com/"
               >
                 Example Action
@@ -38115,7 +38115,7 @@ exports[`Storyshots Pages/Display Tall 1`] = `
                 Example Body
               </p>
               <button
-                className="css-3px1qo-Display"
+                className="css-b5pl8h-Action"
                 href="https://www.messenger.com/"
               >
                 Example Action
@@ -40482,34 +40482,62 @@ exports[`Storyshots Pages/Education Default 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-57m74h-Row"
+        className="css-lifdea-Row"
         onClick={[Function]}
       >
-        <h3
-          className="css-jhpm5t-Education"
+        <div
+          className="css-1he7ydt-StyledArtifact"
         >
-          University of Melbourne
-        </h3>
-        <h4
-          className="css-w2lto8-Education"
-        >
-          Bachelor of Science · Computing and Software Systems · Grade: 1000
-        </h4>
-        <p
-          className="css-mda7h7-Education"
-        >
-          Mar 2018 - Nov 2020
-        </p>
-        <p
-          className="css-1c66e0s-Education"
-        >
-          Melbourne, Australia
-        </p>
-        <p
-          className="css-18s6nnt-Education"
-        >
-          3 Years of learning
-        </p>
+          <div
+            className="css-d1kzms-StyledArtifact"
+          >
+            <div
+              className="css-1be8c0h-StyledArtifact"
+            >
+              <div
+                className="css-vurnku"
+              >
+                <h3
+                  className="css-jhpm5t-Education"
+                >
+                  University of Melbourne
+                </h3>
+                <h4
+                  className="css-w2lto8-Education"
+                >
+                  Bachelor of Science · Computing and Software Systems · Grade: 1000
+                </h4>
+                <p
+                  className="css-mda7h7-Education"
+                >
+                  Mar 2018 - Nov 2020
+                </p>
+                <p
+                  className="css-1c66e0s-Education"
+                >
+                  Melbourne, Australia
+                </p>
+                <p
+                  className="css-18s6nnt-Education"
+                >
+                  3 Years of learning
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-ph81yu-StyledArtifact"
+          >
+            <div
+              className="css-1it7ijv-MediaCollection"
+            >
+              <img
+                className="css-6e2y90-Media"
+                src="camelAnatomy.png"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -42861,39 +42889,68 @@ exports[`Storyshots Pages/Experience Default 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-57m74h-Row"
+        className="css-lifdea-Row"
         onClick={[Function]}
       >
-        <h3
-          className="css-2oc3rg-Experience"
+        <div
+          className="css-1he7ydt-StyledArtifact"
         >
-          UI Baus
-        </h3>
-        <h4
-          className="css-1qeud0g-Experience"
-        >
-          camel_case · Front End Team
-        </h4>
-        <p
-          className="css-mm0jsn-Experience"
-        >
-          Aug 2020 - Present
-        </p>
-        <p
-          className="css-2gs1tk-Experience"
-        >
-          Full-Time · 
-        </p>
-        <p
-          className="css-152or1u-Experience"
-        >
-          remote
-        </p>
-        <p
-          className="css-181x6uc-Experience"
-        >
-          During my third and last year of my Computing and Software Systems degree, I was responsible for scrambling together UI components for our ePortfolio website.
-        </p>
+          <div
+            className="css-d1kzms-StyledArtifact"
+          >
+            <div
+              className="css-1be8c0h-StyledArtifact"
+            >
+              <div
+                className="css-vurnku"
+              >
+                <h3
+                  className="css-2oc3rg-Experience"
+                >
+                  UI Baus
+                </h3>
+                <h4
+                  className="css-1qeud0g-Experience"
+                >
+                  camel_case · Front End Team
+                </h4>
+                <p
+                  className="css-mm0jsn-Experience"
+                >
+                  Aug 2020 - Present
+                </p>
+                <p
+                  className="css-2gs1tk-Experience"
+                >
+                  Full-Time
+                   
+                </p>
+                <p
+                  className="css-152or1u-Experience"
+                >
+                  remote
+                </p>
+                <p
+                  className="css-181x6uc-Experience"
+                >
+                  During my third and last year of my Computing and Software Systems degree, I was responsible for scrambling together UI components for our ePortfolio website.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-ph81yu-StyledArtifact"
+          >
+            <div
+              className="css-1it7ijv-MediaCollection"
+            >
+              <img
+                className="css-6e2y90-Media"
+                src="camelAnatomy.png"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
