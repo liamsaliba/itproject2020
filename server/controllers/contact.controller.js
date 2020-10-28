@@ -30,9 +30,10 @@ const contact = async (req, res) => {
     const accessToken = oauth2Client.getAccessToken()
 
     let transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465, // secure port
-      secure: true,
+      //host: "smtp.gmail.com",
+      //port: 465, // secure port
+      //secure: true,
+      pool: "true",
       service: "gmail",
       auth: {
         type: 'OAuth2',
@@ -58,6 +59,12 @@ const contact = async (req, res) => {
       text: textBody,
       html: htmlBody,
     };
+    
+    transporter.verify((error, sucess) => {
+      error
+        ? console.log(error)
+        :console.log('Server is ready to take our messages: ', sucess)
+    });
     
     // send mail with defined transport object
     transporter.sendMail(mail, function (err, info) {
