@@ -30,6 +30,10 @@ export const Hamburger = props => {
             <Icon name="address card" />
             Portfolio
           </Menu.Item>
+          <Menu.Item as={Link} to="/settings" onClick={close}>
+            <Icon name="settings" />
+            Settings
+          </Menu.Item>
           <Menu.Item as={Link} to="/logout" onClick={close}>
             <Icon name="sign out" />
             Logout
