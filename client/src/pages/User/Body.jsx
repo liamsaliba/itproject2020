@@ -169,7 +169,7 @@ const Page = ({ pageId: id, name, userId }) => {
     .slice(1)
     .map(option => ({
       ...option,
-      onClick: create(option.value),
+      onClick: option.disabled !== true ? create(option.value) : undefined,
       description: undefined,
     }));
   const newbtn =
