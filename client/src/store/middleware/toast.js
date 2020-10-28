@@ -6,15 +6,17 @@ const toastMiddleware = ({ dispatch }) => next => async action => {
   if (!(actionType.includes("error") || actionType.includes("fail")))
     return next(action);
 
-  const { message, data, hideErrorToast } = action.payload;
+  const { message, data } = action.payload;
 
   let msg = message;
   if (data === null || data === {}) {
     msg = `${JSON.stringify(data)} (${message})`;
   }
-  console.warn("TOAST: ", action);
-  if (hideErrorToast === false) toast.warn(msg);
-  else if (process.env.NODE_ENV === "development") toast.info(msg);
+  // if (hideErrorToast === false) toast.warn(msg);
+  else if (process.env.NODE_ENV === "development") {
+    console.warn("TOAST: ", action);
+    toast.info(msg);
+  }
   next(action);
 };
 
