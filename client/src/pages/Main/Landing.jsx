@@ -94,15 +94,30 @@ const Middle = props => {
         stackable
       >
         <Grid.Row>
-          <Image
-            rounded
-            size="large"
-            src={props.image}
-            href="https://stories.freepik.com/web"
-          />
+          {!props.mobile ? (
+            <Image
+              rounded
+              size="large"
+              src={props.image}
+              href="https://stories.freepik.com/web"
+            />
+          ) : (
+            <Grid.Column textAlign="center" width={8} style={{ maxWidth: 400 }}>
+              <Image
+                rounded
+                size="large"
+                src={props.image}
+                href="https://stories.freepik.com/web"
+              />
+            </Grid.Column>
+          )}
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column textAlign="center" width={8}>
+          <Grid.Column
+            textAlign="center"
+            width={8}
+            style={props.mobile ? { maxWidth: 400 } : null}
+          >
             <Header as="h3" style={{ fontSize: "2em" }}>
               {props.header}
             </Header>
@@ -117,7 +132,7 @@ const Middle = props => {
 
 // Illustration by Freepik Stories "https://stories.freepik.com/web"
 
-const HomepageHeading = () => (
+const HomepageHeading = props => (
   <Segment textAlign="center" style={{ padding: "1em 0em" }} vertical>
     <Grid
       container
@@ -127,6 +142,7 @@ const HomepageHeading = () => (
     >
       <Grid.Row>
         <Flex sx={{ alignItems: "center" }}>
+          <span sx={{ p: "0.5em" }} />
           <Image rounded size="small" src={camel} />
           <Header
             as="h1"
@@ -138,13 +154,14 @@ const HomepageHeading = () => (
               textAlign: "center",
             }}
           >
-            <span sx={{ p: "0.2em" }} />
+            {!props.mobile ? <span sx={{ p: "0.2em" }} /> : null}
             Camel Pages
           </Header>
+          <span sx={{ p: "0.5em" }} />
         </Flex>
       </Grid.Row>
       <Grid.Row>
-        <Grid.Column width={8}>
+        <Grid.Column style={props.mobile ? { maxWidth: 400 } : null} width={8}>
           <Search />
           <br />
           <Divider horizontal>Or</Divider>
@@ -162,6 +179,15 @@ const HomepageHeading = () => (
       </Grid.Row>
     </Grid>
   </Segment>
+);
+
+const GetStarted = (
+  <Button animated primary size="huge" as={Link} to="signup">
+    <Button.Content visible>Get Started!</Button.Content>
+    <Button.Content hidden>
+      <Icon name="user plus" />
+    </Button.Content>
+  </Button>
 );
 
 const FirstTwo = (
@@ -191,6 +217,7 @@ const MobileFirst = (
       potential employers or friends have never been easier with a
       simple, easy-to-use UI."
       image={portfolio}
+      mobile
     />
     <Middle
       header="Hit the ground running"
@@ -198,6 +225,7 @@ const MobileFirst = (
       or complicated features while still being able to customise it
       enough to call it yours."
       image={customise}
+      mobile
     />
   </React.Fragment>
 );
@@ -215,14 +243,7 @@ const LastTwo = (
       subheading="Now you don't have to worry about whether you saved your work.
       Leave it to us!"
       image={autosave}
-      button={
-        <Button animated primary size="huge" as={Link} to="signup">
-          <Button.Content visible>Get Started!</Button.Content>
-          <Button.Content hidden>
-            <Icon name="user plus" />
-          </Button.Content>
-        </Button>
-      }
+      button={GetStarted}
     />
   </React.Fragment>
 );
@@ -234,20 +255,15 @@ const MobileLast = (
       subheading="Pick and choose which of your work to show off by easily managing
       all your media uploads at any time."
       image={media}
+      mobile
     />
     <Middle
       header="Save as you go"
       subheading="Now you don't have to worry about whether you saved your work.
       Leave it to us!"
       image={autosave}
-      button={
-        <Button animated primary size="huge" as={Link} to="signup">
-          <Button.Content visible>Get Started!</Button.Content>
-          <Button.Content hidden>
-            <Icon name="user plus" />
-          </Button.Content>
-        </Button>
-      }
+      button={GetStarted}
+      mobile
     />
   </React.Fragment>
 );
@@ -268,6 +284,7 @@ const HomepageBody = props => (
           </Button.Content>
         </Button>
       }
+      mobile={props.mobile}
     />
     {props.mobile ? MobileLast : LastTwo}
   </React.Fragment>
@@ -276,11 +293,16 @@ const HomepageBody = props => (
 export default () => {
   return (
     <MediaContextProvider>
-      <HomepageHeading />
-      <Media greaterThan="mobile">
+      <Media greaterThan="tablet">
+        <HomepageHeading />
         <HomepageBody />
       </Media>
-      <Media at="mobile">
+      <Media at="tablet">
+        <HomepageHeading />
+        <HomepageBody />
+      </Media>
+      <Media lessThan="tablet">
+        <HomepageHeading mobile />
         <HomepageBody mobile />
       </Media>
     </MediaContextProvider>

@@ -30,6 +30,13 @@ const UserPage = props => {
     setPreset(themes[["default", "theme"].includes(theme) ? "base" : theme]);
   }, [theme]);
 
+  const MobileBody = (
+    <UserHamburger userId={userId} editing={editing}>
+      <Body userId={userId} selectedPage={selectedPage} />
+      <Footer userId={userId} />
+    </UserHamburger>
+  );
+
   return (
     <MediaContextProvider>
       <ThemeProvider theme={preset}>
@@ -43,18 +50,14 @@ const UserPage = props => {
           }}
         >
           <header>
-            <Media greaterThan="mobile">
+            <Media greaterThan="tablet">
               <UserNavbar userId={userId} editing={editing} />
               <Body userId={userId} selectedPage={selectedPage} />
               <Footer userId={userId} />
             </Media>
           </header>
-          <Media at="mobile">
-            <UserHamburger userId={userId} editing={editing}>
-              <Body userId={userId} selectedPage={selectedPage} />
-              <Footer userId={userId} />
-            </UserHamburger>
-          </Media>
+          <Media at="tablet">{MobileBody}</Media>
+          <Media lessThan="tablet">{MobileBody}</Media>
         </Flex>
       </ThemeProvider>
     </MediaContextProvider>

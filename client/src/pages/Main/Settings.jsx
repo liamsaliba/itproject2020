@@ -46,108 +46,32 @@ const Edit = ({ editing, setEditing, submit, loading = false }) => {
     );
   } else {
     return (
-      <Form.Group widths="equal">
-        <Form.Button
+      <Button.Group widths="3">
+        <Button
           fluid
           basic
           negative
           icon="remove"
+          labelPosition="left"
           content="Cancel"
           type="button"
           disabled={loading}
           onClick={() => setEditing(false)}
         />
-        <Form.Button
+        <Button
           fluid
           positive
           icon="check"
+          labelPosition="left"
           content="Save"
           loading={loading}
           type="button"
           onClick={submit}
         />
-      </Form.Group>
+      </Button.Group>
     );
   }
 };
-// const ChangePasswordModal = () => {
-//   const [open, setOpen] = useState(false);
-//   // const dispatch = useDispatch();
-
-//   const handleSubmit = e => {
-//     // e.preventDefault();
-//     // const formData = new FormData(e.target);
-//     // const oldPassword = formData.get("oldPassword");
-//     // const newPassword = formData.get("newPassword");
-//     // const confirmNewPassword = formData.get("confirmNewPassword");
-//     // if (confirmNewPassword === newPassword) {
-//     //   toast.error("Password does not match.");
-//     //   setOpen(true)
-//     //   return;
-//     // }
-//     // dispatch(renamePage(pageId, state.name));
-//     // setOpen(false);
-//   };
-
-//   return (
-//     <Modal
-//       size="small"
-//       closeOnDimmerClick={false}
-//       onClose={() => setOpen(false)}
-//       onOpen={() => setOpen(true)}
-//       open={open}
-//       as={Form}
-//       onSubmit={handleSubmit()}
-//       dimmer={{ inverted: true }}
-//       trigger={
-//         <Button icon primary labelPosition="left">
-//           <Icon name="lock" />
-//           Change Password
-//         </Button>
-//       }
-//     >
-//       <Modal.Header>Change Password</Modal.Header>
-//       <Modal.Content>
-//         <Form>
-//           <Form.Input
-//             name="oldPassword"
-//             fluid
-//             icon="lock"
-//             iconPosition="left"
-//             placeholder="Old Password"
-//             type="password"
-//           />
-//           <Form.Input
-//             name="newPassword"
-//             fluid
-//             icon="lock"
-//             iconPosition="left"
-//             placeholder="New Password"
-//             type="password"
-//           />
-//           <Form.Input
-//             name="confirmNewPassword"
-//             fluid
-//             icon="lock"
-//             iconPosition="left"
-//             placeholder="Confirm New Password"
-//             type="password"
-//           />
-//         </Form>
-//       </Modal.Content>
-//       <Modal.Actions>
-//         <Button basic primary onClick={() => setOpen(false)}>
-//           <Icon name="remove" />
-//           Cancel
-//         </Button>
-//         <Button positive type="submit">
-//           <Icon name="checkmark" />
-//           Save
-//         </Button>
-//       </Modal.Actions>
-//     </Modal>
-//   );
-// };
 
 const DeleteAccountModal = () => {
   const [status, setStatus] = useState("closed");
@@ -294,16 +218,6 @@ export default () => {
     }
   });
 
-  // useEffect(() => {
-  //   if (form !== null) {
-  //     const { firstName, lastName } = form;
-  //     if (firstName === "" || lastName === "") {
-  //       toast.error("Required fields are empty.");
-  //       return;
-  //     }
-  //   }
-  // }, [form, dispatch]);
-
   useEffect(() => {
     // TODO: fix error handling on store
     if (authError) {
@@ -378,6 +292,7 @@ export default () => {
               iconPosition="left"
               label="Email"
               defaultValue={user.email}
+              disabled={editing}
               transparent
               readOnly
             />
@@ -388,6 +303,7 @@ export default () => {
               iconPosition="left"
               label="Username"
               defaultValue={user.username}
+              disabled={editing}
               transparent
               readOnly
             />
