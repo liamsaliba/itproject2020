@@ -26,13 +26,13 @@ const portfolioSchema = new Schema(
       required: false,
     },
     font: {
-      type: String,
-      default: "default",
+      type: Object,
+      default: {},
       required: false,
     },
     colour: {
-      type: String,
-      default: "default",
+      type: Object,
+      default: {},
       required: false,
     },
     avatar: {
