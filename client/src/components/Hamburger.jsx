@@ -102,18 +102,16 @@ export const Hamburger = props => {
         </Sidebar>
         <Sidebar.Pusher dimmed={isOpen}>
           <Flex sx={flexProps}>
-            <Container>
-              <Menu secondary size="large">
-                <Menu.Item onClick={open}>
-                  <Icon
-                    size="big"
-                    floated="left"
-                    sx={{ color: "text" }}
-                    name="sidebar"
-                  />
-                </Menu.Item>
-              </Menu>
-            </Container>
+            <Menu secondary size="large">
+              <Menu.Item onClick={open}>
+                <Icon
+                  size="big"
+                  floated="left"
+                  sx={{ color: "text" }}
+                  name="sidebar"
+                />
+              </Menu.Item>
+            </Menu>
             {children}
           </Flex>
         </Sidebar.Pusher>
