@@ -2,7 +2,7 @@
 import { jsx } from "theme-ui";
 import Section from "./Section";
 import { ThemeSelector } from "../../components";
-import { Icon } from "semantic-ui-react";
+import { Header, Icon } from "semantic-ui-react";
 import { changePortfolioTheme, selectCurrentUserPortfolio } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,10 +13,15 @@ const SectionThemes = () => {
 
   return (
     <Section name="Themes" icon="paint brush">
-      <div>
-        <Icon name="paint brush" />
-        Theme
-        <ThemeSelector theme={portfolio.theme} setTheme={setTheme} />
+      <div sx={{ p: "1em" }}>
+        <Header>Manage pages</Header>
+        <div sx={{ textAlign: "left" }}>
+          <label>
+            <Icon name="paint brush" />
+            Base Theme
+          </label>
+          <ThemeSelector theme={portfolio.theme} setTheme={setTheme} />
+        </div>
       </div>
     </Section>
   );
