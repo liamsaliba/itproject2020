@@ -311,6 +311,20 @@ export default () => {
             <Divider horizontal>Account Settings</Divider>
             <Button.Group widths="3">
               <Button
+                primary
+                type="button"
+                icon="lock"
+                as={Link}
+                labelPosition="left"
+                content="Change Password"
+                to="/reset-password"
+              />
+              <DeleteAccountModal />
+            </Button.Group>
+            <br />
+            <br />
+            <Button.Group widths="3">
+              <Button
                 secondary
                 as={Link}
                 type="button"
@@ -329,20 +343,6 @@ export default () => {
                 to="/logout/all"
                 content="Log out everywhere"
               />
-            </Button.Group>
-            <br />
-            <br />
-            <Button.Group widths="3">
-              <Button
-                primary
-                type="button"
-                icon="lock"
-                as={Link}
-                labelPosition="left"
-                content="Change Password"
-                to="/reset-password"
-              />
-              <DeleteAccountModal />
             </Button.Group>
           </Form>
           <br />

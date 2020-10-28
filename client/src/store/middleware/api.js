@@ -65,7 +65,7 @@ const apiMiddleware = ({ dispatch }) => next => async action => {
       hideErrorToast,
       request,
     };
-    console.log(error);
+    if (process.env.NODE_ENV === "development") console.log(error);
     dispatch(actions.apiErrored(returnedError));
     // Specific
     if (onFailure)

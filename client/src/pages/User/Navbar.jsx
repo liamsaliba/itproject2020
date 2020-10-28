@@ -61,9 +61,9 @@ export const UserHamburger = props => {
         {...menuProps}
         // style={{ fontSize: "2em", fontWeight: "bold" }}
       >
-        <Styled.h2 sx={{ m: 0, color: "background", fontFamily: "monospace" }}>
+        {/* <Styled.h2 sx={{ m: 0, color: "background", fontFamily: "monospace" }}>
           {userId}
-        </Styled.h2>
+        </Styled.h2> */}
         <Styled.h3 sx={{ m: 0 }}>{fullName}</Styled.h3>
       </Menu.Header>
       <Menu.Menu style={{ fontSize: "1.5em" }}>

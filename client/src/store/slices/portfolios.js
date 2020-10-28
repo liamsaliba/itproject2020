@@ -69,8 +69,28 @@ const slice = createSlice({
       portfolios.loading = false;
     },
     portfolioUpdateRequested: (portfolios, action) => {
-      portfolios.loading = true;
+      const { username, loading } = action.request;
+      if (portfolios.entities[username]) {
+        portfolios.entities[username] = {
+          ...portfolios.entities[username],
+          ...action.payload,
+          before: { ...portfolios.entities[username] },
+        };
+      }
+      portfolios.loading = loading === undefined ? true : loading;
       portfolios.error = null;
+    },
+    portfolioFailed: (portfolios, action) => {
+      const username = action.request.username;
+      if (portfolios.entities[username]) {
+        portfolios.entities[username] = {
+          ...portfolios.entities[username],
+          ...portfolios.entities[username].before,
+          before: undefined,
+        };
+      }
+      portfolios.loading = false;
+      portfolios.error = action.payload;
     },
     portfolioUpdated: (portfolios, action) => {
       adapter.upsertOne(portfolios, addLastFetch(action.payload));
@@ -201,6 +221,7 @@ const {
   portfolioUpdateRequested,
   portfolioUpdated,
   portfolioDeleted,
+  portfolioFailed,
 } = slice.actions;
 
 export default slice.reducer;
@@ -249,7 +270,7 @@ export const selectPortfolioPages = createSelector(
 
 export const selectSocialIcons = createSelector(
   selectPortfolioByUsername,
-  portfolio => (portfolio ? portfolio.socials || [] : undefined)
+  portfolio => (portfolio ? portfolio.social || [] : undefined)
 );
 
 export const selectPortfolioPageIds = createSelector(
@@ -402,16 +423,19 @@ export const createPortfolio = (portfolio = {}) => (dispatch, getState) => {
   );
 };
 
-const changePortfolioOptions = data => (dispatch, getState) => {
+const changePortfolioOptions = (data, loading) => (dispatch, getState) => {
   const token = selectToken(getState());
   const username = selectUsername(getState());
   return dispatch(
     apiStarted({
       url: endpoints.portfoliosByUsername(username),
       method: "patch",
-      data,
+      data: { ...data },
+      req: { loading, username },
       token,
+      loading: false,
       onStart: portfolioUpdateRequested.type,
+      onFailure: portfolioFailed.type,
       onSuccess: portfolioUpdated.type,
     })
   );
@@ -419,7 +443,9 @@ const changePortfolioOptions = data => (dispatch, getState) => {
 
 export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
-export const updateSocials = socials => changePortfolioOptions({ socials });
+export const updateSocials = social =>
+  changePortfolioOptions({ social }, false);
+
 export const updateSinglePage = singlePage =>
   changePortfolioOptions({ singlePage });
 

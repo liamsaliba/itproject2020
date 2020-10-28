@@ -4,7 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, SidebarCamel } from "./NavItems";
 import { ProfileIcon } from "./ProfileIcon";
-import { Menu, Sidebar, Container, Icon } from "semantic-ui-react";
+import { Menu, Sidebar, Icon } from "semantic-ui-react";
 import { selectToken, selectUser } from "../store";
 import Scroller from "./Scroller";
 
@@ -29,6 +29,10 @@ export const Hamburger = props => {
           <Menu.Item as={Link} to={`/u/${user.username}`} onClick={close}>
             <Icon name="address card" />
             Portfolio
+          </Menu.Item>
+          <Menu.Item as={Link} to="/settings" onClick={close}>
+            <Icon name="settings" />
+            Settings
           </Menu.Item>
           <Menu.Item as={Link} to="/logout" onClick={close}>
             <Icon name="sign out" />
@@ -98,18 +102,16 @@ export const Hamburger = props => {
         </Sidebar>
         <Sidebar.Pusher dimmed={isOpen}>
           <Flex sx={flexProps}>
-            <Container>
-              <Menu secondary size="large">
-                <Menu.Item onClick={open}>
-                  <Icon
-                    size="big"
-                    floated="left"
-                    sx={{ color: "text" }}
-                    name="sidebar"
-                  />
-                </Menu.Item>
-              </Menu>
-            </Container>
+            <Menu secondary size="large">
+              <Menu.Item onClick={open}>
+                <Icon
+                  size="big"
+                  floated="left"
+                  sx={{ color: "text" }}
+                  name="sidebar"
+                />
+              </Menu.Item>
+            </Menu>
             {children}
           </Flex>
         </Sidebar.Pusher>

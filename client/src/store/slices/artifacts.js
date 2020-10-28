@@ -168,7 +168,7 @@ export const editArtifact = (id, data) => (dispatch, getState) => {
     apiStarted({
       url: endpoints.artifactsById(id),
       method: "patch",
-      data,
+      data: { ...data, id },
       token,
       onStart: artifactsUpdating.type,
       onSuccess: artifactUpdated.type,
