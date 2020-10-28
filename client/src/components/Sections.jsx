@@ -92,7 +92,9 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
         {location}
       </Styled.p>
 
-      <Styled.p sx={{ ...styling, mb: "1em" }}>{details}</Styled.p>
+      <Styled.p sx={{ ...styling, mb: "1em", whiteSpace: "pre-wrap" }}>
+        {details}
+      </Styled.p>
     </Box>
   );
 
@@ -147,7 +149,9 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
         {location}
       </Styled.p>
 
-      <Styled.p sx={{ ...styling, mb: "1em" }}>{details}</Styled.p>
+      <Styled.p sx={{ ...styling, mb: "1em", whiteSpace: "pre-wrap" }}>
+        {details}
+      </Styled.p>
     </Box>
   );
 
@@ -354,7 +358,9 @@ export const Display = ({ contents, openEditor, id, media, editing }) => {
             <Styled.h1>{header}</Styled.h1>
           )
         ) : null}
-        {body ? <Styled.p>{body}</Styled.p> : null}
+        {body ? (
+          <Styled.p sx={{ whiteSpace: "pre-wrap" }}>{body}</Styled.p>
+        ) : null}
         <Action {...{ actionUrl, actionText, editing }} />
       </Box>
     </StyledArtifact>
