@@ -147,8 +147,6 @@ const Page = ({ pageId: id, name, userId }) => {
       openEditor={() =>
         editing ? dispatch(editArtifactStarted(artifact)) : null
       }
-      // temporarily, while we wait for a backend fix...
-      type={type}
     />
   ));
 
