@@ -254,14 +254,14 @@ export const UploadMediaModal = ({
     >
       <Modal.Header>Upload Media</Modal.Header>
       <Modal.Content>
-        <Header>Only .jpg, .bmp, .png files are currently supported.</Header>
+        <Header>Only .jpg, .bmp, .png, .gif files are currently supported.</Header>
         <Form.Input
           label="Upload File"
           name="file"
           onChange={handleImagePreview}
           required
           type="file"
-          accept="image/jpg,image/bmp,image/png"
+          accept="image/jpg,image/bmp,image/png,image/gif"
         />
         {state.image_preview ? (
           <img

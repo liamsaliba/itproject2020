@@ -14287,7 +14287,7 @@ exports[`Storyshots Pages/Display Center 1`] = `
               className="css-1it7ijv-MediaCollection"
             >
               <img
-                className="css-6e2y90-Media"
+                className="css-9auuvz-Media"
                 src="camelAnatomy.png"
               />
             </div>
@@ -23819,7 +23819,7 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
               className="css-1it7ijv-MediaCollection"
             >
               <img
-                className="css-6e2y90-Media"
+                className="css-9auuvz-Media"
                 src="camelAnatomy.png"
               />
             </div>
@@ -30980,11 +30980,11 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
               className="css-1it7ijv-MediaCollection"
             >
               <img
-                className="css-6e2y90-Media"
+                className="css-9auuvz-Media"
                 src="camelAnatomy.png"
               />
               <img
-                className="css-6e2y90-Media"
+                className="css-9auuvz-Media"
                 src="JourneyOnACamel.jpg"
               />
             </div>
@@ -40561,7 +40561,7 @@ exports[`Storyshots Pages/Education Default 1`] = `
               className="css-1it7ijv-MediaCollection"
             >
               <img
-                className="css-6e2y90-Media"
+                className="css-9auuvz-Media"
                 src="camelAnatomy.png"
               />
             </div>
@@ -42974,7 +42974,7 @@ exports[`Storyshots Pages/Experience Default 1`] = `
               className="css-1it7ijv-MediaCollection"
             >
               <img
-                className="css-6e2y90-Media"
+                className="css-9auuvz-Media"
                 src="camelAnatomy.png"
               />
             </div>
