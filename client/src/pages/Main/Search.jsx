@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { Search, Grid, List, Dropdown, Image } from "semantic-ui-react";
+import { Grid, List, Dropdown, Image } from "semantic-ui-react";
 import { ProfileIcon, Title } from "../../components";
 
 import { useHistory } from "react-router-dom";
