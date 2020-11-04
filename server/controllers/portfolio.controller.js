@@ -10,7 +10,16 @@ const { use } = require("passport");
 const getAllPortfolios = async (_req, res) => {
   try {
     const portfolios = await Portfolio.find();
-    res.status(200).send(portfolios.map(p => p.toObject()));
+    res.status(200).send(portfolios.map(portfolio => {
+      const p = portfolio.toObject();
+      const user = await User.findOne({ username });
+      if (!user) throw Error(`User ${username} not found.`);
+
+      // Add a few more details to the returned portfolio
+      p.firstName = user.local.firstName;
+      p.lastName = user.local.lastName;
+      p.avatar = user.avatar;      
+    }));
   } catch (err) {
     res.status(404).json(err);
   }
