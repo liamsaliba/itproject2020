@@ -1,18 +1,18 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
-import React, { useState, useEffect } from "react";
+import { Box, jsx } from "theme-ui";
+import { useState, useEffect } from "react";
 
 import {
   Button,
   Form,
   Icon,
   List,
-  Popup,
   Modal,
   Header,
+  Checkbox,
 } from "semantic-ui-react";
 import { Controller } from "react-hook-form";
-import { Dropdown, Divider } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   uploadMedia,
@@ -26,6 +26,8 @@ import {
 import PreviewModal from "./DocumentPreview";
 import { DeleteConfirmationModal } from "./Modals";
 import { Image } from "semantic-ui-react";
+import { EditableField } from "./Form";
+import { hoverGrow } from "../helpers";
 
 const filetypes = {
   pdf: "file pdf",
@@ -53,7 +55,7 @@ export const MediaItem = ({
     <List.Item key={id.toString()}>
       <List.Content floated="right">
         <Button.Group>
-          <Button icon="eye" onClick={show} />
+          <Button icon="eye" onClick={show} type="button" />
           <DeleteConfirmationModal
             action={() => dispatch(deleteMedia(id))}
             content={<Image src={src} fluid />}
@@ -74,6 +76,143 @@ export const MediaItem = ({
   );
 };
 
+export const MediaImage = ({
+  src,
+  showPreview,
+  selected = null,
+  toggleSelected = null,
+  size = null,
+  ...rest
+}) => {
+  const selectable = selected !== null;
+  return (
+    <Box
+      sx={{
+        ...(selectable ? hoverGrow : null),
+      }}
+    >
+      {/* Checkbox */}
+      {selectable ? (
+        <Box
+          sx={{
+            transform: "translate(10px,10px)",
+            position: "relative",
+            height: "0",
+            zIndex: "1",
+          }}
+        >
+          <Checkbox onChange={toggleSelected} checked={selected} />
+        </Box>
+      ) : null}
+      <Box
+        sx={{
+          width: size,
+          height: size,
+          display: "flex",
+          alignItems: "center",
+        }}
+        onClick={selectable ? toggleSelected : showPreview}
+      >
+        <Image src={src} {...rest} />
+      </Box>
+      {/* Preview Button */}
+      <Box
+        sx={{
+          transform: `translate(${
+            size ? size.slice(0, size.length - 2) - 45 + "px" : "80%"
+          },-50px)`,
+          position: "relative",
+          height: "0",
+        }}
+      >
+        <Button
+          circular
+          icon="expand"
+          size="large"
+          onClick={showPreview}
+          type="button"
+        />
+      </Box>
+    </Box>
+  );
+};
+
+const Card = ({ size, children }) => {
+  return (
+    <Box
+      sx={{
+        borderRadius: 4,
+        boxShadow: "0 0 8px rgba(0, 0, 0, 0.125)",
+        width: size,
+        height: size,
+        mr: "1em",
+        mb: "1em",
+      }}
+      children={children}
+    />
+  );
+};
+
+export const MediaCard = ({
+  url,
+  preview,
+  size,
+  selected = null,
+  toggleSelected = null,
+}) => {
+  return (
+    <Card>
+      <MediaImage
+        size={size}
+        src={url}
+        // size="small"
+        showPreview={() => preview(url)}
+        selected={selected}
+        toggleSelected={toggleSelected}
+      />
+    </Card>
+  );
+};
+
+export const MediaCardItem = ({
+  url: src,
+  description,
+  type,
+  filename,
+  id,
+  setPreview,
+}) => {
+  const dispatch = useDispatch();
+  // const icon = filetypes[type] || "file";
+  const show = () => showPreview(src, setPreview);
+  // {/* <DeleteConfirmationModal
+  //             action={() => }
+  //             content={<Image src={src} fluid />}
+  //             name={description}
+  //           /> */}
+  return (
+    <List.Item key={id.toString()}>
+      <MediaImage src={src} showPreview={show} />
+      <List.Content key={id}>
+        <List.Description>
+          <EditableField
+            {...{
+              id,
+              value: description,
+              emptyPlaceholder: filename === "" ? "no description" : filename,
+              placeholder: "description",
+              update: name =>
+                console.log("i'll rename ", description, "to", name),
+              del: () => dispatch(deleteMedia(id)),
+              maxLength: "15",
+            }}
+          />
+        </List.Description>
+      </List.Content>
+    </List.Item>
+  );
+};
+
 export const MediaList = () => {
   const username = useSelector(state => selectUsername(state));
   const media = useSelector(state => selectMediaByUsername(state, username));
@@ -88,7 +227,7 @@ export const MediaList = () => {
       {media.length === 0
         ? "No media uploaded."
         : media.map(item => (
-            <MediaItem {...item} key={item.id} setPreview={setPreview} />
+            <MediaCardItem {...item} key={item.id} setPreview={setPreview} />
           ))}
       {previewModal}
     </List>
@@ -103,7 +242,7 @@ export const MediaSelector = ({ url, description, type, filename, id }) => {
   );
 };
 
-export const ChooseMedia = ({
+export const OldChooseMedia = ({
   onChange,
   value,
   name,
@@ -133,37 +272,155 @@ export const ChooseMedia = ({
 
   return (
     <Form.Group widths="equal">
-      <Popup
-        trigger={
-          <Dropdown
-            name={name}
-            value={value}
-            action={{
-              color: "teal",
-              labelPosition: "right",
-              icon: "copy",
-              content: "Copy",
-            }}
-            multiple={multiple}
-            loading={loading}
-            selection
-            search
-            fluid
-            options={options}
-            onChange={(e, { value }) => onChange(value)}
-            placeholder={placeholder}
-            renderLabel={renderLabel}
-            divided
-            sx={{ textAlign: "left" }}
-          />
-        }
-        header="Choosing files"
-        content="Click on a file badge to preview that file!"
-        on={["hover"]}
+      <Dropdown
+        name={name}
+        value={value}
+        action={{
+          color: "teal",
+          labelPosition: "right",
+          icon: "copy",
+          content: "Copy",
+        }}
+        multiple={multiple}
+        loading={loading}
+        selection
+        search
+        fluid
+        options={options}
+        onChange={(e, { value }) => onChange(value)}
+        placeholder={placeholder}
+        renderLabel={renderLabel}
+        divided
+        sx={{ textAlign: "left" }}
       />
       <UploadMediaModal />
       <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
     </Form.Group>
+  );
+};
+
+export const SelectedMediaCards = ({
+  value,
+  media,
+  placeholder,
+  loading,
+  preview,
+}) => {
+  const subset = media.filter(item => value.includes(item.id));
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+      }}
+    >
+      {subset.map(item => (
+        <MediaCard id={item.id} url={item.url} preview={preview} size="140px" />
+      ))}
+      <Card size="140px">
+        <Box
+          sx={{
+            ...hoverGrow,
+          }}
+          onClick={console.log("clicked!")}
+        ></Box>
+      </Card>
+    </Box>
+  );
+};
+
+export const SelectMediaCards = ({
+  value, // list of media ids
+  multiple = false, // do we allow multiple selection?
+  loading, // loading?
+  placeholder, // tip for user (what to do?)
+  media, // media
+  preview, // show preview
+  onChange, // update parent based on this state
+}) => {
+  const toggle = id => () => {
+    onChange(
+      multiple
+        ? value === null
+          ? [id]
+          : value.includes(id)
+          ? value.filter(item => item !== id) // remove id
+          : value.concat([id]) // add id
+        : value === id
+        ? null
+        : id
+    );
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+      }}
+    >
+      {media.map(item => (
+        <MediaCard
+          id={item.id}
+          url={item.url}
+          preview={preview}
+          size="140px"
+          selected={
+            multiple
+              ? value !== null && value.includes(item.id)
+              : value === item.id
+          }
+          toggleSelected={toggle(item.id)}
+        />
+      ))}
+      <Card size="140px">
+        <Box
+          sx={{
+            width: "140px",
+            height: "140px",
+            ...hoverGrow,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          onClick={() => console.log("clicked!")}
+        >
+          <UploadMediaModal />
+          {/* <Header as="h4" icon textAlign="center">
+            <Icon name="upload" />
+            Upload media
+          </Header> */}
+        </Box>
+      </Card>
+    </Box>
+  );
+};
+
+export const ChooseMedia = ({
+  onChange,
+  value,
+  name,
+  placeholder = "add media...",
+  multiple = false,
+}) => {
+  const media = useSelector(selectUserMedia);
+  const loading = useSelector(selectMediaLoading);
+  const [preview, setPreview] = useState(previewDefault);
+
+  return (
+    <Box>
+      <SelectMediaCards
+        value={value}
+        multiple={multiple}
+        loading={loading}
+        placeholder={placeholder}
+        media={media}
+        preview={src => showPreview(src, setPreview)}
+        onChange={onChange}
+      />
+      <PreviewModal {...preview} setClosed={() => setPreview(previewDefault)} />
+    </Box>
   );
 };
 
@@ -176,6 +433,7 @@ const mediaEmpty = {
 export const UploadMediaModal = ({
   buttonText = "Upload",
   description = "",
+  ...props
 }) => {
   const [status, setStatus] = useState("closed");
   const [state, setState] = useState(mediaEmpty);
@@ -246,15 +504,20 @@ export const UploadMediaModal = ({
       dimmer={{ inverted: true }}
       open={status !== "closed"}
       trigger={
-        <Button icon type="button" labelPosition="left">
-          <Icon name="upload" />
-          {buttonText}
-        </Button>
+        <Button
+          icon="upload"
+          type="button"
+          labelPosition="left"
+          content={buttonText}
+          {...props}
+        />
       }
     >
       <Modal.Header>Upload Media</Modal.Header>
       <Modal.Content>
-        <Header>Only .jpg, .bmp, .png, .gif files are currently supported.</Header>
+        <Header>
+          Only .jpg, .bmp, .png, .gif files are currently supported.
+        </Header>
         <Form.Input
           label="Upload File"
           name="file"
@@ -299,13 +562,18 @@ export const UploadMediaModal = ({
 
 export const Media = () => {
   return (
-    <React.Fragment>
-      <UploadMediaModal buttonText="Upload new media" />
-      <Divider horizontal>Or</Divider>
-      <p>
-        View your uploaded media here. <Icon name="hand point down" />
-      </p>
+    <Box sx={{ textAlign: "left" }}>
+      <Box p="0 1em">
+        <List.Item>
+          <List.Content floated="right">
+            <UploadMediaModal buttonText="Upload" compact floated="right" />
+          </List.Content>
+          <List.Content>
+            <Header>Media</Header>
+          </List.Content>
+        </List.Item>
+      </Box>
       <MediaList />
-    </React.Fragment>
+    </Box>
   );
 };
