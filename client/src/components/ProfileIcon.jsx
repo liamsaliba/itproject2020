@@ -225,7 +225,16 @@ export const ChooseProfileModal = ({ username, profile }) => {
     >
       <Modal.Header>Choose Avatar</Modal.Header>
       <Modal.Content>
-        <ProfileImage userId={username} profile={profileSrc || profile} />
+        <Box
+          sx={{
+            maxWidth: "250px",
+            maxHeight: "250px",
+            margin: "0 auto",
+            mb: "2em",
+          }}
+        >
+          <ProfileImage userId={username} profile={profileSrc || profile} />
+        </Box>
         <ChooseMedia
           onChange={onChange}
           value={profileId}
