@@ -33,3 +33,13 @@ export const useEffectUpdate = (effect, deps) => {
     isFirstRender.current = false;
   }, []);
 };
+
+export const hoverGrow = {
+  transition: ".3s ease",
+  "&:hover": {
+    transform: "scale(1.03)",
+  },
+  "&:active": {
+    transform: "scale(0.96)",
+  },
+};
