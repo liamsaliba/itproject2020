@@ -16,6 +16,7 @@
     "@tinymce/tinymce-react": "^3.7.0",
     "axios": "^0.20.0",
     "emotion-theming": "^10.0.27",
+    "fuse.js": "^6.4.3",
     "husky": "^4.2.5",
     "isemail": "^3.2.0",
     "lint-staged": "^10.2.13",
