@@ -588,7 +588,12 @@ const forms = {
   },
 };
 
-export const ArtifactForm = ({ open, closeModal, currentlyEditing }) => {
+export const ArtifactForm = ({
+  open,
+  closeModal,
+  currentlyEditing,
+  loading,
+}) => {
   if (currentlyEditing === null) return null;
 
   const { isNew, ...others } = currentlyEditing;
@@ -597,12 +602,14 @@ export const ArtifactForm = ({ open, closeModal, currentlyEditing }) => {
       open={open}
       closeModal={closeModal}
       currentlyEditing={others}
+      loading={loading}
     />
   ) : (
     <EditArtifactForm
       open={open}
       closeModal={closeModal}
       currentlyEditing={others}
+      loading={loading}
     />
   );
 };
@@ -675,9 +682,11 @@ const EditArtifactForm = ({
   const dispatch = useDispatch();
 
   const { type, id, media } = currentlyEditing;
+
   useEffect(() => {
-    console.log("currentlyEditing", currentlyEditing);
-  }, [currentlyEditing]);
+    console.log("loading", loading);
+  }, [loading]);
+
   const contents = {
     ...currentlyEditing.contents,
     media: media.map(m => m.id),
