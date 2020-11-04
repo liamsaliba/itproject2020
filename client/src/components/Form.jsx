@@ -3,9 +3,11 @@ import { jsx } from "theme-ui";
 
 import { useFormContext, Controller } from "react-hook-form";
 
-import { Form, Icon, Checkbox } from "semantic-ui-react";
+import { Form, Icon, Checkbox, Button } from "semantic-ui-react";
 import { isTrue } from "../helpers";
 import { ChooseMedia } from "./Media";
+import React, { useState } from "react";
+import { DeleteConfirmationModal } from "./Modals";
 
 export const getErrors = (errors, field) =>
   errors[field]
@@ -119,3 +121,68 @@ export const ControlledChooseMedia = () => (
     )}
   />
 );
+
+export const EditableField = ({
+  id,
+  icon = null,
+  loading = false,
+  value: oldValue,
+  update,
+  del,
+  placeholder = "Value",
+  emptyPlaceholder = placeholder,
+  maxLength = null,
+}) => {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(oldValue);
+
+  return (
+    <Form.Input
+      sx={{ overflowWrap: "break-word" }}
+      name={id}
+      loading={loading}
+      maxLength={maxLength}
+      fluid
+      icon={icon}
+      iconPosition={icon ? "left" : null}
+      onChange={(e, { value }) => setValue(value)}
+      placeholder={editing ? placeholder : emptyPlaceholder}
+      value={value}
+      transparent={!editing}
+      readOnly={!editing}
+      action={
+        editing ? (
+          <React.Fragment>
+            <Button
+              icon="cancel"
+              type="button"
+              negative
+              onClick={() => {
+                setValue(oldValue);
+                setEditing(false);
+              }}
+            />
+            <Button
+              icon="checkmark"
+              type="button"
+              positive
+              onClick={() => {
+                update(value);
+                setEditing(false);
+              }}
+            />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Button
+              icon="pencil"
+              type="button"
+              onClick={() => setEditing(true)}
+            />
+            <DeleteConfirmationModal action={del} name={oldValue} />
+          </React.Fragment>
+        )
+      }
+    />
+  );
+};
