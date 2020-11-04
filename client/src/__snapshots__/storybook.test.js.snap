@@ -14250,7 +14250,7 @@ exports[`Storyshots Pages/Display Center 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-1he7ydt-StyledArtifact"
+          className="css-pvi2eh-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -23799,7 +23799,7 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-1he7ydt-StyledArtifact"
+          className="css-pvi2eh-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -30960,7 +30960,7 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-1he7ydt-StyledArtifact"
+          className="css-pvi2eh-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -40515,7 +40515,7 @@ exports[`Storyshots Pages/Education Default 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-1he7ydt-StyledArtifact"
+          className="css-pvi2eh-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -42922,7 +42922,7 @@ exports[`Storyshots Pages/Experience Default 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-1he7ydt-StyledArtifact"
+          className="css-pvi2eh-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
