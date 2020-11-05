@@ -19,7 +19,7 @@ const Colours = ({ setTheme, ...props }) => {
         ...updated,
       },
     };
-    setTheme(updated);
+    setTheme({ colours: updated });
   };
 
   return (
@@ -44,6 +44,7 @@ const Colours = ({ setTheme, ...props }) => {
       }}
       sx={{
         ...props.sx,
+        margin: "0.5em",
         fontSize: "0.9em",
         textAlign: "center",
         fontFamily: "sans-serif",

@@ -20,23 +20,29 @@ const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
   const context = useThemeUI();
 
   const setTheme = updated => {
-    const newTheme = {
-      fonts: {
-        ...theme.fonts,
-        ...updated.fonts,
-      },
-      colours: {
-        ...theme.colours,
-        ...updated.colours,
-      },
-      base: updated.base ? updated.base : theme.base,
-    };
-    console.log("saved theme", newTheme);
-    sTheme(newTheme);
-    const fullTheme = makeTheme(newTheme);
-    console.log(fullTheme);
-    context.setTheme(fullTheme);
-    return newTheme;
+    // will reset colours and fonts
+    if (updated.base) {
+      const newTheme = { base: updated.base, fonts: {}, colours: {} };
+
+      console.log("saved theme", newTheme);
+      sTheme(newTheme);
+      context.setTheme(makeTheme(newTheme));
+    } else {
+      const newTheme = {
+        fonts: {
+          ...theme.fonts,
+          ...updated.fonts,
+        },
+        colours: {
+          ...theme.colours,
+          ...updated.colours,
+        },
+        base: theme.base,
+      };
+      console.log("saved (updated) theme", newTheme);
+      sTheme(newTheme);
+      context.setTheme(makeTheme(newTheme, context.theme));
+    }
   };
 
   const isDirty = () =>
@@ -52,6 +58,9 @@ const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
           p: "1em",
           color: "text",
           border: "1px solid black",
+          "*": {
+            transition: "all .2s ease-out",
+          },
         }}
       >
         <Styled.h3>Theme preview!</Styled.h3>
@@ -73,18 +82,16 @@ const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
         <ThemeSelector
           theme={theme.base}
           setTheme={base => {
-            const updated = { base };
-
-            const newTheme = setTheme(updated);
+            setTheme({ base });
 
             // updateTheme(newTheme);
           }}
           sx={{ m: 0 }}
         />
       </Box>
-
+      <p>Changing base theme will reset colours and fonts.</p>
       <Box sx={{ m: "0.8em 0" }}>
-        <Header as="h4">Colors</Header>
+        <Header as="h4">Colours</Header>
       </Box>
       <Box
         sx={{

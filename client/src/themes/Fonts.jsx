@@ -66,13 +66,13 @@ const Fonts = ({ setTheme }) => {
       ...fonts,
       ...updated,
     });
-    setTheme(updated);
+    setTheme({ fonts: updated });
   };
 
   return (
     <Fragment>
       {Object.keys(fonts).map(key => {
-        console.log(key, fonts[key]);
+        // console.log(key, fonts[key]);
         return (
           <div
             key={key}
