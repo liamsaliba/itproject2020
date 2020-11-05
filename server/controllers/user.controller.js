@@ -6,14 +6,14 @@ const Portfolio = require("../models/portfolio.model");
 const Media = require("../models/media.model");
 
 // Get all users (as an array of usernames)
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).send(users.map(user => user.toObject()));
-  } catch (err) {
-    req.status(400).json(err);
-  }
-};
+// const getAllUsers = async (req, res) => {
+//   try {
+//     const users = await User.find();
+//     res.status(200).send(users.map(user => user.toObject()));
+//   } catch (err) {
+//     req.status(400).json(err);
+//   }
+// };
 
 // Get the currently logged in user
 const getCurrentUser = (req, res) => {
