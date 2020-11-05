@@ -43,3 +43,7 @@ export const hoverGrow = {
     transform: "scale(0.96)",
   },
 };
+
+// from https://stackoverflow.com/questions/14810506/map-function-for-objects-instead-of-arrays
+export const objectMap = (obj, fn) =>
+  Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));

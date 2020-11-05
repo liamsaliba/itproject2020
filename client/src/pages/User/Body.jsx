@@ -161,6 +161,7 @@ const Page = ({ pageId: id, name, userId }) => {
       ...option,
       onClick: option.disabled !== true ? create(option.value) : undefined,
       description: undefined,
+      defaultPageName: undefined,
     }));
   const newbtn =
     type === "mix" ? (

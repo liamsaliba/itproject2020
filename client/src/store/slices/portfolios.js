@@ -247,8 +247,8 @@ export const selectPortfolioTheme = createSelector(
     portfolio
       ? {
           base: portfolio.theme || "default",
-          fonts: portfolio.font || {},
-          colours: portfolio.colour || {},
+          fonts: portfolio.font === "default" ? {} : portfolio.font || {},
+          colours: portfolio.colour === "default" ? {} : portfolio.colour || {},
         }
       : undefined
 );
@@ -448,7 +448,11 @@ const changePortfolioOptions = (data, loading) => (dispatch, getState) => {
   );
 };
 
-export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
+export const changePortfolioTheme = theme => dispatch => {
+  const { base, fonts, colours } = theme;
+  const data = { theme: base, font: fonts, colour: colours };
+  dispatch(changePortfolioOptions(data));
+};
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
 export const updateSocials = social =>
   changePortfolioOptions({ social }, false);
