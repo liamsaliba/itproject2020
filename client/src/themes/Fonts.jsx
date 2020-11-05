@@ -40,7 +40,6 @@ const Fonts = ({ setTheme }) => {
 
   const options = type =>
     Object.entries(defaultFonts).map(([key, value]) => {
-      // console.log(key, value);
       return {
         key,
         text: key,
@@ -50,13 +49,7 @@ const Fonts = ({ setTheme }) => {
     });
 
   const onChange = key => val => {
-    // console.log("change to", key, val);
     const updated = { [key]: val };
-    // context.setTheme({
-    //   fonts: {
-    //     ...updated,
-    //   },
-    // });
     setFonts({
       ...fonts,
       ...updated,

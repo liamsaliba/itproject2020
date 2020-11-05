@@ -30,7 +30,6 @@ const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
     if (updated.base) {
       const newTheme = { base: updated.base, fonts: {}, colours: {} };
 
-      console.log("saved theme", newTheme);
       sTheme(newTheme);
       context.setTheme(makeTheme(newTheme));
     } else {
@@ -45,7 +44,6 @@ const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
         },
         base: theme.base,
       };
-      console.log("saved (updated) theme", newTheme);
       sTheme(newTheme);
       context.setTheme(makeTheme(newTheme, context.theme));
     }

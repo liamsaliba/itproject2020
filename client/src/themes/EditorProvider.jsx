@@ -21,10 +21,6 @@ export const EditorProvider = ({ children, theme: propsTheme }) => {
     setTheme,
   };
 
-  React.useEffect(() => {
-    console.log("theme updated", theme);
-  }, [theme]);
-
   return jsx(
     Context.Provider,
     { value: context },
