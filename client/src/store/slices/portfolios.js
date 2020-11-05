@@ -437,10 +437,10 @@ const changePortfolioOptions = (data, loading) => (dispatch, getState) => {
     apiStarted({
       url: endpoints.portfoliosByUsername(username),
       method: "patch",
-      data: { ...data },
+      data,
       req: { loading, username },
       token,
-      loading: false,
+      loading: false, // show a loading icon on client
       onStart: portfolioUpdateRequested.type,
       onFailure: portfolioFailed.type,
       onSuccess: portfolioUpdated.type,
@@ -451,7 +451,7 @@ const changePortfolioOptions = (data, loading) => (dispatch, getState) => {
 export const changePortfolioTheme = theme => dispatch => {
   const { base, fonts, colours } = theme;
   const data = { theme: base, font: fonts, colour: colours };
-  dispatch(changePortfolioOptions(data));
+  return dispatch(changePortfolioOptions(data));
 };
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
 export const updateSocials = social =>
