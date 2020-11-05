@@ -57,6 +57,7 @@ export {
   deletePortfolio,
   updateSinglePage,
   updateSocials,
+  updateHeader,
   // selectors (custom)
   selectPortfoliosLoading,
   selectPortfolioPages,
@@ -69,6 +70,7 @@ export {
   selectPortfolioTheme,
   selectPortfolioBio,
   selectPortfoliosSlice,
+  selectHeaderImage,
   selectFullName,
   // Selectors
   selectPortfolioByUsername,

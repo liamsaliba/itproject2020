@@ -270,6 +270,16 @@ export const selectPortfolioAvatar = createSelector(
   portfolio => (portfolio !== undefined ? portfolio.avatar : undefined)
 );
 
+export const selectHeaderImage = createSelector(
+  selectPortfolioByUsername,
+  portfolio =>
+    portfolio !== undefined
+      ? portfolio.header
+        ? [portfolio.header]
+        : []
+      : undefined
+);
+
 export const selectPortfolioPages = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio ? portfolio.pages || [] : undefined)
@@ -454,6 +464,8 @@ export const changePortfolioTheme = theme => dispatch => {
   return dispatch(changePortfolioOptions(data));
 };
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
+export const updateHeader = header => changePortfolioOptions({ header });
+
 export const updateSocials = social =>
   changePortfolioOptions({ social }, false);
 
