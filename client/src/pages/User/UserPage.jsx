@@ -23,7 +23,9 @@ const { MediaContextProvider, Media } = createMedia({
 const UserPage = props => {
   const { userId, selectedPage } = props;
   const [preset, setPreset] = useState(themes["base"]);
-  const theme = useSelector(state => selectPortfolioTheme(state, userId));
+  const { base: theme, colours, fonts } = useSelector(state =>
+    selectPortfolioTheme(state, userId)
+  );
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
 
   useEffect(() => {

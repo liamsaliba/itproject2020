@@ -243,7 +243,14 @@ export const selectCurrentUserPortfolio = createSelector(
 
 export const selectPortfolioTheme = createSelector(
   selectPortfolioByUsername,
-  portfolio => (portfolio ? portfolio.theme || "default" : undefined)
+  portfolio =>
+    portfolio
+      ? {
+          base: portfolio.theme || "default",
+          fonts: portfolio.font || {},
+          colours: portfolio.colour || {},
+        }
+      : undefined
 );
 export const selectPortfolioBio = createSelector(
   selectPortfolioByUsername,
