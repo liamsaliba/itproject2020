@@ -18,6 +18,7 @@ import { Modal, Button, Icon, Dropdown, Form } from "semantic-ui-react";
 import { ChooseMedia } from "./Media";
 // import { selectMediaByUsername } from "../store/combinedSelectors";
 import { selectMediaUrl } from "../store/slices/media";
+import { hoverGrow } from "../helpers";
 // from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 
 const hashCode = s =>
@@ -209,17 +210,11 @@ export const ChooseProfileModal = ({ username, profile }) => {
           onClick={() => setStatus("open")}
           sx={{
             margin: "auto",
-            transition: ".3s ease",
             borderRadius: "50%",
             width: "calc(30% + 250px)",
             maxWidth: "250px",
             maxHeight: "250px",
-            "&:hover": {
-              transform: "scale(1.05)",
-            },
-            "&:active": {
-              transform: "scale(0.9)",
-            },
+            ...hoverGrow,
           }}
         >
           <ProfileImage userId={username} profile={profile} />
@@ -231,7 +226,16 @@ export const ChooseProfileModal = ({ username, profile }) => {
     >
       <Modal.Header>Choose Avatar</Modal.Header>
       <Modal.Content>
-        <ProfileImage userId={username} profile={profileSrc || profile} />
+        <Box
+          sx={{
+            maxWidth: "250px",
+            maxHeight: "250px",
+            margin: "0 auto",
+            mb: "2em",
+          }}
+        >
+          <ProfileImage userId={username} profile={profileSrc || profile} />
+        </Box>
         <ChooseMedia
           onChange={onChange}
           value={profileId}

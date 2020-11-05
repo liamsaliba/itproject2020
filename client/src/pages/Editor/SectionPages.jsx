@@ -2,7 +2,7 @@
 import { jsx, Flex } from "theme-ui";
 import Section from "./Section";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Icon,
@@ -23,8 +23,7 @@ import {
   updateSinglePage,
 } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
-import { Toggle } from "../../components/Form";
-import { DeleteConfirmationModal } from "../../components/Modals";
+import { EditableField, Toggle } from "../../components/Form";
 
 export const pageTypes = {
   mixed: {
@@ -154,10 +153,8 @@ const PageSettings = () => {
 
 const Page = ({ active, setActive, page }) => {
   const dispatch = useDispatch();
-  const { name: oldName, id, loading, type } = page;
-  const [name, setName] = useState(oldName);
+  const { name, id, loading, type } = page;
 
-  const [editing, setEditing] = useState(false);
   const typeInfo = pageTypes[type];
   const icon = typeInfo === undefined ? "file outline" : typeInfo.icon;
 
@@ -166,85 +163,19 @@ const Page = ({ active, setActive, page }) => {
   };
 
   return (
-    <List.Item
-      name={name}
-      key={id.toString()}
-      onClick={handlePageClick}
-      fluid
-      sx={{ overflowWrap: "break-word" }}
-    >
-      {/* <List.Content floated="right">
-        <Dropdown
-          floating
-          direction="left"
-          icon="caret square down"
-          sx={{ p: "0.2em" }}
-          open={status === "open"}
-          onClose={() => setStatus("idle")}
-          onClick={() => setStatus("open")}
-        >
-          <Dropdown.Menu>
-            <RenamePageModal pageState={{ name, id }} />
-            <DeleteConfirmationModal
-              action={() => dispatch(deletePage(id))}
-              name={name}
-            />
-          </Dropdown.Menu>
-        </Dropdown>
-      </List.Content> */}
-      {/* <List.Icon name="file outline" /> */}
-      <List.Content
-      // onClick={() => setStatus("open")}
-      >
-        <Form.Input
-          name={id}
-          loading={loading}
-          maxLength="15"
-          fluid
-          icon={icon}
-          iconPosition="left"
-          onChange={(e, { value }) => setName(value)}
-          value={name}
-          transparent={!editing}
-          readOnly={!editing}
-          action={
-            editing ? (
-              <React.Fragment>
-                <Button
-                  icon="cancel"
-                  type="button"
-                  negative
-                  onClick={() => {
-                    setName(oldName);
-                    setEditing(false);
-                  }}
-                />
-                <Button
-                  icon="checkmark"
-                  type="button"
-                  positive
-                  onClick={() => {
-                    dispatch(renamePage(id, name));
-                    setEditing(false);
-                  }}
-                />
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Button
-                  icon="pencil"
-                  type="button"
-                  onClick={() => setEditing(true)}
-                />
-                <DeleteConfirmationModal
-                  action={() => dispatch(deletePage(id))}
-                  name={name}
-                />
-              </React.Fragment>
-            )
-          }
+    <List.Item name={name} key={id.toString()} onClick={handlePageClick} fluid>
+      <List.Content>
+        <EditableField
+          {...{
+            id,
+            icon,
+            loading,
+            value: name,
+            update: name => dispatch(renamePage(id, name)),
+            del: () => dispatch(deletePage(id)),
+            maxLength: "15",
+          }}
         />
-        {/* <List.Header>{name}</List.Header> */}
       </List.Content>
     </List.Item>
   );

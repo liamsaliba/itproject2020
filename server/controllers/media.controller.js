@@ -17,6 +17,7 @@ const createMedia = async (req, res) => {
     const url = req.file.path;
     const type = body.type;
     const description = body.description;
+    const filename = body.filename;
     const public_id = req.file.public_id;
 
     const newMedia = new Media({
@@ -24,6 +25,7 @@ const createMedia = async (req, res) => {
       url,
       type,
       description,
+      filename,
       public_id,
     });
 
