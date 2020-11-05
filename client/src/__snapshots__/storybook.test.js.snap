@@ -54,6 +54,13 @@ exports[`Storyshots Pages/Cards Collection Of Cards 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -132,13 +139,6 @@ exports[`Storyshots Pages/Cards Collection Of Cards 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -604,24 +604,6 @@ exports[`Storyshots Pages/Cards Collection Of Cards 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -2487,6 +2469,13 @@ exports[`Storyshots Pages/Cards Default Card 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -2565,13 +2554,6 @@ exports[`Storyshots Pages/Cards Default Card 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -3037,24 +3019,6 @@ exports[`Storyshots Pages/Cards Default Card 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -4854,6 +4818,13 @@ exports[`Storyshots Pages/Cards Feature Bottom 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -4932,13 +4903,6 @@ exports[`Storyshots Pages/Cards Feature Bottom 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -5404,24 +5368,6 @@ exports[`Storyshots Pages/Cards Feature Bottom 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -7221,6 +7167,13 @@ exports[`Storyshots Pages/Cards No Body 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -7299,13 +7252,6 @@ exports[`Storyshots Pages/Cards No Body 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -7771,24 +7717,6 @@ exports[`Storyshots Pages/Cards No Body 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -9588,6 +9516,13 @@ exports[`Storyshots Pages/Cards No Title 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -9666,13 +9601,6 @@ exports[`Storyshots Pages/Cards No Title 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -10138,24 +10066,6 @@ exports[`Storyshots Pages/Cards No Title 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -11955,6 +11865,13 @@ exports[`Storyshots Pages/Display Center 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -12033,13 +11950,6 @@ exports[`Storyshots Pages/Display Center 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -12505,24 +12415,6 @@ exports[`Storyshots Pages/Display Center 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -14250,7 +14142,7 @@ exports[`Storyshots Pages/Display Center 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-pvi2eh-StyledArtifact"
+          className="css-nxderf-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -14353,6 +14245,13 @@ exports[`Storyshots Pages/Display Fullscreen 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -14431,13 +14330,6 @@ exports[`Storyshots Pages/Display Fullscreen 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -14903,24 +14795,6 @@ exports[`Storyshots Pages/Display Fullscreen 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -16743,6 +16617,13 @@ exports[`Storyshots Pages/Display Heading Only 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -16821,13 +16702,6 @@ exports[`Storyshots Pages/Display Heading Only 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -17293,24 +17167,6 @@ exports[`Storyshots Pages/Display Heading Only 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -19125,6 +18981,13 @@ exports[`Storyshots Pages/Display Image Heading Only 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -19203,13 +19066,6 @@ exports[`Storyshots Pages/Display Image Heading Only 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -19675,24 +19531,6 @@ exports[`Storyshots Pages/Display Image Heading Only 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -21504,6 +21342,13 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -21582,13 +21427,6 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -22054,24 +21892,6 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -23799,7 +23619,7 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-pvi2eh-StyledArtifact"
+          className="css-nxderf-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -23885,6 +23705,13 @@ exports[`Storyshots Pages/Display Left 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -23963,13 +23790,6 @@ exports[`Storyshots Pages/Display Left 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -24435,24 +24255,6 @@ exports[`Storyshots Pages/Display Left 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -26275,6 +26077,13 @@ exports[`Storyshots Pages/Display Medium 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -26353,13 +26162,6 @@ exports[`Storyshots Pages/Display Medium 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -26825,24 +26627,6 @@ exports[`Storyshots Pages/Display Medium 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -28665,6 +28449,13 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -28743,13 +28534,6 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -29215,24 +28999,6 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -30960,7 +30726,7 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-pvi2eh-StyledArtifact"
+          className="css-nxderf-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -31050,6 +30816,13 @@ exports[`Storyshots Pages/Display Right 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -31128,13 +30901,6 @@ exports[`Storyshots Pages/Display Right 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -31600,24 +31366,6 @@ exports[`Storyshots Pages/Display Right 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -33440,6 +33188,13 @@ exports[`Storyshots Pages/Display Short 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -33518,13 +33273,6 @@ exports[`Storyshots Pages/Display Short 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -33990,24 +33738,6 @@ exports[`Storyshots Pages/Display Short 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -35830,6 +35560,13 @@ exports[`Storyshots Pages/Display Tall 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -35908,13 +35645,6 @@ exports[`Storyshots Pages/Display Tall 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -36380,24 +36110,6 @@ exports[`Storyshots Pages/Display Tall 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -38220,6 +37932,13 @@ exports[`Storyshots Pages/Education Default 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -38298,13 +38017,6 @@ exports[`Storyshots Pages/Education Default 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -38770,24 +38482,6 @@ exports[`Storyshots Pages/Education Default 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -40515,7 +40209,7 @@ exports[`Storyshots Pages/Education Default 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-pvi2eh-StyledArtifact"
+          className="css-nxderf-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -40627,6 +40321,13 @@ exports[`Storyshots Pages/Experience Default 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -40705,13 +40406,6 @@ exports[`Storyshots Pages/Experience Default 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -41177,24 +40871,6 @@ exports[`Storyshots Pages/Experience Default 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -42922,7 +42598,7 @@ exports[`Storyshots Pages/Experience Default 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-pvi2eh-StyledArtifact"
+          className="css-nxderf-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -43040,6 +42716,13 @@ exports[`Storyshots Portfolio/Social Icons Icon 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -43118,13 +42801,6 @@ exports[`Storyshots Portfolio/Social Icons Icon 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -43590,24 +43266,6 @@ exports[`Storyshots Portfolio/Social Icons Icon 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
@@ -45499,6 +45157,13 @@ exports[`Storyshots Portfolio/Social Icons Icons 1`] = `
         onClick={[Function]}
         selected={false}
       >
+        def
+      </li>
+      <li
+        className="css-gswrai"
+        onClick={[Function]}
+        selected={false}
+      >
         base
       </li>
       <li
@@ -45577,13 +45242,6 @@ exports[`Storyshots Portfolio/Social Icons Icons 1`] = `
         selected={false}
       >
         polaris
-      </li>
-      <li
-        className="css-gswrai"
-        onClick={[Function]}
-        selected={false}
-      >
-        tailwind
       </li>
       <li
         className="css-gswrai"
@@ -46049,24 +45707,6 @@ exports[`Storyshots Portfolio/Social Icons Icons 1`] = `
                         className="token string"
                       >
                         '#fff'
-                      </span>
-                      <span
-                        className="token punctuation"
-                      >
-                        ,
-                      </span>
-                      
-    gray
-                      <span
-                        className="token punctuation"
-                      >
-                        :
-                      </span>
-                       
-                      <span
-                        className="token string"
-                      >
-                        '#555'
                       </span>
                       <span
                         className="token punctuation"
