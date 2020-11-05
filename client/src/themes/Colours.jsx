@@ -9,16 +9,9 @@ import { ColorPicker } from "@theme-ui/editor";
 const Colours = ({ setTheme, ...props }) => {
   const context = useThemeUI();
   const mode = context.colorMode;
-  const { colors } = context.theme || {};
 
   const onChange = key => val => {
     const updated = { [key]: val.hex };
-    const next = {
-      colors: {
-        ...colors,
-        ...updated,
-      },
-    };
     setTheme({ colours: updated });
   };
 

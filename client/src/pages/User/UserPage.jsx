@@ -11,6 +11,7 @@ import Footer from "./Footer";
 import { selectPortfolioIsEditing } from "../../store/slices/portfolios";
 
 import { createMedia } from "@artsy/fresnel";
+import makeTheme from "../../themes/makeTheme";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -23,13 +24,11 @@ const { MediaContextProvider, Media } = createMedia({
 const UserPage = props => {
   const { userId, selectedPage } = props;
   const [preset, setPreset] = useState(themes["base"]);
-  const { base: theme, colours, fonts } = useSelector(state =>
-    selectPortfolioTheme(state, userId)
-  );
+  const theme = useSelector(state => selectPortfolioTheme(state, userId));
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
 
   useEffect(() => {
-    setPreset(themes[["default", "theme"].includes(theme) ? "base" : theme]);
+    setPreset(makeTheme(theme));
   }, [theme]);
 
   const MobileBody = (

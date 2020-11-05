@@ -38,21 +38,16 @@ const Fonts = ({ setTheme }) => {
   const { fonts: defaults } = context.theme || {};
   const [fonts, setFonts] = useState(defaults);
 
-  const options = Object.entries(defaultFonts).map(([key, value]) => {
-    // console.log(key, value);
-    return {
-      key,
-      text: key,
-      value,
-      content: <p sx={{ fontFamily: value }}>{key}</p>,
-    };
-  });
-
-  const icons = {
-    heading: "heading",
-    body: "paragraph",
-    monospace: "code",
-  };
+  const options = type =>
+    Object.entries(defaultFonts).map(([key, value]) => {
+      // console.log(key, value);
+      return {
+        key,
+        text: key,
+        value,
+        content: <p sx={{ fontFamily: value, fontWeight: type }}>{key}</p>,
+      };
+    });
 
   const onChange = key => val => {
     // console.log("change to", key, val);
@@ -69,37 +64,40 @@ const Fonts = ({ setTheme }) => {
     setTheme({ fonts: updated });
   };
 
+  const FontSelector = ({ name, icon, label }) => {
+    return (
+      <div
+        key={name}
+        sx={{
+          fontFamily: fonts[name],
+          mb: "0.5em",
+        }}
+      >
+        <label sx={{ fontFamily: "sans-serif" }}>
+          <Icon name={icon} />
+          {label}
+        </label>
+        <Dropdown
+          scrolling
+          search
+          fluid
+          selection
+          label={name}
+          placeholder={name}
+          options={options(name)}
+          name={"fonts." + name}
+          value={fonts[name]}
+          onChange={(e, { value }) => onChange(name)(value)}
+        />
+      </div>
+    );
+  };
+
   return (
     <Fragment>
-      {Object.keys(fonts).map(key => {
-        // console.log(key, fonts[key]);
-        return (
-          <div
-            key={key}
-            sx={{
-              fontFamily: fonts[key],
-              mb: "1em",
-            }}
-          >
-            <label sx={{ fontFamily: "sans-serif" }}>
-              <Icon name={icons[key]} />
-              {key}
-            </label>
-            <Dropdown
-              scrolling
-              search
-              fluid
-              selection
-              label={key}
-              placeholder={key}
-              options={options}
-              name={"fonts." + key}
-              value={fonts[key]}
-              onChange={(e, { value }) => onChange(key)(value)}
-            />
-          </div>
-        );
-      })}
+      <FontSelector name="heading" label="Heading" icon="heading" />
+      <FontSelector name="body" label="Body" icon="paragraph" />
+      <FontSelector name="monospace" label="Mono / Secondary" icon="code" />
     </Fragment>
   );
 };
