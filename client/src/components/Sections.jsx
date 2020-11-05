@@ -269,6 +269,7 @@ export const StyledArtifact = ({
           overflow: "hidden",
           alignItems: "center",
           justifyContent: "center",
+          backgroundColor: media.length !== 0 ? "gray" : undefined,
           ...mainStyle,
         }}
       >
@@ -372,6 +373,13 @@ export const Display = ({ contents, openEditor, id, media, editing }) => {
 export const Embedded = ({ contents, openEditor, id, editing }) => {
   const { url } = contents;
 
+  const editBtn = (
+    <SemanticButton icon labelPosition="left" onClick={openEditor}>
+      <Icon name="edit" />
+      Edit embed below
+    </SemanticButton>
+  );
+
   return (
     // <StyledArtifact
     //   {...{
@@ -382,10 +390,7 @@ export const Embedded = ({ contents, openEditor, id, editing }) => {
     //   }}
     // >
     <React.Fragment>
-      <SemanticButton icon labelPosition="left" onClick={openEditor}>
-        <Icon name="edit" />
-        Edit embed below
-      </SemanticButton>
+      {editing ? editBtn : null}
       <Embed src={url ? url.replace("watch?v=", "embed/") : ""} />
     </React.Fragment>
 

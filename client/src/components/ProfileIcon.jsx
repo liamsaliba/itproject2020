@@ -37,6 +37,7 @@ export const ProfileImage = ({ userId, profile }) => {
         borderRadius: "50%",
         clipPath: "circle(100%)",
         objectFit: "cover",
+        p: "0",
       }}
     />
     // </AspectRatio>
