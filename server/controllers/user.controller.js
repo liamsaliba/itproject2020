@@ -249,7 +249,7 @@ module.exports = {
   getCurrentUser,
   logoutUser,
   deleteUser,
-  getAllUsers,
+  // getAllUsers,
   changeUserDetails,
   logoutUserAllDevices,
   googleOAuth,
