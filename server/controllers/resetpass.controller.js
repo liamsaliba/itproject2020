@@ -21,7 +21,7 @@ const resetPasswordStep1 = async (req, res) => {
       OTP
     )
 
-    
+    res.status(200).send("resetPasswordStep1");
   } catch (err) { 
       res.status(400).json(err);
   }
