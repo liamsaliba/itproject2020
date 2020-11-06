@@ -111,7 +111,7 @@ const slice = createSlice({
   },
   extraReducers: {
     [authActions.userDeleted]: (portfolios, action) => {
-      const { username } = action.request.username;
+      const { username } = action.request.data.username;
       adapter.removeOne(portfolios, username);
     },
     [authActions.userUpdated]: (portfolios, action) => {
