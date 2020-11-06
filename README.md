@@ -9,34 +9,46 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/85274d2bb2c94685a95b3900f9c9d9ab)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=exradr/itproject2020&amp;utm_campaign=Badge_Grade)
 
 # Table of Contents
-Project background/overview
-- Description
-- Project Scope
-- Team Members
 
-Demo
-- Link
+- [Project Background](#project-background)
+  * [Description](#description)
+  * [Team Members](#team-members)
+  * [Project Scope](#project-scope)
+  * [Features](#features)
+- [Camel Pages](#camel-pages)
+  * [System Requirements](#system-requiremnts)
+  * [Project Link](#project-link)
+- [Documentation](#documentation)
+  * [User Stories](#user-stories)
+  * [Motivational Model](#motivational-model)
+  * [Architecture Diagram](#architecture-diagram)
+  * [User Flow Diagram](#user-flow-diagram)
+  * [API Documentation](#api-documentation)
+  * [Storybook](#storybook)
+  * [Chromatic](#chromatic)
+- [Installation](installation)
+- [Changelog](#changelog)
+  * [Releases](#releases)
+    + [Sprint 3](#sprint-3)
+    + [Sprint 2](#sprint-2)
+    + [Sprint 1](#sprint-1)
 
-Features
-- List of Features
+<!-- toc -->
 
-Documentation (user stories, architecture, test cases, other docs from Confluence – exported as PDF) System requirements (tools/database and their versions)
-- User Stories
-- Architecture Diagram
-- User Flow Diagram
-- System Requirements
+# Project Background
+Our clients are 4 masters students from the Software Processes and Management (SWEN90016) subject.  
 
-Installation guide
-- Installation
+As university students, they wanted a place to present their work, careers and skills; and give them one place they can direct professionals, colleagues, friends and recruiters to learn about them and their work. Importantly, they wanted their portfolios to represent their own individuality, to enable them to stand out from the crowd; and hence be personalisable.
 
-Changelog
-- Project Backlog
-- Releases
-  - Sprint 3
-  - Sprint 2
-  - Sprint 1
+This gave us the following requirements:
 
-Traceability matrix
+## Criteria
+- An easy-to-use portfolio creation experience
+- Portfolios are easy to customize for individual expression
+- Portfolios viewable from browsers and mobile
+- Have ways to contact and discover users
+- And supporting a variety of media.
+
 
 
 # System Requirements
