@@ -317,6 +317,7 @@ const Body = props => {
     textAlign: "center",
     justifyContent: "center",
     flexDirection: "column",
+    flex: "1",
     "*": {
       transition: "all .2s ease-out",
     },
