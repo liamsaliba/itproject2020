@@ -93,7 +93,12 @@ const slice = createSlice({
       portfolios.error = action.payload;
     },
     portfolioUpdated: (portfolios, action) => {
-      adapter.upsertOne(portfolios, addLastFetch(action.payload));
+      const payload = {
+        ...action.payload,
+        colour: action.payload.colour || {},
+        font: action.payload.font || {},
+      };
+      adapter.upsertOne(portfolios, addLastFetch(payload));
       portfolios.error = null;
       portfolios.loading = false;
     },

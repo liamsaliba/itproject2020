@@ -20,7 +20,8 @@ import Fonts from "../../themes/Fonts";
 import makeTheme from "../../themes/makeTheme";
 import EditorProvider from "../../themes/EditorProvider";
 
-const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
+const ThemeEditor = ({ theme: propsTheme, updateTheme }) => {
+  const [initialTheme, setInitialTheme] = useState(propsTheme);
   const [theme, sTheme] = useState(initialTheme);
   const [dirty, setDirty] = useState(false);
   const context = useThemeUI();
@@ -69,7 +70,7 @@ const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
 
     setDirty(isDirty());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme]);
+  }, [theme, initialTheme]);
 
   return (
     <Styled.root>
@@ -106,7 +107,10 @@ const ThemeEditor = ({ theme: initialTheme, updateTheme }) => {
           content="Save"
           disabled={!dirty}
           positive={dirty}
-          onClick={() => updateTheme(theme)}
+          onClick={() => {
+            setInitialTheme(theme);
+            updateTheme(theme);
+          }}
         />
       </SemanticButton.Group>
       <Popup
