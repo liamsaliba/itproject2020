@@ -98,6 +98,17 @@ const userSchema = new Schema(
         lowercase: true,
       },
     },
+    code: {
+      otp: {
+        type: String,
+        //required: true,
+
+        minlength: 6,
+      },
+      timecreation: {
+        type: Date
+      }
+    },
     tokens: [tokenSchema],
   },
   {
@@ -175,14 +186,45 @@ userSchema.statics.findByUsername = async username => {
     return null;
   }
   const method = user.method;
-  if (method == "local") {
+  if (method[0] == "local") {
     return user.local.email;
-  } else if (method == "google") {
+  } else if (method[0] == "google") {
     return user.google.email;
-  } else if (method == "facebook") {
+  } else if (method[0] == "facebook") {
     return user.facebook.email;
   }
 };
+
+userSchema.statics.saveCode = async (username, code) => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return null;
+  }
+  const salt = await bcrypt.genSalt(10);
+  const codeHash = await bcrypt.hash(code, salt);
+  user.code.otp = codeHash;
+  user.code.timecreation = Math.round(new Date().getTime()/1000);
+  
+  await user.save();
+};
+
+userSchema.statics.verifyCode = async (username, code) => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return null;
+  }
+  const match = await bcrypt.compare(code, user.code.otp);
+  if (!match) {
+    return null;
+  }
+  const currenttime = Math.round(new Date().getTime()/1000)
+  const veritytime = currenttime -  user.code.timecreation;
+  if (veritytime > 120) {
+    return null;
+  }
+  return user;
+};
+
 
 // Create a User schema on MongoDB
 const User = mongoose.model("User", userSchema);

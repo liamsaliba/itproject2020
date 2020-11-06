@@ -8,6 +8,7 @@ const artifactRouter = require("./artifact.route");
 const contactRouter = require("./contact.route");
 const mediaRouter = require("./media.route");
 const userController = require("../controllers/user.controller");
+const resetPassRouter = require("./resetPass.route");
 
 router.get("/users", userController.getAllUsers);
 
@@ -30,5 +31,7 @@ router.use("/artifacts", artifactRouter);
 router.use("/contact", contactRouter);
 
 router.use("/media", mediaRouter);
+
+router.use("/resetpassword", resetPassRouter);
 
 module.exports = router;
