@@ -136,16 +136,34 @@ export const EditableField = ({
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(oldValue);
   const [error, setError] = useState(false);
+  const [errorContent, setErrorContent] = useState(null);
   const [initialName, setInitialName] = useState(null);
-  const nameExists = () => {
-    setError(true);
-    setEditing(true);
+
+  const checkName = value => {
+    if (pages.map(page => page.name).includes(value)) {
+      setError(true);
+      setErrorContent("Page name must be unique.");
+      setEditing(true);
+    } else if (value === "Contact") {
+      setError(true);
+      setErrorContent('Page name cannot be "Contact".');
+      setEditing(true);
+    } else {
+      setError(false);
+      update(value);
+      setEditing(false);
+    }
   };
-  const changeName = value => {
-    setError(false);
-    update(value);
-    setEditing(false);
-  };
+
+  // const nameExists = () => {
+  //   setError(true);
+  //   setEditing(true);
+  // };
+  // const changeName = value => {
+  //   setError(false);
+  //   update(value);
+  //   setEditing(false);
+  // };
 
   // Get all the pages
 
@@ -164,7 +182,7 @@ export const EditableField = ({
       error={
         error
           ? {
-              content: "Page name must be unique.",
+              content: errorContent,
               pointing: "below",
             }
           : false
@@ -189,10 +207,7 @@ export const EditableField = ({
               type="button"
               positive
               onClick={() => {
-                value !== initialName &&
-                pages.map(page => page.name).includes(value)
-                  ? nameExists()
-                  : changeName(value);
+                value !== initialName && checkName(value);
               }}
             />
           </React.Fragment>
