@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Flex, ThemeProvider } from "theme-ui";
+import { jsx, Flex, ThemeProvider, Box } from "theme-ui";
 import { UserNavbar, UserHamburger } from "./Navbar";
 import { useState, useEffect } from "react";
 import themes from "../../themes";
@@ -11,6 +11,7 @@ import Footer from "./Footer";
 import { selectPortfolioIsEditing } from "../../store/slices/portfolios";
 
 import { createMedia } from "@artsy/fresnel";
+import makeTheme from "../../themes/makeTheme";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -27,12 +28,14 @@ const UserPage = props => {
   const editing = useSelector(state => selectPortfolioIsEditing(state, userId));
 
   useEffect(() => {
-    setPreset(themes[["default", "theme"].includes(theme) ? "base" : theme]);
+    setPreset(makeTheme(theme));
   }, [theme]);
 
   const MobileBody = (
     <UserHamburger userId={userId} editing={editing}>
-      <Body userId={userId} selectedPage={selectedPage} />
+      <Box sx={{ minHeight: "45em" }}>
+        <Body userId={userId} selectedPage={selectedPage} />
+      </Box>
       <Footer userId={userId} />
     </UserHamburger>
   );
@@ -41,24 +44,42 @@ const UserPage = props => {
     <MediaContextProvider>
       <ThemeProvider theme={preset}>
         <Title>{(editing ? "Editing " : "").concat(userId)}</Title>
-        <Flex
-          sx={{
-            flexDirection: "column",
-            minHeight: "100vh",
-            bg: "background",
-            color: "text",
-          }}
-        >
-          <header>
-            <Media greaterThan="tablet">
-              <UserNavbar userId={userId} editing={editing} />
+
+        <Media greaterThan="tablet">
+          <Flex
+            sx={{
+              flexDirection: "column",
+              minHeight: "100vh",
+              bg: "background",
+              color: "text",
+            }}
+          >
+            <UserNavbar userId={userId} editing={editing} />
+            <Flex
+              sx={{
+                flex: "1",
+                justifyContent: "center",
+              }}
+            >
               <Body userId={userId} selectedPage={selectedPage} />
-              <Footer userId={userId} />
-            </Media>
-          </header>
-          <Media at="tablet">{MobileBody}</Media>
-          <Media lessThan="tablet">{MobileBody}</Media>
-        </Flex>
+            </Flex>
+            <Footer userId={userId} />
+          </Flex>
+        </Media>
+
+        <Media lessThan="tablet">
+          <Flex
+            sx={{
+              flexDirection: "column",
+              minHeight: "100vh",
+              bg: "background",
+              color: "text",
+            }}
+          >
+            {MobileBody}
+          </Flex>
+        </Media>
+        {/* <Media lessThan="tablet">{MobileBody}</Media> */}
       </ThemeProvider>
     </MediaContextProvider>
   );

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Styled } from "theme-ui";
+import { Box, jsx, Styled } from "theme-ui";
 import {
   ProfileDropdown,
   MenuItem,
@@ -18,8 +18,9 @@ import {
   selectPortfolioByUsername,
   selectFullName,
 } from "../../store";
-import { Icon, Menu } from "semantic-ui-react";
+import { Icon, Menu, Sticky } from "semantic-ui-react";
 import { isTrue, usePath } from "../../helpers";
+import { transparentize } from "@theme-ui/color";
 
 export const UserHamburger = props => {
   const { userId, children } = props;
@@ -129,37 +130,45 @@ export const UserNavbar = props => {
         ));
 
   return (
-    <Navbar>
-      <Navbar.Left>
-        <MenuCamel />
-      </Navbar.Left>
-      <Navbar.Center>
-        <Navbar.Item to={path()}>{userId}</Navbar.Item>
-        <span sx={{ p: "0.4em" }}>|</span>
-        {menuItems}
-        {isTrue(allowContact) ? (
-          <React.Fragment>
+    <Sticky>
+      <Box
+        sx={{
+          bg: transparentize("background", 0.2),
+        }}
+      >
+        <Navbar>
+          <Navbar.Left>
+            <MenuCamel />
+          </Navbar.Left>
+          <Navbar.Center>
+            <Navbar.Item to={path()}>{userId}</Navbar.Item>
             <span sx={{ p: "0.4em" }}>|</span>
-            <Navbar.Item key="nav-contact" to={path("contact")}>
-              Contact
-            </Navbar.Item>
-          </React.Fragment>
-        ) : null}
-      </Navbar.Center>
-      <Navbar.Right>
-        {token && (
-          <React.Fragment>
-            {username === userId && !editing && (
-              <MenuItem style={{ fontSize: "1.2em" }} to="/editor">
-                <Icon name="edit" />
-                Edit
-              </MenuItem>
+            {menuItems}
+            {isTrue(allowContact) ? (
+              <React.Fragment>
+                <span sx={{ p: "0.4em" }}>|</span>
+                <Navbar.Item key="nav-contact" to={path("contact")}>
+                  Contact
+                </Navbar.Item>
+              </React.Fragment>
+            ) : null}
+          </Navbar.Center>
+          <Navbar.Right>
+            {token && (
+              <React.Fragment>
+                {username === userId && !editing && (
+                  <MenuItem style={{ fontSize: "1.2em" }} to="/editor">
+                    <Icon name="edit" />
+                    Edit
+                  </MenuItem>
+                )}
+                <ProfileDropdown items="default" />
+              </React.Fragment>
             )}
-            <ProfileDropdown items="default" />
-          </React.Fragment>
-        )}
-      </Navbar.Right>
-    </Navbar>
+          </Navbar.Right>
+        </Navbar>
+      </Box>
+    </Sticky>
   );
 };
 

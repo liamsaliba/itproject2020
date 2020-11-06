@@ -243,7 +243,14 @@ export const selectCurrentUserPortfolio = createSelector(
 
 export const selectPortfolioTheme = createSelector(
   selectPortfolioByUsername,
-  portfolio => (portfolio ? portfolio.theme || "default" : undefined)
+  portfolio =>
+    portfolio
+      ? {
+          base: portfolio.theme || "default",
+          fonts: portfolio.font === "default" ? {} : portfolio.font || {},
+          colours: portfolio.colour === "default" ? {} : portfolio.colour || {},
+        }
+      : undefined
 );
 export const selectPortfolioBio = createSelector(
   selectPortfolioByUsername,
@@ -261,6 +268,16 @@ export const selectFullName = createSelector(
 export const selectPortfolioAvatar = createSelector(
   selectPortfolioByUsername,
   portfolio => (portfolio !== undefined ? portfolio.avatar : undefined)
+);
+
+export const selectHeaderImage = createSelector(
+  selectPortfolioByUsername,
+  portfolio =>
+    portfolio !== undefined
+      ? portfolio.header
+        ? [portfolio.header]
+        : []
+      : undefined
 );
 
 export const selectPortfolioPages = createSelector(
@@ -430,10 +447,10 @@ const changePortfolioOptions = (data, loading) => (dispatch, getState) => {
     apiStarted({
       url: endpoints.portfoliosByUsername(username),
       method: "patch",
-      data: { ...data },
+      data,
       req: { loading, username },
       token,
-      loading: false,
+      loading: false, // show a loading icon on client
       onStart: portfolioUpdateRequested.type,
       onFailure: portfolioFailed.type,
       onSuccess: portfolioUpdated.type,
@@ -441,8 +458,14 @@ const changePortfolioOptions = (data, loading) => (dispatch, getState) => {
   );
 };
 
-export const changePortfolioTheme = theme => changePortfolioOptions({ theme });
+export const changePortfolioTheme = theme => dispatch => {
+  const { base, fonts, colours } = theme;
+  const data = { theme: base, font: fonts, colour: colours };
+  return dispatch(changePortfolioOptions(data));
+};
 export const changePortfolioBio = bio => changePortfolioOptions({ bio });
+export const updateHeader = header => changePortfolioOptions({ header });
+
 export const updateSocials = social =>
   changePortfolioOptions({ social }, false);
 

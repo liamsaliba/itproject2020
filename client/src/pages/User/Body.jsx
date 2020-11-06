@@ -13,6 +13,7 @@ import {
   selectSocialIcons,
   selectArtifactsLoading,
   updateSocials,
+  selectHeaderImage,
 } from "../../store";
 import { Section, Artifact } from "../../components";
 import {
@@ -42,6 +43,7 @@ import { MenuButton } from "../../components/NavItems";
 import { selectArtifactsError } from "../../store/slices/artifacts";
 import { pageTypes } from "../Editor/SectionPages";
 import { SocialIcons } from "../../components/Socials";
+import { Image } from "theme-ui";
 
 const EditBioModal = ({ bio }) => {
   const [open, setOpen] = useState(false);
@@ -103,11 +105,12 @@ const MainHeader = ({ username, bio, editing }) => {
   const fullName = useSelector(state => selectFullName(state, username));
   const profile = useSelector(state => selectPortfolioAvatar(state, username));
   const socials = useSelector(state => selectSocialIcons(state, username));
+  const header = useSelector(state => selectHeaderImage(state, username));
 
   const dispatch = useDispatch();
 
-  return (
-    <Box mb={2} as="header">
+  const headerComponent = (
+    <Box as="header">
       <EditableUserProfile
         editing={editing}
         username={username}
@@ -126,6 +129,54 @@ const MainHeader = ({ username, bio, editing }) => {
       <Styled.p> {bio} </Styled.p>
       {editing ? <EditBioModal bio={bio} /> : null}
     </Box>
+  );
+
+  if (!editing && header.length === 0) return headerComponent;
+
+  return (
+    <Flex
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        alignItems: "center",
+        justifyContent: "center",
+        pb: "2em",
+      }}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          zIndex: "1",
+          color: header.length !== 0 ? "white" : undefined,
+          "& h1, & h2, & h3, & p": {
+            color: header.length !== 0 ? "white" : undefined,
+          },
+        }}
+      >
+        {headerComponent}
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          zIndex: "0",
+          height: "auto",
+          width: "100%",
+          bg: "text",
+          opacity: "0.2",
+        }}
+      >
+        <Image
+          sx={{
+            filter: "brightness(0.60)",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+          src={profile}
+        />
+      </Box>
+    </Flex>
   );
 };
 
@@ -161,6 +212,7 @@ const Page = ({ pageId: id, name, userId }) => {
       ...option,
       onClick: option.disabled !== true ? create(option.value) : undefined,
       description: undefined,
+      defaultPageName: undefined,
     }));
   const newbtn =
     type === "mix" ? (

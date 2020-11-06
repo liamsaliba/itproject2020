@@ -222,15 +222,14 @@ describe("portfoliosSlice", () => {
             .onPatch(endpoints.portfoliosByUsername("a"))
             .reply(200, { username: "a", theme: "newTheme", pages: [] });
 
-          await store.dispatch(changePortfolioTheme("new"));
-
+          await store.dispatch(changePortfolioTheme({ base: "new" }));
           expect(portfolioByUsername("a").theme).toBe("newTheme");
         });
 
         it("should not happen if it's not saved to the server, and save error message", async () => {
           fakeAxios.onPatch(endpoints.portfoliosByUsername("a")).reply(500);
 
-          await store.dispatch(changePortfolioTheme("new"));
+          await store.dispatch(changePortfolioTheme({ base: "new" }));
 
           expect(portfolioByUsername("a").theme).toBe("oldTheme");
         });

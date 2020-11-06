@@ -15,7 +15,7 @@ const { MediaContextProvider, Media } = createMedia({
 });
 
 export default props => {
-  const theme = themes.custom;
+  const theme = themes.def;
 
   const flexProps = {
     flexDirection: "column",

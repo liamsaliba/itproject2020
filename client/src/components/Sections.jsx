@@ -35,7 +35,7 @@ const greyedOut = {
 export const Row = ({ editing, openEditor, id, children, style }) => {
   const sectionStyling = {
     ...style,
-    boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
+    // boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
     flex: "1 1 auto",
     transition: "0.3s all ease",
     flexDirection: "column",
