@@ -374,14 +374,21 @@ const SinglePagePortfolio = props => {
       <ArtifactFormController />
       {editing && pages.length === 0 ? (
         <NewPlaceholder tagline="No pages yet!  Would you like to create a new one?">
-          <NewPageModal />
+          <NewPageModal pages={pages} />
         </NewPlaceholder>
       ) : null}
       {pageContainers}
-      {editing && pages.length !== 0 ? (
+
+      {editing && pages.length !== 0 && pages.length < 10 ? (
         <NewPlaceholder tagline="We're at the end here, want to create a new page?">
-          <NewPageModal />
+          <NewPageModal pages={pages} />
         </NewPlaceholder>
+      ) : null}
+      {editing && pages.length >= 10 ? (
+        <NewPlaceholder
+          tagline="Limited to creating 10 pages. To create a new page, delete another
+        page first."
+        />
       ) : null}
     </React.Fragment>
   );

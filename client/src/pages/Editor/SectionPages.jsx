@@ -154,6 +154,8 @@ const PageSettings = () => {
 const Page = ({ active, setActive, page }) => {
   const dispatch = useDispatch();
   const { name, id, loading, type } = page;
+  const username = useSelector(selectUsername);
+  const pages = useSelector(state => selectPagesByUsername(state, username));
 
   const typeInfo = pageTypes[type];
   const icon = typeInfo === undefined ? "file outline" : typeInfo.icon;
@@ -174,6 +176,7 @@ const Page = ({ active, setActive, page }) => {
             update: name => dispatch(renamePage(id, name)),
             del: () => dispatch(deletePage(id)),
             maxLength: "15",
+            pages: pages,
           }}
         />
       </List.Content>
@@ -181,8 +184,9 @@ const Page = ({ active, setActive, page }) => {
   );
 };
 
-export const NewPageModal = () => {
+export const NewPageModal = props => {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
   // eslint-disable-next-line
   const [state, setState] = useState({ name: "", type: "mix" });
 
@@ -211,6 +215,11 @@ export const NewPageModal = () => {
     } else {
       // do it this way -- setState is async
       setState({ ...state, [name]: value });
+      if (props.pages.map(page => page.name).includes(value)) {
+        setError(true);
+      } else {
+        setError(false);
+      }
     }
   };
 
@@ -255,6 +264,14 @@ export const NewPageModal = () => {
             value={state.name}
             size="large"
             required
+            error={
+              error
+                ? {
+                    content: "Page name must be unique.",
+                    pointing: "below",
+                  }
+                : false
+            }
           />
           <Form.Select
             fluid
@@ -274,7 +291,7 @@ export const NewPageModal = () => {
         <Button basic color="red" onClick={() => setOpen(false)} type="button">
           <Icon name="remove" /> Cancel
         </Button>
-        <Button color="green" type="submit">
+        <Button color="green" disabled={error} type="submit">
           <Icon name="checkmark" /> Create Page
         </Button>
       </Modal.Actions>
@@ -303,7 +320,7 @@ const SectionPages = () => {
           page first.
         </p>
       ) : (
-        <NewPageModal />
+        <NewPageModal pages={pages} />
       )}
       <Flex
         sx={{ justifyContent: "center", flexDirection: "column", mt: "1em" }}

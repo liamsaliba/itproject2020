@@ -2,7 +2,6 @@
 import { jsx } from "theme-ui";
 
 import { useFormContext, Controller } from "react-hook-form";
-
 import { Form, Icon, Checkbox, Button } from "semantic-ui-react";
 import { isTrue } from "../helpers";
 import { ChooseMedia } from "./Media";
@@ -132,9 +131,23 @@ export const EditableField = ({
   placeholder = "Value",
   emptyPlaceholder = placeholder,
   maxLength = null,
+  pages,
 }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(oldValue);
+  const [error, setError] = useState(false);
+  const [initialName, setInitialName] = useState(null);
+  const nameExists = () => {
+    setError(true);
+    setEditing(true);
+  };
+  const changeName = value => {
+    setError(false);
+    update(value);
+    setEditing(false);
+  };
+
+  // Get all the pages
 
   return (
     <Form.Input
@@ -148,6 +161,14 @@ export const EditableField = ({
       onChange={(e, { value }) => setValue(value)}
       placeholder={editing ? placeholder : emptyPlaceholder}
       value={value}
+      error={
+        error
+          ? {
+              content: "Page name must be unique.",
+              pointing: "below",
+            }
+          : false
+      }
       transparent={!editing}
       readOnly={!editing}
       action={
@@ -158,6 +179,7 @@ export const EditableField = ({
               type="button"
               negative
               onClick={() => {
+                setError(false);
                 setValue(oldValue);
                 setEditing(false);
               }}
@@ -167,8 +189,10 @@ export const EditableField = ({
               type="button"
               positive
               onClick={() => {
-                update(value);
-                setEditing(false);
+                value !== initialName &&
+                pages.map(page => page.name).includes(value)
+                  ? nameExists()
+                  : changeName(value);
               }}
             />
           </React.Fragment>
@@ -177,7 +201,10 @@ export const EditableField = ({
             <Button
               icon="pencil"
               type="button"
-              onClick={() => setEditing(true)}
+              onClick={() => {
+                setEditing(true);
+                setInitialName(value);
+              }}
             />
             <DeleteConfirmationModal action={del} name={oldValue} />
           </React.Fragment>
