@@ -1,4 +1,4 @@
-# camel_case ePortfolio 
+# Camel Pages by camel_case
 Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 
 <img src="client/src/svg/camel.svg" alt="drawing" width="100"/>
@@ -14,19 +14,19 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
   * [Description](#description)
   * [Criteria](#criteria)
   * [Team Members](#team-members)
-  * [Project Scope](#project-scope)
   * [Features](#features)
+  * [Documentation](#documentation)
+    + [Project Scope](#project-scope)
+    + [User Stories](#user-stories)
+    + [Motivational Model](#motivational-model)
+    + [Architecture Diagram](#architecture-diagram)
+    + [User Flow Diagram](#user-flow-diagram)
+    + [API Documentation](#api-documentation)
+    + [Storybook](#storybook)
+    + [Chromatic](#chromatic)
 - [Camel Pages](#camel-pages)
   * [System Requirements](#system-requirements)
   * [Project Link](#project-link)
-- [Documentation](#documentation)
-  * [User Stories](#user-stories)
-  * [Motivational Model](#motivational-model)
-  * [Architecture Diagram](#architecture-diagram)
-  * [User Flow Diagram](#user-flow-diagram)
-  * [API Documentation](#api-documentation)
-  * [Storybook](#storybook)
-  * [Chromatic](#chromatic)
 - [Installation](installation)
 - [Changelog](#changelog)
   * [Sprint 3](#sprint-3)
@@ -77,6 +77,15 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - Contact form
 - Live editing, with autosave.
 
+## Documentation
+- [Project Scope](docs/project_scope.pdf)
+- [User Stories](https://hackmd.io/T_SPAfyVTHyBGaVUakA7kQ?view)
+- [Motivational Model](docs/motivational_model.pdf)
+- [Architecture Diagram](docs/architecture_diagram.pdf)
+- [User Flow Diagram](docs/user_flow.pdf)
+- [API Documentation]()
+- [Chromatic/Storybook](https://www.chromatic.com/library?appId=5f61a7e9e0a12400222c3299)
+
 # Camel Pages  
 ## System Requirements
 * [Heroku](https://www.heroku.com/home)
@@ -86,15 +95,6 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 
 ## Project Link
 [Heroku Link](https://camelcase-itproject.herokuapp.com/)
-
-# Documentation
-- [User Stories]()
-- [Motivational Model](docs/motivational_model.pdf)
-- [Architecture Diagram](docs/architecture_diagram.pdf)
-- [User Flow Diagram](docs/user_flow.pdf)
-- [API Documentation]()
-- [Storybook]()
-- [Chromatic]()
   
 # Installation
 ## Local Development
