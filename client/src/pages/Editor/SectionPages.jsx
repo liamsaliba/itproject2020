@@ -182,6 +182,7 @@ const Page = ({ active, setActive, page }) => {
 export const NewPageModal = props => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
+  const [errorContent, setErrorContent] = useState(null);
   // eslint-disable-next-line
   const [state, setState] = useState({ name: "", type: "mix" });
 
@@ -212,6 +213,10 @@ export const NewPageModal = props => {
       setState({ ...state, [name]: value });
       if (props.pages.map(page => page.name).includes(value)) {
         setError(true);
+        setErrorContent("Page name must be unique.");
+      } else if (value === "Contact") {
+        setError(true);
+        setErrorContent('Page name cannot be "Contact".');
       } else {
         setError(false);
       }
@@ -262,7 +267,7 @@ export const NewPageModal = props => {
             error={
               error
                 ? {
-                    content: "Page name must be unique.",
+                    content: errorContent,
                     pointing: "below",
                   }
                 : false
