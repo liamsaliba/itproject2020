@@ -172,9 +172,54 @@ const sendPortfolioChangeNotification = (email, user, changeItem) => {
   );
 };
 
+const sendContactForm = (useremail, name, email, message) => {
+  if (!useremail) {
+    return;
+  }
+  var textBody = `FROM: ${name}; EMAIL: ${email} MESSAGE: ${message}`;
+  var htmlBody = `<h2>Mail From camel_case Contact Form</h2><p>from: ${name} <a href="mailto:${email}">${email}</a></p><p>${message}</p>`;
+
+  var mailOptions = {
+    from: process.env.EMAIL_ADDRESS, // sender address
+    to: useremail, // list of receivers (THIS COULD BE A DIFFERENT ADDRESS or ADDRESSES SEPARATED BY COMMAS)
+    subject: "Mail From camel_case Contact Form", // Subject line
+    text: textBody,
+    html: htmlBody,
+  };
+  console.log(mailOptions);
+  transporter.sendMail(mailOptions, (err, _info) => {
+    if (err) {
+      console.log("not working");
+      return;
+    }
+  });
+};
+
+const sendResetPassword= (useremail, OTP) => {
+  if (!useremail) {
+    return;
+  }
+
+  var mailOptions = {
+    from: process.env.EMAIL_ADDRESS, // sender address
+    to: useremail, // list of receivers (THIS COULD BE A DIFFERENT ADDRESS or ADDRESSES SEPARATED BY COMMAS)
+    subject: "Mail From camel_case Reset Password", // Subject line
+    html: "<h3>One-time Password for account verification is </h3>"  + "<h1 style='font-weight:bold;'>" + OTP +"</h1>" ,
+  };
+
+  transporter.sendMail(mailOptions, (err, _info) => {
+    if (err) {
+      return;
+    }
+  });
+}
+
+
 module.exports = {
   sendGreeting,
   sendAccountChangeNotification,
   sendPortfolioAddNotification,
   sendPortfolioChangeNotification,
+  sendContactForm,
+  sendResetPassword,
 };
