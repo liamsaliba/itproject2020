@@ -14,7 +14,8 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
   * [Description](#description)
   * [Criteria](#criteria)
   * [Team Members](#team-members)
-  * [Features](#features)
+  * [Required Features](#required-features)
+  * [Additional Features](#additional-features)
   * [Documentation](#documentation)
     + [Project Scope](#project-scope)
     + [User Stories](#user-stories)
@@ -62,10 +63,7 @@ This gave us the following requirements:
 **Supervisor**  
 Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.edu.au
 
-## Project Scope
-[Project Scope](docs/project_scope.pdf)
-
-## Features
+## Required Features
 - User management: confirmation, password reset
 - Portfolio viewing
 - Mobile and desktop viewing
@@ -77,13 +75,15 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - Contact form
 - Live editing, with autosave.
 
+## Additional Features
+
 ## Documentation
 - [Project Scope](docs/project_scope.pdf)
 - [User Stories](https://hackmd.io/T_SPAfyVTHyBGaVUakA7kQ?view)
 - [Motivational Model](docs/motivational_model.pdf)
 - [Architecture Diagram](docs/architecture_diagram.pdf)
 - [User Flow Diagram](docs/user_flow.pdf)
-- [API Documentation]()
+- [API Documentation](docs/api_endpoint.pdf)
 - [Chromatic/Storybook](https://www.chromatic.com/library?appId=5f61a7e9e0a12400222c3299)
 
 # Camel Pages  
