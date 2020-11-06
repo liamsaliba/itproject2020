@@ -15,7 +15,7 @@ const getAllPortfolios = async (_req, res) => {
     // no await map :(
     for (let portfolio of portfolios) {
       const p = portfolio.toObject();
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ username: p.username });
       if (!user) throw Error(`User ${username} not found.`);
 
       // Add a few more details to the returned portfolio

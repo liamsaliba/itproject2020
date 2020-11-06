@@ -10,10 +10,9 @@ const mediaRouter = require("./media.route");
 const userController = require("../controllers/user.controller");
 const resetPassRouter = require("./resetPass.route");
 
-router.get("/users", userController.getAllUsers);
+// router.get("/users", userController.getAllUsers);
 
 router.use("/user", userRouter);
-// router.use("/users", require("../controllers/user.controller").getAllUsers);
 
 router.get("/", (req, res) => {
   res.set("Content-Type", "application/json");

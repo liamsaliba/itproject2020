@@ -316,7 +316,13 @@ export const SelectedMediaCards = ({
       }}
     >
       {subset.map(item => (
-        <MediaCard id={item.id} url={item.url} preview={preview} size="140px" />
+        <MediaCard
+          key={"mediacard" + item.id}
+          id={item.id}
+          url={item.url}
+          preview={preview}
+          size="140px"
+        />
       ))}
       <Card size="140px">
         <Box
@@ -362,6 +368,7 @@ export const SelectMediaCards = ({
     >
       {media.map(item => (
         <MediaCard
+          key={"mediacard" + item.id}
           id={item.id}
           url={item.url}
           preview={preview}
