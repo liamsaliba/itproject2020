@@ -20,9 +20,8 @@ const SectionMenu = props => {
   );
 
   return (
-    <Menu vertical fluid borderless sx={{ m: "0 !important" }}>
-      <Item name="Settings" icon="settings" />
-      <Item name="Themes" icon="paint brush" />
+    <Menu compact fluid tabular size="small" widths={3}>
+      <Item name="Theme" icon="paint brush" />
       <Item name="Pages" icon="file text" />
       <Item name="Media" icon="file image" />
       {/* <Item name="Text Editor" icon="paragraph" /> */}

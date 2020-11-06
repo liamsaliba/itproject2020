@@ -10,6 +10,7 @@ import {
   Modal,
   Header,
   Checkbox,
+  Divider,
 } from "semantic-ui-react";
 import { Controller } from "react-hook-form";
 import { Dropdown } from "semantic-ui-react";
@@ -569,17 +570,11 @@ export const UploadMediaModal = ({
 
 export const Media = () => {
   return (
-    <Box sx={{ textAlign: "left" }}>
-      <Box p="0 1em">
-        <List.Item>
-          <List.Content floated="right">
-            <UploadMediaModal buttonText="Upload" compact floated="right" />
-          </List.Content>
-          <List.Content>
-            <Header>Media</Header>
-          </List.Content>
-        </List.Item>
-      </Box>
+    <Box>
+      <Divider horizontal>
+        <Header as="h3">Manage Media</Header>
+      </Divider>
+      <UploadMediaModal buttonText="Upload Media" primary fluid />
       <MediaList />
     </Box>
   );
