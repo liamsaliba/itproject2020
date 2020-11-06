@@ -184,6 +184,42 @@ userSchema.statics.findByUsername = async username => {
   }
 };
 
+userSchema.statics.saveCode = async (username, code) => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return null;
+  }
+  const salt = await bcrypt.genSalt(10);
+  const codeHash = await bcrypt.hash(code, salt);
+  user.code.otp = codeHash;
+  user.code.timecreation = Math.round(new Date().getTime()/1000);
+  console.log(user.code.timecreation);
+  
+  await user.save();
+};
+
+userSchema.statics.verifyCode = async (username, code) => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return null;
+  }
+  const match = await bcrypt.compare(code, user.code.otp);
+  if (!match) {
+    return null;
+  }
+  const currenttime = Math.round(new Date().getTime()/1000)
+  const veritytime = currenttime -  user.code.timecreation;
+  console.log(currenttime);
+  console.log(veritytime);
+  if (veritytime > 30) {
+    console.log(user.code.otp)
+    console.log(user.code.timecreation)
+    return null;
+  }
+  return user;
+};
+
+
 // Create a User schema on MongoDB
 const User = mongoose.model("User", userSchema);
 
