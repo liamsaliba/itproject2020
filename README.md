@@ -12,11 +12,12 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 
 - [Project Background](#project-background)
   * [Description](#description)
+  * [Criteria](#criteria)
   * [Team Members](#team-members)
   * [Project Scope](#project-scope)
   * [Features](#features)
 - [Camel Pages](#camel-pages)
-  * [System Requirements](#system-requiremnts)
+  * [System Requirements](#system-requirements)
   * [Project Link](#project-link)
 - [Documentation](#documentation)
   * [User Stories](#user-stories)
@@ -28,14 +29,14 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
   * [Chromatic](#chromatic)
 - [Installation](installation)
 - [Changelog](#changelog)
-  * [Releases](#releases)
-    + [Sprint 3](#sprint-3)
-    + [Sprint 2](#sprint-2)
-    + [Sprint 1](#sprint-1)
+  * [Sprint 3](#sprint-3)
+  * [Sprint 2](#sprint-2)
+  * [Sprint 1](#sprint-1)
 
 <!-- toc -->
 
 # Project Background
+## Description
 Our clients are 4 masters students from the Software Processes and Management (SWEN90016) subject.  
 
 As university students, they wanted a place to present their work, careers and skills; and give them one place they can direct professionals, colleagues, friends and recruiters to learn about them and their work. Importantly, they wanted their portfolios to represent their own individuality, to enable them to stand out from the crowd; and hence be personalisable.
@@ -49,15 +50,7 @@ This gave us the following requirements:
 - Have ways to contact and discover users
 - And supporting a variety of media.
 
-
-
-# System Requirements
-* [Heroku](https://www.heroku.com/home)
-  * [command-line tools (CLI)](https://toolbelt.heroku.com)
-* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-* [Node.js](https://nodejs.org) (use LTS release)
-
-# Team Members
+## Team Members
 | Name                    | Student No | Email                             | GitHub       |
 | ----------------------- | ---------- | --------------------------------- | ------------ |
 | Tuan Dung (Josh) Nguyen | 941806     | tuann6@student.unimelb.edu.au     | joshnguyen99 |
@@ -69,8 +62,40 @@ This gave us the following requirements:
 **Supervisor**  
 Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.edu.au
 
-# Documents
+## Project Scope
+[Project Scope](docs/project_scope.pdf)
 
+## Features
+- User management: confirmation, password reset
+- Portfolio viewing
+- Mobile and desktop viewing
+- Rich portfolio elements
+- Portfolio customisation with themes, and different layouts.
+  * With least 4 types of pre-made portfolio templates
+  * So that the user's don't have to worry about coming up with their own themes
+- File upload & Media management
+- Contact form
+- Live editing, with autosave.
+
+# Camel Pages  
+## System Requirements
+* [Heroku](https://www.heroku.com/home)
+  * [command-line tools (CLI)](https://toolbelt.heroku.com)
+* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* [Node.js](https://nodejs.org) (use LTS release)
+
+## Project Link
+[Heroku Link](https://camelcase-itproject.herokuapp.com/)
+
+# Documentation
+- [User Stories]()
+- [Motivational Model](docs/motivational_model.pdf)
+- [Architecture Diagram](docs/architecture_diagram.pdf)
+- [User Flow Diagram](docs/user_flow.pdf)
+- [API Documentation]()
+- [Storybook]()
+- [Chromatic]()
+  
 # Installation
 ## Local Development
 
@@ -91,8 +116,6 @@ Test the built app:
 npm build
 npm start
 ```
-
-
 
 ### Run the API (express) server
 
@@ -172,3 +195,8 @@ heroku git:remote -a camelcase-itproject
 # Push branch to heroku
 git push heroku master
 ```
+
+# Changelog
+## Sprint 3
+## Sprint 2
+## Sprint 1
