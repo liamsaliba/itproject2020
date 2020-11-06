@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
-import { Accordion, Icon, Transition } from "semantic-ui-react";
+import { Accordion, Icon } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import { changeAccordion, selectAccordion } from "../../store/";
 import { useDispatch } from "react-redux";
