@@ -98,6 +98,17 @@ const userSchema = new Schema(
         lowercase: true,
       },
     },
+    code: {
+      otp: {
+        type: String,
+        //required: true,
+
+        minlength: 6,
+      },
+      timecreation: {
+        type: Date
+      }
+    },
     tokens: [tokenSchema],
   },
   {
@@ -211,7 +222,7 @@ userSchema.statics.verifyCode = async (username, code) => {
   const veritytime = currenttime -  user.code.timecreation;
   console.log(currenttime);
   console.log(veritytime);
-  if (veritytime > 30) {
+  if (veritytime > 120) {
     console.log(user.code.otp)
     console.log(user.code.timecreation)
     return null;
