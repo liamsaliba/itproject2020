@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
-import { Accordion, Icon, Transition } from "semantic-ui-react";
+import { Accordion, Icon } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import { changeAccordion, selectAccordion } from "../../store/";
 import { useDispatch } from "react-redux";
@@ -38,27 +38,21 @@ export const AccordionSection = props => {
 
 const Section = ({ name, children }) => {
   const active = useSelector(selectAccordion);
-  const animation = "fade down";
 
-  return (
-    <Transition.Group animation={animation} duration={0}>
-      {active === name && (
-        <Flex
-          sx={{
-            flexDirection: "column",
-            textAlign: "center",
-            minHeight: "200px",
-            pt: "1em",
-            flex: "1",
-          }}
-        >
-          {children}
-        </Flex>
-      )}
-    </Transition.Group>
-  );
-  //
-  // );
+  return active === name ? (
+    <Flex
+      sx={{
+        flexDirection: "column",
+        textAlign: "left",
+        minHeight: "200px",
+        p: "1em",
+        pt: "0",
+        flex: "1",
+      }}
+    >
+      {children}
+    </Flex>
+  ) : null;
 };
 
 export default Section;

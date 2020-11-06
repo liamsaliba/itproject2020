@@ -186,16 +186,14 @@ const SectionThemes = () => {
   };
 
   return (
-    <Section name="Themes" icon="paint brush">
-      <div sx={{ p: "0.5em", pt: "0", mt: "-0.5em", textAlign: "left" }}>
-        <Divider horizontal>
-          <Header as="h3">Customise Theme</Header>
-        </Divider>
-        <div>
-          <EditorProvider theme={makeTheme(theme)}>
-            <ThemeEditor theme={selectedTheme} updateTheme={setTheme} />
-          </EditorProvider>
-        </div>
+    <Section name="Theme" icon="paint brush">
+      <Divider horizontal>
+        <Header as="h3">Customise Theme</Header>
+      </Divider>
+      <div>
+        <EditorProvider theme={makeTheme(theme)}>
+          <ThemeEditor theme={selectedTheme} updateTheme={setTheme} />
+        </EditorProvider>
       </div>
     </Section>
   );

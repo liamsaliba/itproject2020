@@ -124,14 +124,8 @@ const PageSettings = () => {
   );
 
   return (
-    <div
-      sx={{
-        "& div": {
-          m: "0.5em",
-        },
-      }}
-    >
-      <div sx={{ textAlign: "left" }}>
+    <div>
+      <div>
         <Toggle
           label="Contact form"
           icon="address book"
@@ -139,7 +133,8 @@ const PageSettings = () => {
           setValue={value => dispatch(updateAllowContact(value))}
         />
       </div>
-      <div sx={{ textAlign: "left" }}>
+      <br />
+      <div>
         <Toggle
           label="Single page portfolio"
           icon="file"
@@ -311,7 +306,9 @@ const SectionPages = () => {
 
   return (
     <Section name="Pages" icon="file text">
-      <Header>Manage pages</Header>
+      <Divider horizontal>
+        <Header as="h3">Manage Pages</Header>
+      </Divider>
       <PageSettings />
       <Divider />
       {pages.length >= 10 ? (
@@ -329,7 +326,7 @@ const SectionPages = () => {
           "No pages."
         ) : (
           // replace with https://react.semantic-ui.com/elements/list/#types-divided
-          <List divided selection sx={{ textAlign: "left" }}>
+          <List divided relaxed sx={{ textAlign: "left" }}>
             {pages.map(page => (
               <Page
                 key={page.id.toString()}

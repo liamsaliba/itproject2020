@@ -79,7 +79,7 @@ export const {
 } = slice.actions;
 
 // Selectors
-export const selectAccordion = state => state.ui.accordion;
+export const selectAccordion = state => state.ui.accordion || "Theme";
 export const selectLoadingStatus = state => state.ui.loading;
 export const selectLoadingText = state => state.ui.loadingText;
 export const selectArtifactCurrentlyEditing = state => state.ui.editingArtifact;
