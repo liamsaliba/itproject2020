@@ -204,7 +204,6 @@ userSchema.statics.saveCode = async (username, code) => {
   const codeHash = await bcrypt.hash(code, salt);
   user.code.otp = codeHash;
   user.code.timecreation = Math.round(new Date().getTime()/1000);
-  console.log(user.code.timecreation);
   
   await user.save();
 };
@@ -220,11 +219,7 @@ userSchema.statics.verifyCode = async (username, code) => {
   }
   const currenttime = Math.round(new Date().getTime()/1000)
   const veritytime = currenttime -  user.code.timecreation;
-  console.log(currenttime);
-  console.log(veritytime);
   if (veritytime > 120) {
-    console.log(user.code.otp)
-    console.log(user.code.timecreation)
     return null;
   }
   return user;
