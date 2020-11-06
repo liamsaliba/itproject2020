@@ -2,8 +2,6 @@
 import { jsx } from "theme-ui";
 
 import { useFormContext, Controller } from "react-hook-form";
-import { useSelector } from "react-redux";
-
 import { Form, Icon, Checkbox, Button } from "semantic-ui-react";
 import { isTrue } from "../helpers";
 import { ChooseMedia } from "./Media";
@@ -191,12 +189,10 @@ export const EditableField = ({
               type="button"
               positive
               onClick={() => {
-                {
-                  value !== initialName &&
-                  pages.map(page => page.name).includes(value)
-                    ? nameExists()
-                    : changeName(value);
-                }
+                value !== initialName &&
+                pages.map(page => page.name).includes(value)
+                  ? nameExists()
+                  : changeName(value);
               }}
             />
           </React.Fragment>
