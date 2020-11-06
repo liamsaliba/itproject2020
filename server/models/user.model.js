@@ -175,11 +175,11 @@ userSchema.statics.findByUsername = async username => {
     return null;
   }
   const method = user.method;
-  if (method == "local") {
+  if (method[0] == "local") {
     return user.local.email;
-  } else if (method == "google") {
+  } else if (method[0] == "google") {
     return user.google.email;
-  } else if (method == "facebook") {
+  } else if (method[0] == "facebook") {
     return user.facebook.email;
   }
 };
