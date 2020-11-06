@@ -8,13 +8,44 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 ![GitHub Actions CI](https://github.com/exradr/itproject2020/workflows/Node.js%20CI/badge.svg)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/85274d2bb2c94685a95b3900f9c9d9ab)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=exradr/itproject2020&amp;utm_campaign=Badge_Grade)
 
-## Requirements
+# Table of Contents
+Project background/overview
+- Description
+- Project Scope
+- Team Members
+
+Demo
+- Link
+
+Features
+- List of Features
+
+Documentation (user stories, architecture, test cases, other docs from Confluence – exported as PDF) System requirements (tools/database and their versions)
+- User Stories
+- Architecture Diagram
+- User Flow Diagram
+- System Requirements
+
+Installation guide
+- Installation
+
+Changelog
+- Project Backlog
+- Releases
+  - Sprint 3
+  - Sprint 2
+  - Sprint 1
+
+Traceability matrix
+
+
+# System Requirements
 * [Heroku](https://www.heroku.com/home)
   * [command-line tools (CLI)](https://toolbelt.heroku.com)
 * [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 * [Node.js](https://nodejs.org) (use LTS release)
 
-## Team Members
+# Team Members
 | Name                    | Student No | Email                             | GitHub       |
 | ----------------------- | ---------- | --------------------------------- | ------------ |
 | Tuan Dung (Josh) Nguyen | 941806     | tuann6@student.unimelb.edu.au     | joshnguyen99 |
@@ -26,7 +57,9 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 **Supervisor**  
 Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.edu.au
 
-# Creating a local work environment
+# Documents
+
+# Installation
 ## Local Development
 
 Because this app is made of two npm projects, there are two places to run `npm` commands:
