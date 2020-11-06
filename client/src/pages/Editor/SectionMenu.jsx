@@ -9,7 +9,7 @@ const SectionMenu = props => {
   const dispatch = useDispatch();
 
   const handleClick = (e, { name }) => {
-    dispatch(changeAccordion(active === name ? null : name));
+    dispatch(changeAccordion(name));
   };
 
   const Item = ({ name, icon }) => (
