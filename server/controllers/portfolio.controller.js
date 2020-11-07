@@ -44,7 +44,6 @@ const createPortfolio = async (req, res) => {
       const social = req.body.social;
       const header = req.body.header;
       const avatar = req.user.avatar;
-      const useSinglePages = req.body.useSinglePages;
       const newPortfolio = new Portfolio({
         username,
         bio,
@@ -55,7 +54,6 @@ const createPortfolio = async (req, res) => {
         social,
         header,
         avatar,
-        useSinglePages,
       });
       const returnedPortfolio = newPortfolio.toObject();
       if (returnedPortfolio.header) {
@@ -185,16 +183,7 @@ const changePortfolio = async (req, res) => {
     }
     const username = req.user.username;
     const portfolio = await Portfolio.findByUsername(username);
-    const {
-      bio,
-      theme,
-      font,
-      colour,
-      singlePage,
-      social,
-      header,
-      useSinglePages,
-    } = req.body;
+    const { bio, theme, font, colour, singlePage, social, header } = req.body;
     portfolio.bio = bio ? bio : portfolio.bio;
     portfolio.theme = theme ? theme : portfolio.theme;
     portfolio.font = font ? font : portfolio.font;
@@ -202,7 +191,6 @@ const changePortfolio = async (req, res) => {
     portfolio.singlePage = singlePage ? singlePage : portfolio.singlePage;
     portfolio.social = social ? social : portfolio.social;
     portfolio.header = header ? header : portfolio.header;
-    portfolio.useSinglePages = useSinglePages ? useSinglePages : useSinglePages;
     let changeItems = [];
     if (portfolio.isModified("bio")) changeItems = changeItems.concat("Bio");
     if (portfolio.isModified("social"))
