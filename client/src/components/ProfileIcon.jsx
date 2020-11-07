@@ -2,7 +2,6 @@
 import { jsx, Image, IconButton, Box } from "theme-ui";
 import { Link } from "./index";
 import profileImg from "../svg/profile.png";
-// import profileImg from "../svg/DocumentPreview.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectUser,
@@ -16,7 +15,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Modal, Button, Icon, Dropdown, Form } from "semantic-ui-react";
 import { ChooseMedia } from "./Media";
-// import { selectMediaByUsername } from "../store/combinedSelectors";
 import { selectMediaUrl } from "../store/slices/media";
 import { hoverGrow } from "../helpers";
 // from https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
@@ -28,10 +26,8 @@ export const ProfileImage = ({ userId, profile }) => {
   const tint =
     profile === undefined && userId !== undefined ? hashCode(userId) : 0;
   return (
-    // <AspectRatio ratio={1 / 1}>
     <Image
       src={profile ? profile : profileImg}
-      // variant="avatar"
       sx={{
         width: "100%",
         filter: `hue-rotate(${tint}deg)`,
@@ -41,7 +37,6 @@ export const ProfileImage = ({ userId, profile }) => {
         p: "0",
       }}
     />
-    // </AspectRatio>
   );
 };
 
@@ -135,13 +130,9 @@ export const EditableUserProfile = ({ editing, username, profile }) => {
       <Box
         sx={{
           margin: "auto",
-          // marginBottom: "-3em",
           width: "30%",
           maxWidth: "250px",
           maxHeight: "250px",
-          // height: "30vw",
-          // maxWidth: "250px",
-          // borderRadius: "50%",
         }}
       >
         <ProfileImage userId={username} profile={profile} />
@@ -191,7 +182,6 @@ export const ChooseProfileModal = ({ username, profile }) => {
     }
     dispatch(updateAvatar(profileId));
     setStatus("sentSubmit");
-    // closeModal();
   };
 
   return (

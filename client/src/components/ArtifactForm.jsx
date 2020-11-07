@@ -719,18 +719,7 @@ const EditArtifactForm = ({
           closeModal();
         }}
       />
-      {/* <Button
-        icon
-        color="red"
-        labelPosition="left"
-        onClick={() => {
-          dispatch(deleteArtifact(id));
-          closeModal();
-        }}
-      >
-        <Icon name="trash" />
-        Delete
-      </Button> */}
+
       <Button icon labelPosition="left" onClick={() => closeModal()}>
         <Icon name="cancel" />
         Discard Changes
@@ -776,7 +765,6 @@ const FormModal = ({
   // eslint-disable-next-line
   const { status, start } = useAsync(loading, error, () => null, closeModal);
   const form = useForm({ defaultValues });
-  // const dispatch = useDispatch();
   const {
     handleSubmit,
     setValue,
@@ -805,8 +793,6 @@ const FormModal = ({
     }
 
     if (validate(data, setError)) {
-      // const { media, ...contents } = data;
-      // if (action) action({ media, contents });
       if (action) action(data);
 
       start();
@@ -857,16 +843,5 @@ const FormModal = ({
     </FormProvider>
   );
 };
-
-// SectionField.propTypes = {
-//   state: PropTypes.shape({
-//     open: PropTypes.bool, // Modal State
-//     setOpen: PropTypes.func, // Toggle Modal State
-//   }),
-//   sectionField: PropTypes.shape({
-//     isNew: PropTypes.bool, // if true, creating , else editing
-//     type: PropTypes.string, // {"Education", "Experience"}
-//   }),
-// };
 
 export default ArtifactForm;

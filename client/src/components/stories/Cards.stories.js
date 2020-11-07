@@ -1,9 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-// import {Button} from "semantic-ui-react";
-
 import documentPreview from "../../svg/DocumentPreview.png";
-
 import { Cards, Card } from "../Cards";
 
 export default {
@@ -52,15 +49,10 @@ const Template = args => <Cards {...args} />;
 
 export const CollectionOfCards = Template.bind();
 CollectionOfCards.args = {
-  id:"randomID",
+  id: "randomID",
   name: "Lawrence's Random Card Collection",
-  editing:true,
-  type:"cards",
-  content: [
-    DefaultCard.args,
-    DefaultCard.args,
-    DefaultCard.args,
-  ],
-  loading:false,
-  
+  editing: true,
+  type: "cards",
+  content: [DefaultCard.args, DefaultCard.args, DefaultCard.args],
+  loading: false,
 };

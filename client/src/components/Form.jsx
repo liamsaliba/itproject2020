@@ -155,16 +155,6 @@ export const EditableField = ({
     }
   };
 
-  // const nameExists = () => {
-  //   setError(true);
-  //   setEditing(true);
-  // };
-  // const changeName = value => {
-  //   setError(false);
-  //   update(value);
-  //   setEditing(false);
-  // };
-
   // Get all the pages
 
   return (

@@ -21,6 +21,8 @@ import { Link } from "react-router-dom";
 import { createMedia } from "@artsy/fresnel";
 // Illustration by Freepik Stories "https://stories.freepik.com/web"
 
+// Illustration by Freepik Stories "https://stories.freepik.com/web"
+
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
     mobile: 0,

@@ -166,7 +166,6 @@ export const MediaCard = ({
       <MediaImage
         size={size}
         src={url}
-        // size="small"
         showPreview={() => preview(url)}
         selected={selected}
         toggleSelected={toggleSelected}
@@ -184,13 +183,8 @@ export const MediaCardItem = ({
   setPreview,
 }) => {
   const dispatch = useDispatch();
-  // const icon = filetypes[type] || "file";
   const show = () => showPreview(src, setPreview);
-  // {/* <DeleteConfirmationModal
-  //             action={() => }
-  //             content={<Image src={src} fluid />}
-  //             name={description}
-  //           /> */}
+
   return (
     <List.Item key={id.toString()}>
       <MediaImage src={src} showPreview={show} />
@@ -395,10 +389,6 @@ export const SelectMediaCards = ({
           onClick={() => console.log("clicked!")}
         >
           <UploadMediaModal />
-          {/* <Header as="h4" icon textAlign="center">
-            <Icon name="upload" />
-            Upload media
-          </Header> */}
         </Box>
       </Card>
     </Box>
@@ -487,7 +477,6 @@ export const UploadMediaModal = ({
     }
     setStatus("startUploading");
     dispatch(uploadMedia(state.image_file, state.description));
-    // uploadMedia(dispatch)(token, state.image_file, state.description);
   };
 
   const handleImagePreview = e => {

@@ -40,9 +40,6 @@ export const UserHamburger = props => {
   const menuProps = {
     activeClassName: "nactive",
     onClick: close,
-    // sx: {
-    //   variant: "links.nav",
-    // },
     smooth: true, // smooth scroll to element
     p: 2,
     as: Link,
@@ -56,15 +53,7 @@ export const UserHamburger = props => {
 
   const portfolioMenu = (
     <Menu.Item>
-      <Menu.Header
-        to={path()}
-        size="huge"
-        {...menuProps}
-        // style={{ fontSize: "2em", fontWeight: "bold" }}
-      >
-        {/* <Styled.h2 sx={{ m: 0, color: "background", fontFamily: "monospace" }}>
-          {userId}
-        </Styled.h2> */}
+      <Menu.Header to={path()} size="huge" {...menuProps}>
         <Styled.h3 sx={{ m: 0 }}>{fullName}</Styled.h3>
       </Menu.Header>
       <Menu.Menu style={{ fontSize: "1.5em" }}>

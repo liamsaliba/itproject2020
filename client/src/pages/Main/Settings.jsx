@@ -16,9 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUser,
   selectAuthSlice,
-  // selectPortfoliosSlice,
-  // selectToken,
-  // selectUsername,
   selectUser,
   selectAuthLoading,
   selectAuthError,
@@ -182,13 +179,11 @@ const DeleteAccountModal = () => {
 export default () => {
   const dispatch = useDispatch();
 
-  // const [form, setForm] = useState(null);
   const user = useSelector(selectUser);
   const loading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
 
   const [editing, setEditing] = useState(false);
-
   const { state, handleChange, setState } = useFormState({
     firstName: user.firstName,
     lastName: user.lastName,

@@ -1,10 +1,7 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui";
 import React from "react";
-
 import Navbar from "./Navbar";
-
-// import SectionTextEditor from "./SectionTextEditor";
 import SectionMedia from "./SectionMedia";
 import SectionThemes from "./SectionThemes";
 import SectionSettings from "./SectionSettings";
@@ -40,7 +37,6 @@ export default props => {
         <SectionThemes />
         <SectionPages />
         <SectionMedia />
-        {/* <SectionTextEditor /> */}
       </Flex>
     </React.Fragment>
   );
