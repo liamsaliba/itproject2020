@@ -195,4 +195,4 @@ git push heroku master
 ```
 
 # Version History
-- [VERSIONS.md](docs/VERSIONS.md)
+- [VERSIONS.md](/VERSIONS.md)
