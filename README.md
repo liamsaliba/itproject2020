@@ -20,27 +20,27 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 - [Camel Pages](#camel-pages)
   * [System Requirements](#system-requirements)
   * [Project Link](#project-link)
-- [Installation](installation)
+- [Installation](#installation)
 - [Version History](#version-history)
 
 <!-- toc -->
 
 # Project Background
-## Description
+### Description
 Our clients are 4 masters students from the Software Processes and Management (SWEN90016) subject.  
 
 As university students, they wanted a place to present their work, careers and skills; and give them one place they can direct professionals, colleagues, friends and recruiters to learn about them and their work. Importantly, they wanted their portfolios to represent their own individuality, to enable them to stand out from the crowd; and hence be personalisable.
 
 This gave us the following requirements:
 
-## Criteria
+### Criteria
 - An easy-to-use portfolio creation experience
 - Portfolios are easy to customize for individual expression
 - Portfolios viewable from browsers and mobile
 - Have ways to contact and discover users
 - And supporting a variety of media.
 
-## Team Members
+### Team Members
 | Name                    | Student No | Email                             | GitHub       |
 | ----------------------- | ---------- | --------------------------------- | ------------ |
 | Tuan Dung (Josh) Nguyen | 941806     | tuann6@student.unimelb.edu.au     | joshnguyen99 |
@@ -52,7 +52,7 @@ This gave us the following requirements:
 **Supervisor**  
 Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.edu.au
 
-## Required Features
+### Required Features
 - User management: confirmation, password reset
 - Portfolio viewing
 - Mobile and desktop viewing
@@ -64,7 +64,7 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - Contact form
 - Live editing, with autosave.
 
-## Additional Features
+### Additional Features
 - Email bot
 - Google/Facebook login (backend)
 - Cookies
@@ -76,7 +76,7 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - Profile pictures
 - Social icons
 
-## Documentation
+### Documentation
 - [Project Scope](docs/project_scope.pdf)
 - [User Stories](https://hackmd.io/T_SPAfyVTHyBGaVUakA7kQ?view)
 - [Motivational Model](docs/motivational_model.pdf)
@@ -87,17 +87,17 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - [Chromatic/Storybook](https://www.chromatic.com/library?appId=5f61a7e9e0a12400222c3299)
 
 # Camel Pages  
-## System Requirements
+### System Requirements
 * [Heroku](https://www.heroku.com/home)
   * [command-line tools (CLI)](https://toolbelt.heroku.com)
 * [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 * [Node.js](https://nodejs.org) (use LTS release)
 
-## Project Link
+### Project Link
 [Heroku Link](https://camelcase-itproject.herokuapp.com/)
   
 # Installation
-## Local Development
+### Local Development
 
 Because this app is made of two npm projects, there are two places to run `npm` commands:
 
