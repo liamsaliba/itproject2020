@@ -17,14 +17,6 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
   * [Required Features](#required-features)
   * [Additional Features](#additional-features)
   * [Documentation](#documentation)
-    + [Project Scope](#project-scope)
-    + [User Stories](#user-stories)
-    + [Motivational Model](#motivational-model)
-    + [Architecture Diagram](#architecture-diagram)
-    + [Database Schema Model](#database-schema-model)
-    + [User Flow Diagram](#user-flow-diagram)
-    + [API Endpoints](#api-endpoints)
-    + [Chromatic/Storybook](#chromatic-/-storybook)
 - [Camel Pages](#camel-pages)
   * [System Requirements](#system-requirements)
   * [Project Link](#project-link)
@@ -73,6 +65,7 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - Live editing, with autosave.
 
 ## Additional Features
+
 
 ## Documentation
 - [Project Scope](docs/project_scope.pdf)
