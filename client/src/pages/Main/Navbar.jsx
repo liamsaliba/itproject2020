@@ -57,6 +57,9 @@ export const MainNavbar = () => {
           <MenuItem style={{ fontSize: "1.2em" }} to="themes">
             Themes
           </MenuItem>
+          <MenuItem style={{ fontSize: "1.2em" }} to="browsePortfolios">
+            Browse Portfolios
+          </MenuItem>
           <Box mx="auto" />
         </Flex>
       </Navbar.Left>
