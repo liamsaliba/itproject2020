@@ -97,10 +97,10 @@ export const DeleteConfirmationModal = ({
       </Modal.Header>
       {content ? <Modal.Content>{content}</Modal.Content> : null}
       <Modal.Actions>
-        <Button basic onClick={() => setOpen(false)} type="button">
+        <Button primary onClick={() => setOpen(false)} type="button">
           <Icon name="remove" /> Cancel
         </Button>
-        <Button color="red" type="submit">
+        <Button basic negative type="submit">
           <Icon name="trash" /> Delete
         </Button>
       </Modal.Actions>
