@@ -16,18 +16,90 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 <!-- toc -->
 
 # Sprint 3
+- bugfix for default value for Fit/Fill
+- feature development for Browse page
+- bugfix for inconsistency in tablet/landscape mobile viewing
+- removal of redundant (unused) scroller and WYSIWYG text editor
+- bugfix for contact form frontend functionality
+- bugfix for contact form navigation on single-page portfolio
+- feature development for Fit/Fill option for displaying media
+- bugfix for page name constraint
+- frontend redesign for editor sidebar
+- bugfix for small profile icons
+- frontend constraint development for page names
+- bugfix for updating and saving themes
+- backend development for reset password
+- feature development for theme editor
+- feature improvement for media management
+- frontend redesign for search bar in landing page
+- frontend update for font and colour types
+- feature development for social icons
+- bugfix for margins and mobile landscape viewing
+- feature development for supporting GIF uploads
+- bugfix for contact form controller
+- bugfix for display's heading only story
+- update for Stories in Storybook
+- bugfix for loading dimmer in editor
+- feature development for Default page type
+- bugfix for mobile landing page
+- bugfix for contact form controller
+- frontend redesigns for user settings page
+- feture development for reset password page 
+- frontend redesigns for landing page
+- feature development for report buttons in footer
+- bugfix for footer
+- revival for Storybook
+- backend development for getting all users API
+- bugfix for contact form
+- feature development for updating avatar
+- feature update for page manager
+- feature development for search bar on landing page
+- helper development for usePages
+- frontend touchup for signup & login page
+- reroute for login function by sending user to user page, not editor
+- bugfix for horizontal scrolling in editor sidebar
+- bugfix for overscrolling on Apple platforms
+- frontend development for contact form page
+- feature development for multi-page portfolio
+- feature development for optional contact form page
+- feature development for switching from user page to editor
+- feature development for editor sidebar option toggles
+- frontend redesign for 404 page
+- feature development for form validation 
+- frontend improvement to login page
+- feature development for themes in editor sidebar
+- feature development for user update loading state
+- feature improvement for page completion status
+- feature development for static user settings
+- backend development for uploading PDF
+- store integration for uploading media
+- bugfix for contact form
+- bugfix for deleting media
+- frontend redesign for footer
+- feature development for mobile scroller
+- frontend redesign for landing page
+- frontend redesign for navigation bar
+- feature development for mobile hamburger navigation bar
+- bugfix for login cookie error
+- frontend redesign for signup page
+- frontend redesign for login page
+- test development for contact form
+- frontend creation for mock portfolio
+- bugfix for contact form controller
+
 
 # Sprint 2
+- feture development for static hashed profile pictures
 - feature development for page completion status
 - feature development for default pages upon portfolio creation or deletion of all the pages
 - feature development for autosave
+- feature improvement for navigation bar links
 - frontend revert from usage of WYSIWYG text editor to custom display editor
-- feature development of static user settings
 - test development for contact form controller
 - bugfix for contact form controller
 - feature development for choosing page type/templates when creating new page
 - fix for informative toasts/error messages
-- store integration of new portfolio
+- store integration for new portfolio
 - feature improvement for WYSIWYG text editor HTML text rendering
 - feature development for Error 404 when searching for non-existent portfolio
 - frontend integration for viewing existing portfolio page regardless of authentication
@@ -48,7 +120,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 - backend constraint development for unique username
 - code integration with Storybook
 - bugfix for profile and user pages
-- feature improvement for navigation bar
+
 
 # Sprint 1
 - bugfix for colour changing and profile sizes
@@ -78,4 +150,4 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 - test development for pipeline
 - backend development for viewing existing portfolio page regardless of authentication
 - server development for client server using express
-- application development of base flex-box type website for responsive viewing across all platforms
+- application development for base flex-box type website for responsive viewing across all platforms
