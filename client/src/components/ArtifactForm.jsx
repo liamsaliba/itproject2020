@@ -165,6 +165,8 @@ const DisplayPropertiesForm = ({ media, body, collapsible = false }) => {
             rules={{ required: true }}
             label="Display Type"
           />
+        </Form.Group>
+        <Form.Group widths="equal">
           <ControlledSelect
             name="textAlign"
             options={textAlignOptions}
