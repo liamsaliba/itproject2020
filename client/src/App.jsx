@@ -57,7 +57,6 @@ const mobileApp = (
         path="/u/:userId"
         render={({ match }) => <User userId={match.params.userId} />}
       />
-      {/* <Route component={NotFound} path="/editor" /> */}
       <Route component={Main} path="*" />
     </Switch>
     <ToastContainer position="bottom-center" />

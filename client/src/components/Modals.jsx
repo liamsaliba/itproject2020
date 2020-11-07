@@ -39,24 +39,6 @@ export const useAsync = (loading, error, handleFinish, resetErrors) => {
   return { status, start: () => setStatus("sending") };
 };
 
-// export const AsyncModal = ({
-//   action,
-//   content,
-//   name = "this",
-//   text = null,
-//   loading = false,
-//   error = null,
-//   handleFinish= () => null,
-//   resetErrors = () => null,
-//   initialState = {},
-// }) => {
-//   const [open, setOpen] = useState("closed");
-//   const closeModal = () => setOpen(false);
-//   const {state, handleChange} = useFormState(initialState)
-//   const {status, start} = useAsync(loading, error, resetErrors, handleFinish);
-
-// }
-
 export const DeleteConfirmationModal = ({
   action,
   content,
@@ -107,61 +89,3 @@ export const DeleteConfirmationModal = ({
     </Modal>
   );
 };
-
-// // eslint-disable-next-line no-unused-vars
-// const RenamePageModal = ({ pageState }) => {
-//   const { name, id } = pageState;
-//   const [open, setOpen] = useState(false);
-//   const [state, setState] = useState({ name });
-//   const dispatch = useDispatch();
-//   const handleChange = (e, { name, value }) =>
-//     setState({ ...state, [name]: value });
-
-//   const handleSubmit = e => {
-//     e.preventDefault();
-//     dispatch(renamePage(id, state.name));
-//     setOpen(false);
-//   };
-
-//   return (
-//     <Modal
-//       as={Form}
-//       onSubmit={handleSubmit}
-//       size="tiny"
-//       closeOnDimmerClick={false}
-//       onClose={() => setOpen(false)}
-//       onOpen={() => setOpen(true)}
-//       dimmer={{ inverted: true }}
-//       open={open}
-//       trigger={
-//         <Dropdown.Item>
-//           <Icon name="i cursor" />
-//           Rename
-//         </Dropdown.Item>
-//       }
-//     >
-//       <Modal.Header>Edit page name</Modal.Header>
-//       <Modal.Content>
-//         <Input
-//           transparent
-//           fluid
-//           iconPosition="left"
-//           icon="file"
-//           placeholder="Page Name"
-//           name="name"
-//           onChange={handleChange}
-//           defaultValue={name}
-//           required
-//         />
-//       </Modal.Content>
-//       <Modal.Actions>
-//         <Button basic color="red" onClick={() => setOpen(false)} type="button">
-//           <Icon name="remove" /> Cancel
-//         </Button>
-//         <Button color="green" type="submit">
-//           <Icon name="checkmark" /> Rename Page
-//         </Button>
-//       </Modal.Actions>
-//     </Modal>
-//   );
-// };

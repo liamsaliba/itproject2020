@@ -40,7 +40,6 @@ const SearchResult = ({ result }) => {
 };
 
 export default () => {
-  // const dispatch = useDispatch();
   const history = useHistory();
   // TODO: loading
   // eslint-disable-next-line no-unused-vars
@@ -113,20 +112,6 @@ export default () => {
           selectOnBlur={false}
           selectOnNavigation={false}
         />
-        {/* <Search
-          size="huge"
-          loading={loading}
-          results={results}
-          onSearchChange={handleSearchChange}
-          resultRenderer={resultRenderer}
-          placeholder="Find a portfolio..."
-          inline
-          action={{
-            icon: "search",
-          }}
-          fluid
-          onResultSelect={handleSubmit}
-        /> */}
       </Grid.Column>
     </Grid>
   );

@@ -2,7 +2,6 @@
 import { jsx, Flex, Box, Image, Styled, Button, Embed } from "theme-ui";
 import React from "react";
 import { Link } from "../components";
-// import { useEffect } from "react";
 import moment from "moment";
 import { Icon, Button as SemanticButton } from "semantic-ui-react";
 
@@ -19,10 +18,6 @@ const IsOngoing = ({ isOngoing, startDate, endDate }) => {
     : null;
 };
 
-// const addGrade = grade => {
-//   return grade ? " \u00B7 Grade: ".concat(grade) : null;
-// };
-
 const styling = {
   mt: 0,
   mb: 0,
@@ -35,7 +30,6 @@ const greyedOut = {
 export const Row = ({ editing, openEditor, id, children, style }) => {
   const sectionStyling = {
     ...style,
-    // boxShadow: "0 0 0 1px rgba(0, 0, 0, 0.15)",
     flex: "1 1 auto",
     transition: "0.3s all ease",
     flexDirection: "column",
@@ -43,7 +37,6 @@ export const Row = ({ editing, openEditor, id, children, style }) => {
       ? {
           border: "2px solid #aaa",
           borderRadius: "5px",
-          // transform: "scale(1.05)",
           cursor: "pointer",
           boxShadow:
             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)",
@@ -186,12 +179,17 @@ const sizeHeights = {
   fullscreen: "100vh",
 };
 
-const MediaCollection = ({ media, darken = false, displayType, mediaHeight }) => {
+const MediaCollection = ({
+  media,
+  darken = false,
+  displayType,
+  mediaHeight,
+}) => {
   const mediaStyle = {
     boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
     width: "100%",
     objectFit: displayType,
-    height:mediaHeight
+    height: mediaHeight,
   };
 
   const mediaCollectionStyle = {
@@ -257,19 +255,13 @@ export const StyledArtifact = ({
   const children =
     orientation === "left" ? (
       <Flex sx={mainStyle}>
-        <MediaCollection 
-          displayType = {displayType}
-          media={media} 
-        />
+        <MediaCollection displayType={displayType} media={media} />
         {bodyComponent}
       </Flex>
     ) : orientation === "right" ? (
       <Flex sx={mainStyle}>
         {bodyComponent}
-        <MediaCollection 
-          displayType = {displayType}
-          media={media} 
-        />
+        <MediaCollection displayType={displayType} media={media} />
       </Flex>
     ) : orientation === "center" ? (
       <Flex
@@ -277,7 +269,7 @@ export const StyledArtifact = ({
           position: "relative",
           alignItems: "center",
           justifyContent: "center",
-          overflow:"hidden",
+          overflow: "hidden",
           backgroundColor: media.length !== 0 ? "gray" : undefined,
           ...mainStyle,
         }}
@@ -307,7 +299,7 @@ export const StyledArtifact = ({
             darken={bodyComponent !== null}
             media={media}
             mediaHeight={height}
-            displayType = {displayType}
+            displayType={displayType}
           />
         </Box>
       </Flex>
@@ -391,19 +383,9 @@ export const Embedded = ({ contents, openEditor, id, editing }) => {
   );
 
   return (
-    // <StyledArtifact
-    //   {...{
-    //     openEditor,
-    //     id,
-    //     editing,
-    //     displaySize,
-    //   }}
-    // >
     <React.Fragment>
       {editing ? editBtn : null}
       <Embed src={url ? url.replace("watch?v=", "embed/") : ""} />
     </React.Fragment>
-
-    // </StyledArtifact>
   );
 };

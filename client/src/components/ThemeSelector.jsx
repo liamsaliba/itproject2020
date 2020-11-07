@@ -6,14 +6,6 @@ import themes from "../themes";
 export default function ThemeSelector({ theme, setTheme, size = 100 }) {
   return (
     <Box sx={{ display: "inline-block", m: 2 }}>
-      {/* <label
-        htmlFor="theme"
-        sx={{
-          display: "block",
-          mb: 4,
-        }}
-      >
-        Preset: */}
       <Select
         id="theme"
         value={theme === "default" ? "base" : theme}
@@ -28,7 +20,6 @@ export default function ThemeSelector({ theme, setTheme, size = 100 }) {
           />
         ))}
       </Select>
-      {/* </label> */}
     </Box>
   );
 }

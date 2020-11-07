@@ -306,10 +306,6 @@ const SectionPages = () => {
   // eslint-disable-next-line
   const [active, setActive] = useState("Home");
 
-  // useEffect(() => {
-  //   history.push("/logout");
-  // }, [active]);
-
   return (
     <Section name="Pages" icon="file text">
       <Divider horizontal>

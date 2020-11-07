@@ -24,7 +24,6 @@ const SectionMenu = props => {
       <Item name="Theme" icon="paint brush" />
       <Item name="Pages" icon="file text" />
       <Item name="Media" icon="file image" />
-      {/* <Item name="Text Editor" icon="paragraph" /> */}
     </Menu>
   );
 };
