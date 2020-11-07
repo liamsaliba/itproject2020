@@ -69,7 +69,7 @@ export const Section = ({
   newbtn,
   loading,
 }) => {
-  const empty = content.length === 0;
+  const empty = type==="cards" ? false : content.length === 0;
   return (
     <Flex
       as="section"

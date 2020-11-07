@@ -20,15 +20,26 @@ export const MainHamburger = ({ children }) => {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
   const menu = (
-    <Menu.Item
-      style={{ fontSize: "1.5em" }}
-      to="themes"
-      as={Link}
-      onClick={() => setOpen(false)}
-    >
-      <Icon name="paint brush" />
-      Themes
-    </Menu.Item>
+    <React.Fragment>
+      <Menu.Item
+        style={{ fontSize: "1.5em" }}
+        to="themes"
+        as={Link}
+        onClick={() => setOpen(false)}
+      >
+        <Icon name="paint brush" />
+        Themes
+      </Menu.Item>
+      <Menu.Item
+        style={{ fontSize: "1.5em" }}
+        to="browsePortfolios"
+        as={Link}
+        onClick={() => setOpen(false)}
+      >
+        <Icon name="book" />
+        Browse
+      </Menu.Item>
+    </React.Fragment>
   );
 
   return (
@@ -56,6 +67,9 @@ export const MainNavbar = () => {
           </MenuItem>
           <MenuItem style={{ fontSize: "1.2em" }} to="themes">
             Themes
+          </MenuItem>
+          <MenuItem style={{ fontSize: "1.2em" }} to="browsePortfolios">
+            Browse
           </MenuItem>
           <Box mx="auto" />
         </Flex>

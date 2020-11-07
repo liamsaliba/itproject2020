@@ -2355,7 +2355,8 @@ exports[`Storyshots Pages/Cards Collection Of Cards 1`] = `
           className="css-1z0mqxu-ContentBox"
         >
           <div
-            className="css-kwmf8r-Card"
+            className="css-1f6gdba-Card"
+            to={null}
           >
             <h3
               className="css-s6ezze-Card"
@@ -2373,7 +2374,8 @@ exports[`Storyshots Pages/Cards Collection Of Cards 1`] = `
             </p>
           </div>
           <div
-            className="css-kwmf8r-Card"
+            className="css-1f6gdba-Card"
+            to={null}
           >
             <h3
               className="css-s6ezze-Card"
@@ -2391,7 +2393,8 @@ exports[`Storyshots Pages/Cards Collection Of Cards 1`] = `
             </p>
           </div>
           <div
-            className="css-kwmf8r-Card"
+            className="css-1f6gdba-Card"
+            to={null}
           >
             <h3
               className="css-s6ezze-Card"
@@ -4742,7 +4745,8 @@ exports[`Storyshots Pages/Cards Default Card 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-kwmf8r-Card"
+        className="css-1f6gdba-Card"
+        to={null}
       >
         <h3
           className="css-s6ezze-Card"
@@ -7091,7 +7095,7 @@ exports[`Storyshots Pages/Cards Feature Bottom 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-kwmf8r-Card"
+        className="css-1f6gdba-Card"
       >
         <h3
           className="css-s6ezze-Card"
@@ -9440,7 +9444,8 @@ exports[`Storyshots Pages/Cards No Body 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-kwmf8r-Card"
+        className="css-1f6gdba-Card"
+        to={null}
       >
         <h3
           className="css-s6ezze-Card"
@@ -11789,7 +11794,8 @@ exports[`Storyshots Pages/Cards No Title 1`] = `
       className="css-1jopk8s"
     >
       <div
-        className="css-kwmf8r-Card"
+        className="css-1f6gdba-Card"
+        to={null}
       >
         <h3
           className="css-s6ezze-Card"

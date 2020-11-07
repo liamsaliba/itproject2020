@@ -2,14 +2,16 @@
 import { jsx, Image, Styled, Card as ThemedCard } from "theme-ui";
 import PropTypes from "prop-types";
 import { Section } from "./Section";
+import { Link } from "react-router-dom";
 
 export const Card = ({
-  card: { title, body, featureType, feature, featureOrientation },
+  card: { title, body, featureType, feature, featureOrientation, username },
 }) => {
   const style = {
     boxShadow: "0 0 8px rgba(0, 0, 0, 0.25)",
     backgroundColor: "muted",
-    maxWidth: "300px",
+    maxWidth: "225px",
+    // maxWidth: "300px", changed to 225px for browsing portfolios.
     padding: 2,
     m: 2,
     textAlign: "center",
@@ -28,7 +30,10 @@ export const Card = ({
   };
 
   const GetFeature = () =>
-    featureType === "image" ? <Image src={feature} sx={featureStyle} /> : null;
+    featureType === "image" ? <Image src={feature} sx={featureStyle} /> : feature;
+  
+  const link = () => username ? Link : null;
+  const to = () => username ? "../u/" + username : null;
 
   if (featureOrientation === "bottom") {
     return (
@@ -42,7 +47,7 @@ export const Card = ({
   }
   return (
     // The Featyre is above the body
-    <ThemedCard sx={style}>
+    <ThemedCard sx={style} as={link()} to={to()}>
       <Styled.h3 sx={textStyle}>{title}</Styled.h3>
       <GetFeature />
       <Styled.p sx={textStyle}>{body}</Styled.p>
