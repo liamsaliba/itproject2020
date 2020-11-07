@@ -152,6 +152,7 @@ const findPortfolio = async username => {
   p.lastName = user.local.lastName;
   p.email = user.local.email;
   p.avatar = user.avatar;
+  p.allowContact = user.allowContact;
   return p;
 };
 
