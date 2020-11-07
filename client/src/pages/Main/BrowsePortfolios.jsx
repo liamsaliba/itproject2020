@@ -51,7 +51,7 @@ const BrowsePortfolios = () => {
         editing={false}
         type="cards"
         content={results}
-        loading={results.length==0 ? true : false}
+        loading={results.length===0 ? true : false}
       />
     </Box>
   );
