@@ -27,6 +27,7 @@ Right.args = {
     header: "Example Header",
     actionText: "Example Action",
     actionUrl: "https://www.messenger.com/",
+    displayType:"contain",
     textAlign:"center",
     displaySize:"auto",
   }, 

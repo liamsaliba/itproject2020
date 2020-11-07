@@ -24,6 +24,7 @@ Default.args = {
     endDate: "Nov 2020",
     details: "3 Years of learning",
     orientation: "center",
+    displayType:"contain",
     textAlign: "center",
     displaySize: "auto",
   }, 
