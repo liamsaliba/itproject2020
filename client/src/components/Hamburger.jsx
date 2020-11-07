@@ -6,7 +6,6 @@ import { Link, SidebarCamel } from "./NavItems";
 import { ProfileIcon } from "./ProfileIcon";
 import { Menu, Sidebar, Icon } from "semantic-ui-react";
 import { selectToken, selectUser } from "../store";
-import Scroller from "./Scroller";
 
 export const Hamburger = props => {
   const { close, isOpen, open, children, menu } = props;
@@ -116,7 +115,6 @@ export const Hamburger = props => {
           </Flex>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
-      <Scroller />
     </React.Fragment>
   );
 };
