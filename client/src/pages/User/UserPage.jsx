@@ -17,7 +17,7 @@ const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
     mobile: 0,
     tablet: 768,
-    computer: 768,
+    computer: 1024,
   },
 });
 
@@ -66,7 +66,18 @@ const UserPage = props => {
             <Footer userId={userId} />
           </Flex>
         </Media>
-
+        <Media at="tablet">
+          <Flex
+            sx={{
+              flexDirection: "column",
+              minHeight: "100vh",
+              bg: "background",
+              color: "text",
+            }}
+          >
+            {MobileBody}
+          </Flex>
+        </Media>
         <Media lessThan="tablet">
           <Flex
             sx={{
@@ -79,7 +90,6 @@ const UserPage = props => {
             {MobileBody}
           </Flex>
         </Media>
-        {/* <Media lessThan="tablet">{MobileBody}</Media> */}
       </ThemeProvider>
     </MediaContextProvider>
   );
