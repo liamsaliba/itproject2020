@@ -21,6 +21,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
     + [User Stories](#user-stories)
     + [Motivational Model](#motivational-model)
     + [Architecture Diagram](#architecture-diagram)
+    + [Database Schema Model](#database-schema-model)
     + [User Flow Diagram](#user-flow-diagram)
     + [API Endpoints](#api-endpoints)
     + [Chromatic/Storybook](#chromatic-/-storybook)
@@ -28,10 +29,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
   * [System Requirements](#system-requirements)
   * [Project Link](#project-link)
 - [Installation](installation)
-- [Changelog](#changelog)
-  * [Sprint 3](#sprint-3)
-  * [Sprint 2](#sprint-2)
-  * [Sprint 1](#sprint-1)
+- [Version History](#version-history)
 
 <!-- toc -->
 
@@ -81,6 +79,7 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - [User Stories](https://hackmd.io/T_SPAfyVTHyBGaVUakA7kQ?view)
 - [Motivational Model](docs/motivational_model.pdf)
 - [Architecture Diagram](docs/architecture_diagram.pdf)
+- [Database Schema Model](docs/database_schema_model.pdf)
 - [User Flow Diagram](docs/user_flow.pdf)
 - [API Documentation](docs/api_endpoints.pdf)
 - [Chromatic/Storybook](https://www.chromatic.com/library?appId=5f61a7e9e0a12400222c3299)
@@ -195,7 +194,5 @@ heroku git:remote -a camelcase-itproject
 git push heroku master
 ```
 
-# Changelog
-## Sprint 3
-## Sprint 2
-## Sprint 1
+# Version History
+- [VERSIONS.md](docs/VERSIONS.md)
