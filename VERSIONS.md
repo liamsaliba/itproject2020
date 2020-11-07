@@ -29,10 +29,11 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 - frontend redesign for editor sidebar
 - bugfix for small profile icons
 - frontend constraint development for page names
+- frontend constraint development for page limits
 - bugfix for updating and saving themes
 - backend development for reset password
 - feature development for theme editor
-- feature improvement for media management
+- feature improvement for media management/preview
 - frontend redesign for search bar in landing page
 - frontend update for font and colour types
 - feature development for social icons
