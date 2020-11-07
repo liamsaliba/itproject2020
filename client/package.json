@@ -30,6 +30,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^6.9.5",
     "react-html-parser": "^2.0.2",
+    "react-pdf": "^5.0.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-router-hash-link": "^2.1.0",
