@@ -49,6 +49,7 @@ export default () => {
   const [fuse, setFuse] = useState(null);
 
   const handleSearchChange = (options, query) => {
+    if (fuse === null) return [];
     const res = fuse.search(query);
     console.log(res);
     setValue(query);
@@ -98,7 +99,7 @@ export default () => {
         <Dropdown
           size="large"
           loading={fuse === null}
-          disabled={fuse === null}
+          // disabled={fuse === null}
           search={handleSearchChange}
           placeholder="Find a portfolio..."
           noResultsMessage={value === "" ? null : "no portfolios found."}
