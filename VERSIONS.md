@@ -16,6 +16,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 <!-- toc -->
 
 # Sprint 3
+- update for main README.md and VERSIONS.md
 - bugfix for default value for Fit/Fill
 - feature development for Browse page
 - bugfix for inconsistency in tablet/landscape mobile viewing
