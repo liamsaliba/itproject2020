@@ -65,7 +65,16 @@ Umair Mawani (umawani) / umair.mawani@unimelb.edu.au / umawani@student.unimelb.e
 - Live editing, with autosave.
 
 ## Additional Features
-
+- Email bot
+- Google/Facebook login (backend)
+- Cookies
+- Single-/Multi-page portfolios
+- 10-page limit
+- Page naming constraints
+- Page Completion status
+- Media-preview
+- Profile pictures
+- Social icons
 
 ## Documentation
 - [Project Scope](docs/project_scope.pdf)
