@@ -239,7 +239,6 @@ export const StyledArtifact = ({
   };
 
   const mainStyle = { height: height, minHeight: "100px", maxHeight: "900px" };
-  console.log(displayType);
   const bodyComponent = body ? (
     <Flex
       sx={{
