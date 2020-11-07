@@ -12,7 +12,7 @@ export default () => {
         <Icon name="remove" />
         <Header.Content>Access Denied</Header.Content>
       </Header>
-      <Styled.p>Mobile editting is not allowed</Styled.p>
+      <Styled.p>Mobile editing is not allowed</Styled.p>
       <MenuButton to={`/`}>
         <Icon name="home" />
         Home
