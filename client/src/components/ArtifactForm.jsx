@@ -503,6 +503,7 @@ const mediaDefaults = {
 
 const displayDefaults = {
   orientation: "center",
+  displayType: "contain",
   displaySize: "auto",
   textAlign: "center",
 };
