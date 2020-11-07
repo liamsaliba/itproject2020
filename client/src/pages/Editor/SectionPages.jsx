@@ -227,6 +227,7 @@ export const NewPageModal = props => {
     e.preventDefault();
     dispatch(createPage(state));
     setOpen(false);
+    setState({ name: "" });
   };
 
   return (
