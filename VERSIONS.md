@@ -50,7 +50,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 - frontend redesigns for landing page
 - feature development for report buttons in footer
 - bugfix for footer
-- revival for Storybook
+- revival of Storybook
 - backend development for getting all users API
 - bugfix for contact form
 - feature development for updating avatar
