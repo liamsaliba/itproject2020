@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import "./App.css";
 
-import { User, Main, Editor, NotFound } from "./pages";
+import { User, Main, Editor } from "./pages";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

@@ -3,8 +3,6 @@ import { Styled, Box } from "theme-ui";
 import { Header, Icon } from "semantic-ui-react";
 import { MenuButton } from "../../components";
 
-// TODO: Styles
-
 export default () => {
   return (
     <Box>
