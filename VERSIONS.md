@@ -18,6 +18,37 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 # Sprint 3
 
 # Sprint 2
+- feature development for page completion status
+- feature development for default pages upon portfolio creation or deletion of all the pages
+- feature development for autosave
+- frontend revert from usage of WYSIWYG text editor to custom display editor
+- feature development of static user settings
+- test development for contact form controller
+- bugfix for contact form controller
+- feature development for choosing page type/templates when creating new page
+- fix for informative toasts/error messages
+- store integration of new portfolio
+- feature improvement for WYSIWYG text editor HTML text rendering
+- feature development for Error 404 when searching for non-existent portfolio
+- frontend integration for viewing existing portfolio page regardless of authentication
+- feature development for adding/removing pages in portfolio
+- feature development for page lists in editor sidebar
+- frontend development for Education and Experience editor modals
+- feature development for Education and Experience page type/templates
+- frontend development for uploading files/data to portfolio
+- frontend development for WYSIWYG text editor 
+- store integration for editor interface
+- backend development for contact form
+- backend development for uploading media onto portfolio
+- backend development for Google/Facebook signup
+- feature development for Cards for portfolio
+- backend improvement for cascading deletion of dependent documents
+- feature development for email bot using nodemailer
+- backend development for artifact uploads
+- backend constraint development for unique username
+- code integration with Storybook
+- bugfix for profile and user pages
+- feature improvement for navigation bar
 
 # Sprint 1
 - bugfix for colour changing and profile sizes
