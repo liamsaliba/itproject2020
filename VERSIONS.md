@@ -15,10 +15,36 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 
 <!-- toc -->
 
-#
-
 # Sprint 3
 
 # Sprint 2
 
 # Sprint 1
+- bugfix for colour changing and profile sizes
+- feature development for react routers for editor, themes, landing, signup, and login pages
+- feature development for live previews
+- feature development for static sidebar
+- feature development for editor page
+- feature development for choosing pre-defined font and colour scheme of portfolio using ThemeUI
+- feature development for navigation bar
+- feature development for footer
+– feature development for spinners
+- feature development for toasts/error messages
+- backend development for user/portfolio lookup
+- backend development for editing text on portfolio page
+- backend development for uploading images onto portfolio
+- backend development for adding/removing pages in portfolio
+- backend development for uploading files/data to the portfolio
+- feature development for cookies
+- feature development for logging into existing user account with authentication using JSON web tokens
+- backend development for tokens
+- feature development for new portfolio base creation
+- feature development for user registration feature 
+- constraint development for confirm password check
+- feature development for creation of Redux store
+- feature development for Themes page with demo of ThemeUI themes
+- test development for API testing
+- test development for pipeline
+- backend development for viewing existing portfolio page regardless of authentication
+- server development for client server using express
+- application development of base flex-box type website for responsive viewing across all platforms
