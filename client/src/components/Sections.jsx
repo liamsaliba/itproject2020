@@ -5,6 +5,8 @@ import { Link } from "../components";
 // import { useEffect } from "react";
 import moment from "moment";
 import { Icon, Button as SemanticButton } from "semantic-ui-react";
+import { Document, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const parseDate = date => {
   return moment(date).format("MMM YYYY");
@@ -208,8 +210,13 @@ const MediaCollection = ({
   };
 
   const Media = ({ url, description, type, filename, id, setPreview }) => {
+    console.log(type);
     if (type === "image") {
       return <Image key={id.toString()} sx={mediaStyle} src={url} />;
+    }
+
+    if (type === "pdf") {
+      return <Document key={id.toString()} sx={mediaStyle} file={url} onLoadError={console.error}/>;
     }
   };
 
