@@ -25,6 +25,7 @@ Default.args = {
     endDate:"",
     details: "During my third and last year of my Computing and Software Systems degree, I was responsible for scrambling together UI components for our ePortfolio website.",
     orientation: "center",
+    displayType:"contain",
     textAlign: "center",
     displaySize: "auto",
   }, 

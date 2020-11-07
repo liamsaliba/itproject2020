@@ -14142,7 +14142,7 @@ exports[`Storyshots Pages/Display Center 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-nxderf-StyledArtifact"
+          className="css-qb8s3w-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -14176,10 +14176,10 @@ exports[`Storyshots Pages/Display Center 1`] = `
             className="css-ph81yu-StyledArtifact"
           >
             <div
-              className="css-1it7ijv-MediaCollection"
+              className="css-1bgzq66-MediaCollection"
             >
               <img
-                className="css-9auuvz-Media"
+                className="css-1kpyvsa-Media"
                 src="camelAnatomy.png"
               />
             </div>
@@ -16552,7 +16552,7 @@ exports[`Storyshots Pages/Display Fullscreen 1`] = `
             className="css-1it7ijv-MediaCollection"
           >
             <img
-              className="css-1b6gtkd-Media"
+              className="css-1kpyvsa-Media"
               src="camelAnatomy.png"
             />
           </div>
@@ -18894,7 +18894,7 @@ exports[`Storyshots Pages/Display Heading Only 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-1he7ydt-StyledArtifact"
+          className="css-1fhj5pn-StyledArtifact"
         >
           <div
             className="css-mgowwq-StyledArtifact"
@@ -18917,7 +18917,7 @@ exports[`Storyshots Pages/Display Heading Only 1`] = `
             className="css-ph81yu-StyledArtifact"
           >
             <div
-              className="css-1it7ijv-MediaCollection"
+              className="css-1bgzq66-MediaCollection"
             />
           </div>
         </div>
@@ -21277,7 +21277,7 @@ exports[`Storyshots Pages/Display Image Heading Only 1`] = `
             className="css-1it7ijv-MediaCollection"
           >
             <img
-              className="css-1b6gtkd-Media"
+              className="css-6jw0rd-Media"
               src="camelAnatomy.png"
             />
           </div>
@@ -23619,7 +23619,7 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-nxderf-StyledArtifact"
+          className="css-qb8s3w-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -23636,10 +23636,10 @@ exports[`Storyshots Pages/Display Image Only 1`] = `
             className="css-ph81yu-StyledArtifact"
           >
             <div
-              className="css-1it7ijv-MediaCollection"
+              className="css-1bgzq66-MediaCollection"
             >
               <img
-                className="css-9auuvz-Media"
+                className="css-6jw0rd-Media"
                 src="camelAnatomy.png"
               />
             </div>
@@ -25988,7 +25988,7 @@ exports[`Storyshots Pages/Display Left 1`] = `
             className="css-1it7ijv-MediaCollection"
           >
             <img
-              className="css-1b6gtkd-Media"
+              className="css-1kpyvsa-Media"
               src="camelAnatomy.png"
             />
           </div>
@@ -28384,7 +28384,7 @@ exports[`Storyshots Pages/Display Medium 1`] = `
             className="css-1it7ijv-MediaCollection"
           >
             <img
-              className="css-1b6gtkd-Media"
+              className="css-1kpyvsa-Media"
               src="camelAnatomy.png"
             />
           </div>
@@ -30726,7 +30726,7 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-nxderf-StyledArtifact"
+          className="css-qb8s3w-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -30743,14 +30743,14 @@ exports[`Storyshots Pages/Display Multiple Image Only 1`] = `
             className="css-ph81yu-StyledArtifact"
           >
             <div
-              className="css-1it7ijv-MediaCollection"
+              className="css-1bgzq66-MediaCollection"
             >
               <img
-                className="css-9auuvz-Media"
+                className="css-6jw0rd-Media"
                 src="camelAnatomy.png"
               />
               <img
-                className="css-9auuvz-Media"
+                className="css-6jw0rd-Media"
                 src="JourneyOnACamel.jpg"
               />
             </div>
@@ -33123,7 +33123,7 @@ exports[`Storyshots Pages/Display Right 1`] = `
             className="css-1it7ijv-MediaCollection"
           >
             <img
-              className="css-1b6gtkd-Media"
+              className="css-1kpyvsa-Media"
               src="camelAnatomy.png"
             />
           </div>
@@ -35495,7 +35495,7 @@ exports[`Storyshots Pages/Display Short 1`] = `
             className="css-1it7ijv-MediaCollection"
           >
             <img
-              className="css-1b6gtkd-Media"
+              className="css-1kpyvsa-Media"
               src="camelAnatomy.png"
             />
           </div>
@@ -37867,7 +37867,7 @@ exports[`Storyshots Pages/Display Tall 1`] = `
             className="css-1it7ijv-MediaCollection"
           >
             <img
-              className="css-1b6gtkd-Media"
+              className="css-1kpyvsa-Media"
               src="camelAnatomy.png"
             />
           </div>
@@ -40209,7 +40209,7 @@ exports[`Storyshots Pages/Education Default 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-nxderf-StyledArtifact"
+          className="css-qb8s3w-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -40252,10 +40252,10 @@ exports[`Storyshots Pages/Education Default 1`] = `
             className="css-ph81yu-StyledArtifact"
           >
             <div
-              className="css-1it7ijv-MediaCollection"
+              className="css-1bgzq66-MediaCollection"
             >
               <img
-                className="css-9auuvz-Media"
+                className="css-1kpyvsa-Media"
                 src="camelAnatomy.png"
               />
             </div>
@@ -42598,7 +42598,7 @@ exports[`Storyshots Pages/Experience Default 1`] = `
         onClick={[Function]}
       >
         <div
-          className="css-nxderf-StyledArtifact"
+          className="css-qb8s3w-StyledArtifact"
         >
           <div
             className="css-d1kzms-StyledArtifact"
@@ -42647,10 +42647,10 @@ exports[`Storyshots Pages/Experience Default 1`] = `
             className="css-ph81yu-StyledArtifact"
           >
             <div
-              className="css-1it7ijv-MediaCollection"
+              className="css-1bgzq66-MediaCollection"
             >
               <img
-                className="css-9auuvz-Media"
+                className="css-1kpyvsa-Media"
                 src="camelAnatomy.png"
               />
             </div>

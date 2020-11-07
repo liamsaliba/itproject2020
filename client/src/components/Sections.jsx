@@ -74,6 +74,7 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
     endDate,
     details,
     orientation,
+    displayType,
     textAlign,
     displaySize,
   } = contents;
@@ -108,6 +109,7 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
         media,
         editing,
         orientation,
+        displayType,
         textAlign,
         displaySize,
       }}
@@ -130,6 +132,7 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
     endDate,
     details,
     orientation,
+    displayType,
     textAlign,
     displaySize,
   } = contents;
@@ -165,6 +168,7 @@ export const Experience = ({ editing, openEditor, contents, media, id }) => {
         media,
         editing,
         orientation,
+        displayType,
         textAlign,
         displaySize,
       }}
@@ -182,14 +186,12 @@ const sizeHeights = {
   fullscreen: "100vh",
 };
 
-const MediaCollection = ({ media, darken = false }) => {
+const MediaCollection = ({ media, darken = false, displayType, mediaHeight }) => {
   const mediaStyle = {
     boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
-    // maxWidth: "390px",
-    filter: darken ? "brightness(0.70)" : undefined,
     width: "100%",
-    height: "100%",
-    objectFit: "cover",
+    objectFit: displayType,
+    height:mediaHeight
   };
 
   const mediaCollectionStyle = {
@@ -198,6 +200,7 @@ const MediaCollection = ({ media, darken = false }) => {
     justifyContent: "center",
     backgroundColor: "muted",
     borderRadius: "5px",
+    filter: darken ? "brightness(0.70)" : undefined,
   };
 
   const Media = ({ url, description, type, filename, id, setPreview }) => {
@@ -219,6 +222,7 @@ export const StyledArtifact = ({
   orientation,
   textAlign,
   displaySize,
+  displayType,
   media,
   editing,
   openEditor,
@@ -235,7 +239,6 @@ export const StyledArtifact = ({
   };
 
   const mainStyle = { height: height, minHeight: "100px", maxHeight: "900px" };
-
   const bodyComponent = body ? (
     <Flex
       sx={{
@@ -254,21 +257,27 @@ export const StyledArtifact = ({
   const children =
     orientation === "left" ? (
       <Flex sx={mainStyle}>
-        <MediaCollection media={media} />
+        <MediaCollection 
+          displayType = {displayType}
+          media={media} 
+        />
         {bodyComponent}
       </Flex>
     ) : orientation === "right" ? (
       <Flex sx={mainStyle}>
         {bodyComponent}
-        <MediaCollection media={media} />
+        <MediaCollection 
+          displayType = {displayType}
+          media={media} 
+        />
       </Flex>
     ) : orientation === "center" ? (
       <Flex
         sx={{
           position: "relative",
-          overflow: "hidden",
           alignItems: "center",
           justifyContent: "center",
+          overflow:"hidden",
           backgroundColor: media.length !== 0 ? "gray" : undefined,
           ...mainStyle,
         }}
@@ -297,9 +306,8 @@ export const StyledArtifact = ({
           <MediaCollection
             darken={bodyComponent !== null}
             media={media}
-            sx={{
-              filter: "blur(5px)",
-            }}
+            mediaHeight={height}
+            displayType = {displayType}
           />
         </Box>
       </Flex>
@@ -337,6 +345,7 @@ export const Display = ({ contents, openEditor, id, media, editing }) => {
     actionText,
     actionUrl,
     orientation,
+    displayType,
     textAlign,
     displaySize,
   } = contents;
@@ -349,6 +358,7 @@ export const Display = ({ contents, openEditor, id, media, editing }) => {
         media,
         editing,
         orientation,
+        displayType,
         textAlign,
         displaySize,
       }}
