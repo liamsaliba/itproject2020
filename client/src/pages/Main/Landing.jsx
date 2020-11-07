@@ -2,7 +2,6 @@
 import { jsx, Flex } from "theme-ui";
 import Search from "./Search";
 import React from "react";
-
 import {
   Button,
   Grid,
@@ -18,10 +17,9 @@ import customise from "../../svg/Landing/Customise.png";
 import media from "../../svg/Landing/Media.png";
 import portfolio from "../../svg/Landing/Portfolio.png";
 import themes from "../../svg/Landing/Themes.png";
-
 import { Link } from "react-router-dom";
-
 import { createMedia } from "@artsy/fresnel";
+// Illustration by Freepik Stories "https://stories.freepik.com/web"
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -129,8 +127,6 @@ const Middle = props => {
     </Segment>
   );
 };
-
-// Illustration by Freepik Stories "https://stories.freepik.com/web"
 
 const HomepageHeading = props => (
   <Segment textAlign="center" style={{ padding: "1em 0em" }} vertical>
