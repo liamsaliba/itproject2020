@@ -92,6 +92,11 @@ const sizeOptions = [
   { key: "f", text: "Fullscreen", value: "fullscreen" },
 ];
 
+const displayOptions = [
+  { key: "fit", text: "Fit", value: "contain" },
+  { key: "fill", text: "Fill", value: "cover" },
+];
+
 const orientationOptions = [
   { key: "l", text: "Media on left", value: "left", icon: "align left" },
   {
@@ -153,6 +158,12 @@ const DisplayPropertiesForm = ({ media, body, collapsible = false }) => {
             rules={{ required: true }}
             label="Media Alignment"
             disabled={media.length === 0}
+          />
+          <ControlledSelect
+            name="displayType"
+            options={displayOptions}
+            rules={{ required: true }}
+            label="Display Type"
           />
           <ControlledSelect
             name="textAlign"
