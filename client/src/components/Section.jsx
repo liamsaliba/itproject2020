@@ -69,7 +69,7 @@ export const Section = ({
   newbtn,
   loading,
 }) => {
-  const empty = type==="cards" ? false : content.length === 0;
+  const empty = type === "cards" ? false : content.length === 0;
   return (
     <Flex
       as="section"
@@ -83,7 +83,7 @@ export const Section = ({
         justifyContent: "flex-start",
         flexDirection: "column",
       }}
-      id={name}
+      id={encodeURI(name)}
     >
       <Heading id={id} name={name} editing={editing} newbtn={newbtn} />
       <Loader inline size="large" active={loading}>
