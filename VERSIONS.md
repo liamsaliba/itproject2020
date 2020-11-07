@@ -15,7 +15,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 
 <!-- toc -->
 
-# Sprint 3
+# Sprint 3 [PR #63~#120]
 - update for main README.md and VERSIONS.md
 - storing of documentation PDFs 
 - bugfix for default value for Fit/Fill
@@ -91,7 +91,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 - bugfix for contact form controller
 
 
-# Sprint 2
+# Sprint 2 [PR #32~#62]
 - feture development for static hashed profile pictures
 - feature development for page completion status
 - feature development for default pages upon portfolio creation or deletion of all the pages
@@ -125,7 +125,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 - bugfix for profile and user pages
 
 
-# Sprint 1
+# Sprint 1 [PR #1~#31]
 - bugfix for colour changing and profile sizes
 - feature development for react routers for editor, themes, landing, signup, and login pages
 - feature development for live previews
