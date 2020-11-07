@@ -133,7 +133,7 @@ export const selectMediaUrl = createSelector(selectMediaById, media =>
 );
 
 // create a new artifact
-export const uploadMedia = (file, description, filename, type = "image") => (
+export const uploadMedia = (file, description, filename, type) => (
   dispatch,
   getState
 ) => {

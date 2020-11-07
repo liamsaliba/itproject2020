@@ -475,6 +475,7 @@ export const UploadMediaModal = ({
   };
 
   const handleSubmit = e => {
+    
     e.preventDefault();
     if (status !== "open") return;
     if (state.image_file === null) {
@@ -486,7 +487,8 @@ export const UploadMediaModal = ({
       return;
     }
     setStatus("startUploading");
-    dispatch(uploadMedia(state.image_file, state.description));
+    const fileType = state.image_file.type==="application/pdf" ? "pdf" : "image";
+    dispatch(uploadMedia(state.image_file, state.description, null, fileType));
     // uploadMedia(dispatch)(token, state.image_file, state.description);
   };
 
@@ -524,7 +526,7 @@ export const UploadMediaModal = ({
       <Modal.Header>Upload Media</Modal.Header>
       <Modal.Content>
         <Header>
-          Only .jpg, .bmp, .png, .gif files are currently supported.
+          Only .jpg, .bmp, .png, .gif, .pdf files are currently supported.
         </Header>
         <Form.Input
           label="Upload File"
@@ -532,7 +534,7 @@ export const UploadMediaModal = ({
           onChange={handleImagePreview}
           required
           type="file"
-          accept="image/jpg,image/bmp,image/png,image/gif"
+          accept="image/jpg,image/bmp,image/png,image/gif,application/pdf"
         />
         {state.image_preview ? (
           <img
