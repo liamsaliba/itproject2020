@@ -18,7 +18,7 @@ import { useState } from "react";
 
 const Heading = () => {
   return (
-    <Flex sx={{ alignItems: "center" }}>
+    <Flex sx={{ mt:"2em" ,alignItems: "center" }}>
       <Styled.h2
         id="contact-heading"
         sx={{ flex: 4, justifyContent: "center", wordBreak: "break-all" }}
@@ -34,7 +34,9 @@ export const ContactForm = ({ userId, homeBtn }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = data => {
-    const payload = { ...data, username: "angel" }; // userId
+    const payload = { ...data, username: userId }; // userId
+
+    console.log(payload);
 
     // lazy
     axios

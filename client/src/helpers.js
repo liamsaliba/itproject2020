@@ -17,7 +17,9 @@ export const usePath = userId => {
   return pageName =>
     pageName === "" || pageName === undefined
       ? path
-      : `${path}/${sep}${encodeURI(pageName)}`;
+      : pageName === "contact"
+        ? `${path}/${encodeURI(pageName)}`
+        : `${path}/${sep}${encodeURI(pageName)}`;
 };
 
 export const useEffectUpdate = (effect, deps) => {
