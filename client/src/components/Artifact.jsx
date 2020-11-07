@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import TextEditor from "./TextEditor";
 import { Education, Experience, Display, Embedded } from "./Sections";
 
 const Artifact = props => {
@@ -10,8 +9,6 @@ const Artifact = props => {
     case "display":
     case "heading":
       return <Display {...props} />;
-    case "custom":
-      return <TextEditor {...props} />;
     case "education":
       return <Education {...props} />;
     case "experience":
