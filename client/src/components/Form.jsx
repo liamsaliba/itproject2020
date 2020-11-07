@@ -140,7 +140,7 @@ export const EditableField = ({
   const [initialName, setInitialName] = useState(null);
 
   const checkName = value => {
-    if (pages.map(page => page.name).includes(value)) {
+    if (pages && pages.map(page => page.name).includes(value)) {
       setError(true);
       setErrorContent("Page name must be unique.");
       setEditing(true);
