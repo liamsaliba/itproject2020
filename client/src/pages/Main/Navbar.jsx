@@ -58,7 +58,7 @@ export const MainNavbar = () => {
             Themes
           </MenuItem>
           <MenuItem style={{ fontSize: "1.2em" }} to="browsePortfolios">
-            Browse Portfolios
+            Browse
           </MenuItem>
           <Box mx="auto" />
         </Flex>
