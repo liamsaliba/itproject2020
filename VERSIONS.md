@@ -16,6 +16,7 @@ Project for COMP30022 IT Project 2020 Semester 2 (Umair's Team 1)
 <!-- toc -->
 
 # Sprint 3 [PR #63~#120]
+- frontend development for forgot password page
 - bugfix for page name constraint
 - bugfix for changing media name
 - update for main README.md and VERSIONS.md
