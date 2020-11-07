@@ -37,7 +37,7 @@ export default () => {
         <Route component={SignUp} exact path="/signup" />
         <Route component={SignUp} path="/signup/:userId" />
         <Route component={ThemeTest} exact path="/themes" />
-        <Route component={AccessDenied} exact path="/editor" />
+        <Route component={AccessDenied} path="/editor" />
         <Route component={BrowsePortfolios} exact path="/browsePortfolios" />
         <Route component={NotFound} path="*" />
       </Switch>

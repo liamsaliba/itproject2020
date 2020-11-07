@@ -5,12 +5,15 @@ import { MenuButton } from "../../components";
 
 export default () => {
   return (
-    <Box>
+    <Box sx={{ p: "1em" }}>
       <Header as="h2">
         <Icon name="remove" />
-        <Header.Content>Access Denied</Header.Content>
+        <Header.Content>Editor disabled</Header.Content>
       </Header>
-      <Styled.p>Mobile editing is not allowed</Styled.p>
+      <Styled.p>
+        Your viewer is too narrow for us to give you a good editing experience.
+        We recommend opening the editor on a larger device for now.
+      </Styled.p>
       <MenuButton to={`/`}>
         <Icon name="home" />
         Home
