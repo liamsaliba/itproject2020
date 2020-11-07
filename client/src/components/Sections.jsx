@@ -277,6 +277,7 @@ export const StyledArtifact = ({
           position: "relative",
           alignItems: "center",
           justifyContent: "center",
+          overflow:"hidden",
           backgroundColor: media.length !== 0 ? "gray" : undefined,
           ...mainStyle,
         }}
