@@ -9,7 +9,6 @@ export const Card = ({
 }) => {
   const style = {
     boxShadow: "0 0 8px rgba(0, 0, 0, 0.25)",
-    backgroundColor: "muted",
     maxWidth: "225px",
     // maxWidth: "300px", changed to 225px for browsing portfolios.
     padding: 2,
@@ -30,10 +29,14 @@ export const Card = ({
   };
 
   const GetFeature = () =>
-    featureType === "image" ? <Image src={feature} sx={featureStyle} /> : feature;
-  
-  const link = () => username ? Link : null;
-  const to = () => username ? "../u/" + username : null;
+    featureType === "image" ? (
+      <Image src={feature} sx={featureStyle} />
+    ) : (
+      feature
+    );
+
+  const link = () => (username ? Link : null);
+  const to = () => (username ? "../u/" + username : null);
 
   if (featureOrientation === "bottom") {
     return (
