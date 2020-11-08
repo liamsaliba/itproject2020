@@ -41,13 +41,13 @@ export default () => {
               render={({ match }) => <Editor selectedPage={pageName(match)} />}
             />
             <Route component={Editor} path="/editor" />
+            <Route component={Main} path="*" />
           </Media>
           <Media lessThan="tablet">
             <Route component={Main} path="*" />
             {/* <Route component={AccessDenied} path="/editor" /> */}
           </Media>
         </MediaContextProvider>
-        <Route component={Main} path="*" />
       </Switch>
       <ToastContainer position="bottom-center" />
     </React.Fragment>
