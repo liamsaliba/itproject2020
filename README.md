@@ -45,6 +45,9 @@ Test the built app:
 # in root directory
 npm build
 npm start
+
+# to test the whole app
+npm test
 ```
 
 
@@ -62,6 +65,9 @@ npm install
 
 # Start the server
 npm start
+
+# Test the server
+npm test
 ```
 
 #### Install new npm packages for Server
@@ -90,8 +96,14 @@ cd client/
 # Initial setup
 npm install
 
-# Start the server
+# Start the client
 npm start
+
+# Test the client
+npm test
+
+# To run storybook
+npm run storybook
 ```
 
 #### Install new npm packages for React UI
