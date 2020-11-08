@@ -1,7 +1,7 @@
 import { merge } from "theme-ui";
 import themes from "./";
 
-const defaultBase = "base";
+const defaultBase = "def";
 
 const makeTheme = (theme, oldTheme) => {
   const { base, colours, fonts } = theme;
@@ -16,7 +16,7 @@ const makeTheme = (theme, oldTheme) => {
 
   const preset = ["default", "theme"].includes(base)
     ? themes[defaultBase]
-    : themes[base] || {};
+    : themes[base] || themes[defaultBase];
 
   if (colours === {} && fonts === {}) return preset;
   return merge(preset, newStuff);
