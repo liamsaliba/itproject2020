@@ -1,6 +1,14 @@
 /** @jsx jsx */
 import { jsx, Box } from "theme-ui";
-import { Form, Grid, Icon, Header, Message, Loader } from "semantic-ui-react";
+import {
+  Form,
+  Grid,
+  Icon,
+  Header,
+  Message,
+  Loader,
+  Button,
+} from "semantic-ui-react";
 import { toast } from "react-toastify";
 import ReactCodeInput from "react-verification-code-input";
 import React from "react";
@@ -18,17 +26,25 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useFormState } from "../../components/Modals";
 
+const defaultForm = {
+  password: "",
+  confirmPassword: "",
+  code: "",
+};
+
 export default () => {
   const [status, setStatus] = useState("wait username");
-  const { state, handleChange } = useFormState({
-    password: "",
-    confirmPassword: "",
-    code: "",
-  });
+  const { state, setState, handleChange } = useFormState(defaultForm);
 
   const loggedInUsername = useSelector(selectUsername);
+  const wasLoggedIn = loggedInUsername !== undefined;
   const [username, setUsername] = useState(null);
   const history = useHistory();
+  const [resend, setResend] = useState(false);
+
+  useEffect(() => {
+    if (!resend) setTimeout(() => setResend(true), 8000);
+  }, [resend]);
 
   useEffect(() => {
     if (status === "wait username") {
@@ -42,8 +58,7 @@ export default () => {
   }, [status, loggedInUsername]);
 
   useEffect(() => {
-    if (status === "got username") {
-      console.log("sending email to ", username);
+    const sendEmail = () => {
       axios
         .post(
           endpoints.resetPasswordStep(1),
@@ -54,9 +69,12 @@ export default () => {
           setStatus("await code");
         })
         .catch(err => {
-          console.log("search err", err.message, err.response);
-          setStatus("fail");
+          toast.warn(err.message);
         });
+    };
+
+    if (status === "got username") {
+      sendEmail();
     }
   }, [username, status]);
 
@@ -97,7 +115,7 @@ export default () => {
       )
       .then(res => {
         setStatus("success");
-        if (loggedInUsername === null) {
+        if (!wasLoggedIn) {
           toast.success("Password reset! Try logging in.");
           setTimeout(() => history.push("/login"), 200);
         } else {
@@ -106,9 +124,8 @@ export default () => {
         }
       })
       .catch(err => {
-        console.log("err", err.message, err.response);
-        // todo reset code.
-        setStatus("fail");
+        toast.warn(err.response.data);
+        setState(defaultForm);
       });
     // dispatch(updateUser({ firstName, lastName }));
   };
@@ -145,6 +162,30 @@ export default () => {
                     handleChange(null, { name: "code", value })
                   }
                   inputStyle={{ margin: "0 auto" }}
+                />
+                <br />
+                <Button
+                  type="button"
+                  icon="send"
+                  fluid
+                  content="Resend email"
+                  disabled={!resend}
+                  onClick={() => {
+                    if (resend) {
+                      axios
+                        .post(
+                          endpoints.resetPasswordStep(1),
+                          { username },
+                          { baseURL: endpoints.baseURL }
+                        )
+                        .then(res => {
+                          setStatus("await code");
+                        })
+                        .catch(err => {
+                          toast.warn(err.message);
+                        });
+                    }
+                  }}
                 />
               </Box>
               <Form size="large" onSubmit={handlePasswordSubmit}>

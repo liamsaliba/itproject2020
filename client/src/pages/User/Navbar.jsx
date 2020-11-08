@@ -69,8 +69,10 @@ export const UserHamburger = props => {
       </Menu.Header>
       <Menu.Menu style={{ fontSize: "1.5em" }}>
         {sidebarItems}
-        {allowContact ? (
-          <Menu.Item to={path("contact")} {...menuProps} />
+        {isTrue(allowContact) ? (
+          <Menu.Item to={path("contact")} {...menuProps}>
+            Contact
+          </Menu.Item>
         ) : null}
       </Menu.Menu>
     </Menu.Item>

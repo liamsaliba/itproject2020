@@ -21,6 +21,7 @@ export default props => {
     flexDirection: "column",
     // ensure the screen is always filled (footer isn't floating)
     minHeight: "100vh",
+    overflowX: "hidden",
   };
 
   const MobileBody = (
