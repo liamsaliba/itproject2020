@@ -18,7 +18,7 @@ import { useState } from "react";
 
 const Heading = () => {
   return (
-    <Flex sx={{ mt:"2em" ,alignItems: "center" }}>
+    <Flex sx={{ mt: "2em", alignItems: "center" }}>
       <Styled.h2
         id="contact-heading"
         sx={{ flex: 4, justifyContent: "center", wordBreak: "break-all" }}
@@ -56,10 +56,11 @@ export const ContactForm = ({ userId, homeBtn }) => {
     <Flex
       sx={{
         textAlign: "center",
-        m: "0em 2em",
+        m: "0em auto",
         mb: "3em", // space between sections
         transition: "all 0.3s",
         minHeight: "10em",
+        maxWidth: "600px",
         flex: 1,
         justifyContent: "flex-start",
         flexDirection: "column",
