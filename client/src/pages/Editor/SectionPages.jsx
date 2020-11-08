@@ -11,6 +11,7 @@ import {
   Form,
   Divider,
   Header,
+  Popup,
 } from "semantic-ui-react";
 import {
   selectUsername,
@@ -125,23 +126,33 @@ const PageSettings = () => {
 
   return (
     <div>
-      <div>
-        <Toggle
-          label="Contact form"
-          icon="address book"
-          value={contact}
-          setValue={value => dispatch(updateAllowContact(value))}
-        />
-      </div>
+      <Popup
+        content="Enable a page with a contact form to allow others to reach you without needing to give away your email address."
+        trigger={
+          <div>
+            <Toggle
+              label="Contact form"
+              icon="address book"
+              value={contact}
+              setValue={value => dispatch(updateAllowContact(value))}
+            />
+          </div>
+        }
+      />
       <br />
-      <div>
-        <Toggle
-          label="Single page portfolio"
-          icon="file"
-          value={singlePage}
-          setValue={value => dispatch(updateSinglePage(value))}
-        />
-      </div>
+      <Popup
+        content="Makes the navigation bar of your portfolio scroll to parts of your home page, instead of navigating to individual pages."
+        trigger={
+          <div>
+            <Toggle
+              label="Single page portfolio"
+              icon="file"
+              value={singlePage}
+              setValue={value => dispatch(updateSinglePage(value))}
+            />
+          </div>
+        }
+      />
     </div>
   );
 };
