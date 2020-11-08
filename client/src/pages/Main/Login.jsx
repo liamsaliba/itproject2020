@@ -89,7 +89,6 @@ export default () => {
             <Form.Checkbox
               label="Remember me"
               defaultChecked
-              textAlign="left"
               onClick={() => setCookie(!useCookie)}
             />
             <Button animated fluid primary size="large" type="submit">
@@ -109,9 +108,7 @@ export default () => {
       </Grid>
       <Grid textAlign="right">
         <Grid.Column style={{ width: 300 }}>
-          <a textAlign="right" href="/reset-password">
-            Forgot password
-          </a>
+          <a href="/reset-password">Forgot password</a>
         </Grid.Column>
       </Grid>
     </React.Fragment>
