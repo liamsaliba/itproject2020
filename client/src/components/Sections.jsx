@@ -246,11 +246,14 @@ export const StyledArtifact = ({
     height: height,
     minHeight: "100px",
     maxHeight: "900px",
-    flexWrap: "wrap",
+    "@media screen and (max-width: 50em)": {
+      flexWrap: "wrap",
+    },
     "& > div": {
       // "@media screen and (min-width: 40em)": {
       //   flex: "1",
       // },
+
       "@media screen and (min-width: 50em)": {
         flex: "1",
       },
