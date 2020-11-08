@@ -1,9 +1,7 @@
 /** @jsx jsx */
 import { jsx, Flex, Image, Box } from "theme-ui";
-// import PropTypes from "prop-types";
 import React, { useState } from "react";
 import Body from "./Body";
-import { useEffect } from "react";
 
 // Orientation refers to that of the artefact/feature, it is one of - left, right and center
 // For now media is URL -> i.e. an image's url.
@@ -104,7 +102,6 @@ const Display = ({ openEditor, contents, id, media, editing }) => {
       <React.Fragment>
         {bodyComponent}
         {/* TODO: background media collection */}
-        {/* <MediaCollection onClick={handleClick} /> */}
       </React.Fragment>
     ) : null;
 

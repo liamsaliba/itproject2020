@@ -7,7 +7,6 @@ import { Popup, Button, Form } from "semantic-ui-react";
 import { useEffectUpdate } from "../helpers";
 
 const EditSocial = ({ url, update, del }) => {
-  // const dispatch = useDispatch();
   const [name, setName] = useState(url);
 
   return (
@@ -43,7 +42,6 @@ export const EditableSocialIcon = ({
   onClosed = () => null,
 }) => {
   const [thisEditing, setThisEditing] = useState(startOpened);
-  // onClick={e => e.preventDefault()}
   return (
     <Popup
       trigger={<SocialIcon url={url} disabled />}

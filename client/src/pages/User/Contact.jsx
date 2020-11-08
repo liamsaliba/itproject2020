@@ -42,8 +42,6 @@ export const ContactForm = ({ userId, homeBtn }) => {
     axios
       .post(endpoints.contact, payload)
       .then(res => {
-        // console.log(res);
-        // console.log(res.data);
         setSubmitted(true);
       })
       .catch(err => {

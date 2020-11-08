@@ -137,11 +137,7 @@ const MainHeader = ({ username, bio, editing }) => {
     </Box>
   );
 
-  if (
-    // !editing &&
-    header.length === 0
-  )
-    return headerComponent;
+  if (header.length === 0) return headerComponent;
 
   return (
     <Flex

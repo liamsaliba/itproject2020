@@ -130,10 +130,7 @@ const ThemeEditor = ({ theme: propsTheme, updateTheme }) => {
             }}
           >
             <Box sx={{ m: "1em 0", display: "inline-block" }}>
-              <Header as="h4">
-                {/* <Icon name="paint brush" size="small" /> */}
-                Base Theme
-              </Header>
+              <Header as="h4">Base Theme</Header>
             </Box>
             <ThemeSelector
               theme={theme.base}
@@ -152,7 +149,6 @@ const ThemeEditor = ({ theme: propsTheme, updateTheme }) => {
         <Header as="h4">Fonts</Header>
       </Divider>
       <Fonts setTheme={setTheme} />
-      {/* <FontPreview /> */}
       <Divider horizontal>
         <Header as="h4">Colours</Header>
       </Divider>

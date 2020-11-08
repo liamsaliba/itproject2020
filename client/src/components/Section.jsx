@@ -43,11 +43,7 @@ export const ContentBox = ({ type, children }) => {
     return <Box sx={cardStyling}>{children}</Box>;
   }
 
-  return (
-    // <Box sx={{ maxWidth: "800px", mx: "auto" }}>
-    <Box sx={listStyling}>{children}</Box>
-    // </Box>
-  );
+  return <Box sx={listStyling}>{children}</Box>;
 };
 
 const EmptySectionPlaceholder = ({ children }) => (
@@ -78,7 +74,6 @@ export const Section = ({
         m: "0em 2em",
         mb: "3em", // space between sections
         transition: "all 0.3s",
-        // minHeight: "10em",
         flex: 1,
         justifyContent: "flex-start",
         flexDirection: "column",
