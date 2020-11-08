@@ -7,10 +7,10 @@ import themes from "../../themes";
 
 export default () => {
   const [theme, setTheme] = useState("base");
-  const [preset, setPreset] = useState(themes[theme]);
+  const [preset, setPreset] = useState(themes[theme] || themes["def"]);
 
   useEffect(() => {
-    setPreset(themes[theme]);
+    setPreset(themes[theme] || themes["def"]);
   }, [theme]);
   return (
     <ThemeProvider theme={preset}>

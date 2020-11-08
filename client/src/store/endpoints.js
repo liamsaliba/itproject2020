@@ -33,3 +33,6 @@ export const artifacts = "/artifacts";
 export const artifactsById = artifactId => artifacts + "/" + artifactId;
 
 export const contact = "/contact";
+
+export const resetPassword = "/resetpassword";
+export const resetPasswordStep = i => resetPassword + "/Step" + i;

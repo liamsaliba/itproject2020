@@ -126,7 +126,13 @@ const MainHeader = ({ username, bio, editing }) => {
         update={s => dispatch(updateSocials(s))}
       />
       <br />
-      <Styled.p> {bio} </Styled.p>
+      <Styled.p
+        sx={{
+          whiteSpace: "pre-wrap",
+        }}
+      >
+        {bio}
+      </Styled.p>
       {editing ? <EditBioModal bio={bio} /> : null}
     </Box>
   );

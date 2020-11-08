@@ -30,7 +30,7 @@ const defaultFonts = {
   "Inknut Antiqua": '"Inknut Antiqua", serif',
   Poppins: '"Poppins", sans-serif',
   Menlo: "Menlo, monospace",
-  Silom: "Silom, monospace",
+  Silom: "Silom,monospace",
 };
 
 const Fonts = ({ setTheme }) => {

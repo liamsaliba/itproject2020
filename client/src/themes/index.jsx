@@ -1,18 +1,14 @@
-import rebassMaterial from "@rebass/preset-material";
-import custom from "./Main.theme";
+import material from "@rebass/preset-material";
 import def from "./default.theme";
-import funked from "./Funked.theme";
 import { objectMap } from "../helpers";
 // import { merge } from "theme-ui";
 
 import * as presets from "@theme-ui/presets";
 
 const allPresets = {
-  rebassMaterial,
-  funked,
-  custom,
   def,
   ...presets,
+  material,
 };
 
 delete allPresets["tailwind"];

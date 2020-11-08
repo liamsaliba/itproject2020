@@ -12,7 +12,6 @@ import ThemeTest from "../demo/ThemeTest";
 import NotFound from "./NotFound";
 import Settings from "./Settings";
 import ResetPassword from "./ResetPassword";
-import AccessDenied from "./AccessDenied";
 import BrowsePortfolios from "./BrowsePortfolios";
 
 import { jsx } from "theme-ui";
@@ -37,7 +36,6 @@ export default () => {
         <Route component={SignUp} exact path="/signup" />
         <Route component={SignUp} path="/signup/:userId" />
         <Route component={ThemeTest} exact path="/themes" />
-        <Route component={AccessDenied} exact path="/editor" />
         <Route component={BrowsePortfolios} exact path="/browsePortfolios" />
         <Route component={NotFound} path="*" />
       </Switch>

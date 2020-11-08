@@ -94,7 +94,7 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
       <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
         {location}
       </Styled.p>
-
+      {/* whitespace pre-wrap ensures \n turn into <br/> */}
       <Styled.p sx={{ ...styling, mb: "1em", whiteSpace: "pre-wrap" }}>
         {details}
       </Styled.p>
@@ -186,17 +186,21 @@ const sizeHeights = {
   fullscreen: "100vh",
 };
 
-const MediaCollection = ({ media, darken = false, displayType, mediaHeight }) => {
+const MediaCollection = ({
+  media,
+  darken = false,
+  displayType,
+  mediaHeight,
+}) => {
   const mediaStyle = {
     boxShadow: "0 0 3px rgba(0, 0, 0, 0.125)",
     width: "100%",
-    objectFit: displayType,
-    height:mediaHeight
+    objectFit: displayType || "contain",
+    height: mediaHeight,
   };
 
   const mediaCollectionStyle = {
     display: "flex",
-    flex: 1,
     justifyContent: "center",
     backgroundColor: "muted",
     borderRadius: "5px",
@@ -238,11 +242,23 @@ export const StyledArtifact = ({
     right: "flex-end",
   };
 
-  const mainStyle = { height: height, minHeight: "100px", maxHeight: "900px" };
+  const mainStyle = {
+    height: height,
+    minHeight: "100px",
+    maxHeight: "900px",
+    flexWrap: "wrap",
+    "& > div": {
+      // "@media screen and (min-width: 40em)": {
+      //   flex: "1",
+      // },
+      "@media screen and (min-width: 50em)": {
+        flex: "1",
+      },
+    },
+  };
   const bodyComponent = body ? (
     <Flex
       sx={{
-        flex: "1",
         alignItems: "center",
         p: "1em",
         height: height,
@@ -257,19 +273,13 @@ export const StyledArtifact = ({
   const children =
     orientation === "left" ? (
       <Flex sx={mainStyle}>
-        <MediaCollection 
-          displayType = {displayType}
-          media={media} 
-        />
+        <MediaCollection displayType={displayType} media={media} />
         {bodyComponent}
       </Flex>
     ) : orientation === "right" ? (
       <Flex sx={mainStyle}>
         {bodyComponent}
-        <MediaCollection 
-          displayType = {displayType}
-          media={media} 
-        />
+        <MediaCollection displayType={displayType} media={media} />
       </Flex>
     ) : orientation === "center" ? (
       <Flex
@@ -277,7 +287,7 @@ export const StyledArtifact = ({
           position: "relative",
           alignItems: "center",
           justifyContent: "center",
-          overflow:"hidden",
+          overflow: "hidden",
           backgroundColor: media.length !== 0 ? "gray" : undefined,
           ...mainStyle,
         }}
@@ -307,7 +317,7 @@ export const StyledArtifact = ({
             darken={bodyComponent !== null}
             media={media}
             mediaHeight={height}
-            displayType = {displayType}
+            displayType={displayType}
           />
         </Box>
       </Flex>

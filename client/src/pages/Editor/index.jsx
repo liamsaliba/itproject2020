@@ -20,6 +20,17 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { Dimmer, Loader } from "semantic-ui-react";
 
+import { createMedia } from "@artsy/fresnel";
+import AccessDenied from "../Main/AccessDenied";
+
+const { MediaContextProvider, Media } = createMedia({
+  breakpoints: {
+    mobile: 0,
+    tablet: 700,
+    computer: 700,
+  },
+});
+
 export default props => {
   const { selectedPage, editing = true } = props;
   const portfolio = useSelector(selectCurrentUserPortfolio);
@@ -29,6 +40,7 @@ export default props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [allowMobileEditing, setAllowMobileEditing] = useState(false);
 
   const id = useSelector(selectUsername);
 
@@ -66,6 +78,17 @@ export default props => {
         color: "black",
       }}
     >
+      <MediaContextProvider>
+        <Media lessThan="tablet">
+          <Dimmer
+            active={!allowMobileEditing}
+            onClickOutside={() => setAllowMobileEditing(true)}
+            page
+          >
+            <AccessDenied />
+          </Dimmer>
+        </Media>
+      </MediaContextProvider>
       <ThemeProvider theme={themes.base}>
         <Flex
           sx={{
