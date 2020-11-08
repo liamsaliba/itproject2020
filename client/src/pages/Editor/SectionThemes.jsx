@@ -26,10 +26,16 @@ const ThemeEditor = ({ theme: propsTheme, updateTheme }) => {
   const [dirty, setDirty] = useState(false);
   const context = useThemeUI();
 
-  const setTheme = updated => {
+  // reset = true means when base changes, we reset the fonts and colours to base preset defaults
+  // we might want to set false for reset when we discard changes to the theme.
+  const setTheme = (updated, reset = true) => {
     // will reset colours and fonts
     if (updated.base) {
-      const newTheme = { base: updated.base, fonts: {}, colours: {} };
+      const newTheme = {
+        base: updated.base,
+        fonts: reset ? {} : updated.fonts,
+        colours: reset ? {} : updated.colours,
+      };
 
       sTheme(newTheme);
       context.setTheme(makeTheme(newTheme));
@@ -51,7 +57,7 @@ const ThemeEditor = ({ theme: propsTheme, updateTheme }) => {
   };
 
   const resetTheme = () => {
-    setTheme(initialTheme);
+    setTheme(initialTheme, false);
   };
 
   useEffect(() => {
