@@ -194,6 +194,7 @@ export const NewPageModal = props => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorContent, setErrorContent] = useState(null);
+  const [pageName, setPageName] = useState("");
   // eslint-disable-next-line
   const [state, setState] = useState({ name: "", type: "mix" });
 
@@ -222,23 +223,25 @@ export const NewPageModal = props => {
     } else {
       // do it this way -- setState is async
       setState({ ...state, [name]: value });
-      if (props.pages.map(page => page.name).includes(value)) {
-        setError(true);
-        setErrorContent("Page name must be unique.");
-      } else if (value === "Contact") {
-        setError(true);
-        setErrorContent('Page name cannot be "Contact".');
-      } else {
-        setError(false);
-      }
+      setPageName(value);
+      setError(false);
     }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(createPage(state));
-    setOpen(false);
-    setState({ name: "" });
+    if (props.pages.map(page => page.name).includes(pageName)) {
+      setError(true);
+      setErrorContent("Page name must be unique.");
+    } else if (pageName === "Contact") {
+      setError(true);
+      setErrorContent('Page name cannot be "Contact".');
+    } else {
+      setError(false);
+      dispatch(createPage(state));
+      setOpen(false);
+      setState({ name: "" });
+    }
   };
 
   return (
@@ -316,10 +319,6 @@ const SectionPages = () => {
   const pages = useSelector(state => selectPagesByUsername(state, username));
   // eslint-disable-next-line
   const [active, setActive] = useState("Home");
-
-  // useEffect(() => {
-  //   history.push("/logout");
-  // }, [active]);
 
   return (
     <Section name="Pages" icon="file text">
