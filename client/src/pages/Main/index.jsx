@@ -12,7 +12,6 @@ import ThemeTest from "../demo/ThemeTest";
 import NotFound from "./NotFound";
 import Settings from "./Settings";
 import ResetPassword from "./ResetPassword";
-import AccessDenied from "./AccessDenied";
 import BrowsePortfolios from "./BrowsePortfolios";
 
 import { jsx } from "theme-ui";
