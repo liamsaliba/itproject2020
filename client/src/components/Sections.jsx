@@ -94,7 +94,7 @@ export const Education = ({ editing, openEditor, contents, media, id }) => {
       <Styled.p sx={{ ...styling, ...greyedOut, mb: "1em" }}>
         {location}
       </Styled.p>
-
+      {/* whitespace pre-wrap ensures \n turn into <br/> */}
       <Styled.p sx={{ ...styling, mb: "1em", whiteSpace: "pre-wrap" }}>
         {details}
       </Styled.p>

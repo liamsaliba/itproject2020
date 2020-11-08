@@ -28,6 +28,7 @@ const SearchResult = ({ result }) => {
                 maxHeight: "2em",
                 position: "relative",
                 overflow: "hidden",
+                whiteSpace: "pre-wrap",
               }}
             >
               {bio}
