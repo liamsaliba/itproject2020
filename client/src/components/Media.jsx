@@ -30,6 +30,10 @@ import { Image } from "semantic-ui-react";
 import { EditableField } from "./Form";
 import { hoverGrow } from "../helpers";
 
+// PDF stuff
+import { Document, Page } from "react-pdf";
+import { pdfjs } from "react-pdf";
+
 const filetypes = {
   pdf: "file pdf",
   image: "file image",
@@ -435,6 +439,7 @@ export const ChooseMedia = ({
 const mediaEmpty = {
   image_file: null,
   image_preview: "",
+  type: "",
   description: "",
 };
 
@@ -474,8 +479,12 @@ export const UploadMediaModal = ({
     setState(mediaEmpty);
   };
 
+  const getFileType = type => {
+    if (type === "application/pdf") return "pdf";
+    else return "image";
+  };
+
   const handleSubmit = e => {
-    
     e.preventDefault();
     if (status !== "open") return;
     if (state.image_file === null) {
@@ -487,20 +496,26 @@ export const UploadMediaModal = ({
       return;
     }
     setStatus("startUploading");
-    const fileType = state.image_file.type==="application/pdf" ? "pdf" : "image";
-    dispatch(uploadMedia(state.image_file, state.description, null, fileType));
+    dispatch(uploadMedia(state.image_file, state.description, state.type));
     // uploadMedia(dispatch)(token, state.image_file, state.description);
   };
 
   const handleImagePreview = e => {
     if (e.target.files.length === 0) return;
     const file = e.target.files[0];
+    const type = getFileType(file.type);
 
     const base64 = URL.createObjectURL(file);
     setState({
       image_preview: base64,
       image_file: file,
+      type: type,
     });
+    console.log(base64);
+  };
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setState({ ...state, numPages });
   };
 
   return (
@@ -536,12 +551,41 @@ export const UploadMediaModal = ({
           type="file"
           accept="image/jpg,image/bmp,image/png,image/gif,application/pdf"
         />
-        {state.image_preview ? (
+        {state.type === "image" && state.image_preview ? (
           <img
             src={state.image_preview}
             alt="preview"
             sx={{ maxWidth: "100%" }}
           />
+        ) : null}
+        {state.type === "pdf" && state.image_preview ? (
+          <Box
+            sx={{
+              width: "500px",
+              height: "500px",
+              overflowY: "scroll",
+              overflowX: "hidden",
+            }}
+          >
+            <Document
+              options={{
+                cMapUrl: `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/cmaps/`,
+                cMapPacked: true,
+              }}
+              file={state.image_file}
+              // file={example}
+              onLoadError={console.error}
+              onLoadSuccess={onDocumentLoadSuccess}
+            >
+              {Array.from(new Array(state.numPages), (el, index) => (
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  width={500}
+                />
+              ))}
+            </Document>
+          </Box>
         ) : null}
         <Form.Input
           fluid
